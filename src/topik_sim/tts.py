@@ -11,11 +11,17 @@ from pathlib import Path
 from typing import Any, Protocol
 
 
-DEFAULT_TTS_PROVIDER = "melo"
+DEFAULT_TTS_PROVIDER = "supertonic"
 DEFAULT_TTS_LANGUAGE = "KR"
 DEFAULT_TTS_DEVICE = "cuda:0"
 DEFAULT_AUDIO_DIR = Path("data") / "audio_cache"
 DEFAULT_MODEL_CACHE_DIR = Path("data") / "model_cache"
+DEFAULT_SUPERTONIC_VOICE = "F1"
+DEFAULT_SUPERTONIC_ONNX_PROVIDER = "dml"
+DEFAULT_SUPERTONIC_STEPS = 10
+DEFAULT_ANKI_TTS_PYTHON = Path("H:/software/anki/.tts-venv/Scripts/python.exe")
+DEFAULT_ANKI_HF_CACHE = Path("H:/software/anki/.hf-cache")
+DEFAULT_ANKI_SUPERTONIC_CACHE = Path("H:/software/anki/.supertonic-cache")
 
 
 class TTSProvider(Protocol):
@@ -38,6 +44,9 @@ class TTSConfig:
     force: bool = False
     speaker_id: str | None = None
     speaker_wav: Path | None = None
+    onnx_provider: str = DEFAULT_SUPERTONIC_ONNX_PROVIDER
+    steps: int = DEFAULT_SUPERTONIC_STEPS
+    tts_python: Path | None = None
 
 
 def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
@@ -55,6 +64,7 @@ def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
             volume=config.volume,
             speaker_id=config.speaker_id,
             speaker_wav=config.speaker_wav,
+            steps=config.steps,
         )
         output_paths.append(output_path)
         if output_path.exists() and not config.force:
@@ -78,7 +88,9 @@ def build_provider(provider_name: str) -> TTSProvider:
         return MeloTTSProvider()
     if normalized == "xtts-v2":
         return XTTSV2Provider()
-    raise ValueError(f"Unknown TTS provider {provider_name!r}. Supported providers: melo, xtts-v2.")
+    if normalized == "supertonic":
+        return SupertonicProvider()
+    raise ValueError(f"Unknown TTS provider {provider_name!r}. Supported providers: melo, xtts-v2, supertonic.")
 
 
 def configure_utf8_output() -> None:
@@ -129,9 +141,10 @@ def stable_audio_name(
     volume: float = 1.0,
     speaker_id: str | None = None,
     speaker_wav: Path | None = None,
+    steps: int = DEFAULT_SUPERTONIC_STEPS,
 ) -> str:
     speaker_key = speaker_id or (str(speaker_wav) if speaker_wav else "default")
-    key = f"{provider}|{language}|speed={speed:.3f}|volume={volume:.3f}|speaker={speaker_key}|{text}"
+    key = f"{provider}|{language}|speed={speed:.3f}|volume={volume:.3f}|speaker={speaker_key}|steps={steps}|{text}"
     digest = hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
     return f"{provider}-{language}-{digest}.wav"
 
@@ -262,6 +275,54 @@ class XTTSV2Provider:
         return self._model
 
 
+class SupertonicProvider:
+    def synthesize_to_file(self, text: str, output_path: Path, config: TTSConfig) -> None:
+        python_path = resolve_supertonic_python(config)
+        helper_path = Path(__file__).resolve().parents[2] / "tools" / "supertonic_synth.py"
+        if not helper_path.exists():
+            raise RuntimeError(f"Supertonic helper is missing: {helper_path}")
+
+        command = [
+            str(python_path),
+            str(helper_path),
+            "--output",
+            str(output_path),
+            "--voice",
+            config.speaker_id or DEFAULT_SUPERTONIC_VOICE,
+            "--provider",
+            config.onnx_provider,
+            "--speed",
+            str(config.speed),
+            "--steps",
+            str(config.steps),
+            "--lang",
+            supertonic_language(config.language),
+            "--hf-home",
+            str(resolve_supertonic_hf_home()),
+            "--cache-dir",
+            str(resolve_supertonic_cache_dir()),
+        ]
+        result = subprocess.run(
+            command,
+            input=text,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            details = (result.stderr or result.stdout).strip()
+            raise RuntimeError(f"Supertonic synthesis failed: {details}")
+
+    def list_speakers(self, config: TTSConfig) -> dict[str, Any]:
+        return {
+            "F1": "female preset 1",
+            "F2": "female preset 2",
+            "M1": "male preset 1",
+        }
+
+
 def configure_mecab_dictionary() -> Path | None:
     try:
         import unidic_lite
@@ -302,6 +363,44 @@ def configure_model_cache(cache_dir: str | Path = DEFAULT_MODEL_CACHE_DIR) -> Pa
     except ImportError:
         pass
     return cache_path
+
+
+def resolve_supertonic_python(config: TTSConfig) -> Path:
+    candidates = [
+        config.tts_python,
+        Path(os.environ["TOPIK_SUPERTONIC_PYTHON"]) if os.environ.get("TOPIK_SUPERTONIC_PYTHON") else None,
+        DEFAULT_ANKI_TTS_PYTHON,
+        Path(sys.executable),
+    ]
+    for candidate in candidates:
+        if candidate and candidate.exists():
+            return candidate
+    raise RuntimeError(
+        "Supertonic Python runtime was not found. Set TOPIK_SUPERTONIC_PYTHON or pass --tts-python."
+    )
+
+
+def resolve_supertonic_hf_home() -> Path:
+    if os.environ.get("HF_HOME"):
+        return Path(os.environ["HF_HOME"])
+    if DEFAULT_ANKI_HF_CACHE.exists():
+        return DEFAULT_ANKI_HF_CACHE
+    return DEFAULT_MODEL_CACHE_DIR / "huggingface"
+
+
+def resolve_supertonic_cache_dir() -> Path:
+    if os.environ.get("SUPERTONIC_CACHE_DIR"):
+        return Path(os.environ["SUPERTONIC_CACHE_DIR"])
+    if DEFAULT_ANKI_SUPERTONIC_CACHE.exists():
+        return DEFAULT_ANKI_SUPERTONIC_CACHE
+    return DEFAULT_MODEL_CACHE_DIR / "supertonic"
+
+
+def supertonic_language(language: str) -> str:
+    normalized = language.lower()
+    if normalized in {"kr", "ko", "kor", "korean"}:
+        return "ko"
+    return normalized
 
 
 def resolve_speaker_id(speaker_ids: Any, config: TTSConfig) -> Any | None:

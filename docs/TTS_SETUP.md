@@ -4,9 +4,15 @@ The simulator supports optional local GPU text-to-speech for Korean vocabulary a
 
 ## Default Provider
 
-Default provider: `melo`
+Default provider: `supertonic`
 
 Why:
+
+- The Anki workspace at `H:\software\anki` already has a working Supertonic TTS environment and cached model files.
+- Supertonic can run locally through DirectML on Windows with `--tts-onnx-provider dml`.
+- The TOPIK CLI can call that environment automatically when `H:\software\anki\.tts-venv\Scripts\python.exe` exists.
+
+MeloTTS remains available as an explicit CUDA provider:
 
 - MeloTTS supports Korean and provides a simple Python API with `language='KR'` and `device='cuda:0'`.
 - It has a built-in Korean speaker, so the simulator can pronounce vocabulary and sentences without a reference voice file.
@@ -18,10 +24,10 @@ Use XTTS-v2 when voice cloning or cross-language voice transfer is needed. XTTS-
 
 ## GPU Check
 
-This machine already exposes an NVIDIA GPU through `nvidia-smi`. The app defaults to:
+This machine already exposes an NVIDIA GPU through `nvidia-smi`. For MeloTTS CUDA, use:
 
 ```powershell
---tts-device cuda:0
+--tts-provider melo --tts-device cuda:0
 ```
 
 ## Recommended Install
@@ -73,32 +79,45 @@ Generate audio for direct text:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-play
+python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider supertonic --tts-play
 ```
 
-With the project-local full CPython runtime:
+The default Supertonic provider will try to use:
+
+```powershell
+H:\software\anki\.tts-venv\Scripts\python.exe
+```
+
+Override that runtime when needed:
 
 ```powershell
 $env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-play
+python -m topik_sim speak "안녕하세요." --tts-provider supertonic --tts-python H:\software\anki\.tts-venv\Scripts\python.exe --tts-play
+```
+
+With the project-local full CPython runtime and MeloTTS CUDA:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider melo --tts-play
 ```
 
 Speak question passages while taking a test:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --tts-play
+python -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --tts-play
 ```
 
 Speak vocabulary and grammar examples in teaching notes:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --speak-teaching --tts-play
+python -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --speak-teaching --tts-play
 ```
 
 Listening questions in `take` mode automatically play audio and hide transcript text. Use this for the full sample exam:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
 At the answer prompt, enter `/replay`, `/r`, or `replay` to hear the current question audio again.
@@ -106,14 +125,14 @@ At the answer prompt, enter `/replay`, `/r`, or `replay` to hear the current que
 Show transcript text only when debugging content:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-transcript --no-listening-audio
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-transcript --no-listening-audio
 ```
 
 Adjust generated WAV volume:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요." --tts-volume 1.2 --tts-play
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
+python -m topik_sim speak "안녕하세요." --tts-volume 1.2 --tts-play
 ```
 
 Volume is part of the audio cache key, so different volume settings create separate cached WAV files.
@@ -121,19 +140,25 @@ Volume is part of the audio cache key, so different volume settings create separ
 List built-in provider speakers:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim list-tts-speakers --tts-provider melo --tts-language KR
+python -m topik_sim list-tts-speakers --tts-provider supertonic
 ```
 
 Choose a printed speaker name or numeric ID:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요." --tts-speaker-id KR --tts-play
+python -m topik_sim speak "안녕하세요." --tts-speaker-id F1 --tts-play
+```
+
+For Supertonic, `--tts-speaker-id` selects a voice preset such as `F1`, `F2`, or `M1`:
+
+```powershell
+python -m topik_sim speak "안녕하세요." --tts-provider supertonic --tts-speaker-id F1 --tts-play
 ```
 
 Use CPU fallback:
 
 ```powershell
-python -m topik_sim speak "도서관에서 책을 읽습니다." --tts-device cpu
+python -m topik_sim speak "도서관에서 책을 읽습니다." --tts-provider supertonic --tts-onnx-provider cpu
 ```
 
 ## XTTS-v2 Alternate

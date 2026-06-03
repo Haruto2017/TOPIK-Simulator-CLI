@@ -71,34 +71,45 @@ TTS behavior:
 - `--speak-question`: generate Korean audio for non-listening question passages too.
 - `--speak-teaching`: generate Korean audio for vocabulary and grammar examples in feedback.
 - `--tts-play`: play generated audio immediately.
-- `--tts-device cuda:0`: run provider on the first CUDA GPU.
+- `--tts-provider supertonic`: default provider; reuses the Anki Supertonic runtime when available.
+- `--tts-provider melo --tts-device cuda:0`: run MeloTTS on the first CUDA GPU.
 - `--tts-volume <gain>`: set generated WAV volume, where `1.0` is unchanged.
-- `--tts-speaker-id <id-or-name>`: choose a provider speaker when supported.
+- `--tts-speaker-id <id-or-name>`: choose a provider speaker or voice preset when supported.
+- `--tts-onnx-provider dml`: use Supertonic with DirectML on Windows.
+- `--tts-steps <n>`: set Supertonic synthesis steps.
+- `--tts-python <python.exe>`: choose the Python runtime used for subprocess-based TTS.
 - Generated audio is cached under `data/audio_cache` by default.
 
 For the local CUDA TTS runtime in this workspace, prefer:
 
 ```powershell
 $env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-provider melo
+```
+
+For the Anki-proven Supertonic runtime, plain Python can now call the same engine automatically when `H:\software\anki\.tts-venv` exists:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-provider supertonic
 ```
 
 To hear teaching notes after missed answers:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --speak-teaching --tts-play
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --speak-teaching --tts-play
 ```
 
 To hear teaching notes for correct answers too:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-teaching --speak-teaching --tts-play
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-teaching --speak-teaching --tts-play
 ```
 
 To make listening audio quieter or louder:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
 ```
 
 ## `review-attempt`
@@ -168,6 +179,10 @@ python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." [
 
 Default provider:
 
+- `supertonic`, using the same Supertonic setup as `H:\software\anki` when available.
+
+CUDA provider:
+
 - `melo`, using MeloTTS with `--tts-language KR` and `--tts-device cuda:0`.
 
 Alternate provider:
@@ -179,10 +194,10 @@ Alternate provider:
 Lists provider voices that can be passed to `--tts-speaker-id`.
 
 ```powershell
-python -m topik_sim list-tts-speakers [--tts-provider melo] [--tts-language KR]
+python -m topik_sim list-tts-speakers [--tts-provider supertonic]
 ```
 
-For MeloTTS Korean, use either the printed speaker name or numeric ID. XTTS-v2 uses `--tts-speaker-wav` instead of a built-in speaker list.
+For Supertonic, use a printed voice preset such as `F1`. For MeloTTS Korean, use either the printed speaker name or numeric ID. XTTS-v2 uses `--tts-speaker-wav` instead of a built-in speaker list.
 
 See `docs/TTS_SETUP.md` for installation and GPU verification.
 

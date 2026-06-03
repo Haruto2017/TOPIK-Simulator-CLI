@@ -24,11 +24,11 @@ python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다."
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json
 ```
 
-For local GPU Korean TTS, use the project-local full Python runtime:
+For the Anki-proven local Korean TTS path, the default provider now uses Supertonic and automatically reuses `H:\software\anki\.tts-venv` when it exists:
 
 ```powershell
 $env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+python -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
 During a listening question, type `/replay` at the answer prompt to hear the audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.

@@ -8,6 +8,7 @@ from topik_sim.content import load_pack
 from topik_sim.tts import (
     TTSConfig,
     adjust_wav_volume,
+    build_provider,
     collect_question_speech_texts,
     stable_audio_name,
     synthesize_many,
@@ -35,9 +36,11 @@ class TTSTests(unittest.TestCase):
         second = stable_audio_name("hello", provider="melo", language="KR")
         louder = stable_audio_name("hello", provider="melo", language="KR", volume=1.4)
         speaker = stable_audio_name("hello", provider="melo", language="KR", speaker_id="KR")
+        more_steps = stable_audio_name("hello", provider="supertonic", language="KR", steps=20)
         self.assertEqual(first, second)
         self.assertNotEqual(first, louder)
         self.assertNotEqual(first, speaker)
+        self.assertNotEqual(stable_audio_name("hello", provider="supertonic", language="KR"), more_steps)
         self.assertTrue(first.endswith(".wav"))
         self.assertNotIn("hello", first)
 
@@ -102,9 +105,16 @@ class TTSTests(unittest.TestCase):
             tts_force = False
             tts_speaker_id = None
             tts_speaker_wav = None
+            tts_onnx_provider = "dml"
+            tts_steps = 10
+            tts_python = None
 
         with self.assertRaisesRegex(ValueError, "volume"):
             build_tts_config(Args())
+
+    def test_supertonic_provider_is_available_without_loading_model(self):
+        provider = build_provider("supertonic")
+        self.assertIn("F1", provider.list_speakers(TTSConfig(provider="supertonic")))
 
 
 if __name__ == "__main__":

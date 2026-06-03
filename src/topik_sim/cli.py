@@ -305,8 +305,8 @@ def load_answer_file(path: str | Path) -> dict[str, str]:
 
 
 def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--tts-provider", default="melo", choices=["melo", "xtts-v2"], help="Local TTS provider.")
-    parser.add_argument("--tts-language", default="KR", help="TTS language code. Use KR for MeloTTS Korean.")
+    parser.add_argument("--tts-provider", default="supertonic", choices=["supertonic", "melo", "xtts-v2"], help="Local TTS provider.")
+    parser.add_argument("--tts-language", default="KR", help="TTS language code. Use KR for Korean.")
     parser.add_argument("--tts-device", default="cuda:0", help="TTS device, such as cuda:0 or cpu.")
     parser.add_argument("--tts-output-dir", default="data/audio_cache", help="Directory for generated WAV files.")
     parser.add_argument("--tts-speed", type=float, default=1.0, help="Speech speed multiplier.")
@@ -315,11 +315,16 @@ def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--tts-force", action="store_true", help="Regenerate audio even when cached.")
     parser.add_argument("--tts-speaker-id", help="Provider speaker name or numeric speaker id when supported.")
     parser.add_argument("--tts-speaker-wav", help="Reference WAV file for XTTS-v2.")
+    parser.add_argument("--tts-onnx-provider", default="dml", choices=["dml", "cpu", "default"], help="Supertonic ONNX backend.")
+    parser.add_argument("--tts-steps", type=int, default=10, help="Supertonic synthesis steps.")
+    parser.add_argument("--tts-python", help="Python executable for subprocess-based TTS providers.")
 
 
 def build_tts_config(args: argparse.Namespace) -> TTSConfig:
     if args.tts_volume <= 0:
         raise ValueError("--tts-volume must be greater than 0.")
+    if args.tts_steps <= 0:
+        raise ValueError("--tts-steps must be greater than 0.")
     return TTSConfig(
         provider=args.tts_provider,
         language=args.tts_language,
@@ -331,6 +336,9 @@ def build_tts_config(args: argparse.Namespace) -> TTSConfig:
         force=args.tts_force,
         speaker_id=args.tts_speaker_id,
         speaker_wav=Path(args.tts_speaker_wav) if args.tts_speaker_wav else None,
+        onnx_provider=args.tts_onnx_provider,
+        steps=args.tts_steps,
+        tts_python=Path(args.tts_python) if args.tts_python else None,
     )
 
 
@@ -346,6 +354,9 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
         force=config.force,
         speaker_id=config.speaker_id,
         speaker_wav=config.speaker_wav,
+        onnx_provider=config.onnx_provider,
+        steps=config.steps,
+        tts_python=config.tts_python,
     )
     texts = collect_question_speech_texts(
         question,
