@@ -62,6 +62,19 @@ def answer_question(attempt: dict[str, Any], pack: ExamPack, response: str) -> d
     return attempt
 
 
+def answered_question_ids(attempt: dict[str, Any]) -> set[str]:
+    return {answer["question_id"] for answer in attempt.get("answers", [])}
+
+
+def attempt_progress(attempt: dict[str, Any]) -> tuple[int, int]:
+    return len(answered_question_ids(attempt)), len(attempt.get("question_ids", []))
+
+
+def remaining_question_ids(attempt: dict[str, Any]) -> list[str]:
+    answered_ids = answered_question_ids(attempt)
+    return [question_id for question_id in attempt.get("question_ids", []) if question_id not in answered_ids]
+
+
 def complete_attempt(attempt: dict[str, Any], pack: ExamPack) -> dict[str, Any]:
     attempt = clone_attempt(attempt)
     responses = {answer["question_id"]: answer["response"] for answer in attempt["answers"]}
@@ -117,4 +130,3 @@ def clone_attempt(attempt: dict[str, Any]) -> dict[str, Any]:
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
-

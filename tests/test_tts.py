@@ -1,9 +1,17 @@
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 from unittest.mock import patch
 
-from topik_sim.cli import build_tts_config, is_listening_question, is_replay_request, question_display_passage
+from topik_sim.cli import (
+    build_tts_config,
+    is_listening_question,
+    is_replay_request,
+    print_post_answer_transcript,
+    question_display_passage,
+)
 from topik_sim.content import load_pack
 from topik_sim.tts import (
     TTSConfig,
@@ -85,6 +93,23 @@ class TTSTests(unittest.TestCase):
         self.assertEqual(collect_question_speech_texts(question), [f"{HELLO_KO}."])
         self.assertIsNone(question_display_passage(question, show_transcript=False))
         self.assertEqual(question_display_passage(question, show_transcript=True), f"Transcript: {HELLO_KO}.")
+
+    def test_listening_transcript_is_shown_after_answer(self):
+        question = {
+            "question_id": "l-001",
+            "skill": "listening",
+            "audio_ref": "transcript-only:l-001",
+            "passage": f"Transcript: {HELLO_KO}.",
+        }
+        output = StringIO()
+        with redirect_stdout(output):
+            print_post_answer_transcript(question, was_shown_before_answer=False)
+        self.assertIn(f"Transcript: {HELLO_KO}.", output.getvalue())
+
+        output = StringIO()
+        with redirect_stdout(output):
+            print_post_answer_transcript(question, was_shown_before_answer=True)
+        self.assertEqual(output.getvalue(), "")
 
     def test_replay_commands_are_distinct_from_answer_choices(self):
         self.assertTrue(is_replay_request("/replay"))

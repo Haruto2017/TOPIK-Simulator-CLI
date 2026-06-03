@@ -114,7 +114,7 @@ Speak vocabulary and grammar examples in teaching notes:
 python -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --speak-teaching --tts-play
 ```
 
-Listening questions in `take` mode automatically play audio and hide transcript text. Use this for the full sample exam:
+Listening questions in `take` mode automatically play audio, hide transcript text before answering, and reveal the transcript after answering. Use this for the full sample exam:
 
 ```powershell
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0

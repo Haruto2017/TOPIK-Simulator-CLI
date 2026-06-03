@@ -39,15 +39,15 @@ Behavior:
 - Prompts for an answer.
 - Grades each answer.
 - Prints a final score.
-- Prints teaching notes for missed questions by default.
-- `--show-teaching` also prints teaching notes for correct answers.
+- Prints teaching feedback after every answer.
+- `--show-teaching` is kept for compatibility; feedback is always shown.
 
 ## `take`
 
 Runs an interactive test and saves the attempt after each answer.
 
 ```powershell
-python -m topik_sim take <pack.json-or-pack_ref> [--library <library_dir>] [--attempt-dir <attempt_dir>] [--section <section_id>] [--limit <n>] [--show-teaching] [--speak-question] [--speak-teaching]
+python -m topik_sim take <pack.json-or-pack_ref> [--library <library_dir>] [--attempt-dir <attempt_dir>] [--section <section_id>] [--limit <n>] [--speak-question] [--speak-teaching]
 ```
 
 Pack references:
@@ -65,6 +65,7 @@ TTS behavior:
 
 - Listening questions automatically generate and play Korean audio from transcript-backed `passage` text during `take`.
 - Listening transcripts are hidden by default during `take`.
+- Listening transcripts are printed after the learner answers.
 - At the answer prompt, enter `/replay`, `/r`, or `replay` to play the current question audio again.
 - `--show-transcript`: show listening transcripts for content debugging.
 - `--no-listening-audio`: disable automatic listening audio.
@@ -94,13 +95,13 @@ $env:PYTHONPATH = "src"
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-provider supertonic
 ```
 
-To hear teaching notes after missed answers:
+To hear teaching notes read aloud after answers:
 
 ```powershell
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --speak-teaching --tts-play
 ```
 
-To hear teaching notes for correct answers too:
+To keep using older scripts that pass `--show-teaching`:
 
 ```powershell
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-teaching --speak-teaching --tts-play
@@ -112,9 +113,27 @@ To make listening audio quieter or louder:
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
 ```
 
+## `resume-attempt`
+
+Loads a saved in-progress attempt and continues from the first unanswered question.
+
+```powershell
+python -m topik_sim resume-attempt data/attempts/<attempt_id>.json [--library <library_dir>] [--speak-question] [--speak-teaching]
+```
+
+Behavior:
+
+- Loads the pack from the attempt's saved `pack_id@pack_version`.
+- Prints progress as `<answered>/<total> answered`.
+- Skips already answered questions.
+- Saves back to the same attempt JSON file after each new answer.
+- Prints teaching feedback after every answer.
+- Prints listening transcripts after the learner answers.
+- Completes and grades the attempt after the last unanswered question.
+
 ## `review-attempt`
 
-Prints the score and item-level feedback from a saved attempt.
+Prints progress, score, and item-level feedback from a saved attempt.
 
 ```powershell
 python -m topik_sim review-attempt data/attempts/<attempt_id>.json

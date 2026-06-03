@@ -6,7 +6,17 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .attempts import complete_attempt, create_attempt, load_attempt, save_attempt_to_dir, answer_question
+from .attempts import (
+    answer_question,
+    attempt_progress,
+    complete_attempt,
+    create_attempt,
+    find_question,
+    load_attempt,
+    remaining_question_ids,
+    save_attempt,
+    save_attempt_to_dir,
+)
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
@@ -58,7 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     simulate.add_argument("pack")
     simulate.add_argument("--section", help="Only run one section_id.")
     simulate.add_argument("--limit", type=int, help="Limit the number of questions.")
-    simulate.add_argument("--show-teaching", action="store_true", help="Show teaching notes for correct answers too.")
+    simulate.add_argument("--show-teaching", action="store_true", help="Compatibility flag; feedback is always shown.")
     simulate.set_defaults(handler=handle_simulate)
 
     take = subparsers.add_parser("take", help="Take a test and save the attempt.")
@@ -67,7 +77,7 @@ def build_parser() -> argparse.ArgumentParser:
     take.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
     take.add_argument("--section", help="Only run one section_id.")
     take.add_argument("--limit", type=int, help="Limit the number of questions.")
-    take.add_argument("--show-teaching", action="store_true", help="Show teaching notes for correct answers too.")
+    take.add_argument("--show-teaching", action="store_true", help="Compatibility flag; feedback is always shown.")
     take.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while taking a test.")
     add_tts_arguments(take)
     take.add_argument("--speak-question", action="store_true", help="Generate Korean audio for each question while taking a test.")
@@ -78,6 +88,16 @@ def build_parser() -> argparse.ArgumentParser:
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
     review.add_argument("attempt")
     review.set_defaults(handler=handle_review_attempt)
+
+    resume = subparsers.add_parser("resume-attempt", help="Continue a saved in-progress attempt.")
+    resume.add_argument("attempt", help="Path to an attempt JSON file.")
+    resume.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    resume.add_argument("--show-transcript", action="store_true", help="Show listening transcripts before answering too.")
+    add_tts_arguments(resume)
+    resume.add_argument("--speak-question", action="store_true", help="Generate Korean audio for each question while taking a test.")
+    resume.add_argument("--speak-teaching", action="store_true", help="Generate Korean audio for vocabulary and example sentences in teaching notes.")
+    resume.add_argument("--no-listening-audio", action="store_true", help="Do not automatically play audio for listening questions.")
+    resume.set_defaults(handler=handle_resume_attempt)
 
     grade = subparsers.add_parser("grade", help="Grade an answer JSON file.")
     grade.add_argument("pack")
@@ -153,8 +173,7 @@ def handle_simulate(args: argparse.Namespace) -> int:
         result = grade_question(question, response)
         results.append(result)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
-        if args.show_teaching or not result["correct"]:
-            print_feedback(result["feedback"])
+        print_feedback(result["feedback"])
 
     score = sum(result["points_awarded"] for result in results)
     max_score = sum(result["max_points"] for result in results)
@@ -180,31 +199,112 @@ def handle_take(args: argparse.Namespace) -> int:
     print(f"Saving to: {attempt_path}\n")
     tts_config = build_tts_config(args)
 
-    for index, question in enumerate(questions, start=1):
-        listening_audio = is_listening_question(question) and not args.no_listening_audio
+    attempt = run_attempt_questions(
+        attempt=attempt,
+        pack=pack,
+        questions=questions,
+        save_path=attempt_path,
+        tts_config=tts_config,
+        show_transcript=args.show_transcript,
+        speak_question_audio=args.speak_question,
+        speak_teaching=args.speak_teaching,
+        no_listening_audio=args.no_listening_audio,
+        tts_play=args.tts_play,
+        start_index=1,
+    )
+
+    attempt = complete_attempt(attempt, pack)
+    save_attempt(attempt, attempt_path)
+    print_attempt_summary(attempt)
+    return 0
+
+
+def handle_resume_attempt(args: argparse.Namespace) -> int:
+    attempt_path = Path(args.attempt)
+    attempt = load_attempt(attempt_path)
+    pack = resolve_pack(f"{attempt['pack_id']}@{attempt['pack_version']}", args.library)
+    validate_attempt_questions(attempt, pack)
+    answered_count, total_count = attempt_progress(attempt)
+
+    print(f"{pack.title}")
+    print(f"Attempt: {attempt['attempt_id']}")
+    print(f"Progress: {answered_count}/{total_count} answered")
+    print(f"Saving to: {attempt_path}\n")
+
+    if attempt.get("status") == "completed":
+        print("This attempt is already completed.")
+        print_attempt_summary(attempt)
+        return 0
+
+    question_ids = remaining_question_ids(attempt)
+    if not question_ids:
+        attempt = complete_attempt(attempt, pack)
+        save_attempt(attempt, attempt_path)
+        print_attempt_summary(attempt)
+        return 0
+
+    questions = [find_question(pack, question_id) for question_id in question_ids]
+    tts_config = build_tts_config(args)
+    attempt = run_attempt_questions(
+        attempt=attempt,
+        pack=pack,
+        questions=questions,
+        save_path=attempt_path,
+        tts_config=tts_config,
+        show_transcript=args.show_transcript,
+        speak_question_audio=args.speak_question,
+        speak_teaching=args.speak_teaching,
+        no_listening_audio=args.no_listening_audio,
+        tts_play=args.tts_play,
+        start_index=answered_count + 1,
+    )
+
+    attempt = complete_attempt(attempt, pack)
+    save_attempt(attempt, attempt_path)
+    print_attempt_summary(attempt)
+    return 0
+
+
+def run_attempt_questions(
+    attempt: dict[str, Any],
+    pack: Any,
+    questions: list[dict[str, Any]],
+    save_path: Path,
+    tts_config: TTSConfig,
+    show_transcript: bool,
+    speak_question_audio: bool,
+    speak_teaching: bool,
+    no_listening_audio: bool,
+    tts_play: bool,
+    start_index: int,
+) -> dict[str, Any]:
+    for offset, question in enumerate(questions):
+        index = start_index + offset
+        listening_audio = is_listening_question(question) and not no_listening_audio
         question_audio_paths: list[Path] = []
-        if args.speak_question or listening_audio:
+        if speak_question_audio or listening_audio:
             question_audio_paths = speak_question(
                 question,
                 tts_config,
                 include_explanation=False,
-                playback=listening_audio or args.tts_play,
+                playback=listening_audio or tts_play,
             )
-        print_question(index, question, show_transcript=args.show_transcript)
+        print_question(index, question, show_transcript=show_transcript)
         response = prompt_for_answer(question_audio_paths)
         attempt = answer_question(attempt, pack, response)
         result = grade_question(question, response)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
-        if args.show_teaching or not result["correct"]:
-            print_feedback(result["feedback"])
-            if args.speak_teaching:
-                speak_question(question, tts_config, include_explanation=True, playback=args.tts_play)
-        save_attempt_to_dir(attempt, args.attempt_dir)
+        print_post_answer_transcript(question, was_shown_before_answer=show_transcript)
+        print_feedback(result["feedback"])
+        if speak_teaching:
+            speak_question(question, tts_config, include_explanation=True, playback=tts_play)
+        save_attempt(attempt, save_path)
+    return attempt
 
-    attempt = complete_attempt(attempt, pack)
-    save_attempt_to_dir(attempt, args.attempt_dir)
-    print_attempt_summary(attempt)
-    return 0
+
+def validate_attempt_questions(attempt: dict[str, Any], pack: Any) -> None:
+    for question_id in attempt.get("question_ids", []):
+        find_question(pack, question_id)
 
 
 def handle_review_attempt(args: argparse.Namespace) -> int:
@@ -404,6 +504,17 @@ def print_question(index: int, question: dict[str, Any], show_transcript: bool =
         print(f"  {option['id']}. {option['text']}")
 
 
+def print_post_answer_transcript(question: dict[str, Any], was_shown_before_answer: bool) -> None:
+    if was_shown_before_answer or not is_listening_question(question):
+        return
+    passage = question_display_passage(question, show_transcript=True)
+    if passage:
+        if not passage.lower().startswith("transcript:"):
+            print("Transcript:")
+        print(passage)
+        print()
+
+
 def question_display_passage(question: dict[str, Any], show_transcript: bool) -> str | None:
     passage = str(question.get("passage", "")).strip()
     if not passage:
@@ -439,8 +550,10 @@ def print_attempt_summary(attempt: dict[str, Any]) -> None:
     result = attempt.get("result") or {}
     score = result.get("score", 0)
     max_score = result.get("max_score", 0)
+    answered_count, total_count = attempt_progress(attempt)
     print(f"Final score: {score}/{max_score}")
     print(f"Status: {attempt['status']}")
+    print(f"Progress: {answered_count}/{total_count} answered")
     print(f"Attempt ID: {attempt['attempt_id']}")
 
 

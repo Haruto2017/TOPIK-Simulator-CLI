@@ -1,11 +1,23 @@
 import json
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
+from unittest.mock import patch
 
 from topik_sim.content import load_pack, validate_pack_file
 from topik_sim.grading import grade_answers
 from topik_sim.library import import_pack, list_packs, load_pack_ref, validate_library
-from topik_sim.attempts import create_attempt, answer_question, complete_attempt, save_attempt, load_attempt
+from topik_sim.attempts import (
+    answer_question,
+    attempt_progress,
+    complete_attempt,
+    create_attempt,
+    load_attempt,
+    remaining_question_ids,
+    save_attempt,
+)
+from topik_sim.cli import main
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -77,7 +89,10 @@ class ContentAndGradingTests(unittest.TestCase):
     def test_attempt_can_be_answered_completed_and_reloaded(self):
         pack = load_pack(SAMPLE_PACK)
         attempt = create_attempt(pack)
+        self.assertEqual(attempt_progress(attempt), (0, 2))
         attempt = answer_question(attempt, pack, "B")
+        self.assertEqual(attempt_progress(attempt), (1, 2))
+        self.assertEqual(remaining_question_ids(attempt), ["r-002"])
         attempt = answer_question(attempt, pack, "C")
         completed = complete_attempt(attempt, pack)
 
@@ -95,6 +110,33 @@ class ContentAndGradingTests(unittest.TestCase):
         finally:
             attempt_path.unlink(missing_ok=True)
             _remove_tree(attempt_path.parent)
+
+    def test_resume_attempt_continues_from_next_unanswered_question(self):
+        library_dir = ROOT / "data" / "test_resume_library"
+        attempt_dir = ROOT / "data" / "test_resume_attempts"
+        _remove_tree(library_dir)
+        _remove_tree(attempt_dir)
+        try:
+            import_pack(SAMPLE_PACK, library_dir)
+            pack = load_pack(SAMPLE_PACK)
+            attempt = answer_question(create_attempt(pack), pack, "B")
+            attempt_dir.mkdir(parents=True, exist_ok=True)
+            attempt_path = attempt_dir / "partial.json"
+            save_attempt(attempt, attempt_path)
+
+            output = StringIO()
+            with patch("builtins.input", return_value="C"), redirect_stdout(output):
+                exit_code = main(["resume-attempt", str(attempt_path), "--library", str(library_dir)])
+
+            self.assertEqual(exit_code, 0)
+            self.assertIn("Progress: 1/2 answered", output.getvalue())
+            reloaded = load_attempt(attempt_path)
+            self.assertEqual(reloaded["status"], "completed")
+            self.assertEqual(attempt_progress(reloaded), (2, 2))
+            self.assertEqual([answer["question_id"] for answer in reloaded["answers"]], ["r-001", "r-002"])
+        finally:
+            _remove_tree(library_dir)
+            _remove_tree(attempt_dir)
 
 
 if __name__ == "__main__":
