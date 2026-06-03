@@ -20,6 +20,7 @@ python -m topik_sim import-pack examples/content/topik_i_mini_pack.json
 python -m topik_sim list-packs
 python -m topik_sim inspect-content examples/content/topik_i_mini_pack.json
 python -m topik_sim take topik-i-mini-pack --section reading --limit 2
+python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다."
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json
 ```
 
@@ -29,8 +30,11 @@ python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answe
 - `context/`: concise context files for session handoff.
 - `skills/topik-content-authoring/`: reusable agent skill for adding exams and tutorials.
 - `docs/`: architecture, CLI, content contract, and roadmap.
+- `docs/TTS_SETUP.md`: optional local GPU Korean TTS setup.
 - `src/topik_sim/`: simulator CLI and core logic.
 - `examples/`: minimal content and answer files used to prove the contract.
 - `tests/`: focused tests for contract validation and grading.
 
 Runtime data is written under `data/` and ignored by Git. Content authors should keep source packs in `examples/content/` or a future `content/source/` folder, then import them into the local library with `import-pack`.
+
+Optional Korean TTS uses local model dependencies. See `docs/TTS_SETUP.md`.

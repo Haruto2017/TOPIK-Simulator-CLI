@@ -8,6 +8,7 @@ The simulator is organized around a stable content contract and a small core run
 - Content loading: JSON parsing and contract validation.
 - Grading: answer normalization, scoring, and correctness.
 - Feedback: teaching-oriented response summaries.
+- TTS: optional local Korean speech synthesis with cached WAV outputs.
 
 ## Data Flow
 
@@ -29,7 +30,6 @@ Future changes can add:
 
 - Rich terminal UI.
 - Local web UI.
-- Audio handling for listening sections.
+- Listening-section audio playback.
 - Spaced repetition and learner history.
 - Optional AI-assisted feedback for written responses.
-

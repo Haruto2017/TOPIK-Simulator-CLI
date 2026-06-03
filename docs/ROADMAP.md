@@ -13,6 +13,7 @@
 - Review missed questions.
 - Add study recommendations by grammar point and vocabulary.
 - Add timed mode.
+- Add Korean TTS playback for passages, vocabulary, and grammar examples.
 
 ## Phase 3: Content Production
 
@@ -25,4 +26,3 @@
 - Add a local web UI or desktop-style interface.
 - Reuse the same content loading and grading modules.
 - Add audio playback for listening sections.
-

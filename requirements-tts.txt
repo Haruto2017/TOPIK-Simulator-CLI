@@ -1,0 +1,4 @@
+# Optional local Korean TTS dependencies.
+# Install CUDA-enabled torch separately from https://pytorch.org/get-started/
+git+https://github.com/myshell-ai/MeloTTS.git
+

@@ -47,7 +47,7 @@ Behavior:
 Runs an interactive test and saves the attempt after each answer.
 
 ```powershell
-python -m topik_sim take <pack.json-or-pack_ref> [--library <library_dir>] [--attempt-dir <attempt_dir>] [--section <section_id>] [--limit <n>] [--show-teaching]
+python -m topik_sim take <pack.json-or-pack_ref> [--library <library_dir>] [--attempt-dir <attempt_dir>] [--section <section_id>] [--limit <n>] [--show-teaching] [--speak-question] [--speak-teaching]
 ```
 
 Pack references:
@@ -60,6 +60,14 @@ Default runtime locations:
 
 - Library: `content/library`
 - Attempts: `data/attempts`
+
+TTS behavior:
+
+- `--speak-question`: generate Korean audio for question passages.
+- `--speak-teaching`: generate Korean audio for vocabulary and grammar examples in feedback.
+- `--tts-play`: play generated audio immediately.
+- `--tts-device cuda:0`: run provider on the first CUDA GPU.
+- Generated audio is cached under `data/audio_cache` by default.
 
 ## `review-attempt`
 
@@ -117,6 +125,24 @@ Validates the library manifest, imported pack files, and recorded checksums.
 ```powershell
 python -m topik_sim validate-library [--library <library_dir>]
 ```
+
+## `speak`
+
+Generates Korean TTS audio for direct text.
+
+```powershell
+python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." [--tts-play]
+```
+
+Default provider:
+
+- `melo`, using MeloTTS with `--tts-language KR` and `--tts-device cuda:0`.
+
+Alternate provider:
+
+- `xtts-v2`, using Coqui XTTS-v2. Requires `--tts-speaker-wav`.
+
+See `docs/TTS_SETUP.md` for installation and GPU verification.
 
 or:
 

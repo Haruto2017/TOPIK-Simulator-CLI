@@ -10,6 +10,7 @@ from .attempts import complete_attempt, create_attempt, load_attempt, save_attem
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
+from .tts import TTSConfig, collect_question_speech_texts, synthesize_many
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -61,6 +62,9 @@ def build_parser() -> argparse.ArgumentParser:
     take.add_argument("--section", help="Only run one section_id.")
     take.add_argument("--limit", type=int, help="Limit the number of questions.")
     take.add_argument("--show-teaching", action="store_true", help="Show teaching notes for correct answers too.")
+    add_tts_arguments(take)
+    take.add_argument("--speak-question", action="store_true", help="Generate Korean audio for each question while taking a test.")
+    take.add_argument("--speak-teaching", action="store_true", help="Generate Korean audio for vocabulary and example sentences in teaching notes.")
     take.set_defaults(handler=handle_take)
 
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
@@ -85,6 +89,11 @@ def build_parser() -> argparse.ArgumentParser:
     validate_library_parser = subparsers.add_parser("validate-library", help="Validate the content library manifest and pack files.")
     validate_library_parser.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
+
+    speak = subparsers.add_parser("speak", help="Generate Korean TTS audio for direct text.")
+    speak.add_argument("text", nargs="+", help="Text to synthesize.")
+    add_tts_arguments(speak)
+    speak.set_defaults(handler=handle_speak)
 
     return parser
 
@@ -157,8 +166,11 @@ def handle_take(args: argparse.Namespace) -> int:
     print(f"Attempt: {attempt['attempt_id']}")
     print(f"{len(questions)} question(s)")
     print(f"Saving to: {attempt_path}\n")
+    tts_config = build_tts_config(args)
 
     for index, question in enumerate(questions, start=1):
+        if args.speak_question:
+            speak_question(question, tts_config, include_explanation=False)
         print_question(index, question)
         response = input("Your answer: ")
         attempt = answer_question(attempt, pack, response)
@@ -166,6 +178,8 @@ def handle_take(args: argparse.Namespace) -> int:
         print("Correct.\n" if result["correct"] else "Not quite.\n")
         if args.show_teaching or not result["correct"]:
             print_feedback(result["feedback"])
+            if args.speak_teaching:
+                speak_question(question, tts_config, include_explanation=True)
         save_attempt_to_dir(attempt, args.attempt_dir)
 
     attempt = complete_attempt(attempt, pack)
@@ -225,6 +239,19 @@ def handle_validate_library(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_speak(args: argparse.Namespace) -> int:
+    config = build_tts_config(args)
+    text = " ".join(args.text)
+    try:
+        paths = synthesize_many([text], config)
+    except RuntimeError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    for path in paths:
+        print(path)
+    return 0
+
+
 def resolve_pack(pack_ref: str, library_dir: str | Path) -> Any:
     pack_path = Path(pack_ref)
     if pack_path.exists():
@@ -241,6 +268,48 @@ def load_answer_file(path: str | Path) -> dict[str, str]:
     if isinstance(data, dict):
         return {str(key): str(value) for key, value in data.items()}
     raise ValueError("Answer file must be an object or contain an answers array.")
+
+
+def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("--tts-provider", default="melo", choices=["melo", "xtts-v2"], help="Local TTS provider.")
+    parser.add_argument("--tts-language", default="KR", help="TTS language code. Use KR for MeloTTS Korean.")
+    parser.add_argument("--tts-device", default="cuda:0", help="TTS device, such as cuda:0 or cpu.")
+    parser.add_argument("--tts-output-dir", default="data/audio_cache", help="Directory for generated WAV files.")
+    parser.add_argument("--tts-speed", type=float, default=1.0, help="Speech speed multiplier.")
+    parser.add_argument("--tts-play", action="store_true", help="Play generated audio immediately.")
+    parser.add_argument("--tts-force", action="store_true", help="Regenerate audio even when cached.")
+    parser.add_argument("--tts-speaker-wav", help="Reference WAV file for XTTS-v2.")
+
+
+def build_tts_config(args: argparse.Namespace) -> TTSConfig:
+    return TTSConfig(
+        provider=args.tts_provider,
+        language=args.tts_language,
+        device=args.tts_device,
+        output_dir=Path(args.tts_output_dir),
+        speed=args.tts_speed,
+        playback=args.tts_play,
+        force=args.tts_force,
+        speaker_wav=Path(args.tts_speaker_wav) if args.tts_speaker_wav else None,
+    )
+
+
+def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool) -> None:
+    texts = collect_question_speech_texts(
+        question,
+        include_passage=not include_explanation,
+        include_prompt=False,
+        include_explanation=include_explanation,
+    )
+    if not texts:
+        return
+    try:
+        paths = synthesize_many(texts, config)
+    except RuntimeError as exc:
+        print(f"TTS unavailable: {exc}", file=sys.stderr)
+        return
+    for path in paths:
+        print(f"Audio: {path}")
 
 
 def print_question(index: int, question: dict[str, Any]) -> None:
