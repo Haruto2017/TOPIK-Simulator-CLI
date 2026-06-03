@@ -65,12 +65,15 @@ TTS behavior:
 
 - Listening questions automatically generate and play Korean audio from transcript-backed `passage` text during `take`.
 - Listening transcripts are hidden by default during `take`.
+- At the answer prompt, enter `/replay`, `/r`, or `replay` to play the current question audio again.
 - `--show-transcript`: show listening transcripts for content debugging.
 - `--no-listening-audio`: disable automatic listening audio.
 - `--speak-question`: generate Korean audio for non-listening question passages too.
 - `--speak-teaching`: generate Korean audio for vocabulary and grammar examples in feedback.
 - `--tts-play`: play generated audio immediately.
 - `--tts-device cuda:0`: run provider on the first CUDA GPU.
+- `--tts-volume <gain>`: set generated WAV volume, where `1.0` is unchanged.
+- `--tts-speaker-id <id-or-name>`: choose a provider speaker when supported.
 - Generated audio is cached under `data/audio_cache` by default.
 
 For the local CUDA TTS runtime in this workspace, prefer:
@@ -90,6 +93,12 @@ To hear teaching notes for correct answers too:
 
 ```powershell
 .\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-teaching --speak-teaching --tts-play
+```
+
+To make listening audio quieter or louder:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
 ```
 
 ## `review-attempt`
@@ -164,6 +173,16 @@ Default provider:
 Alternate provider:
 
 - `xtts-v2`, using Coqui XTTS-v2. Requires `--tts-speaker-wav`.
+
+## `list-tts-speakers`
+
+Lists provider voices that can be passed to `--tts-speaker-id`.
+
+```powershell
+python -m topik_sim list-tts-speakers [--tts-provider melo] [--tts-language KR]
+```
+
+For MeloTTS Korean, use either the printed speaker name or numeric ID. XTTS-v2 uses `--tts-speaker-wav` instead of a built-in speaker list.
 
 See `docs/TTS_SETUP.md` for installation and GPU verification.
 

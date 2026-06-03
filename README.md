@@ -31,6 +31,8 @@ $env:PYTHONPATH = "src"
 .\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
+During a listening question, type `/replay` at the answer prompt to hear the audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.
+
 ## Workspace Map
 
 - `AGENTS.md`: standing instructions for future coding agents.

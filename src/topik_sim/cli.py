@@ -10,7 +10,10 @@ from .attempts import complete_attempt, create_attempt, load_attempt, save_attem
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
-from .tts import TTSConfig, collect_question_speech_texts, synthesize_many
+from .tts import TTSConfig, build_provider, collect_question_speech_texts, play_audio, synthesize_many
+
+
+REPLAY_COMMANDS = {"/replay", "/r", "replay"}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -24,6 +27,9 @@ def main(argv: list[str] | None = None) -> int:
         print("Content pack is invalid:", file=sys.stderr)
         for error in exc.errors:
             print(f"- {error}", file=sys.stderr)
+        return 1
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
         return 1
     except KeyboardInterrupt:
         print("\nSimulation stopped.")
@@ -96,6 +102,10 @@ def build_parser() -> argparse.ArgumentParser:
     speak.add_argument("text", nargs="+", help="Text to synthesize.")
     add_tts_arguments(speak)
     speak.set_defaults(handler=handle_speak)
+
+    list_speakers = subparsers.add_parser("list-tts-speakers", help="List voices exposed by the selected TTS provider.")
+    add_tts_arguments(list_speakers)
+    list_speakers.set_defaults(handler=handle_list_tts_speakers)
 
     return parser
 
@@ -172,10 +182,16 @@ def handle_take(args: argparse.Namespace) -> int:
 
     for index, question in enumerate(questions, start=1):
         listening_audio = is_listening_question(question) and not args.no_listening_audio
+        question_audio_paths: list[Path] = []
         if args.speak_question or listening_audio:
-            speak_question(question, tts_config, include_explanation=False, playback=listening_audio or args.tts_play)
+            question_audio_paths = speak_question(
+                question,
+                tts_config,
+                include_explanation=False,
+                playback=listening_audio or args.tts_play,
+            )
         print_question(index, question, show_transcript=args.show_transcript)
-        response = input("Your answer: ")
+        response = prompt_for_answer(question_audio_paths)
         attempt = answer_question(attempt, pack, response)
         result = grade_question(question, response)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
@@ -255,6 +271,21 @@ def handle_speak(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_list_tts_speakers(args: argparse.Namespace) -> int:
+    config = build_tts_config(args)
+    try:
+        speakers = build_provider(config.provider).list_speakers(config)
+    except RuntimeError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    if not speakers:
+        print("No named speakers exposed by this provider.")
+        return 0
+    for speaker_name, speaker_id in speakers.items():
+        print(f"{speaker_name}: {speaker_id}")
+    return 0
+
+
 def resolve_pack(pack_ref: str, library_dir: str | Path) -> Any:
     pack_path = Path(pack_ref)
     if pack_path.exists():
@@ -279,33 +310,41 @@ def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--tts-device", default="cuda:0", help="TTS device, such as cuda:0 or cpu.")
     parser.add_argument("--tts-output-dir", default="data/audio_cache", help="Directory for generated WAV files.")
     parser.add_argument("--tts-speed", type=float, default=1.0, help="Speech speed multiplier.")
+    parser.add_argument("--tts-volume", type=float, default=1.0, help="Audio gain multiplier for generated WAV files.")
     parser.add_argument("--tts-play", action="store_true", help="Play generated audio immediately.")
     parser.add_argument("--tts-force", action="store_true", help="Regenerate audio even when cached.")
+    parser.add_argument("--tts-speaker-id", help="Provider speaker name or numeric speaker id when supported.")
     parser.add_argument("--tts-speaker-wav", help="Reference WAV file for XTTS-v2.")
 
 
 def build_tts_config(args: argparse.Namespace) -> TTSConfig:
+    if args.tts_volume <= 0:
+        raise ValueError("--tts-volume must be greater than 0.")
     return TTSConfig(
         provider=args.tts_provider,
         language=args.tts_language,
         device=args.tts_device,
         output_dir=Path(args.tts_output_dir),
         speed=args.tts_speed,
+        volume=args.tts_volume,
         playback=args.tts_play,
         force=args.tts_force,
+        speaker_id=args.tts_speaker_id,
         speaker_wav=Path(args.tts_speaker_wav) if args.tts_speaker_wav else None,
     )
 
 
-def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool, playback: bool) -> None:
+def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool, playback: bool) -> list[Path]:
     config = TTSConfig(
         provider=config.provider,
         language=config.language,
         device=config.device,
         output_dir=config.output_dir,
         speed=config.speed,
+        volume=config.volume,
         playback=playback,
         force=config.force,
+        speaker_id=config.speaker_id,
         speaker_wav=config.speaker_wav,
     )
     texts = collect_question_speech_texts(
@@ -315,14 +354,31 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
         include_explanation=include_explanation,
     )
     if not texts:
-        return
+        return []
     try:
         paths = synthesize_many(texts, config)
     except RuntimeError as exc:
         print(f"TTS unavailable: {exc}", file=sys.stderr)
-        return
+        return []
     for path in paths:
         print(f"Audio: {path}")
+    return paths
+
+
+def prompt_for_answer(audio_paths: list[Path]) -> str:
+    while True:
+        response = input("Your answer (or /replay): ")
+        if not is_replay_request(response):
+            return response
+        if not audio_paths:
+            print("No question audio is available to replay.")
+            continue
+        for path in audio_paths:
+            play_audio(path)
+
+
+def is_replay_request(value: str) -> bool:
+    return value.strip().lower() in REPLAY_COMMANDS
 
 
 def print_question(index: int, question: dict[str, Any], show_transcript: bool = True) -> None:

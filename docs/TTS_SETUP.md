@@ -101,10 +101,33 @@ Listening questions in `take` mode automatically play audio and hide transcript 
 .\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
+At the answer prompt, enter `/replay`, `/r`, or `replay` to hear the current question audio again.
+
 Show transcript text only when debugging content:
 
 ```powershell
 .\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-transcript --no-listening-audio
+```
+
+Adjust generated WAV volume:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요." --tts-volume 1.2 --tts-play
+```
+
+Volume is part of the audio cache key, so different volume settings create separate cached WAV files.
+
+List built-in provider speakers:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim list-tts-speakers --tts-provider melo --tts-language KR
+```
+
+Choose a printed speaker name or numeric ID:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요." --tts-speaker-id KR --tts-play
 ```
 
 Use CPU fallback:

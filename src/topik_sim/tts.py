@@ -4,6 +4,8 @@ import hashlib
 import os
 import subprocess
 import sys
+import wave
+from array import array
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
@@ -20,6 +22,9 @@ class TTSProvider(Protocol):
     def synthesize_to_file(self, text: str, output_path: Path, config: "TTSConfig") -> None:
         ...
 
+    def list_speakers(self, config: "TTSConfig") -> dict[str, Any]:
+        ...
+
 
 @dataclass(frozen=True)
 class TTSConfig:
@@ -28,8 +33,10 @@ class TTSConfig:
     device: str = DEFAULT_TTS_DEVICE
     output_dir: Path = DEFAULT_AUDIO_DIR
     speed: float = 1.0
+    volume: float = 1.0
     playback: bool = False
     force: bool = False
+    speaker_id: str | None = None
     speaker_wav: Path | None = None
 
 
@@ -40,13 +47,23 @@ def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
     config.output_dir.mkdir(parents=True, exist_ok=True)
 
     for text in [item.strip() for item in texts if item.strip()]:
-        output_path = config.output_dir / stable_audio_name(text, provider=config.provider, language=config.language)
+        output_path = config.output_dir / stable_audio_name(
+            text,
+            provider=config.provider,
+            language=config.language,
+            speed=config.speed,
+            volume=config.volume,
+            speaker_id=config.speaker_id,
+            speaker_wav=config.speaker_wav,
+        )
         output_paths.append(output_path)
         if output_path.exists() and not config.force:
             continue
         if provider is None:
             provider = build_provider(config.provider)
         provider.synthesize_to_file(text, output_path, config)
+        if config.volume != 1.0:
+            adjust_wav_volume(output_path, config.volume)
 
     if config.playback:
         for output_path in output_paths:
@@ -104,9 +121,45 @@ def collect_question_speech_texts(
     return dedupe(texts)
 
 
-def stable_audio_name(text: str, provider: str, language: str) -> str:
-    digest = hashlib.sha256(f"{provider}|{language}|{text}".encode("utf-8")).hexdigest()[:24]
+def stable_audio_name(
+    text: str,
+    provider: str,
+    language: str,
+    speed: float = 1.0,
+    volume: float = 1.0,
+    speaker_id: str | None = None,
+    speaker_wav: Path | None = None,
+) -> str:
+    speaker_key = speaker_id or (str(speaker_wav) if speaker_wav else "default")
+    key = f"{provider}|{language}|speed={speed:.3f}|volume={volume:.3f}|speaker={speaker_key}|{text}"
+    digest = hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
     return f"{provider}-{language}-{digest}.wav"
+
+
+def adjust_wav_volume(path: Path, volume: float) -> None:
+    if volume <= 0:
+        raise ValueError("Volume must be greater than 0.")
+    with wave.open(str(path), "rb") as source:
+        params = source.getparams()
+        frames = source.readframes(source.getnframes())
+
+    if params.sampwidth != 2:
+        return
+
+    samples = array("h")
+    samples.frombytes(frames)
+    if sys.byteorder != "little":
+        samples.byteswap()
+
+    for index, sample in enumerate(samples):
+        samples[index] = max(-32768, min(32767, int(sample * volume)))
+
+    if sys.byteorder != "little":
+        samples.byteswap()
+
+    with wave.open(str(path), "wb") as target:
+        target.setparams(params)
+        target.writeframes(samples.tobytes())
 
 
 def looks_korean(text: str) -> bool:
@@ -155,10 +208,14 @@ class MeloTTSProvider:
     def synthesize_to_file(self, text: str, output_path: Path, config: TTSConfig) -> None:
         model = self._load_model(config)
         speaker_ids = model.hps.data.spk2id
-        speaker_id = lookup_speaker_id(speaker_ids, config.language) or lookup_speaker_id(speaker_ids, "KR")
+        speaker_id = resolve_speaker_id(speaker_ids, config)
         if speaker_id is None:
             raise RuntimeError(f"MeloTTS model does not expose a speaker for {config.language!r}.")
         model.tts_to_file(text, speaker_id, str(output_path), speed=config.speed)
+
+    def list_speakers(self, config: TTSConfig) -> dict[str, Any]:
+        model = self._load_model(config)
+        return hparams_to_dict(model.hps.data.spk2id)
 
     def _load_model(self, config: TTSConfig) -> Any:
         if self._model is not None:
@@ -189,6 +246,9 @@ class XTTSV2Provider:
             speaker_wav=str(config.speaker_wav),
             language="ko",
         )
+
+    def list_speakers(self, config: TTSConfig) -> dict[str, Any]:
+        return {"speaker_wav": str(config.speaker_wav) if config.speaker_wav else "required"}
 
     def _load_model(self, config: TTSConfig) -> Any:
         if self._model is not None:
@@ -244,6 +304,14 @@ def configure_model_cache(cache_dir: str | Path = DEFAULT_MODEL_CACHE_DIR) -> Pa
     return cache_path
 
 
+def resolve_speaker_id(speaker_ids: Any, config: TTSConfig) -> Any | None:
+    if config.speaker_id is not None:
+        if config.speaker_id.isdigit():
+            return int(config.speaker_id)
+        return lookup_speaker_id(speaker_ids, config.speaker_id)
+    return lookup_speaker_id(speaker_ids, config.language) or lookup_speaker_id(speaker_ids, "KR")
+
+
 def lookup_speaker_id(speaker_ids: Any, language: str) -> Any | None:
     if hasattr(speaker_ids, "get"):
         return speaker_ids.get(language)
@@ -251,3 +319,13 @@ def lookup_speaker_id(speaker_ids: Any, language: str) -> Any | None:
         return speaker_ids[language]
     except (KeyError, TypeError):
         return getattr(speaker_ids, language, None)
+
+
+def hparams_to_dict(value: Any) -> dict[str, Any]:
+    if isinstance(value, dict):
+        return dict(value)
+    if hasattr(value, "items"):
+        return dict(value.items())
+    if hasattr(value, "__dict__"):
+        return dict(value.__dict__)
+    return {}
