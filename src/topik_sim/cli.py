@@ -24,6 +24,7 @@ from .tts import TTSConfig, build_provider, collect_question_speech_texts, play_
 
 
 REPLAY_COMMANDS = {"/replay", "/r", "replay"}
+DEFAULT_RECENT_ATTEMPT_LIMIT = 10
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -89,8 +90,15 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("attempt")
     review.set_defaults(handler=handle_review_attempt)
 
+    list_attempts = subparsers.add_parser("list-attempts", help="List recent saved attempts.")
+    list_attempts.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    list_attempts.add_argument("--limit", type=int, default=DEFAULT_RECENT_ATTEMPT_LIMIT, help="Maximum attempts to show.")
+    list_attempts.set_defaults(handler=handle_list_attempts)
+
     resume = subparsers.add_parser("resume-attempt", help="Continue a saved in-progress attempt.")
-    resume.add_argument("attempt", help="Path to an attempt JSON file.")
+    resume.add_argument("attempt", nargs="?", help="Path to an attempt JSON file. Omit to choose from recent attempts.")
+    resume.add_argument("--attempt-dir", default="data/attempts", help="Directory to scan when no attempt path is given.")
+    resume.add_argument("--recent", type=int, default=DEFAULT_RECENT_ATTEMPT_LIMIT, help="Maximum recent attempts to show when choosing.")
     resume.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
     resume.add_argument("--show-transcript", action="store_true", help="Show listening transcripts before answering too.")
     add_tts_arguments(resume)
@@ -220,7 +228,9 @@ def handle_take(args: argparse.Namespace) -> int:
 
 
 def handle_resume_attempt(args: argparse.Namespace) -> int:
-    attempt_path = Path(args.attempt)
+    attempt_path = Path(args.attempt) if args.attempt else choose_recent_attempt(args.attempt_dir, args.recent)
+    if attempt_path is None:
+        return 1
     attempt = load_attempt(attempt_path)
     pack = resolve_pack(f"{attempt['pack_id']}@{attempt['pack_version']}", args.library)
     validate_attempt_questions(attempt, pack)
@@ -265,6 +275,15 @@ def handle_resume_attempt(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_list_attempts(args: argparse.Namespace) -> int:
+    entries = recent_attempt_entries(args.attempt_dir, args.limit)
+    if not entries:
+        print(f"No saved attempts found in {args.attempt_dir}.")
+        return 0
+    print_recent_attempts(entries)
+    return 0
+
+
 def run_attempt_questions(
     attempt: dict[str, Any],
     pack: Any,
@@ -305,6 +324,71 @@ def run_attempt_questions(
 def validate_attempt_questions(attempt: dict[str, Any], pack: Any) -> None:
     for question_id in attempt.get("question_ids", []):
         find_question(pack, question_id)
+
+
+def recent_attempt_entries(attempt_dir: str | Path, limit: int = DEFAULT_RECENT_ATTEMPT_LIMIT) -> list[tuple[Path, dict[str, Any]]]:
+    if limit <= 0:
+        raise ValueError("--limit/--recent must be greater than 0.")
+    directory = Path(attempt_dir)
+    if not directory.exists():
+        return []
+
+    entries: list[tuple[Path, dict[str, Any]]] = []
+    for path in directory.glob("*.json"):
+        try:
+            attempt = load_attempt(path)
+        except (OSError, json.JSONDecodeError):
+            continue
+        entries.append((path, attempt))
+
+    entries.sort(key=attempt_sort_key, reverse=True)
+    return entries[:limit]
+
+
+def attempt_sort_key(entry: tuple[Path, dict[str, Any]]) -> tuple[str, float]:
+    path, attempt = entry
+    timestamp = str(attempt.get("updated_at") or attempt.get("completed_at") or attempt.get("started_at") or "")
+    try:
+        mtime = path.stat().st_mtime
+    except OSError:
+        mtime = 0.0
+    return timestamp, mtime
+
+
+def choose_recent_attempt(attempt_dir: str | Path, limit: int) -> Path | None:
+    entries = recent_attempt_entries(attempt_dir, limit)
+    if not entries:
+        print(f"No saved attempts found in {attempt_dir}.")
+        return None
+
+    print_recent_attempts(entries)
+    while True:
+        value = input("Choose attempt number (or blank to cancel): ").strip()
+        if not value:
+            print("Resume cancelled.")
+            return None
+        if not value.isdigit():
+            print("Enter a number from the list.")
+            continue
+        index = int(value)
+        if 1 <= index <= len(entries):
+            return entries[index - 1][0]
+        print("Enter a number from the list.")
+
+
+def print_recent_attempts(entries: list[tuple[Path, dict[str, Any]]]) -> None:
+    print("Recent attempts:")
+    for index, (path, attempt) in enumerate(entries, start=1):
+        print(format_attempt_entry(index, path, attempt))
+
+
+def format_attempt_entry(index: int, path: Path, attempt: dict[str, Any]) -> str:
+    answered_count, total_count = attempt_progress(attempt)
+    pack_ref = f"{attempt.get('pack_id', 'unknown')}@{attempt.get('pack_version', 'unknown')}"
+    status = str(attempt.get("status", "unknown"))
+    updated = str(attempt.get("updated_at") or attempt.get("completed_at") or attempt.get("started_at") or "unknown")
+    attempt_id = str(attempt.get("attempt_id", path.stem))
+    return f"{index}. {status} | {answered_count}/{total_count} answered | {pack_ref} | updated {updated} | {attempt_id} | {path}"
 
 
 def handle_review_attempt(args: argparse.Namespace) -> int:

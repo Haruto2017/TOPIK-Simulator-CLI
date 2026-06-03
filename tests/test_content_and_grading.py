@@ -138,6 +138,63 @@ class ContentAndGradingTests(unittest.TestCase):
             _remove_tree(library_dir)
             _remove_tree(attempt_dir)
 
+    def test_list_attempts_shows_recent_progress(self):
+        attempt_dir = ROOT / "data" / "test_list_attempts"
+        _remove_tree(attempt_dir)
+        try:
+            pack = load_pack(SAMPLE_PACK)
+            attempt = answer_question(create_attempt(pack), pack, "B")
+            attempt["updated_at"] = "2026-06-03T10:00:00+00:00"
+            attempt_dir.mkdir(parents=True, exist_ok=True)
+            save_attempt(attempt, attempt_dir / "partial.json")
+
+            output = StringIO()
+            with redirect_stdout(output):
+                exit_code = main(["list-attempts", "--attempt-dir", str(attempt_dir)])
+
+            self.assertEqual(exit_code, 0)
+            self.assertIn("Recent attempts:", output.getvalue())
+            self.assertIn("1/2 answered", output.getvalue())
+            self.assertIn("topik-i-mini-pack@0.1.0", output.getvalue())
+        finally:
+            _remove_tree(attempt_dir)
+
+    def test_resume_attempt_without_path_prompts_from_recent_attempts(self):
+        library_dir = ROOT / "data" / "test_resume_picker_library"
+        attempt_dir = ROOT / "data" / "test_resume_picker_attempts"
+        _remove_tree(library_dir)
+        _remove_tree(attempt_dir)
+        try:
+            import_pack(SAMPLE_PACK, library_dir)
+            pack = load_pack(SAMPLE_PACK)
+            attempt = answer_question(create_attempt(pack), pack, "B")
+            attempt["updated_at"] = "2026-06-03T10:00:00+00:00"
+            attempt_dir.mkdir(parents=True, exist_ok=True)
+            attempt_path = attempt_dir / "partial.json"
+            save_attempt(attempt, attempt_path)
+
+            output = StringIO()
+            with patch("builtins.input", side_effect=["1", "C"]), redirect_stdout(output):
+                exit_code = main(
+                    [
+                        "resume-attempt",
+                        "--attempt-dir",
+                        str(attempt_dir),
+                        "--library",
+                        str(library_dir),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            self.assertIn("Recent attempts:", output.getvalue())
+            self.assertIn("Progress: 1/2 answered", output.getvalue())
+            reloaded = load_attempt(attempt_path)
+            self.assertEqual(reloaded["status"], "completed")
+            self.assertEqual(attempt_progress(reloaded), (2, 2))
+        finally:
+            _remove_tree(library_dir)
+            _remove_tree(attempt_dir)
+
 
 if __name__ == "__main__":
     unittest.main()

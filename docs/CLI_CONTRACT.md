@@ -115,14 +115,16 @@ python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
 
 ## `resume-attempt`
 
-Loads a saved in-progress attempt and continues from the first unanswered question.
+Loads a saved in-progress attempt and continues from the first unanswered question. If no attempt path is provided, it lists recent attempts and asks which one to load.
 
 ```powershell
 python -m topik_sim resume-attempt data/attempts/<attempt_id>.json [--library <library_dir>] [--speak-question] [--speak-teaching]
+python -m topik_sim resume-attempt [--attempt-dir <attempt_dir>] [--recent <n>]
 ```
 
 Behavior:
 
+- When no path is passed, scans recent attempt JSON files from `data/attempts`.
 - Loads the pack from the attempt's saved `pack_id@pack_version`.
 - Prints progress as `<answered>/<total> answered`.
 - Skips already answered questions.
@@ -130,6 +132,16 @@ Behavior:
 - Prints teaching feedback after every answer.
 - Prints listening transcripts after the learner answers.
 - Completes and grades the attempt after the last unanswered question.
+
+## `list-attempts`
+
+Lists recent saved attempts without resuming them.
+
+```powershell
+python -m topik_sim list-attempts [--attempt-dir <attempt_dir>] [--limit <n>]
+```
+
+Each row includes status, answered count, pack reference, update time, attempt ID, and file path.
 
 ## `review-attempt`
 
