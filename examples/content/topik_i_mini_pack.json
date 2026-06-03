@@ -1,0 +1,99 @@
+{
+  "schema_version": "topik-sim.content.v1",
+  "pack_id": "topik-i-mini-pack",
+  "pack_version": "0.1.0",
+  "title": "TOPIK I Mini Pack",
+  "topik_level": "TOPIK_I",
+  "language_pair": "ko-en",
+  "source_type": "original",
+  "sections": [
+    {
+      "section_id": "reading",
+      "title": "Reading",
+      "time_limit_minutes": 5,
+      "instructions": "Choose the best answer.",
+      "questions": [
+        {
+          "question_id": "r-001",
+          "order": 1,
+          "skill": "reading",
+          "prompt": "What does the sentence mean?",
+          "passage": "오늘은 날씨가 좋습니다.",
+          "options": [
+            { "id": "A", "text": "It is cold today." },
+            { "id": "B", "text": "The weather is good today." },
+            { "id": "C", "text": "I am busy today." },
+            { "id": "D", "text": "The room is clean today." }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "explanation": {
+            "summary": "오늘은 means today, 날씨 means weather, and 좋습니다 means is good.",
+            "teaching_points": [
+              "In Korean, topic marker 은 can mark what the sentence is about.",
+              "좋습니다 is a formal polite form of 좋다."
+            ],
+            "vocabulary": [
+              { "ko": "오늘", "en": "today" },
+              { "ko": "날씨", "en": "weather" },
+              { "ko": "좋다", "en": "to be good" }
+            ],
+            "grammar": [
+              {
+                "pattern": "-습니다",
+                "explanation": "Formal polite declarative ending.",
+                "example": "날씨가 좋습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 좋다 with 춥다, which means to be cold."
+            ]
+          }
+        },
+        {
+          "question_id": "r-002",
+          "order": 2,
+          "skill": "reading",
+          "prompt": "Choose the place that matches the sentence.",
+          "passage": "저는 도서관에서 책을 읽습니다.",
+          "options": [
+            { "id": "A", "text": "library" },
+            { "id": "B", "text": "restaurant" },
+            { "id": "C", "text": "hospital" },
+            { "id": "D", "text": "bank" }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "explanation": {
+            "summary": "도서관 means library, and the sentence says I read a book at the library.",
+            "teaching_points": [
+              "에서 marks the location where an action happens.",
+              "책을 읽습니다 means read a book."
+            ],
+            "vocabulary": [
+              { "ko": "도서관", "en": "library" },
+              { "ko": "책", "en": "book" },
+              { "ko": "읽다", "en": "to read" }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에서",
+                "explanation": "Marks the location of an action.",
+                "example": "도서관에서 책을 읽습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not use 에서 for a destination with 가다; use 에 for destination."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+
+SCHEMA_VERSION = "topik-sim.content.v1"
+SUPPORTED_LEVELS = {"TOPIK_I", "TOPIK_II"}
+SUPPORTED_SOURCE_TYPES = {"original", "licensed", "public_domain", "user_provided"}
+SUPPORTED_ANSWER_TYPES = {"single_choice", "short_answer"}
+
+
+class ContentValidationError(ValueError):
+    def __init__(self, errors: list[str]) -> None:
+        self.errors = errors
+        super().__init__("\n".join(errors))
+
+
+@dataclass(frozen=True)
+class ExamPack:
+    path: Path
+    data: dict[str, Any]
+
+    @property
+    def pack_id(self) -> str:
+        return str(self.data["pack_id"])
+
+    @property
+    def title(self) -> str:
+        return str(self.data["title"])
+
+    @property
+    def sections(self) -> list[dict[str, Any]]:
+        return list(self.data["sections"])
+
+    def questions(self, section_id: str | None = None) -> list[dict[str, Any]]:
+        questions: list[dict[str, Any]] = []
+        for section in self.sections:
+            if section_id and section["section_id"] != section_id:
+                continue
+            questions.extend(section["questions"])
+        return sorted(questions, key=lambda item: int(item.get("order", 0)))
+
+
+def load_pack(path: str | Path) -> ExamPack:
+    pack_path = Path(path)
+    with pack_path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    errors = validate_pack_data(data)
+    if errors:
+        raise ContentValidationError(errors)
+    return ExamPack(path=pack_path, data=data)
+
+
+def validate_pack_file(path: str | Path) -> list[str]:
+    try:
+        with Path(path).open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except json.JSONDecodeError as exc:
+        return [f"Invalid JSON: {exc}"]
+    except OSError as exc:
+        return [f"Could not read file: {exc}"]
+
+    return validate_pack_data(data)
+
+
+def validate_pack_data(data: Any) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(data, dict):
+        return ["Pack root must be a JSON object."]
+
+    _require_fields(data, ["schema_version", "pack_id", "pack_version", "title", "topik_level", "language_pair", "source_type", "sections"], "pack", errors)
+
+    if data.get("schema_version") != SCHEMA_VERSION:
+        errors.append(f"pack.schema_version must be {SCHEMA_VERSION!r}.")
+    if data.get("topik_level") not in SUPPORTED_LEVELS:
+        errors.append("pack.topik_level must be TOPIK_I or TOPIK_II.")
+    if data.get("source_type") not in SUPPORTED_SOURCE_TYPES:
+        errors.append("pack.source_type must be original, licensed, public_domain, or user_provided.")
+    if not str(data.get("pack_version", "")).strip():
+        errors.append("pack.pack_version is required.")
+    if not isinstance(data.get("sections"), list) or not data.get("sections"):
+        errors.append("pack.sections must be a non-empty array.")
+        return errors
+
+    seen_question_ids: set[str] = set()
+    for section_index, section in enumerate(data["sections"]):
+        section_path = f"sections[{section_index}]"
+        if not isinstance(section, dict):
+            errors.append(f"{section_path} must be an object.")
+            continue
+
+        _require_fields(section, ["section_id", "title", "questions"], section_path, errors)
+        if not isinstance(section.get("questions"), list) or not section.get("questions"):
+            errors.append(f"{section_path}.questions must be a non-empty array.")
+            continue
+
+        for question_index, question in enumerate(section["questions"]):
+            question_path = f"{section_path}.questions[{question_index}]"
+            _validate_question(question, question_path, seen_question_ids, errors)
+
+    return errors
+
+
+def _validate_question(question: Any, path: str, seen_question_ids: set[str], errors: list[str]) -> None:
+    if not isinstance(question, dict):
+        errors.append(f"{path} must be an object.")
+        return
+
+    _require_fields(question, ["question_id", "order", "skill", "prompt", "answer", "explanation"], path, errors)
+
+    question_id = question.get("question_id")
+    if isinstance(question_id, str):
+        if question_id in seen_question_ids:
+            errors.append(f"{path}.question_id {question_id!r} is duplicated.")
+        seen_question_ids.add(question_id)
+
+    answer = question.get("answer")
+    if not isinstance(answer, dict):
+        errors.append(f"{path}.answer must be an object.")
+        return
+
+    answer_type = answer.get("type")
+    if answer_type not in SUPPORTED_ANSWER_TYPES:
+        errors.append(f"{path}.answer.type must be one of {sorted(SUPPORTED_ANSWER_TYPES)}.")
+        return
+
+    if answer_type == "single_choice":
+        options = question.get("options")
+        if not isinstance(options, list) or not options:
+            errors.append(f"{path}.options must be a non-empty array for single_choice.")
+            return
+        option_ids = {str(option.get("id")) for option in options if isinstance(option, dict) and option.get("id") is not None}
+        correct_option_id = answer.get("correct_option_id")
+        if correct_option_id not in option_ids:
+            errors.append(f"{path}.answer.correct_option_id must match an option id.")
+
+    if answer_type == "short_answer":
+        accepted = answer.get("accepted_answers")
+        if not isinstance(accepted, list) or not accepted:
+            errors.append(f"{path}.answer.accepted_answers must be a non-empty array for short_answer.")
+
+    explanation = question.get("explanation")
+    if not isinstance(explanation, dict):
+        errors.append(f"{path}.explanation must be an object.")
+    elif not str(explanation.get("summary", "")).strip():
+        errors.append(f"{path}.explanation.summary is required.")
+
+
+def _require_fields(data: dict[str, Any], fields: list[str], path: str, errors: list[str]) -> None:
+    for field in fields:
+        if field not in data:
+            errors.append(f"{path}.{field} is required.")

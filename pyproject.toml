@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topik-sim"
+version = "0.1.0"
+description = "TOPIK exam simulation CLI with grading and teaching feedback"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "TOPIK Simulator Contributors" }]
+
+[project.scripts]
+topik-sim = "topik_sim.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
