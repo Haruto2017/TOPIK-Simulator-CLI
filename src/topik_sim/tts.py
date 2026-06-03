@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -12,6 +13,7 @@ DEFAULT_TTS_PROVIDER = "melo"
 DEFAULT_TTS_LANGUAGE = "KR"
 DEFAULT_TTS_DEVICE = "cuda:0"
 DEFAULT_AUDIO_DIR = Path("data") / "audio_cache"
+DEFAULT_MODEL_CACHE_DIR = Path("data") / "model_cache"
 
 
 class TTSProvider(Protocol):
@@ -32,6 +34,7 @@ class TTSConfig:
 
 
 def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
+    configure_utf8_output()
     output_paths: list[Path] = []
     provider: TTSProvider | None = None
     config.output_dir.mkdir(parents=True, exist_ok=True)
@@ -59,6 +62,12 @@ def build_provider(provider_name: str) -> TTSProvider:
     if normalized == "xtts-v2":
         return XTTSV2Provider()
     raise ValueError(f"Unknown TTS provider {provider_name!r}. Supported providers: melo, xtts-v2.")
+
+
+def configure_utf8_output() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
 
 
 def collect_question_speech_texts(
@@ -139,7 +148,7 @@ class MeloTTSProvider:
     def synthesize_to_file(self, text: str, output_path: Path, config: TTSConfig) -> None:
         model = self._load_model(config)
         speaker_ids = model.hps.data.spk2id
-        speaker_id = speaker_ids.get(config.language) or speaker_ids.get("KR")
+        speaker_id = lookup_speaker_id(speaker_ids, config.language) or lookup_speaker_id(speaker_ids, "KR")
         if speaker_id is None:
             raise RuntimeError(f"MeloTTS model does not expose a speaker for {config.language!r}.")
         model.tts_to_file(text, speaker_id, str(output_path), speed=config.speed)
@@ -147,6 +156,8 @@ class MeloTTSProvider:
     def _load_model(self, config: TTSConfig) -> Any:
         if self._model is not None:
             return self._model
+        configure_model_cache()
+        configure_mecab_dictionary()
         try:
             from melo.api import TTS
         except ImportError as exc:
@@ -182,3 +193,54 @@ class XTTSV2Provider:
         use_gpu = config.device.startswith("cuda")
         self._model = TTS("tts_models/multilingual/multi-dataset/xtts_v2", gpu=use_gpu)
         return self._model
+
+
+def configure_mecab_dictionary() -> Path | None:
+    try:
+        import unidic_lite
+    except ImportError:
+        return Path(os.environ["MECABRC"]) if os.environ.get("MECABRC") else None
+    mecabrc = Path(unidic_lite.__file__).resolve().parent / "dicdir" / "mecabrc"
+    if mecabrc.exists():
+        dicdir = mecabrc.parent
+        try:
+            import unidic
+
+            unidic.DICDIR = str(dicdir)
+        except ImportError:
+            pass
+        os.environ["MECABRC"] = str(mecabrc)
+        return mecabrc
+    return Path(os.environ["MECABRC"]) if os.environ.get("MECABRC") else None
+
+
+def configure_model_cache(cache_dir: str | Path = DEFAULT_MODEL_CACHE_DIR) -> Path:
+    cache_path = Path(cache_dir)
+    cache_path.mkdir(parents=True, exist_ok=True)
+    hf_home = cache_path / "huggingface"
+    hf_home.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("HF_HOME", str(hf_home))
+    os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hf_home / "hub"))
+    os.environ.setdefault("TRANSFORMERS_CACHE", str(hf_home / "transformers"))
+    os.environ.setdefault("XDG_CACHE_HOME", str(cache_path))
+    nltk_data = cache_path / "nltk_data"
+    nltk_data.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("NLTK_DATA", str(nltk_data))
+    try:
+        import nltk.data
+
+        nltk_path = str(nltk_data)
+        if nltk_path not in nltk.data.path:
+            nltk.data.path.insert(0, nltk_path)
+    except ImportError:
+        pass
+    return cache_path
+
+
+def lookup_speaker_id(speaker_ids: Any, language: str) -> Any | None:
+    if hasattr(speaker_ids, "get"):
+        return speaker_ids.get(language)
+    try:
+        return speaker_ids[language]
+    except (KeyError, TypeError):
+        return getattr(speaker_ids, language, None)

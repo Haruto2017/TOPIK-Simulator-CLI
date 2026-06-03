@@ -26,7 +26,15 @@ This machine already exposes an NVIDIA GPU through `nvidia-smi`. The app default
 
 ## Recommended Install
 
-Use a standard Windows CPython installation from python.org or a Conda environment. The MSYS/MINGW Python build does not receive the normal Windows PyTorch CUDA wheels, so GPU PyTorch installation can fail with "No matching distribution found for torch".
+Use a standard Windows CPython installation from python.org, the official NuGet CPython package, or a Conda environment. The MSYS/MINGW Python build does not receive the normal Windows PyTorch CUDA wheels, so GPU PyTorch installation can fail with "No matching distribution found for torch".
+
+This workspace has been verified with a project-local full CPython runtime at:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe
+```
+
+The `tools/runtime/` folder is ignored by Git because it contains the local Python runtime and large installed packages.
 
 Create an isolated environment before installing model dependencies:
 
@@ -44,6 +52,7 @@ Then install MeloTTS:
 
 ```powershell
 python -m pip install -r requirements-tts.txt
+python -m pip install eunjeon
 ```
 
 The first synthesis run may download model weights.
@@ -52,8 +61,8 @@ The first synthesis run may download model weights.
 
 ```powershell
 $env:PYTHONPATH = "src"
-python tools/check_tts_setup.py
-python tools/check_tts_setup.py --synthesize
+.\tools\runtime\python311-full\tools\python.exe tools/check_tts_setup.py
+.\tools\runtime\python311-full\tools\python.exe tools/check_tts_setup.py --synthesize
 ```
 
 The synthesis check writes a WAV file under `data/audio_cache/`.
@@ -65,6 +74,13 @@ Generate audio for direct text:
 ```powershell
 $env:PYTHONPATH = "src"
 python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-play
+```
+
+With the project-local full CPython runtime:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-play
 ```
 
 Speak question passages while taking a test:

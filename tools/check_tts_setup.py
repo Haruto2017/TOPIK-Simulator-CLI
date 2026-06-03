@@ -8,7 +8,7 @@ import platform
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from topik_sim.tts import TTSConfig, synthesize_many
+from topik_sim.tts import TTSConfig, configure_mecab_dictionary, configure_model_cache, synthesize_many
 
 
 def main() -> int:
@@ -19,6 +19,8 @@ def main() -> int:
 
     print(f"Python: {platform.python_version()} ({sys.executable})")
     check_python_runtime()
+    cache_dir = configure_model_cache(ROOT / "data" / "model_cache")
+    print(f"Model cache: {cache_dir}")
     check_torch(args.device)
     check_melotts()
 
@@ -54,6 +56,9 @@ def check_torch(device: str) -> None:
 
 def check_melotts() -> None:
     try:
+        mecabrc = configure_mecab_dictionary()
+        if mecabrc:
+            print(f"MeCab dictionary: {mecabrc}")
         from melo.api import TTS  # noqa: F401
     except ImportError:
         print("MeloTTS is not installed.")
