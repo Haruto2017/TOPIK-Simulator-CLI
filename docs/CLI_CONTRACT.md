@@ -63,11 +63,34 @@ Default runtime locations:
 
 TTS behavior:
 
-- `--speak-question`: generate Korean audio for question passages.
+- Listening questions automatically generate and play Korean audio from transcript-backed `passage` text during `take`.
+- Listening transcripts are hidden by default during `take`.
+- `--show-transcript`: show listening transcripts for content debugging.
+- `--no-listening-audio`: disable automatic listening audio.
+- `--speak-question`: generate Korean audio for non-listening question passages too.
 - `--speak-teaching`: generate Korean audio for vocabulary and grammar examples in feedback.
 - `--tts-play`: play generated audio immediately.
 - `--tts-device cuda:0`: run provider on the first CUDA GPU.
 - Generated audio is cached under `data/audio_cache` by default.
+
+For the local CUDA TTS runtime in this workspace, prefer:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+```
+
+To hear teaching notes after missed answers:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --speak-teaching --tts-play
+```
+
+To hear teaching notes for correct answers too:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-teaching --speak-teaching --tts-play
+```
 
 ## `review-attempt`
 

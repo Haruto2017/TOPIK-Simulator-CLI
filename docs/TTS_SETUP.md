@@ -86,13 +86,25 @@ $env:PYTHONPATH = "src"
 Speak question passages while taking a test:
 
 ```powershell
-python -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --tts-play
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --tts-play
 ```
 
 Speak vocabulary and grammar examples in teaching notes:
 
 ```powershell
-python -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --speak-teaching --tts-play
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take examples/content/topik_i_mini_pack.json --speak-question --speak-teaching --tts-play
+```
+
+Listening questions in `take` mode automatically play audio and hide transcript text. Use this for the full sample exam:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+```
+
+Show transcript text only when debugging content:
+
+```powershell
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --show-transcript --no-listening-audio
 ```
 
 Use CPU fallback:

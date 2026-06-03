@@ -62,9 +62,11 @@ def build_parser() -> argparse.ArgumentParser:
     take.add_argument("--section", help="Only run one section_id.")
     take.add_argument("--limit", type=int, help="Limit the number of questions.")
     take.add_argument("--show-teaching", action="store_true", help="Show teaching notes for correct answers too.")
+    take.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while taking a test.")
     add_tts_arguments(take)
     take.add_argument("--speak-question", action="store_true", help="Generate Korean audio for each question while taking a test.")
     take.add_argument("--speak-teaching", action="store_true", help="Generate Korean audio for vocabulary and example sentences in teaching notes.")
+    take.add_argument("--no-listening-audio", action="store_true", help="Do not automatically play audio for listening questions.")
     take.set_defaults(handler=handle_take)
 
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
@@ -169,9 +171,10 @@ def handle_take(args: argparse.Namespace) -> int:
     tts_config = build_tts_config(args)
 
     for index, question in enumerate(questions, start=1):
-        if args.speak_question:
-            speak_question(question, tts_config, include_explanation=False)
-        print_question(index, question)
+        listening_audio = is_listening_question(question) and not args.no_listening_audio
+        if args.speak_question or listening_audio:
+            speak_question(question, tts_config, include_explanation=False, playback=listening_audio or args.tts_play)
+        print_question(index, question, show_transcript=args.show_transcript)
         response = input("Your answer: ")
         attempt = answer_question(attempt, pack, response)
         result = grade_question(question, response)
@@ -179,7 +182,7 @@ def handle_take(args: argparse.Namespace) -> int:
         if args.show_teaching or not result["correct"]:
             print_feedback(result["feedback"])
             if args.speak_teaching:
-                speak_question(question, tts_config, include_explanation=True)
+                speak_question(question, tts_config, include_explanation=True, playback=args.tts_play)
         save_attempt_to_dir(attempt, args.attempt_dir)
 
     attempt = complete_attempt(attempt, pack)
@@ -294,7 +297,17 @@ def build_tts_config(args: argparse.Namespace) -> TTSConfig:
     )
 
 
-def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool) -> None:
+def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool, playback: bool) -> None:
+    config = TTSConfig(
+        provider=config.provider,
+        language=config.language,
+        device=config.device,
+        output_dir=config.output_dir,
+        speed=config.speed,
+        playback=playback,
+        force=config.force,
+        speaker_wav=config.speaker_wav,
+    )
     texts = collect_question_speech_texts(
         question,
         include_passage=not include_explanation,
@@ -312,15 +325,33 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
         print(f"Audio: {path}")
 
 
-def print_question(index: int, question: dict[str, Any]) -> None:
+def print_question(index: int, question: dict[str, Any], show_transcript: bool = True) -> None:
     print(f"Question {index}: {question['question_id']}")
-    if question.get("passage"):
-        print(question["passage"])
-    if question.get("audio_ref"):
+    passage = question_display_passage(question, show_transcript=show_transcript)
+    if passage:
+        print(passage)
+    if question.get("audio_ref") and not is_transcript_only_audio(question):
         print(f"Audio reference: {question['audio_ref']}")
     print(question["prompt"])
     for option in question.get("options", []):
         print(f"  {option['id']}. {option['text']}")
+
+
+def question_display_passage(question: dict[str, Any], show_transcript: bool) -> str | None:
+    passage = str(question.get("passage", "")).strip()
+    if not passage:
+        return None
+    if is_listening_question(question) and not show_transcript:
+        return None
+    return passage
+
+
+def is_listening_question(question: dict[str, Any]) -> bool:
+    return str(question.get("skill", "")).lower() == "listening" or bool(question.get("audio_ref"))
+
+
+def is_transcript_only_audio(question: dict[str, Any]) -> bool:
+    return str(question.get("audio_ref", "")).startswith("transcript-only:")
 
 
 def print_feedback(feedback: dict[str, Any]) -> None:

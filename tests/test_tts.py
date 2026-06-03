@@ -4,7 +4,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 from topik_sim.content import load_pack
-from topik_sim.tts import TTSConfig, collect_question_speech_texts, synthesize_many, stable_audio_name
+from topik_sim.cli import is_listening_question, question_display_passage
+from topik_sim.tts import TTSConfig, collect_question_speech_texts, synthesize_many, stable_audio_name, transcript_text
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,7 +39,20 @@ class TTSTests(unittest.TestCase):
             build_provider.assert_not_called()
             self.assertEqual(paths, [existing])
 
+    def test_listening_transcript_is_speech_source_but_hidden_by_default(self):
+        question = {
+            "question_id": "l-001",
+            "skill": "listening",
+            "audio_ref": "transcript-only:l-001",
+            "passage": "Transcript: 안녕하세요.",
+            "prompt": "What is the speaker saying?",
+        }
+        self.assertTrue(is_listening_question(question))
+        self.assertEqual(transcript_text(question), "안녕하세요.")
+        self.assertEqual(collect_question_speech_texts(question), ["안녕하세요."])
+        self.assertIsNone(question_display_passage(question, show_transcript=False))
+        self.assertEqual(question_display_passage(question, show_transcript=True), "Transcript: 안녕하세요.")
+
 
 if __name__ == "__main__":
     unittest.main()
-

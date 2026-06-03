@@ -24,6 +24,13 @@ python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다."
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json
 ```
 
+For local GPU Korean TTS, use the project-local full Python runtime:
+
+```powershell
+$env:PYTHONPATH = "src"
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0
+```
+
 ## Workspace Map
 
 - `AGENTS.md`: standing instructions for future coding agents.

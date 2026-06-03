@@ -79,7 +79,7 @@ def collect_question_speech_texts(
 ) -> list[str]:
     texts: list[str] = []
     if include_passage:
-        value = str(question.get("passage", "")).strip()
+        value = transcript_text(question) or str(question.get("passage", "")).strip()
         if value:
             texts.append(value)
 
@@ -111,6 +111,13 @@ def stable_audio_name(text: str, provider: str, language: str) -> str:
 
 def looks_korean(text: str) -> bool:
     return any("\uac00" <= char <= "\ud7a3" for char in text)
+
+
+def transcript_text(question: dict[str, Any]) -> str:
+    passage = str(question.get("passage", "")).strip()
+    if passage.lower().startswith("transcript:"):
+        return passage.split(":", 1)[1].strip()
+    return passage
 
 
 def dedupe(items: list[str]) -> list[str]:
