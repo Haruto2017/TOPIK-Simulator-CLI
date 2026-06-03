@@ -27,6 +27,7 @@ python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answe
 
 - `AGENTS.md`: standing instructions for future coding agents.
 - `context/`: concise context files for session handoff.
+- `skills/topik-content-authoring/`: reusable agent skill for adding exams and tutorials.
 - `docs/`: architecture, CLI, content contract, and roadmap.
 - `src/topik_sim/`: simulator CLI and core logic.
 - `examples/`: minimal content and answer files used to prove the contract.

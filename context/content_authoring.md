@@ -1,6 +1,6 @@
 # Content-Authoring Context
 
-Content authors should create JSON exam packs that follow `docs/CONTENT_CONTRACT.md`.
+Content authors should load `skills/topik-content-authoring/SKILL.md`, then create JSON exam packs that follow `docs/CONTENT_CONTRACT.md`.
 
 Expected workflow:
 

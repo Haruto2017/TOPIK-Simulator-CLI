@@ -1,0 +1,4 @@
+interface:
+  display_name: "TOPIK Content Authoring"
+  short_description: "Add TOPIK exam packs and teaching tutorials."
+  default_prompt: "Use this skill to add or update TOPIK exam questions, answer keys, explanations, and tutorials for the simulator."

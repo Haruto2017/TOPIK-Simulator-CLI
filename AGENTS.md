@@ -28,6 +28,7 @@ For software-building sessions:
 
 For content-authoring sessions:
 
+- Load `skills/topik-content-authoring/SKILL.md` before adding exam packs, answer explanations, or tutorial material.
 - Add or revise exam packs under `content/` or `examples/content/`.
 - Run `python -m topik_sim validate-content <pack.json>` before handoff.
 - Run `python -m topik_sim import-pack <pack.json>` to test the versioned loading pipeline.
