@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 import sys
+import tempfile
+from dataclasses import replace
 from pathlib import Path
 
 from .tts import TTSConfig, build_provider, play_audio, synthesize_many
@@ -34,6 +36,7 @@ def build_parser() -> argparse.ArgumentParser:
     speak = subparsers.add_parser("speak", help="Generate Korean TTS audio for direct text.")
     speak.add_argument("text", nargs="+", help="Text to synthesize.")
     add_tts_arguments(speak)
+    speak.add_argument("--save", action="store_true", help="Keep the generated WAV in --tts-output-dir instead of using temporary playback.")
     speak.set_defaults(handler=handle_speak)
 
     speakers = subparsers.add_parser("list-speakers", help="List voices exposed by the selected TTS provider.")
@@ -48,10 +51,15 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def handle_speak(args: argparse.Namespace) -> int:
-    config = build_tts_config(args)
     text = " ".join(args.text)
     try:
-        paths = synthesize_many([text], config)
+        if args.save:
+            paths = synthesize_many([text], build_tts_config(args))
+        else:
+            with tempfile.TemporaryDirectory(prefix="topik-tts-") as temp_dir:
+                config = replace(build_tts_config(args), output_dir=Path(temp_dir), playback=True, force=True)
+                synthesize_many([text], config)
+                paths = []
     except RuntimeError as exc:
         print(str(exc), file=sys.stderr)
         return 1

@@ -163,6 +163,39 @@ class TTSTests(unittest.TestCase):
         self.assertEqual(exit_code, 1)
         self.assertIn("Audio file not found", output.getvalue())
 
+    def test_tts_cli_speak_plays_temp_audio_by_default(self):
+        captured = {}
+
+        def fake_synthesize(texts, config):
+            captured["texts"] = texts
+            captured["config"] = config
+            self.assertNotEqual(config.output_dir, Path("data/audio_cache"))
+            return [config.output_dir / "spoken.wav"]
+
+        output = StringIO()
+        with patch("topik_sim.tts_cli.synthesize_many", side_effect=fake_synthesize), redirect_stdout(output):
+            exit_code = tts_main(["speak", "hello"])
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(captured["texts"], ["hello"])
+        self.assertTrue(captured["config"].playback)
+        self.assertTrue(captured["config"].force)
+        self.assertEqual(output.getvalue(), "")
+
+    def test_tts_cli_speak_save_keeps_and_prints_cached_audio(self):
+        def fake_synthesize(texts, config):
+            self.assertEqual(config.output_dir, Path("data/audio_cache"))
+            self.assertFalse(config.playback)
+            return [config.output_dir / "spoken.wav"]
+
+        output = StringIO()
+        with patch("topik_sim.tts_cli.synthesize_many", side_effect=fake_synthesize), redirect_stdout(output):
+            exit_code = tts_main(["speak", "hello", "--save"])
+
+        self.assertEqual(exit_code, 0)
+        self.assertIn("data", output.getvalue())
+        self.assertIn("spoken.wav", output.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()

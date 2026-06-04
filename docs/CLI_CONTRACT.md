@@ -209,8 +209,10 @@ Generates Korean TTS audio for direct text. This command remains available under
 
 ```powershell
 python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." [--tts-play]
-python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." [--tts-play]
+python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다."
 ```
+
+`topik-sim speak` writes to the audio cache and prints the path. `topik-tts speak` plays directly by default and cleans up its temporary WAV. Use `--save` with `topik-tts speak` to keep the generated WAV and print its path.
 
 Default provider:
 
@@ -240,7 +242,8 @@ For Supertonic, use a printed voice preset such as `F1`. For MeloTTS Korean, use
 Use this when you only want speech generation, voice listing, or WAV playback without the exam simulator commands.
 
 ```powershell
-python -m topik_sim.tts_cli speak "안녕하세요." --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요."
+python -m topik_sim.tts_cli speak "안녕하세요." --save
 python -m topik_sim.tts_cli list-speakers
 python -m topik_sim.tts_cli play data/audio_cache/<file>.wav
 ```
@@ -248,7 +251,8 @@ python -m topik_sim.tts_cli play data/audio_cache/<file>.wav
 When installed as a package, the same commands are exposed as:
 
 ```powershell
-topik-tts speak "안녕하세요." --tts-play
+topik-tts speak "안녕하세요."
+topik-tts speak "안녕하세요." --save
 topik-tts list-speakers
 topik-tts play data/audio_cache/<file>.wav
 ```
