@@ -182,6 +182,7 @@ def handle_simulate(args: argparse.Namespace) -> int:
         results.append(result)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
         print_feedback(result["feedback"])
+        prompt_after_answer([])
 
     score = sum(result["points_awarded"] for result in results)
     max_score = sum(result["max_points"] for result in results)
@@ -311,13 +312,14 @@ def run_attempt_questions(
         print_question(index, question, show_transcript=show_transcript)
         response = prompt_for_answer(question_audio_paths)
         attempt = answer_question(attempt, pack, response)
+        save_attempt(attempt, save_path)
         result = grade_question(question, response)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
         print_post_answer_transcript(question, was_shown_before_answer=show_transcript)
         print_feedback(result["feedback"])
         if speak_teaching:
             speak_question(question, tts_config, include_explanation=True, playback=tts_play)
-        save_attempt(attempt, save_path)
+        prompt_after_answer(question_audio_paths)
     return attempt
 
 
@@ -565,11 +567,26 @@ def prompt_for_answer(audio_paths: list[Path]) -> str:
         response = input("Your answer (or /replay): ")
         if not is_replay_request(response):
             return response
-        if not audio_paths:
-            print("No question audio is available to replay.")
+        replay_audio_paths(audio_paths)
+
+
+def prompt_after_answer(audio_paths: list[Path]) -> None:
+    while True:
+        response = input("Press Enter for next question, or /replay: ").strip()
+        if not response:
+            return
+        if is_replay_request(response):
+            replay_audio_paths(audio_paths)
             continue
-        for path in audio_paths:
-            play_audio(path)
+        print("Press Enter to continue, or type /replay.")
+
+
+def replay_audio_paths(audio_paths: list[Path]) -> None:
+    if not audio_paths:
+        print("No question audio is available to replay.")
+        return
+    for path in audio_paths:
+        play_audio(path)
 
 
 def is_replay_request(value: str) -> bool:

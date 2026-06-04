@@ -120,7 +120,7 @@ Listening questions in `take` mode automatically play audio, hide transcript tex
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
-At the answer prompt, enter `/replay`, `/r`, or `replay` to hear the current question audio again.
+At the answer prompt, enter `/replay`, `/r`, or `replay` to hear the current question audio again. After answering, the app pauses on the transcript and explanation; press Enter for the next question or enter `/replay` again to hear the just-answered question audio.
 
 Show transcript text only when debugging content:
 

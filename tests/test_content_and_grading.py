@@ -125,7 +125,7 @@ class ContentAndGradingTests(unittest.TestCase):
             save_attempt(attempt, attempt_path)
 
             output = StringIO()
-            with patch("builtins.input", return_value="C"), redirect_stdout(output):
+            with patch("builtins.input", side_effect=["C", ""]), redirect_stdout(output):
                 exit_code = main(["resume-attempt", str(attempt_path), "--library", str(library_dir)])
 
             self.assertEqual(exit_code, 0)
@@ -174,7 +174,7 @@ class ContentAndGradingTests(unittest.TestCase):
             save_attempt(attempt, attempt_path)
 
             output = StringIO()
-            with patch("builtins.input", side_effect=["1", "C"]), redirect_stdout(output):
+            with patch("builtins.input", side_effect=["1", "C", ""]), redirect_stdout(output):
                 exit_code = main(
                     [
                         "resume-attempt",

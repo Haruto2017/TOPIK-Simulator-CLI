@@ -40,6 +40,7 @@ Behavior:
 - Grades each answer.
 - Prints a final score.
 - Prints teaching feedback after every answer.
+- Pauses after feedback; press Enter to move on.
 - `--show-teaching` is kept for compatibility; feedback is always shown.
 
 ## `take`
@@ -67,6 +68,7 @@ TTS behavior:
 - Listening transcripts are hidden by default during `take`.
 - Listening transcripts are printed after the learner answers.
 - At the answer prompt, enter `/replay`, `/r`, or `replay` to play the current question audio again.
+- After feedback, press Enter for the next question or enter `/replay`, `/r`, or `replay` to hear the just-answered question audio again.
 - `--show-transcript`: show listening transcripts for content debugging.
 - `--no-listening-audio`: disable automatic listening audio.
 - `--speak-question`: generate Korean audio for non-listening question passages too.
@@ -131,6 +133,7 @@ Behavior:
 - Saves back to the same attempt JSON file after each new answer.
 - Prints teaching feedback after every answer.
 - Prints listening transcripts after the learner answers.
+- Pauses after feedback; press Enter for the next question or enter `/replay`, `/r`, or `replay` to hear the just-answered question audio again.
 - Completes and grades the attempt after the last unanswered question.
 
 ## `list-attempts`

@@ -10,6 +10,7 @@ from topik_sim.cli import (
     is_listening_question,
     is_replay_request,
     print_post_answer_transcript,
+    prompt_after_answer,
     question_display_passage,
 )
 from topik_sim.content import load_pack
@@ -117,6 +118,12 @@ class TTSTests(unittest.TestCase):
         self.assertTrue(is_replay_request(" replay "))
         self.assertFalse(is_replay_request("A"))
         self.assertFalse(is_replay_request("r"))
+
+    def test_post_answer_pause_can_replay_before_continuing(self):
+        output = StringIO()
+        with patch("builtins.input", side_effect=["/replay", ""]), redirect_stdout(output):
+            prompt_after_answer([])
+        self.assertIn("No question audio is available to replay.", output.getvalue())
 
     def test_tts_volume_must_be_positive(self):
         class Args:

@@ -34,7 +34,7 @@ $env:PYTHONPATH = "src"
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
-During a listening question, type `/replay` at the answer prompt to hear the audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.
+During a listening question, type `/replay` at the answer prompt to hear the audio again. After answering, the app pauses on the explanation; press Enter for the next question or type `/replay` to hear the previous question audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.
 
 ## Workspace Map
 
