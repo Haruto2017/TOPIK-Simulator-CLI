@@ -21,6 +21,7 @@ from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
 from .tts import TTSConfig, build_provider, collect_question_speech_texts, play_audio, synthesize_many
+from .tts_cli import add_tts_arguments, build_tts_config
 
 
 REPLAY_COMMANDS = {"/replay", "/r", "replay"}
@@ -488,44 +489,6 @@ def load_answer_file(path: str | Path) -> dict[str, str]:
     if isinstance(data, dict):
         return {str(key): str(value) for key, value in data.items()}
     raise ValueError("Answer file must be an object or contain an answers array.")
-
-
-def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--tts-provider", default="supertonic", choices=["supertonic", "melo", "xtts-v2"], help="Local TTS provider.")
-    parser.add_argument("--tts-language", default="KR", help="TTS language code. Use KR for Korean.")
-    parser.add_argument("--tts-device", default="cuda:0", help="TTS device, such as cuda:0 or cpu.")
-    parser.add_argument("--tts-output-dir", default="data/audio_cache", help="Directory for generated WAV files.")
-    parser.add_argument("--tts-speed", type=float, default=1.0, help="Speech speed multiplier.")
-    parser.add_argument("--tts-volume", type=float, default=1.0, help="Audio gain multiplier for generated WAV files.")
-    parser.add_argument("--tts-play", action="store_true", help="Play generated audio immediately.")
-    parser.add_argument("--tts-force", action="store_true", help="Regenerate audio even when cached.")
-    parser.add_argument("--tts-speaker-id", help="Provider speaker name or numeric speaker id when supported.")
-    parser.add_argument("--tts-speaker-wav", help="Reference WAV file for XTTS-v2.")
-    parser.add_argument("--tts-onnx-provider", default="dml", choices=["dml", "cpu", "default"], help="Supertonic ONNX backend.")
-    parser.add_argument("--tts-steps", type=int, default=10, help="Supertonic synthesis steps.")
-    parser.add_argument("--tts-python", help="Python executable for subprocess-based TTS providers.")
-
-
-def build_tts_config(args: argparse.Namespace) -> TTSConfig:
-    if args.tts_volume <= 0:
-        raise ValueError("--tts-volume must be greater than 0.")
-    if args.tts_steps <= 0:
-        raise ValueError("--tts-steps must be greater than 0.")
-    return TTSConfig(
-        provider=args.tts_provider,
-        language=args.tts_language,
-        device=args.tts_device,
-        output_dir=Path(args.tts_output_dir),
-        speed=args.tts_speed,
-        volume=args.tts_volume,
-        playback=args.tts_play,
-        force=args.tts_force,
-        speaker_id=args.tts_speaker_id,
-        speaker_wav=Path(args.tts_speaker_wav) if args.tts_speaker_wav else None,
-        onnx_provider=args.tts_onnx_provider,
-        steps=args.tts_steps,
-        tts_python=Path(args.tts_python) if args.tts_python else None,
-    )
 
 
 def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool, playback: bool) -> list[Path]:

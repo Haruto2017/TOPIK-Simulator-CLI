@@ -205,10 +205,11 @@ python -m topik_sim validate-library [--library <library_dir>]
 
 ## `speak`
 
-Generates Korean TTS audio for direct text.
+Generates Korean TTS audio for direct text. This command remains available under `topik-sim`, but TTS-only workflows should prefer the dedicated `topik-tts` CLI.
 
 ```powershell
 python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." [--tts-play]
+python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." [--tts-play]
 ```
 
 Default provider:
@@ -225,13 +226,32 @@ Alternate provider:
 
 ## `list-tts-speakers`
 
-Lists provider voices that can be passed to `--tts-speaker-id`.
+Lists provider voices that can be passed to `--tts-speaker-id`. TTS-only workflows should prefer `topik-tts list-speakers`.
 
 ```powershell
 python -m topik_sim list-tts-speakers [--tts-provider supertonic]
+python -m topik_sim.tts_cli list-speakers [--tts-provider supertonic]
 ```
 
 For Supertonic, use a printed voice preset such as `F1`. For MeloTTS Korean, use either the printed speaker name or numeric ID. XTTS-v2 uses `--tts-speaker-wav` instead of a built-in speaker list.
+
+## Dedicated TTS CLI
+
+Use this when you only want speech generation, voice listing, or WAV playback without the exam simulator commands.
+
+```powershell
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-play
+python -m topik_sim.tts_cli list-speakers
+python -m topik_sim.tts_cli play data/audio_cache/<file>.wav
+```
+
+When installed as a package, the same commands are exposed as:
+
+```powershell
+topik-tts speak "안녕하세요." --tts-play
+topik-tts list-speakers
+topik-tts play data/audio_cache/<file>.wav
+```
 
 See `docs/TTS_SETUP.md` for installation and GPU verification.
 

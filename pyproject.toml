@@ -12,6 +12,7 @@ authors = [{ name = "TOPIK Simulator Contributors" }]
 
 [project.scripts]
 topik-sim = "topik_sim.cli:main"
+topik-tts = "topik_sim.tts_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

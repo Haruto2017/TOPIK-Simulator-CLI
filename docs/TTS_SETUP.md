@@ -75,11 +75,13 @@ The synthesis check writes a WAV file under `data/audio_cache/`.
 
 ## CLI Usage
 
+From a source checkout, use `python -m topik_sim.tts_cli` for standalone speech commands. After package installation, the same interface is available as `topik-tts`.
+
 Generate audio for direct text:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider supertonic --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider supertonic --tts-play
 ```
 
 The default Supertonic provider will try to use:
@@ -92,14 +94,14 @@ Override that runtime when needed:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python -m topik_sim speak "안녕하세요." --tts-provider supertonic --tts-python H:\software\anki\.tts-venv\Scripts\python.exe --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-provider supertonic --tts-python H:\software\anki\.tts-venv\Scripts\python.exe --tts-play
 ```
 
 With the project-local full CPython runtime and MeloTTS CUDA:
 
 ```powershell
 $env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider melo --tts-play
+.\tools\runtime\python311-full\tools\python.exe -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider melo --tts-play
 ```
 
 Speak question passages while taking a test:
@@ -132,7 +134,7 @@ Adjust generated WAV volume:
 
 ```powershell
 python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
-python -m topik_sim speak "안녕하세요." --tts-volume 1.2 --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-volume 1.2 --tts-play
 ```
 
 Volume is part of the audio cache key, so different volume settings create separate cached WAV files.
@@ -140,25 +142,25 @@ Volume is part of the audio cache key, so different volume settings create separ
 List built-in provider speakers:
 
 ```powershell
-python -m topik_sim list-tts-speakers --tts-provider supertonic
+python -m topik_sim.tts_cli list-speakers --tts-provider supertonic
 ```
 
 Choose a printed speaker name or numeric ID:
 
 ```powershell
-python -m topik_sim speak "안녕하세요." --tts-speaker-id F1 --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-speaker-id F1 --tts-play
 ```
 
 For Supertonic, `--tts-speaker-id` selects a voice preset such as `F1`, `F2`, or `M1`:
 
 ```powershell
-python -m topik_sim speak "안녕하세요." --tts-provider supertonic --tts-speaker-id F1 --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-provider supertonic --tts-speaker-id F1 --tts-play
 ```
 
 Use CPU fallback:
 
 ```powershell
-python -m topik_sim speak "도서관에서 책을 읽습니다." --tts-provider supertonic --tts-onnx-provider cpu
+python -m topik_sim.tts_cli speak "도서관에서 책을 읽습니다." --tts-provider supertonic --tts-onnx-provider cpu
 ```
 
 ## XTTS-v2 Alternate
@@ -172,7 +174,7 @@ python -m pip install TTS
 Use a reference voice file:
 
 ```powershell
-python -m topik_sim speak "안녕하세요." --tts-provider xtts-v2 --tts-speaker-wav path\to\reference.wav --tts-play
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-provider xtts-v2 --tts-speaker-wav path\to\reference.wav --tts-play
 ```
 
 Check the XTTS-v2 model license before distributing generated voices or bundled model files.

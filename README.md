@@ -23,7 +23,7 @@ python -m topik_sim take topik-i-mini-pack --section reading --limit 2
 python -m topik_sim list-attempts
 python -m topik_sim resume-attempt data/attempts/<attempt_id>.json
 python -m topik_sim resume-attempt
-python -m topik_sim speak "안녕하세요. 오늘은 날씨가 좋습니다."
+python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다."
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json
 ```
 

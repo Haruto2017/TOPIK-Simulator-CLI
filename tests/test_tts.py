@@ -23,6 +23,7 @@ from topik_sim.tts import (
     synthesize_many,
     transcript_text,
 )
+from topik_sim.tts_cli import main as tts_main
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -147,6 +148,20 @@ class TTSTests(unittest.TestCase):
     def test_supertonic_provider_is_available_without_loading_model(self):
         provider = build_provider("supertonic")
         self.assertIn("F1", provider.list_speakers(TTSConfig(provider="supertonic")))
+
+    def test_tts_cli_lists_supertonic_speakers(self):
+        output = StringIO()
+        with redirect_stdout(output):
+            exit_code = tts_main(["list-speakers"])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("F1", output.getvalue())
+
+    def test_tts_cli_play_reports_missing_audio(self):
+        output = StringIO()
+        with redirect_stdout(output), patch("sys.stderr", output):
+            exit_code = tts_main(["play", "missing.wav"])
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Audio file not found", output.getvalue())
 
 
 if __name__ == "__main__":
