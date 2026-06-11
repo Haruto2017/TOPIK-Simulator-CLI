@@ -6,6 +6,7 @@ import tempfile
 from dataclasses import replace
 from pathlib import Path
 
+from .config import config_value, load_config
 from .tts import TTSConfig, build_provider, play_audio, synthesize_many
 
 
@@ -92,20 +93,22 @@ def handle_play(args: argparse.Namespace) -> int:
     return 0
 
 
-def add_tts_arguments(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--tts-provider", default="supertonic", choices=["supertonic", "melo", "xtts-v2"], help="Local TTS provider.")
-    parser.add_argument("--tts-language", default="KR", help="TTS language code. Use KR for Korean.")
-    parser.add_argument("--tts-device", default="cuda:0", help="TTS device, such as cuda:0 or cpu.")
-    parser.add_argument("--tts-output-dir", default="data/audio_cache", help="Directory for generated WAV files.")
-    parser.add_argument("--tts-speed", type=float, default=1.0, help="Speech speed multiplier.")
-    parser.add_argument("--tts-volume", type=float, default=1.0, help="Audio gain multiplier for generated WAV files.")
+def add_tts_arguments(parser: argparse.ArgumentParser, config: dict | None = None) -> None:
+    config = config if config is not None else load_config()
+    tts = lambda key, default: config_value(config, "tts", key, default)  # noqa: E731
+    parser.add_argument("--tts-provider", default=tts("provider", "supertonic"), choices=["supertonic", "melo", "xtts-v2"], help="Local TTS provider.")
+    parser.add_argument("--tts-language", default=tts("language", "KR"), help="TTS language code. Use KR for Korean.")
+    parser.add_argument("--tts-device", default=tts("device", "cuda:0"), help="TTS device, such as cuda:0 or cpu.")
+    parser.add_argument("--tts-output-dir", default=tts("output_dir", "data/audio_cache"), help="Directory for generated WAV files.")
+    parser.add_argument("--tts-speed", type=float, default=tts("speed", 1.0), help="Speech speed multiplier.")
+    parser.add_argument("--tts-volume", type=float, default=tts("volume", 1.0), help="Audio gain multiplier applied at playback.")
     parser.add_argument("--tts-play", action="store_true", help="Play generated audio immediately.")
     parser.add_argument("--tts-force", action="store_true", help="Regenerate audio even when cached.")
-    parser.add_argument("--tts-speaker-id", help="Provider speaker name or numeric speaker id when supported.")
+    parser.add_argument("--tts-speaker-id", default=tts("voice", None), help="Provider speaker name or numeric speaker id when supported.")
     parser.add_argument("--tts-speaker-wav", help="Reference WAV file for XTTS-v2.")
-    parser.add_argument("--tts-onnx-provider", default="dml", choices=["dml", "cpu", "default"], help="Supertonic ONNX backend.")
-    parser.add_argument("--tts-steps", type=int, default=10, help="Supertonic synthesis steps.")
-    parser.add_argument("--tts-python", help="Python executable for subprocess-based TTS providers.")
+    parser.add_argument("--tts-onnx-provider", default=tts("onnx_provider", "dml"), choices=["dml", "cpu", "default"], help="Supertonic ONNX backend.")
+    parser.add_argument("--tts-steps", type=int, default=tts("steps", 10), help="Supertonic synthesis steps.")
+    parser.add_argument("--tts-python", default=tts("python", None), help="Python executable for subprocess-based TTS providers.")
 
 
 def build_tts_config(args: argparse.Namespace) -> TTSConfig:

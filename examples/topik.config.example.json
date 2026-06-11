@@ -1,0 +1,21 @@
+{
+  "tts": {
+    "provider": "supertonic",
+    "voice": "F1",
+    "volume": 0.9,
+    "speed": 1.0,
+    "steps": 10,
+    "onnx_provider": "dml",
+    "device": "cuda:0",
+    "language": "KR",
+    "output_dir": "data/audio_cache"
+  },
+  "paths": {
+    "library": "content/library",
+    "attempts": "data/attempts"
+  },
+  "shell": {
+    "audio": true,
+    "show_transcript": false
+  }
+}

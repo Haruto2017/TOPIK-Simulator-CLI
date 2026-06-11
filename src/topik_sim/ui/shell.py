@@ -499,6 +499,7 @@ def run_shell(
     attempt_dir: str | Path = DEFAULT_ATTEMPT_DIR,
     tts_config: TTSConfig | None = None,
     show_transcript: bool = False,
+    audio_enabled: bool = True,
     input_fn: Callable[[str], str] | None = None,
 ) -> int:
     shell = Shell(
@@ -506,6 +507,7 @@ def run_shell(
         attempt_dir=attempt_dir,
         tts_config=tts_config,
         show_transcript=show_transcript,
+        audio_enabled=audio_enabled,
     )
     shell.emit(render.banner())
     frontend = _build_frontend(shell, input_fn)

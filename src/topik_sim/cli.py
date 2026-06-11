@@ -20,6 +20,7 @@ from .attempts import (
 )
 from .activities import create_drill_attempt
 from .audio_cache import cache_stats, prune_cache, warm_pack
+from .config import config_value, load_config
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
@@ -77,6 +78,11 @@ def configure_output() -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    config = load_config()
+    library_default = str(config_value(config, "paths", "library", DEFAULT_LIBRARY_DIR))
+    attempts_default = str(config_value(config, "paths", "attempts", "data/attempts"))
+    audio_default = str(config_value(config, "tts", "output_dir", DEFAULT_AUDIO_DIR))
+
     parser = argparse.ArgumentParser(prog="topik-sim", description="TOPIK simulation CLI")
     subparsers = parser.add_subparsers(required=True)
 
@@ -97,8 +103,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     take = subparsers.add_parser("take", help="Take a test and save the attempt.")
     take.add_argument("pack_ref", help="Pack file path, pack_id, or pack_id@pack_version.")
-    take.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
-    take.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    take.add_argument("--library", default=library_default, help="Content library directory.")
+    take.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     take.add_argument("--section", help="Only run one section_id.")
     take.add_argument("--limit", type=int, help="Limit the number of questions.")
     take.add_argument("--show-teaching", action="store_true", help="Compatibility flag; feedback is always shown.")
@@ -110,16 +116,16 @@ def build_parser() -> argparse.ArgumentParser:
     take.set_defaults(handler=handle_take)
 
     shell_parser = subparsers.add_parser("shell", help="Interactive shell with slash commands (default with no arguments).")
-    shell_parser.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
-    shell_parser.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    shell_parser.add_argument("--library", default=library_default, help="Content library directory.")
+    shell_parser.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     shell_parser.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while taking a test.")
     add_tts_arguments(shell_parser)
     shell_parser.set_defaults(handler=handle_shell)
 
     drill = subparsers.add_parser("drill", help="Re-practice the questions missed in a completed attempt.")
     drill.add_argument("attempt", help="Path to a completed attempt JSON file.")
-    drill.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
-    drill.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    drill.add_argument("--library", default=library_default, help="Content library directory.")
+    drill.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     drill.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while drilling.")
     add_tts_arguments(drill)
     drill.set_defaults(handler=handle_drill)
@@ -129,15 +135,15 @@ def build_parser() -> argparse.ArgumentParser:
     review.set_defaults(handler=handle_review_attempt)
 
     list_attempts = subparsers.add_parser("list-attempts", help="List recent saved attempts.")
-    list_attempts.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    list_attempts.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     list_attempts.add_argument("--limit", type=int, default=DEFAULT_RECENT_ATTEMPT_LIMIT, help="Maximum attempts to show.")
     list_attempts.set_defaults(handler=handle_list_attempts)
 
     resume = subparsers.add_parser("resume-attempt", help="Continue a saved in-progress attempt.")
     resume.add_argument("attempt", nargs="?", help="Path to an attempt JSON file. Omit to choose from recent attempts.")
-    resume.add_argument("--attempt-dir", default="data/attempts", help="Directory to scan when no attempt path is given.")
+    resume.add_argument("--attempt-dir", default=attempts_default, help="Directory to scan when no attempt path is given.")
     resume.add_argument("--recent", type=int, default=DEFAULT_RECENT_ATTEMPT_LIMIT, help="Maximum recent attempts to show when choosing.")
-    resume.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    resume.add_argument("--library", default=library_default, help="Content library directory.")
     resume.add_argument("--show-transcript", action="store_true", help="Show listening transcripts before answering too.")
     add_tts_arguments(resume)
     resume.add_argument("--speak-question", action="store_true", help="Generate Korean audio for each question while taking a test.")
@@ -152,27 +158,27 @@ def build_parser() -> argparse.ArgumentParser:
 
     import_content = subparsers.add_parser("import-pack", help="Import a content pack into the versioned library.")
     import_content.add_argument("pack")
-    import_content.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    import_content.add_argument("--library", default=library_default, help="Content library directory.")
     import_content.add_argument("--replace", action="store_true", help="Replace an existing pack with the same id and version.")
     import_content.set_defaults(handler=handle_import_pack)
 
     list_content = subparsers.add_parser("list-packs", help="List packs in the content library.")
-    list_content.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    list_content.add_argument("--library", default=library_default, help="Content library directory.")
     list_content.set_defaults(handler=handle_list_packs)
 
     validate_library_parser = subparsers.add_parser("validate-library", help="Validate the content library manifest and pack files.")
-    validate_library_parser.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    validate_library_parser.add_argument("--library", default=library_default, help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
 
     audio = subparsers.add_parser("audio", help="Manage the generated audio cache.")
     audio_sub = audio.add_subparsers(required=True)
 
     audio_stats = audio_sub.add_parser("stats", help="Show audio cache size and file count.")
-    audio_stats.add_argument("--audio-dir", default=str(DEFAULT_AUDIO_DIR), help="Audio cache directory.")
+    audio_stats.add_argument("--audio-dir", default=audio_default, help="Audio cache directory.")
     audio_stats.set_defaults(handler=handle_audio_stats)
 
     audio_prune = audio_sub.add_parser("prune", help="Delete least-recently-used cached audio.")
-    audio_prune.add_argument("--audio-dir", default=str(DEFAULT_AUDIO_DIR), help="Audio cache directory.")
+    audio_prune.add_argument("--audio-dir", default=audio_default, help="Audio cache directory.")
     audio_prune.add_argument("--max-mb", type=float, help="Keep the cache under this many megabytes.")
     audio_prune.add_argument("--older-than-days", type=float, help="Remove audio unused for this many days.")
     audio_prune.add_argument("--dry-run", action="store_true", help="Report what would be removed without deleting.")
@@ -180,7 +186,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     audio_warm = audio_sub.add_parser("warm", help="Pre-generate audio for a pack so playback never waits.")
     audio_warm.add_argument("pack_ref", help="Pack file path, pack_id, or pack_id@pack_version.")
-    audio_warm.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    audio_warm.add_argument("--library", default=library_default, help="Content library directory.")
     audio_warm.add_argument("--all-questions", action="store_true", help="Warm every question passage, not just listening.")
     audio_warm.add_argument("--teaching", action="store_true", help="Also warm vocabulary and grammar example audio.")
     add_tts_arguments(audio_warm)
@@ -339,11 +345,13 @@ def handle_resume_attempt(args: argparse.Namespace) -> int:
 def handle_shell(args: argparse.Namespace) -> int:
     from .ui.shell import run_shell
 
+    config = load_config()
     return run_shell(
         library_dir=args.library,
         attempt_dir=args.attempt_dir,
         tts_config=build_tts_config(args),
-        show_transcript=args.show_transcript,
+        show_transcript=args.show_transcript or bool(config_value(config, "shell", "show_transcript", False)),
+        audio_enabled=bool(config_value(config, "shell", "audio", True)),
     )
 
 
