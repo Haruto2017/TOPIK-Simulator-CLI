@@ -911,7 +911,8 @@ def resolve_pack(pack_ref: str, library_dir: str | Path) -> Any:
 
 
 def load_answer_file(path: str | Path) -> dict[str, str]:
-    with Path(path).open("r", encoding="utf-8") as handle:
+    # utf-8-sig also reads plain UTF-8; PowerShell's Out-File adds a BOM.
+    with Path(path).open("r", encoding="utf-8-sig") as handle:
         data: Any = json.load(handle)
 
     if isinstance(data, dict) and isinstance(data.get("answers"), list):

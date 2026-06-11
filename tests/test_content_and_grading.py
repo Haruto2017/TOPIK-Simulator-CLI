@@ -49,6 +49,17 @@ class ContentAndGradingTests(unittest.TestCase):
         self.assertIn("Skills: reading (2)", text)
         self.assertIn("Answer types: single_choice (2)", text)
 
+    def test_answer_files_with_utf8_bom_are_accepted(self):
+        from topik_sim.cli import load_answer_file
+
+        path = ROOT / "data" / "_bom_answers.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            path.write_bytes(b'\xef\xbb\xbf{"r-001": "B"}')
+            self.assertEqual(load_answer_file(path), {"r-001": "B"})
+        finally:
+            path.unlink(missing_ok=True)
+
     def test_batch_grading_scores_answers(self):
         pack = load_pack(SAMPLE_PACK)
         result = grade_answers(pack.data, {"r-001": "B", "r-002": "C"})
