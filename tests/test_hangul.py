@@ -141,8 +141,36 @@ class TypingShellTests(unittest.TestCase):
 
         shell.handle_line("/keyboard on")
         self.assertTrue(shell.keyboard_hints)
+        self.assertTrue(shell.keyboard_pinned)
         shell.handle_line("/keyboard off")
         self.assertFalse(shell.keyboard_hints)
+        self.assertFalse(shell.keyboard_pinned)
+
+    def test_pinned_keyboard_hovers_in_status_toolbar(self):
+        shell, _ = self.make_shell()
+        self.assertNotIn("\n", shell.status_line())
+
+        shell.handle_line("/keyboard pin")
+        self.assertTrue(shell.keyboard_pinned)
+        self.assertFalse(shell.keyboard_hints)  # pin alone does not enable hints
+        toolbar = shell.status_line()
+        lines = toolbar.split("\n")
+        self.assertGreaterEqual(len(lines), 4)
+        self.assertIn("ㅂq", toolbar)
+        self.assertIn("⇧", toolbar)
+        self.assertIn("idle", lines[-1])  # status line stays at the bottom
+
+        shell.handle_line("/keyboard unpin")
+        self.assertNotIn("\n", shell.status_line())
+
+    def test_pinned_toolbar_carries_no_ansi_codes(self):
+        from topik_sim.ui.render import keyboard_toolbar
+
+        ansi.set_color_enabled(True)
+        try:
+            self.assertNotIn("\x1b", keyboard_toolbar())
+        finally:
+            ansi.set_color_enabled(False)
 
     def test_keyboard_mode_adds_hints_to_flashcards(self):
         shell, output = self.make_shell(keyboard_hints=True)

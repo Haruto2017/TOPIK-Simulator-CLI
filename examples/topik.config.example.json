@@ -17,6 +17,7 @@
   "shell": {
     "audio": true,
     "show_transcript": false,
-    "keyboard_hints": false
+    "keyboard_hints": false,
+    "keyboard_pinned": false
   }
 }

@@ -54,6 +54,7 @@ class Shell:
         prefetcher: AudioPrefetcher | None = None,
         flashcard_seed: int | None = None,
         keyboard_hints: bool = False,
+        keyboard_pinned: bool = False,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -83,6 +84,7 @@ class Shell:
         self._pick_entries: list[tuple[Path, dict[str, Any]]] = []
         self._pick_action: str | None = None
         self.keyboard_hints = keyboard_hints
+        self.keyboard_pinned = keyboard_pinned
         self._typing_items: list[str] = []
         self._typing_index = 0
         self._typing_hits = 0
@@ -97,6 +99,14 @@ class Shell:
         self.prefetcher.close()
 
     def status_line(self) -> str:
+        """Bottom-toolbar content. With the keyboard pinned, the compact
+        layout hovers above the status line and never scrolls away."""
+        status = self._status_text()
+        if self.keyboard_pinned:
+            return render.keyboard_toolbar() + "\n" + status
+        return status
+
+    def _status_text(self) -> str:
         tts_state = self.tts_config.provider if self.audio_enabled else "off"
         if self.session is None:
             return f" idle · /take <pack> to start · TTS {tts_state} · /help "
@@ -323,13 +333,27 @@ class Shell:
         key = argument.strip().lower()
         if key == "on":
             self.keyboard_hints = True
-            self.emit("Keyboard hints on: typing keys are shown in dictation, flashcards, and /typing.")
-        elif key == "off":
-            self.keyboard_hints = False
-            self.emit("Keyboard hints off.")
+            self.keyboard_pinned = True
+            self.emit(
+                "Keyboard mode on: the layout is pinned to the toolbar and typing keys"
+                " are shown in dictation, flashcards, and /typing. /keyboard unpin frees the space."
+            )
             return
-        elif key:
-            self.emit("Usage: /keyboard [on|off]")
+        if key == "off":
+            self.keyboard_hints = False
+            self.keyboard_pinned = False
+            self.emit("Keyboard mode off.")
+            return
+        if key == "pin":
+            self.keyboard_pinned = True
+            self.emit("Keyboard layout pinned to the toolbar.")
+            return
+        if key == "unpin":
+            self.keyboard_pinned = False
+            self.emit("Keyboard layout unpinned.")
+            return
+        if key:
+            self.emit("Usage: /keyboard [on|off|pin|unpin]")
             return
         self.emit(render.keyboard_chart())
 
@@ -1010,6 +1034,7 @@ def run_shell(
     show_transcript: bool = False,
     audio_enabled: bool = True,
     keyboard_hints: bool = False,
+    keyboard_pinned: bool = False,
     input_fn: Callable[[str], str] | None = None,
 ) -> int:
     shell = Shell(
@@ -1019,6 +1044,7 @@ def run_shell(
         show_transcript=show_transcript,
         audio_enabled=audio_enabled,
         keyboard_hints=keyboard_hints,
+        keyboard_pinned=keyboard_pinned,
     )
     shell.emit(render.banner())
     frontend = _build_frontend(shell, input_fn)

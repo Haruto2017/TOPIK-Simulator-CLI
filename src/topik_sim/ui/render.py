@@ -132,6 +132,28 @@ def keyboard_chart() -> str:
     return "\n".join(lines)
 
 
+def keyboard_toolbar() -> str:
+    """Compact 두벌식 chart for the bottom toolbar: plain text, no ANSI,
+    because prompt_toolkit styles the toolbar itself."""
+    from ..hangul import LAYOUT_ROWS
+
+    lines = []
+    shifted_jamo: list[str] = []
+    for row in LAYOUT_ROWS:
+        cells = []
+        for cell in row:
+            if cell is None:
+                cells.append("│")
+                continue
+            key, jamo, shifted = cell
+            cells.append(f"{jamo}{key.lower()}")
+            if shifted:
+                shifted_jamo.append(shifted)
+        lines.append(" ".join(cells))
+    lines[-1] += f"   ⇧ {''.join(shifted_jamo)}"
+    return "\n".join(lines)
+
+
 def format_clock(seconds: float) -> str:
     total = max(0, int(seconds))
     return f"{total // 60:02d}:{total % 60:02d}"

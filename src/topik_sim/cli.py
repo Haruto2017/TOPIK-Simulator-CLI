@@ -425,6 +425,7 @@ def handle_shell(args: argparse.Namespace) -> int:
         show_transcript=args.show_transcript or bool(config_value(config, "shell", "show_transcript", False)),
         audio_enabled=bool(config_value(config, "shell", "audio", True)),
         keyboard_hints=bool(config_value(config, "shell", "keyboard_hints", False)),
+        keyboard_pinned=bool(config_value(config, "shell", "keyboard_pinned", False)),
     )
 
 
