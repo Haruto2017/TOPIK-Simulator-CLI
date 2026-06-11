@@ -27,6 +27,7 @@ ANSWERING = "answering"
 CONTINUE = "continue"
 FLASH_FRONT = "flash_front"
 FLASH_BACK = "flash_back"
+DICTATION = "dictation"
 
 TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
@@ -72,6 +73,10 @@ class Shell:
         self._flash_index = 0
         self._flash_known = 0
         self._flash_missed: list[str] = []
+        self._dictation_texts: list[str] = []
+        self._dictation_index = 0
+        self._dictation_total_accuracy = 0.0
+        self._dictation_perfect = 0
 
     # ------------------------------------------------------------- plumbing
 
@@ -127,6 +132,11 @@ class Shell:
                 self._grade_card(False)
             else:
                 self.emit("y if you knew it, n if not.")
+        elif self.state == DICTATION:
+            if text:
+                self._grade_dictation(text)
+            else:
+                self.emit("Type what you heard, or /replay to hear it again.")
         elif text:
             self.emit("No test is running. /take <pack> to start, /help for commands.")
         return not self._quit
@@ -286,6 +296,79 @@ class Shell:
         self.emit(f"{len(deck)} card(s) · Enter flips · y/n grades · /say hears it · /pause stops")
         self._present_card()
 
+    def cmd_dictation(self, argument: str) -> None:
+        from ..dictation import collect_dictation_texts
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
+        if not argument:
+            self.emit("Usage: /dictation <pack_id[@version]|path> [limit]")
+            return
+        parts = argument.split()
+        ref = parts[0]
+        limit = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else None
+        try:
+            pack = self._resolve_pack(ref)
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            suggestions = self._suggest_packs(ref)
+            if suggestions:
+                self.emit(f"Did you mean: {', '.join(suggestions)}?")
+            return
+        texts = collect_dictation_texts(pack, limit=limit)
+        if not texts:
+            self.emit("This pack has no listening transcripts for dictation.")
+            return
+        self._dictation_texts = texts
+        self._dictation_index = 0
+        self._dictation_total_accuracy = 0.0
+        self._dictation_perfect = 0
+        self.emit(ansi.style(f"Dictation: {pack.title}", ansi.BOLD))
+        self.emit(f"{len(texts)} sentence(s) · type what you hear · /replay repeats · /pause stops")
+        self._present_dictation()
+
+    def _present_dictation(self) -> None:
+        text = self._dictation_texts[self._dictation_index]
+        self.emit("")
+        self.emit(render.rule(f"Dictation {self._dictation_index + 1}/{len(self._dictation_texts)}"))
+        self.current_audio = self._speak([text], playback=True)
+        if not self.current_audio:
+            self.emit(ansi.style("(audio unavailable — the sentence stays hidden; type your best guess)", ansi.DIM))
+        self.state = DICTATION
+
+    def _grade_dictation(self, typed: str) -> None:
+        from ..dictation import accuracy, feedback_lines
+
+        expected = self._dictation_texts[self._dictation_index]
+        score = accuracy(expected, typed)
+        self._dictation_total_accuracy += score
+        if score >= 0.999:
+            self._dictation_perfect += 1
+        for line in feedback_lines(expected, typed):
+            self.emit(line)
+        self._dictation_index += 1
+        if self._dictation_index >= len(self._dictation_texts):
+            self._end_dictation()
+        else:
+            self._present_dictation()
+
+    def _end_dictation(self, early: bool = False) -> None:
+        done = self._dictation_index
+        if early:
+            self.emit(f"Dictation stopped after {done}/{len(self._dictation_texts)} sentence(s).")
+        if done:
+            average = self._dictation_total_accuracy / done * 100
+            self.emit(f"Average accuracy: {average:.0f}% · perfect {self._dictation_perfect}/{done}")
+        self._dictation_texts = []
+        self._dictation_index = 0
+        self._dictation_total_accuracy = 0.0
+        self._dictation_perfect = 0
+        self.current_audio = []
+        self.state = IDLE
+
     def _present_card(self) -> None:
         card = self._flash_deck[self._flash_index]
         self.emit("")
@@ -365,6 +448,9 @@ class Shell:
     def cmd_pause(self, argument: str) -> None:
         if self.state in {FLASH_FRONT, FLASH_BACK}:
             self._end_flashcards(early=True)
+            return
+        if self.state == DICTATION:
+            self._end_dictation(early=True)
             return
         if self.session is None:
             self.emit("No test is running.")
