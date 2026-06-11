@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -17,10 +18,19 @@ from .attempts import (
     save_attempt,
     save_attempt_to_dir,
 )
+from .audio_cache import cache_stats, prune_cache, warm_pack
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
-from .tts import TTSConfig, build_provider, collect_question_speech_texts, play_audio, synthesize_many
+from .tts import (
+    DEFAULT_AUDIO_DIR,
+    TTSConfig,
+    build_provider,
+    collect_question_speech_texts,
+    is_listening_question,
+    play_audio,
+    synthesize_many,
+)
 from .tts_cli import add_tts_arguments, build_tts_config
 
 
@@ -126,6 +136,28 @@ def build_parser() -> argparse.ArgumentParser:
     validate_library_parser = subparsers.add_parser("validate-library", help="Validate the content library manifest and pack files.")
     validate_library_parser.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
+
+    audio = subparsers.add_parser("audio", help="Manage the generated audio cache.")
+    audio_sub = audio.add_subparsers(required=True)
+
+    audio_stats = audio_sub.add_parser("stats", help="Show audio cache size and file count.")
+    audio_stats.add_argument("--audio-dir", default=str(DEFAULT_AUDIO_DIR), help="Audio cache directory.")
+    audio_stats.set_defaults(handler=handle_audio_stats)
+
+    audio_prune = audio_sub.add_parser("prune", help="Delete least-recently-used cached audio.")
+    audio_prune.add_argument("--audio-dir", default=str(DEFAULT_AUDIO_DIR), help="Audio cache directory.")
+    audio_prune.add_argument("--max-mb", type=float, help="Keep the cache under this many megabytes.")
+    audio_prune.add_argument("--older-than-days", type=float, help="Remove audio unused for this many days.")
+    audio_prune.add_argument("--dry-run", action="store_true", help="Report what would be removed without deleting.")
+    audio_prune.set_defaults(handler=handle_audio_prune)
+
+    audio_warm = audio_sub.add_parser("warm", help="Pre-generate audio for a pack so playback never waits.")
+    audio_warm.add_argument("pack_ref", help="Pack file path, pack_id, or pack_id@pack_version.")
+    audio_warm.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    audio_warm.add_argument("--all-questions", action="store_true", help="Warm every question passage, not just listening.")
+    audio_warm.add_argument("--teaching", action="store_true", help="Also warm vocabulary and grammar example audio.")
+    add_tts_arguments(audio_warm)
+    audio_warm.set_defaults(handler=handle_audio_warm)
 
     speak = subparsers.add_parser("speak", help="Generate Korean TTS audio for direct text.")
     speak.add_argument("text", nargs="+", help="Text to synthesize.")
@@ -311,7 +343,7 @@ def run_attempt_questions(
                 playback=listening_audio or tts_play,
             )
         print_question(index, question, show_transcript=show_transcript)
-        response = prompt_for_answer(question_audio_paths)
+        response = prompt_for_answer(question_audio_paths, volume=tts_config.volume)
         attempt = answer_question(attempt, pack, response)
         save_attempt(attempt, save_path)
         result = grade_question(question, response)
@@ -320,7 +352,7 @@ def run_attempt_questions(
         print_feedback(result["feedback"])
         if speak_teaching:
             speak_question(question, tts_config, include_explanation=True, playback=tts_play)
-        prompt_after_answer(question_audio_paths)
+        prompt_after_answer(question_audio_paths, volume=tts_config.volume)
     return attempt
 
 
@@ -445,6 +477,55 @@ def handle_validate_library(args: argparse.Namespace) -> int:
     return 0
 
 
+def handle_audio_stats(args: argparse.Namespace) -> int:
+    stats = cache_stats(args.audio_dir)
+    print(f"Audio cache: {stats.directory}")
+    print(f"Files: {stats.file_count}")
+    print(f"Size: {stats.total_bytes / (1024 * 1024):.1f} MB")
+    if stats.oldest_mtime is not None:
+        oldest = datetime.fromtimestamp(stats.oldest_mtime).isoformat(timespec="seconds")
+        print(f"Least recently used: {oldest}")
+    return 0
+
+
+def handle_audio_prune(args: argparse.Namespace) -> int:
+    if args.max_mb is None and args.older_than_days is None:
+        print("Pass --max-mb and/or --older-than-days.", file=sys.stderr)
+        return 1
+    result = prune_cache(
+        args.audio_dir,
+        max_bytes=int(args.max_mb * 1024 * 1024) if args.max_mb is not None else None,
+        older_than_days=args.older_than_days,
+        dry_run=args.dry_run,
+    )
+    label = "Would remove" if args.dry_run else "Removed"
+    print(f"{label} {len(result.removed)} file(s) ({result.bytes_removed / (1024 * 1024):.1f} MB).")
+    return 0
+
+
+def handle_audio_warm(args: argparse.Namespace) -> int:
+    pack = resolve_pack(args.pack_ref, args.library)
+    config = build_tts_config(args)
+
+    def progress(index: int, total: int, text: str) -> None:
+        snippet = text if len(text) <= 42 else f"{text[:39]}..."
+        print(f"[{index}/{total}] {snippet}")
+
+    try:
+        generated, cached = warm_pack(
+            pack,
+            config,
+            include_all_questions=args.all_questions,
+            include_teaching=args.teaching,
+            progress=progress,
+        )
+    except RuntimeError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    print(f"Generated {generated} file(s), reused {cached} cached file(s).")
+    return 0
+
+
 def handle_speak(args: argparse.Namespace) -> int:
     config = build_tts_config(args)
     text = " ".join(args.text)
@@ -525,31 +606,31 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
     return paths
 
 
-def prompt_for_answer(audio_paths: list[Path]) -> str:
+def prompt_for_answer(audio_paths: list[Path], volume: float = 1.0) -> str:
     while True:
         response = input("Your answer (or /replay): ")
         if not is_replay_request(response):
             return response
-        replay_audio_paths(audio_paths)
+        replay_audio_paths(audio_paths, volume=volume)
 
 
-def prompt_after_answer(audio_paths: list[Path]) -> None:
+def prompt_after_answer(audio_paths: list[Path], volume: float = 1.0) -> None:
     while True:
         response = input("Press Enter for next question, or /replay: ").strip()
         if not response:
             return
         if is_replay_request(response):
-            replay_audio_paths(audio_paths)
+            replay_audio_paths(audio_paths, volume=volume)
             continue
         print("Press Enter to continue, or type /replay.")
 
 
-def replay_audio_paths(audio_paths: list[Path]) -> None:
+def replay_audio_paths(audio_paths: list[Path], volume: float = 1.0) -> None:
     if not audio_paths:
         print("No question audio is available to replay.")
         return
     for path in audio_paths:
-        play_audio(path)
+        play_audio(path, volume=volume)
 
 
 def is_replay_request(value: str) -> bool:
@@ -586,10 +667,6 @@ def question_display_passage(question: dict[str, Any], show_transcript: bool) ->
     if is_listening_question(question) and not show_transcript:
         return None
     return passage
-
-
-def is_listening_question(question: dict[str, Any]) -> bool:
-    return str(question.get("skill", "")).lower() == "listening" or bool(question.get("audio_ref"))
 
 
 def is_transcript_only_audio(question: dict[str, Any]) -> bool:

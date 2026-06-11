@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import hashlib
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
+import threading
 import wave
 from array import array
 from dataclasses import dataclass
@@ -61,25 +64,42 @@ def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
             provider=config.provider,
             language=config.language,
             speed=config.speed,
-            volume=config.volume,
             speaker_id=config.speaker_id,
             speaker_wav=config.speaker_wav,
             steps=config.steps,
         )
         output_paths.append(output_path)
         if output_path.exists() and not config.force:
+            touch_cache_entry(output_path)
             continue
         if provider is None:
             provider = build_provider(config.provider)
-        provider.synthesize_to_file(text, output_path, config)
-        if config.volume != 1.0:
-            adjust_wav_volume(output_path, config.volume)
+        synthesize_atomic(provider, text, output_path, config)
 
     if config.playback:
         for output_path in output_paths:
-            play_audio(output_path)
+            play_audio(output_path, volume=config.volume)
 
     return output_paths
+
+
+def synthesize_atomic(provider: TTSProvider, text: str, output_path: Path, config: TTSConfig) -> None:
+    """Write through a temp file so concurrent prefetch and foreground synthesis never clash."""
+    token = f"{os.getpid()}-{threading.get_ident()}"
+    temp_path = output_path.with_name(f"{output_path.stem}.{token}.tmp.wav")
+    try:
+        provider.synthesize_to_file(text, temp_path, config)
+        os.replace(temp_path, output_path)
+    finally:
+        temp_path.unlink(missing_ok=True)
+
+
+def touch_cache_entry(path: Path) -> None:
+    """Mark a cache hit so prune can evict least-recently-used audio first."""
+    try:
+        os.utime(path, None)
+    except OSError:
+        pass
 
 
 def build_provider(provider_name: str) -> TTSProvider:
@@ -138,13 +158,14 @@ def stable_audio_name(
     provider: str,
     language: str,
     speed: float = 1.0,
-    volume: float = 1.0,
     speaker_id: str | None = None,
     speaker_wav: Path | None = None,
     steps: int = DEFAULT_SUPERTONIC_STEPS,
 ) -> str:
     speaker_key = speaker_id or (str(speaker_wav) if speaker_wav else "default")
-    key = f"{provider}|{language}|speed={speed:.3f}|volume={volume:.3f}|speaker={speaker_key}|steps={steps}|{text}"
+    # Volume is applied at playback, so one cached waveform serves every gain
+    # setting. The literal volume=1.000 keeps names of previously cached files valid.
+    key = f"{provider}|{language}|speed={speed:.3f}|volume=1.000|speaker={speaker_key}|steps={steps}|{text}"
     digest = hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
     return f"{provider}-{language}-{digest}.wav"
 
@@ -196,7 +217,24 @@ def dedupe(items: list[str]) -> list[str]:
     return result
 
 
-def play_audio(path: Path) -> None:
+def is_listening_question(question: dict[str, Any]) -> bool:
+    return str(question.get("skill", "")).lower() == "listening" or bool(question.get("audio_ref"))
+
+
+def play_audio(path: Path, volume: float = 1.0) -> None:
+    if volume != 1.0:
+        temp_path = Path(tempfile.gettempdir()) / f"topik-play-{os.getpid()}-{path.name}"
+        try:
+            shutil.copy2(path, temp_path)
+            adjust_wav_volume(temp_path, volume)
+            _play_audio_file(temp_path)
+        finally:
+            temp_path.unlink(missing_ok=True)
+        return
+    _play_audio_file(path)
+
+
+def _play_audio_file(path: Path) -> None:
     if sys.platform.startswith("win"):
         subprocess.run(
             [

@@ -19,6 +19,7 @@ from topik_sim.tts import (
     adjust_wav_volume,
     build_provider,
     collect_question_speech_texts,
+    play_audio,
     stable_audio_name,
     synthesize_many,
     transcript_text,
@@ -44,15 +45,40 @@ class TTSTests(unittest.TestCase):
     def test_stable_audio_name_is_repeatable_and_safe(self):
         first = stable_audio_name("hello", provider="melo", language="KR")
         second = stable_audio_name("hello", provider="melo", language="KR")
-        louder = stable_audio_name("hello", provider="melo", language="KR", volume=1.4)
         speaker = stable_audio_name("hello", provider="melo", language="KR", speaker_id="KR")
         more_steps = stable_audio_name("hello", provider="supertonic", language="KR", steps=20)
         self.assertEqual(first, second)
-        self.assertNotEqual(first, louder)
         self.assertNotEqual(first, speaker)
         self.assertNotEqual(stable_audio_name("hello", provider="supertonic", language="KR"), more_steps)
         self.assertTrue(first.endswith(".wav"))
         self.assertNotIn("hello", first)
+
+    def test_play_audio_applies_volume_to_temp_copy_only(self):
+        import struct
+        import wave
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            wav_path = Path(temp_dir) / "sample.wav"
+            with wave.open(str(wav_path), "wb") as wav:
+                wav.setnchannels(1)
+                wav.setsampwidth(2)
+                wav.setframerate(44100)
+                wav.writeframes(struct.pack("<hh", 1000, -1000))
+
+            played = {}
+
+            def fake_play(path):
+                played["path"] = Path(path)
+                with wave.open(str(path), "rb") as wav:
+                    played["values"] = struct.unpack("<hh", wav.readframes(2))
+
+            with patch("topik_sim.tts._play_audio_file", side_effect=fake_play):
+                play_audio(wav_path, volume=0.5)
+
+            self.assertNotEqual(played["path"], wav_path)
+            self.assertEqual(played["values"], (500, -500))
+            with wave.open(str(wav_path), "rb") as wav:
+                self.assertEqual(struct.unpack("<hh", wav.readframes(2)), (1000, -1000))
 
     def test_synthesize_many_skips_existing_cache_file(self):
         with tempfile.TemporaryDirectory() as temp_dir:
