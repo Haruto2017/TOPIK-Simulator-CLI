@@ -18,6 +18,7 @@ from .attempts import (
     save_attempt,
     save_attempt_to_dir,
 )
+from .activities import create_drill_attempt
 from .audio_cache import cache_stats, prune_cache, warm_pack
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
@@ -41,6 +42,10 @@ DEFAULT_RECENT_ATTEMPT_LIMIT = 10
 def main(argv: list[str] | None = None) -> int:
     configure_output()
     parser = build_parser()
+    if argv is None:
+        argv = sys.argv[1:]
+    if not argv:
+        argv = ["shell"]
     args = parser.parse_args(argv)
 
     try:
@@ -62,6 +67,13 @@ def configure_output() -> None:
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
             stream.reconfigure(encoding="utf-8", errors="replace")
+    # Piped stdin (scripted sessions) should accept UTF-8 and ignore a BOM;
+    # interactive consoles keep their own working encoding.
+    try:
+        if hasattr(sys.stdin, "reconfigure") and not sys.stdin.isatty():
+            sys.stdin.reconfigure(encoding="utf-8-sig", errors="replace")
+    except (AttributeError, OSError, ValueError):
+        pass
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -96,6 +108,21 @@ def build_parser() -> argparse.ArgumentParser:
     take.add_argument("--speak-teaching", action="store_true", help="Generate Korean audio for vocabulary and example sentences in teaching notes.")
     take.add_argument("--no-listening-audio", action="store_true", help="Do not automatically play audio for listening questions.")
     take.set_defaults(handler=handle_take)
+
+    shell_parser = subparsers.add_parser("shell", help="Interactive shell with slash commands (default with no arguments).")
+    shell_parser.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    shell_parser.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    shell_parser.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while taking a test.")
+    add_tts_arguments(shell_parser)
+    shell_parser.set_defaults(handler=handle_shell)
+
+    drill = subparsers.add_parser("drill", help="Re-practice the questions missed in a completed attempt.")
+    drill.add_argument("attempt", help="Path to a completed attempt JSON file.")
+    drill.add_argument("--library", default=str(DEFAULT_LIBRARY_DIR), help="Content library directory.")
+    drill.add_argument("--attempt-dir", default="data/attempts", help="Directory for saved attempts.")
+    drill.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while drilling.")
+    add_tts_arguments(drill)
+    drill.set_defaults(handler=handle_drill)
 
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
     review.add_argument("attempt")
@@ -301,6 +328,50 @@ def handle_resume_attempt(args: argparse.Namespace) -> int:
         no_listening_audio=args.no_listening_audio,
         tts_play=args.tts_play,
         start_index=answered_count + 1,
+    )
+
+    attempt = complete_attempt(attempt, pack)
+    save_attempt(attempt, attempt_path)
+    print_attempt_summary(attempt)
+    return 0
+
+
+def handle_shell(args: argparse.Namespace) -> int:
+    from .ui.shell import run_shell
+
+    return run_shell(
+        library_dir=args.library,
+        attempt_dir=args.attempt_dir,
+        tts_config=build_tts_config(args),
+        show_transcript=args.show_transcript,
+    )
+
+
+def handle_drill(args: argparse.Namespace) -> int:
+    source = load_attempt(args.attempt)
+    pack = resolve_pack(f"{source['pack_id']}@{source['pack_version']}", args.library)
+    attempt = create_drill_attempt(pack, source)
+    attempt_path = save_attempt_to_dir(attempt, args.attempt_dir)
+    questions = [find_question(pack, question_id) for question_id in attempt["question_ids"]]
+
+    print(f"Drill: {pack.title}")
+    print(f"Attempt: {attempt['attempt_id']}")
+    print(f"{len(questions)} missed question(s)")
+    print(f"Saving to: {attempt_path}\n")
+
+    tts_config = build_tts_config(args)
+    attempt = run_attempt_questions(
+        attempt=attempt,
+        pack=pack,
+        questions=questions,
+        save_path=attempt_path,
+        tts_config=tts_config,
+        show_transcript=args.show_transcript,
+        speak_question_audio=False,
+        speak_teaching=False,
+        no_listening_audio=False,
+        tts_play=args.tts_play,
+        start_index=1,
     )
 
     attempt = complete_attempt(attempt, pack)

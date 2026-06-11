@@ -14,18 +14,30 @@ ATTEMPT_SCHEMA_VERSION = "topik-sim.attempt.v1"
 DEFAULT_ATTEMPT_DIR = Path("data") / "attempts"
 
 
-def create_attempt(pack: ExamPack, section_id: str | None = None, limit: int | None = None) -> dict[str, Any]:
-    questions = pack.questions(section_id=section_id)
-    if limit is not None:
-        questions = questions[:limit]
-    question_ids = [question["question_id"] for question in questions]
+def create_attempt(
+    pack: ExamPack,
+    section_id: str | None = None,
+    limit: int | None = None,
+    question_ids: list[str] | None = None,
+    activity: str = "exam",
+) -> dict[str, Any]:
+    if question_ids is None:
+        questions = pack.questions(section_id=section_id)
+        if limit is not None:
+            questions = questions[:limit]
+        question_ids = [question["question_id"] for question in questions]
+    else:
+        for question_id in question_ids:
+            find_question(pack, question_id)
     now = utc_now()
     return {
         "schema_version": ATTEMPT_SCHEMA_VERSION,
         "attempt_id": str(uuid.uuid4()),
         "pack_id": pack.pack_id,
         "pack_version": str(pack.data["pack_version"]),
+        "pack_path": str(pack.path),
         "section_id": section_id,
+        "activity": activity,
         "status": "in_progress",
         "started_at": now,
         "updated_at": now,

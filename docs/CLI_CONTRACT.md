@@ -4,6 +4,70 @@ All commands are run from the repository root.
 
 If the package is not installed, set `PYTHONPATH=src` first.
 
+Running `python -m topik_sim` with no arguments opens the interactive shell (see `shell`).
+
+## `shell`
+
+Interactive session styled after modern agent CLIs: a persistent prompt with history, slash-command autocompletion (when `prompt_toolkit` is installed), and a status toolbar. Plain input answers the current question; input starting with `/` is always a command and is never submitted as an answer.
+
+```powershell
+python -m topik_sim shell [--library <dir>] [--attempt-dir <dir>] [--show-transcript] [TTS options]
+python -m topik_sim   # same as: shell
+```
+
+Slash commands:
+
+- `/take <pack> [section] [limit]`: start a test from a library ref or pack file.
+- `/resume [n|path]`: resume an in-progress attempt (defaults to the most recent).
+- `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt (defaults to the most recent completed one).
+- `/attempts`, `/packs`: list saved attempts / imported packs.
+- `/say <text>` (alias `/speak`): pronounce any sentence aloud without affecting the current answer.
+- `/replay` (alias `/r`): replay the current question audio.
+- `/transcript` (alias `/t`): reveal the active listening transcript.
+- `/skip`: submit a blank answer for the current question.
+- `/pause`: save and leave the current test; `/resume` continues it later.
+- `/status`: progress, running score, and TTS settings.
+- `/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]`: change speech settings mid-session.
+- `/help`, `/quit`.
+
+Behavior:
+
+- Attempts are saved after every answer, exactly like `take`; quitting or crashing never loses progress.
+- Listening questions auto-play audio and hide transcripts until after the answer.
+- The next question's audio is prefetched on a background thread while the learner answers (see `docs/AUDIO_DESIGN.md`).
+- Falls back to a plain `input()` prompt when `prompt_toolkit` is unavailable.
+
+## `drill`
+
+Non-interactive-shell variant of `/drill`: re-practice the questions missed in a completed attempt.
+
+```powershell
+python -m topik_sim drill data/attempts/<attempt_id>.json [--library <dir>] [--attempt-dir <dir>] [TTS options]
+```
+
+Behavior:
+
+- Requires a completed attempt; fails with guidance otherwise.
+- Creates a new attempt with `"activity": "drill"` restricted to the missed question ids.
+- Grades and saves like `take`.
+
+## `audio`
+
+Audio cache management. See `docs/AUDIO_DESIGN.md` for the design.
+
+```powershell
+python -m topik_sim audio stats [--audio-dir <dir>]
+python -m topik_sim audio prune [--max-mb <n>] [--older-than-days <n>] [--dry-run] [--audio-dir <dir>]
+python -m topik_sim audio warm <pack_ref> [--all-questions] [--teaching] [--library <dir>] [TTS options]
+```
+
+Behavior:
+
+- `stats`: file count, total size, least-recently-used timestamp.
+- `prune`: deletes least-recently-used WAVs until the cache satisfies the constraints; requires at least one of `--max-mb` / `--older-than-days`.
+- `warm`: pre-generates listening audio for a pack (all passages with `--all-questions`, teaching audio with `--teaching`) so a session never waits on synthesis.
+- Volume is applied at playback time and does not multiply cached files.
+
 ## `validate-content`
 
 Validates a content pack.
