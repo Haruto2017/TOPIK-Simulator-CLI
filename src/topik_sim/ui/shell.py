@@ -258,6 +258,40 @@ class Shell:
         self.emit(f"{len(attempt['question_ids'])} missed question(s) from attempt {source.get('attempt_id', '?')}")
         self._present()
 
+    def cmd_review(self, argument: str) -> None:
+        from .. import srs
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
+        queue = srs.load_queue(srs.queue_path_for(self.attempt_dir))
+        if argument:
+            pack_id = argument.split("@", 1)[0]
+        else:
+            counts = srs.due_counts_by_pack(queue)
+            if not counts:
+                self.emit("Nothing is due for review. 잘했어요!")
+                return
+            if len(counts) > 1:
+                self.emit("Items are due in several packs — pick one:")
+                for pack_id, count in sorted(counts.items()):
+                    self.emit(f"  /review {pack_id} ({count} due)")
+                return
+            pack_id = next(iter(counts))
+        try:
+            pack = self._resolve_pack(pack_id)
+            attempt = srs.create_review_attempt(pack, queue)
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            return
+        attempt_path = save_attempt_to_dir(attempt, self.attempt_dir)
+        self.session = ExamSession(pack, attempt, attempt_path)
+        self.emit(ansi.style(f"Review: {pack.title}", ansi.BOLD))
+        self.emit(f"{len(attempt['question_ids'])} item(s) due")
+        self._present()
+
     def cmd_say(self, argument: str) -> None:
         if not argument and self.state in {FLASH_FRONT, FLASH_BACK} and self._flash_deck:
             self._speak([self._flash_deck[self._flash_index]["ko"]], playback=True)
@@ -590,8 +624,20 @@ class Shell:
         missed = missed_question_ids(attempt)
         if missed:
             self.emit(f"Tip: /drill 1 re-practices the {len(missed)} missed question(s).")
+        self._record_review_queue(attempt)
         self._refresh_recent()
         self._reset_session()
+
+    def _record_review_queue(self, attempt: dict[str, Any]) -> None:
+        from .. import srs
+
+        queue_path = srs.queue_path_for(self.attempt_dir)
+        queue = srs.load_queue(queue_path)
+        if srs.record_attempt(queue, attempt):
+            srs.save_queue(queue, queue_path)
+        due_count = len(srs.due_items(queue))
+        if due_count:
+            self.emit(f"Review queue: {due_count} item(s) due · /review")
 
     def _reset_session(self) -> None:
         self.session = None

@@ -23,6 +23,7 @@ COMMANDS: list[Command] = [
     Command("take", "cmd_take", "/take <pack> [section] [limit]", "Start a test from the library or a pack file."),
     Command("resume", "cmd_resume", "/resume [n|path]", "Resume a recent in-progress attempt."),
     Command("drill", "cmd_drill", "/drill [n|path]", "Re-practice the questions missed in a completed attempt."),
+    Command("review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before."),
     Command("attempts", "cmd_attempts", "/attempts", "List recent attempts."),
     Command("packs", "cmd_packs", "/packs", "List imported content packs."),
     Command("say", "cmd_say", "/say <korean text>", "Pronounce any sentence aloud; does not touch your answer.", ("speak",)),

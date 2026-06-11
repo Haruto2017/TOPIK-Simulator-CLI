@@ -132,6 +132,15 @@ def build_parser() -> argparse.ArgumentParser:
     add_tts_arguments(drill)
     drill.set_defaults(handler=handle_drill)
 
+    review_parser = subparsers.add_parser("review", help="Spaced-repetition review of previously missed questions.")
+    review_parser.add_argument("pack_ref", nargs="?", help="Pack id to review. Omit to list due counts per pack.")
+    review_parser.add_argument("--library", default=library_default, help="Content library directory.")
+    review_parser.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
+    review_parser.add_argument("--limit", type=int, default=20, help="Maximum review items per session.")
+    review_parser.add_argument("--show-transcript", action="store_true", help="Show listening transcripts while reviewing.")
+    add_tts_arguments(review_parser)
+    review_parser.set_defaults(handler=handle_review)
+
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
     review.add_argument("attempt")
     review.set_defaults(handler=handle_review_attempt)
@@ -329,6 +338,7 @@ def handle_take(args: argparse.Namespace) -> int:
 
     attempt = complete_attempt(attempt, pack)
     save_attempt(attempt, attempt_path)
+    record_review_queue(attempt, args.attempt_dir)
     print_attempt_summary(attempt)
     return 0
 
@@ -377,6 +387,7 @@ def handle_resume_attempt(args: argparse.Namespace) -> int:
 
     attempt = complete_attempt(attempt, pack)
     save_attempt(attempt, attempt_path)
+    record_review_queue(attempt, args.attempt_dir)
     print_attempt_summary(attempt)
     return 0
 
@@ -423,8 +434,68 @@ def handle_drill(args: argparse.Namespace) -> int:
 
     attempt = complete_attempt(attempt, pack)
     save_attempt(attempt, attempt_path)
+    record_review_queue(attempt, args.attempt_dir)
     print_attempt_summary(attempt)
     return 0
+
+
+def handle_review(args: argparse.Namespace) -> int:
+    from . import srs
+
+    queue = srs.load_queue(srs.queue_path_for(args.attempt_dir))
+    if not args.pack_ref:
+        counts = srs.due_counts_by_pack(queue)
+        if not counts:
+            print("Nothing is due for review.")
+            return 0
+        for pack_id, count in sorted(counts.items()):
+            print(f"{pack_id}: {count} due")
+        print("Run: python -m topik_sim review <pack_id>")
+        return 0
+
+    pack = resolve_pack(args.pack_ref, args.library)
+    try:
+        attempt = srs.create_review_attempt(pack, queue, limit=args.limit)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    attempt_path = save_attempt_to_dir(attempt, args.attempt_dir)
+    questions = [find_question(pack, question_id) for question_id in attempt["question_ids"]]
+
+    print(f"Review: {pack.title}")
+    print(f"Attempt: {attempt['attempt_id']}")
+    print(f"{len(questions)} item(s) due")
+    print(f"Saving to: {attempt_path}\n")
+
+    tts_config = build_tts_config(args)
+    attempt = run_attempt_questions(
+        attempt=attempt,
+        pack=pack,
+        questions=questions,
+        save_path=attempt_path,
+        tts_config=tts_config,
+        show_transcript=args.show_transcript,
+        speak_question_audio=False,
+        speak_teaching=False,
+        no_listening_audio=False,
+        tts_play=args.tts_play,
+        start_index=1,
+    )
+
+    attempt = complete_attempt(attempt, pack)
+    save_attempt(attempt, attempt_path)
+    record_review_queue(attempt, args.attempt_dir)
+    print_attempt_summary(attempt)
+    return 0
+
+
+def record_review_queue(attempt: dict[str, Any], attempt_dir: str | Path) -> None:
+    from . import srs
+
+    queue_path = srs.queue_path_for(attempt_dir)
+    queue = srs.load_queue(queue_path)
+    if srs.record_attempt(queue, attempt):
+        srs.save_queue(queue, queue_path)
 
 
 def handle_list_attempts(args: argparse.Namespace) -> int:
