@@ -2,18 +2,14 @@ from __future__ import annotations
 
 from typing import Any
 
+from .question_types import get_question_type
+
 
 def grade_question(question: dict[str, Any], response: str | None) -> dict[str, Any]:
     answer = question["answer"]
     points = int(question.get("points", 1))
     normalized_response = normalize_answer(response)
-    correct = False
-
-    if answer["type"] == "single_choice":
-        correct = normalized_response.upper() == str(answer["correct_option_id"]).upper()
-    elif answer["type"] == "short_answer":
-        accepted = [normalize_answer(value) for value in answer["accepted_answers"]]
-        correct = normalized_response in accepted
+    correct = get_question_type(answer["type"]).grade(question, normalized_response)
 
     return {
         "question_id": question["question_id"],

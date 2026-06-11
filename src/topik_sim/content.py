@@ -5,11 +5,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .question_types import get_question_type, supported_answer_types
+
 
 SCHEMA_VERSION = "topik-sim.content.v1"
 SUPPORTED_LEVELS = {"TOPIK_I", "TOPIK_II"}
 SUPPORTED_SOURCE_TYPES = {"original", "licensed", "public_domain", "user_provided"}
-SUPPORTED_ANSWER_TYPES = {"single_choice", "short_answer"}
 
 
 class ContentValidationError(ValueError):
@@ -124,24 +125,11 @@ def _validate_question(question: Any, path: str, seen_question_ids: set[str], er
         return
 
     answer_type = answer.get("type")
-    if answer_type not in SUPPORTED_ANSWER_TYPES:
-        errors.append(f"{path}.answer.type must be one of {sorted(SUPPORTED_ANSWER_TYPES)}.")
+    if answer_type not in supported_answer_types():
+        errors.append(f"{path}.answer.type must be one of {sorted(supported_answer_types())}.")
         return
 
-    if answer_type == "single_choice":
-        options = question.get("options")
-        if not isinstance(options, list) or not options:
-            errors.append(f"{path}.options must be a non-empty array for single_choice.")
-            return
-        option_ids = {str(option.get("id")) for option in options if isinstance(option, dict) and option.get("id") is not None}
-        correct_option_id = answer.get("correct_option_id")
-        if correct_option_id not in option_ids:
-            errors.append(f"{path}.answer.correct_option_id must match an option id.")
-
-    if answer_type == "short_answer":
-        accepted = answer.get("accepted_answers")
-        if not isinstance(accepted, list) or not accepted:
-            errors.append(f"{path}.answer.accepted_answers must be a non-empty array for short_answer.")
+    errors.extend(get_question_type(answer_type).validate(answer, question, path))
 
     explanation = question.get("explanation")
     if not isinstance(explanation, dict):
