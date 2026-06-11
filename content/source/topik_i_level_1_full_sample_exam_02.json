@@ -1,0 +1,4796 @@
+{
+  "schema_version": "topik-sim.content.v1",
+  "pack_id": "topik-i-level-1-full-sample-02",
+  "pack_version": "0.1.0",
+  "title": "TOPIK I Level 1 Full Sample Exam 02",
+  "topik_level": "TOPIK_I",
+  "language_pair": "ko-en",
+  "source_type": "original",
+  "sections": [
+    {
+      "section_id": "listening",
+      "title": "Listening",
+      "time_limit_minutes": 40,
+      "instructions": "Read the transcript as the listening stimulus and choose the best answer.",
+      "questions": [
+        {
+          "question_id": "l2-001",
+          "order": 1,
+          "skill": "listening",
+          "prompt": "What is the speaker saying?",
+          "passage": "Transcript: 좋은 아침이에요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Good night."
+            },
+            {
+              "id": "B",
+              "text": "Thank you."
+            },
+            {
+              "id": "C",
+              "text": "I am sorry."
+            },
+            {
+              "id": "D",
+              "text": "Good morning."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "greetings",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "좋은 아침이에요 is a polite morning greeting, so the meaning is good morning.",
+            "teaching_points": [
+              "좋은 means good when it describes a noun.",
+              "아침 means morning."
+            ],
+            "vocabulary": [
+              {
+                "ko": "좋은",
+                "en": "good"
+              },
+              {
+                "ko": "아침",
+                "en": "morning"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-은/는 + N",
+                "explanation": "A descriptive form can come before a noun.",
+                "example": "좋은 아침"
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 아침 with 밤, which means night."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-001"
+        },
+        {
+          "question_id": "l2-002",
+          "order": 2,
+          "skill": "listening",
+          "prompt": "What does the woman buy?",
+          "passage": "Transcript: 여자: 우유하고 계란 주세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Coffee and cake"
+            },
+            {
+              "id": "B",
+              "text": "Rice and soup"
+            },
+            {
+              "id": "C",
+              "text": "Milk and eggs"
+            },
+            {
+              "id": "D",
+              "text": "Bread and water"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "shopping",
+            "food",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "우유하고 계란 means milk and eggs.",
+            "teaching_points": [
+              "하고 connects nouns like and.",
+              "주세요 makes the request polite."
+            ],
+            "vocabulary": [
+              {
+                "ko": "우유",
+                "en": "milk"
+              },
+              {
+                "ko": "계란",
+                "en": "egg"
+              },
+              {
+                "ko": "하고",
+                "en": "and"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N하고 N",
+                "explanation": "Connects two nouns, meaning N and N.",
+                "example": "우유하고 계란"
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose only one item; the woman names two things."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-002"
+        },
+        {
+          "question_id": "l2-003",
+          "order": 3,
+          "skill": "listening",
+          "prompt": "Where is the speaker?",
+          "passage": "Transcript: 저는 우체국에서 편지를 보내요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "At a park"
+            },
+            {
+              "id": "B",
+              "text": "At a post office"
+            },
+            {
+              "id": "C",
+              "text": "At a bank"
+            },
+            {
+              "id": "D",
+              "text": "At a library"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "place",
+            "errands",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "우체국에서 means at the post office, where the speaker sends a letter.",
+            "teaching_points": [
+              "-에서 marks where an action happens.",
+              "편지를 보내요 means sends a letter."
+            ],
+            "vocabulary": [
+              {
+                "ko": "우체국",
+                "en": "post office"
+              },
+              {
+                "ko": "편지",
+                "en": "letter"
+              },
+              {
+                "ko": "보내요",
+                "en": "send"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에서",
+                "explanation": "Marks the place where an action happens.",
+                "example": "우체국에서 편지를 보내요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 우체국 with 은행; 은행 is bank."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-003"
+        },
+        {
+          "question_id": "l2-004",
+          "order": 4,
+          "skill": "listening",
+          "prompt": "What time does the meeting start?",
+          "passage": "Transcript: 회의는 열한 시 반에 시작해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "11:30"
+            },
+            {
+              "id": "B",
+              "text": "10:30"
+            },
+            {
+              "id": "C",
+              "text": "11:00"
+            },
+            {
+              "id": "D",
+              "text": "12:30"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "time",
+            "work",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "열한 시 반 means eleven thirty.",
+            "teaching_points": [
+              "반 after an hour means half past.",
+              "시작해요 means starts."
+            ],
+            "vocabulary": [
+              {
+                "ko": "회의",
+                "en": "meeting"
+              },
+              {
+                "ko": "열한 시 반",
+                "en": "11:30"
+              },
+              {
+                "ko": "시작해요",
+                "en": "starts"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "time + 에",
+                "explanation": "The particle -에 marks a time when something happens.",
+                "example": "열한 시 반에 시작해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not drop 반; it changes eleven o'clock to eleven thirty."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-004"
+        },
+        {
+          "question_id": "l2-005",
+          "order": 5,
+          "skill": "listening",
+          "prompt": "How is the weather?",
+          "passage": "Transcript: 오늘은 눈이 와요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "It is raining."
+            },
+            {
+              "id": "B",
+              "text": "It is hot."
+            },
+            {
+              "id": "C",
+              "text": "It is windy."
+            },
+            {
+              "id": "D",
+              "text": "It is snowing."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "weather",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "눈이 와요 is the Korean expression for it is snowing.",
+            "teaching_points": [
+              "눈 can mean snow or eyes; with 오다 it means snow.",
+              "오늘은 sets today as the topic."
+            ],
+            "vocabulary": [
+              {
+                "ko": "오늘",
+                "en": "today"
+              },
+              {
+                "ko": "눈",
+                "en": "snow"
+              },
+              {
+                "ko": "와요",
+                "en": "comes"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "눈이 오다",
+                "explanation": "Idiomatic weather expression meaning it snows.",
+                "example": "눈이 와요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not read 눈 as eyes in this weather sentence."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-005"
+        },
+        {
+          "question_id": "l2-006",
+          "order": 6,
+          "skill": "listening",
+          "prompt": "What does the man want to drink?",
+          "passage": "Transcript: 남자: 따뜻한 차를 마시고 싶어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hot soup"
+            },
+            {
+              "id": "B",
+              "text": "Iced coffee"
+            },
+            {
+              "id": "C",
+              "text": "Warm tea"
+            },
+            {
+              "id": "D",
+              "text": "Cold water"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "food_drink",
+            "want",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "따뜻한 차를 마시고 싶어요 means he wants to drink warm tea.",
+            "teaching_points": [
+              "따뜻한 describes tea as warm.",
+              "-고 싶어요 expresses wanting to do something."
+            ],
+            "vocabulary": [
+              {
+                "ko": "따뜻한",
+                "en": "warm"
+              },
+              {
+                "ko": "차",
+                "en": "tea"
+              },
+              {
+                "ko": "마시다",
+                "en": "to drink"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고 싶어요",
+                "explanation": "Expresses a desire to do an action.",
+                "example": "차를 마시고 싶어요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose soup; 마시다 is used for drinks and the object is 차."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-006"
+        },
+        {
+          "question_id": "l2-007",
+          "order": 7,
+          "skill": "listening",
+          "prompt": "What is Junho's job?",
+          "passage": "Transcript: 준호 씨는 회사원이에요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Teacher"
+            },
+            {
+              "id": "B",
+              "text": "Office worker"
+            },
+            {
+              "id": "C",
+              "text": "Student"
+            },
+            {
+              "id": "D",
+              "text": "Doctor"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "occupation",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "회사원이에요 means is an office worker or company employee.",
+            "teaching_points": [
+              "씨 is a polite title after a name.",
+              "-이에요 means is/am/are."
+            ],
+            "vocabulary": [
+              {
+                "ko": "준호",
+                "en": "Junho"
+              },
+              {
+                "ko": "회사원",
+                "en": "office worker"
+              },
+              {
+                "ko": "씨",
+                "en": "polite title"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이에요/예요",
+                "explanation": "Polite statement meaning is N.",
+                "example": "회사원이에요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 회사원 with 학생; 학생 means student."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-007"
+        },
+        {
+          "question_id": "l2-008",
+          "order": 8,
+          "skill": "listening",
+          "prompt": "What day is the day after tomorrow?",
+          "passage": "Transcript: 모레는 월요일이에요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Monday"
+            },
+            {
+              "id": "B",
+              "text": "Tuesday"
+            },
+            {
+              "id": "C",
+              "text": "Saturday"
+            },
+            {
+              "id": "D",
+              "text": "Sunday"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "calendar",
+            "days",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "모레는 월요일이에요 means the day after tomorrow is Monday.",
+            "teaching_points": [
+              "모레 means the day after tomorrow.",
+              "요일 names a day of the week."
+            ],
+            "vocabulary": [
+              {
+                "ko": "모레",
+                "en": "day after tomorrow"
+              },
+              {
+                "ko": "월요일",
+                "en": "Monday"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이에요",
+                "explanation": "Polite form meaning it is N.",
+                "example": "월요일이에요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 모레 with 내일; 내일 means tomorrow."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-008"
+        },
+        {
+          "question_id": "l2-009",
+          "order": 9,
+          "skill": "listening",
+          "prompt": "What does the speaker do after dinner?",
+          "passage": "Transcript: 저녁 후에 설거지를 해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Meet a friend"
+            },
+            {
+              "id": "B",
+              "text": "Do homework"
+            },
+            {
+              "id": "C",
+              "text": "Watch a movie"
+            },
+            {
+              "id": "D",
+              "text": "Wash the dishes"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "daily_life",
+            "sequence",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "설거지를 해요 means washes the dishes.",
+            "teaching_points": [
+              "후에 means after.",
+              "저녁 can mean dinner here."
+            ],
+            "vocabulary": [
+              {
+                "ko": "저녁",
+                "en": "dinner; evening"
+              },
+              {
+                "ko": "후에",
+                "en": "after"
+              },
+              {
+                "ko": "설거지",
+                "en": "dishwashing"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 후에",
+                "explanation": "Means after N.",
+                "example": "저녁 후에 설거지를 해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not translate 저녁 only as evening; with this context it means dinner."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-009"
+        },
+        {
+          "question_id": "l2-010",
+          "order": 10,
+          "skill": "listening",
+          "prompt": "How much are the socks?",
+          "passage": "Transcript: 양말은 삼천 원이에요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "2,000 won"
+            },
+            {
+              "id": "B",
+              "text": "10,000 won"
+            },
+            {
+              "id": "C",
+              "text": "3,000 won"
+            },
+            {
+              "id": "D",
+              "text": "1,000 won"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "shopping",
+            "money",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "삼천 원 means three thousand won.",
+            "teaching_points": [
+              "Sino-Korean numbers are used for prices.",
+              "양말 means socks."
+            ],
+            "vocabulary": [
+              {
+                "ko": "양말",
+                "en": "socks"
+              },
+              {
+                "ko": "삼천",
+                "en": "three thousand"
+              },
+              {
+                "ko": "원",
+                "en": "won"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N은 가격이에요",
+                "explanation": "States an item's price.",
+                "example": "양말은 삼천 원이에요."
+              }
+            ],
+            "common_mistakes": [
+              "삼천 is 3,000; 천 alone is 1,000."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-010"
+        },
+        {
+          "question_id": "l2-011",
+          "order": 11,
+          "skill": "listening",
+          "prompt": "Choose the best response.",
+          "passage": "Transcript: 여자: 미안합니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "잘 먹겠습니다."
+            },
+            {
+              "id": "B",
+              "text": "괜찮아요."
+            },
+            {
+              "id": "C",
+              "text": "처음 뵙겠습니다."
+            },
+            {
+              "id": "D",
+              "text": "많이 드세요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "conversation",
+            "set_phrases",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "미안합니다 means I am sorry, and 괜찮아요 is a natural response meaning it is okay.",
+            "teaching_points": [
+              "괜찮아요 can reassure someone after an apology.",
+              "The other responses fit first meetings or meals."
+            ],
+            "vocabulary": [
+              {
+                "ko": "미안합니다",
+                "en": "I am sorry"
+              },
+              {
+                "ko": "괜찮아요",
+                "en": "it is okay"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-습니다",
+                "explanation": "Formal polite ending often used in set phrases.",
+                "example": "미안합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not answer an apology with a meal phrase like 잘 먹겠습니다."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-011"
+        },
+        {
+          "question_id": "l2-012",
+          "order": 12,
+          "skill": "listening",
+          "prompt": "Why can't the speaker meet?",
+          "passage": "Transcript: 오늘은 약속이 있어서 못 만나요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The speaker has an appointment."
+            },
+            {
+              "id": "B",
+              "text": "The speaker is sick."
+            },
+            {
+              "id": "C",
+              "text": "The speaker lost money."
+            },
+            {
+              "id": "D",
+              "text": "The speaker dislikes coffee."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "reason",
+            "plans",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "약속이 있어서 못 만나요 means because there is an appointment, the speaker cannot meet.",
+            "teaching_points": [
+              "약속 means appointment or promise.",
+              "못 before a verb means cannot."
+            ],
+            "vocabulary": [
+              {
+                "ko": "약속",
+                "en": "appointment"
+              },
+              {
+                "ko": "있어서",
+                "en": "because there is"
+              },
+              {
+                "ko": "못 만나요",
+                "en": "cannot meet"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "못 V",
+                "explanation": "Means cannot V.",
+                "example": "못 만나요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not infer sickness; the reason given is 약속."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-012"
+        },
+        {
+          "question_id": "l2-013",
+          "order": 13,
+          "skill": "listening",
+          "prompt": "What does the speaker like?",
+          "passage": "Transcript: 저는 딸기를 좋아해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Apples"
+            },
+            {
+              "id": "B",
+              "text": "Grapes"
+            },
+            {
+              "id": "C",
+              "text": "Bananas"
+            },
+            {
+              "id": "D",
+              "text": "Strawberries"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "likes",
+            "food",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "딸기를 좋아해요 means I like strawberries.",
+            "teaching_points": [
+              "좋아해요 is used to say you like something.",
+              "딸기 means strawberry."
+            ],
+            "vocabulary": [
+              {
+                "ko": "딸기",
+                "en": "strawberry"
+              },
+              {
+                "ko": "좋아해요",
+                "en": "like"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 좋아해요",
+                "explanation": "Means I like N.",
+                "example": "딸기를 좋아해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 딸기 with 포도; 포도 means grapes."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-013"
+        },
+        {
+          "question_id": "l2-014",
+          "order": 14,
+          "skill": "listening",
+          "prompt": "Where does the speaker live?",
+          "passage": "Transcript: 저는 부산에 살아요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Jeju"
+            },
+            {
+              "id": "B",
+              "text": "Daegu"
+            },
+            {
+              "id": "C",
+              "text": "Busan"
+            },
+            {
+              "id": "D",
+              "text": "Seoul"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "residence",
+            "place",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "부산에 살아요 means I live in Busan.",
+            "teaching_points": [
+              "살아요 means live.",
+              "-에 marks the place with 살다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "부산",
+                "en": "Busan"
+              },
+              {
+                "ko": "살아요",
+                "en": "live"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 살아요",
+                "explanation": "Means live in or at N.",
+                "example": "부산에 살아요."
+              }
+            ],
+            "common_mistakes": [
+              "With 살다, use -에 for the place, not usually -에서."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-014"
+        },
+        {
+          "question_id": "l2-015",
+          "order": 15,
+          "skill": "listening",
+          "prompt": "What is in the drawer?",
+          "passage": "Transcript: 서랍 안에 여권이 있어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A key"
+            },
+            {
+              "id": "B",
+              "text": "A passport"
+            },
+            {
+              "id": "C",
+              "text": "A phone"
+            },
+            {
+              "id": "D",
+              "text": "A wallet"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "objects",
+            "location",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "여권이 있어요 means there is a passport.",
+            "teaching_points": [
+              "서랍 안에 means inside the drawer.",
+              "있어요 indicates existence."
+            ],
+            "vocabulary": [
+              {
+                "ko": "서랍",
+                "en": "drawer"
+              },
+              {
+                "ko": "안에",
+                "en": "inside"
+              },
+              {
+                "ko": "여권",
+                "en": "passport"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 있어요",
+                "explanation": "Means there is N or someone has N.",
+                "example": "여권이 있어요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not answer drawer; the drawer is the location, not the item."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-015"
+        },
+        {
+          "question_id": "l2-016",
+          "order": 16,
+          "skill": "listening",
+          "prompt": "What does the speaker do on weekends?",
+          "passage": "Transcript: 주말에 공원에서 자전거를 타요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Ride a bicycle at the park"
+            },
+            {
+              "id": "B",
+              "text": "Study at school"
+            },
+            {
+              "id": "C",
+              "text": "Cook dinner"
+            },
+            {
+              "id": "D",
+              "text": "Buy clothes"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "hobbies",
+            "weekend",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "자전거를 타요 means rides a bicycle, and 공원에서 says it happens at the park.",
+            "teaching_points": [
+              "타다 is used for riding vehicles and bicycles.",
+              "-에서 marks the action location."
+            ],
+            "vocabulary": [
+              {
+                "ko": "주말",
+                "en": "weekend"
+              },
+              {
+                "ko": "공원",
+                "en": "park"
+              },
+              {
+                "ko": "자전거",
+                "en": "bicycle"
+              },
+              {
+                "ko": "타요",
+                "en": "ride"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 타요",
+                "explanation": "Means ride or take N.",
+                "example": "자전거를 타요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose bus or train just because 타다 can also mean take transportation."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-016"
+        },
+        {
+          "question_id": "l2-017",
+          "order": 17,
+          "skill": "listening",
+          "prompt": "Who is coming tomorrow?",
+          "passage": "Transcript: 내일 할머니가 우리 집에 오세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Grandfather"
+            },
+            {
+              "id": "B",
+              "text": "Mother"
+            },
+            {
+              "id": "C",
+              "text": "Teacher"
+            },
+            {
+              "id": "D",
+              "text": "Grandmother"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "family",
+            "plans",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "할머니가 오세요 means grandmother is coming.",
+            "teaching_points": [
+              "오세요 is a polite form of comes.",
+              "우리 집 can naturally mean my/our house."
+            ],
+            "vocabulary": [
+              {
+                "ko": "내일",
+                "en": "tomorrow"
+              },
+              {
+                "ko": "할머니",
+                "en": "grandmother"
+              },
+              {
+                "ko": "오세요",
+                "en": "comes"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 오세요",
+                "explanation": "Uses -에 for the destination with come.",
+                "example": "우리 집에 오세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 할머니 with 할아버지; 할아버지 is grandfather."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-017"
+        },
+        {
+          "question_id": "l2-018",
+          "order": 18,
+          "skill": "listening",
+          "prompt": "What does the speaker ask to see?",
+          "passage": "Transcript: 지도 좀 보여 주세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A ticket"
+            },
+            {
+              "id": "B",
+              "text": "A photo"
+            },
+            {
+              "id": "C",
+              "text": "A map"
+            },
+            {
+              "id": "D",
+              "text": "A menu"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "requests",
+            "travel",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "지도 좀 보여 주세요 means please show me a map.",
+            "teaching_points": [
+              "보여 주세요 asks someone to show something.",
+              "좀 softens the request."
+            ],
+            "vocabulary": [
+              {
+                "ko": "지도",
+                "en": "map"
+              },
+              {
+                "ko": "좀",
+                "en": "please; a little"
+              },
+              {
+                "ko": "보여 주세요",
+                "en": "please show me"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-아/어 주세요",
+                "explanation": "Polite request asking someone to do an action.",
+                "example": "보여 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "지도 is map; 메뉴 is menu."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-018"
+        },
+        {
+          "question_id": "l2-019",
+          "order": 19,
+          "skill": "listening",
+          "prompt": "What does the woman order?",
+          "passage": "Transcript: 여자: 비빔밥하고 주스 주세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Soup and coffee"
+            },
+            {
+              "id": "B",
+              "text": "Bibimbap and juice"
+            },
+            {
+              "id": "C",
+              "text": "Gimbap and water"
+            },
+            {
+              "id": "D",
+              "text": "Bread and milk"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "restaurant",
+            "ordering",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "비빔밥하고 주스 means bibimbap and juice.",
+            "teaching_points": [
+              "하고 connects two ordered items.",
+              "주세요 makes the restaurant order polite."
+            ],
+            "vocabulary": [
+              {
+                "ko": "비빔밥",
+                "en": "bibimbap"
+              },
+              {
+                "ko": "주스",
+                "en": "juice"
+              },
+              {
+                "ko": "주세요",
+                "en": "please give me"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N하고 N 주세요",
+                "explanation": "A common way to order two items politely.",
+                "example": "비빔밥하고 주스 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not replace 주스 with water; 물 means water."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-019"
+        },
+        {
+          "question_id": "l2-020",
+          "order": 20,
+          "skill": "listening",
+          "prompt": "What is the room number?",
+          "passage": "Transcript: 제 방 번호는 305호예요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Room 305"
+            },
+            {
+              "id": "B",
+              "text": "Room 503"
+            },
+            {
+              "id": "C",
+              "text": "Room 350"
+            },
+            {
+              "id": "D",
+              "text": "Room 3050"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "numbers",
+            "lodging",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "305호예요 means it is room 305.",
+            "teaching_points": [
+              "방 번호 means room number.",
+              "호 is used for room or unit numbers."
+            ],
+            "vocabulary": [
+              {
+                "ko": "방",
+                "en": "room"
+              },
+              {
+                "ko": "번호",
+                "en": "number"
+              },
+              {
+                "ko": "호",
+                "en": "room/unit number marker"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "number + 호",
+                "explanation": "Marks a room or unit number.",
+                "example": "305호"
+              }
+            ],
+            "common_mistakes": [
+              "Read the number in order; 305 is not 503."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-020"
+        },
+        {
+          "question_id": "l2-021",
+          "order": 21,
+          "skill": "listening",
+          "prompt": "What will the two people do?",
+          "passage": "Transcript: 남자: 저녁에 같이 산책할까요? 여자: 네, 좋아요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Eat breakfast together"
+            },
+            {
+              "id": "B",
+              "text": "Study alone"
+            },
+            {
+              "id": "C",
+              "text": "Clean the classroom"
+            },
+            {
+              "id": "D",
+              "text": "Take a walk together in the evening"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "dialogue",
+            "plans",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "같이 산책할까요 suggests taking a walk together, and 좋아요 accepts.",
+            "teaching_points": [
+              "같이 means together.",
+              "-(으)ㄹ까요 can make a suggestion."
+            ],
+            "vocabulary": [
+              {
+                "ko": "저녁",
+                "en": "evening"
+              },
+              {
+                "ko": "같이",
+                "en": "together"
+              },
+              {
+                "ko": "산책하다",
+                "en": "to take a walk"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-(으)ㄹ까요?",
+                "explanation": "Can suggest doing something together.",
+                "example": "산책할까요?"
+              }
+            ],
+            "common_mistakes": [
+              "좋아요 here means agreement, not a separate description."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-021"
+        },
+        {
+          "question_id": "l2-022",
+          "order": 22,
+          "skill": "listening",
+          "prompt": "Where will the woman go first?",
+          "passage": "Transcript: 여자: 먼저 약국에 가고 그 다음에 집에 가요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "School"
+            },
+            {
+              "id": "B",
+              "text": "Bank"
+            },
+            {
+              "id": "C",
+              "text": "Pharmacy"
+            },
+            {
+              "id": "D",
+              "text": "Home"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "sequence",
+            "errands",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "먼저 약국에 가고 means she goes to the pharmacy first.",
+            "teaching_points": [
+              "먼저 means first.",
+              "그 다음에 means after that."
+            ],
+            "vocabulary": [
+              {
+                "ko": "먼저",
+                "en": "first"
+              },
+              {
+                "ko": "약국",
+                "en": "pharmacy"
+              },
+              {
+                "ko": "그 다음에",
+                "en": "after that"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고",
+                "explanation": "Can connect actions in sequence.",
+                "example": "약국에 가고 집에 가요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose 집; home is the second destination."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-022"
+        },
+        {
+          "question_id": "l2-023",
+          "order": 23,
+          "skill": "listening",
+          "prompt": "What is the woman's problem?",
+          "passage": "Transcript: 여자: 배가 아파요. 병원에 가야 해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "She is hungry."
+            },
+            {
+              "id": "B",
+              "text": "Her stomach hurts."
+            },
+            {
+              "id": "C",
+              "text": "Her head hurts."
+            },
+            {
+              "id": "D",
+              "text": "She lost her bag."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "health",
+            "problem",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "배가 아파요 means her stomach hurts.",
+            "teaching_points": [
+              "아파요 means hurts or is sick.",
+              "-아/어야 해요 means must do, here must go to the hospital."
+            ],
+            "vocabulary": [
+              {
+                "ko": "배",
+                "en": "stomach"
+              },
+              {
+                "ko": "아파요",
+                "en": "hurts"
+              },
+              {
+                "ko": "병원",
+                "en": "hospital"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 아파요",
+                "explanation": "Means N hurts.",
+                "example": "배가 아파요."
+              }
+            ],
+            "common_mistakes": [
+              "배 can also mean pear or boat, but with 아파요 it means stomach."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-023"
+        },
+        {
+          "question_id": "l2-024",
+          "order": 24,
+          "skill": "listening",
+          "prompt": "What does the speaker need?",
+          "passage": "Transcript: 오늘 햇빛이 강해요. 모자가 필요해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A hat"
+            },
+            {
+              "id": "B",
+              "text": "An umbrella"
+            },
+            {
+              "id": "C",
+              "text": "A ticket"
+            },
+            {
+              "id": "D",
+              "text": "A notebook"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "needs",
+            "weather",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "모자가 필요해요 means a hat is needed.",
+            "teaching_points": [
+              "필요해요 means need.",
+              "햇빛이 강해요 gives the sunny context."
+            ],
+            "vocabulary": [
+              {
+                "ko": "햇빛",
+                "en": "sunlight"
+              },
+              {
+                "ko": "강해요",
+                "en": "strong"
+              },
+              {
+                "ko": "모자",
+                "en": "hat"
+              },
+              {
+                "ko": "필요해요",
+                "en": "need"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 필요해요",
+                "explanation": "Means N is needed.",
+                "example": "모자가 필요해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose umbrella just because weather is mentioned; the item is 모자."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-024"
+        },
+        {
+          "question_id": "l2-025",
+          "order": 25,
+          "skill": "listening",
+          "prompt": "What is the man looking for?",
+          "passage": "Transcript: 남자: 제 안경이 없어요. 어디 있어요?",
+          "options": [
+            {
+              "id": "A",
+              "text": "His phone"
+            },
+            {
+              "id": "B",
+              "text": "His notebook"
+            },
+            {
+              "id": "C",
+              "text": "His passport"
+            },
+            {
+              "id": "D",
+              "text": "His glasses"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "lost_item",
+            "objects",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "안경이 없어요 means his glasses are missing or not here.",
+            "teaching_points": [
+              "없어요 means there is not or I do not have.",
+              "어디 있어요 asks where something is."
+            ],
+            "vocabulary": [
+              {
+                "ko": "제",
+                "en": "my"
+              },
+              {
+                "ko": "안경",
+                "en": "glasses"
+              },
+              {
+                "ko": "없어요",
+                "en": "not have; not exist"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 없어요",
+                "explanation": "Means there is no N or someone does not have N.",
+                "example": "안경이 없어요."
+              }
+            ],
+            "common_mistakes": [
+              "안경 means glasses; 여권 means passport."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-025"
+        },
+        {
+          "question_id": "l2-026",
+          "order": 26,
+          "skill": "listening",
+          "prompt": "What did the speaker do yesterday?",
+          "passage": "Transcript: 어제 방을 청소했어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Went shopping"
+            },
+            {
+              "id": "B",
+              "text": "Met a friend"
+            },
+            {
+              "id": "C",
+              "text": "Cleaned the room"
+            },
+            {
+              "id": "D",
+              "text": "Washed dishes"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "past_tense",
+            "chores",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "방을 청소했어요 means cleaned the room.",
+            "teaching_points": [
+              "-했어요 marks past tense for 하다 verbs.",
+              "방 means room."
+            ],
+            "vocabulary": [
+              {
+                "ko": "어제",
+                "en": "yesterday"
+              },
+              {
+                "ko": "방",
+                "en": "room"
+              },
+              {
+                "ko": "청소했어요",
+                "en": "cleaned"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 V-았/었어요",
+                "explanation": "Polite past tense with an object.",
+                "example": "방을 청소했어요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 청소하다 with 설거지하다; 설거지하다 is wash dishes."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-026"
+        },
+        {
+          "question_id": "l2-027",
+          "order": 27,
+          "skill": "listening",
+          "prompt": "Which season does the speaker like?",
+          "passage": "Transcript: 저는 여름을 좋아해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Winter"
+            },
+            {
+              "id": "B",
+              "text": "Summer"
+            },
+            {
+              "id": "C",
+              "text": "Spring"
+            },
+            {
+              "id": "D",
+              "text": "Fall"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "seasons",
+            "likes",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "여름을 좋아해요 means I like summer.",
+            "teaching_points": [
+              "여름 means summer.",
+              "좋아해요 expresses liking."
+            ],
+            "vocabulary": [
+              {
+                "ko": "여름",
+                "en": "summer"
+              },
+              {
+                "ko": "좋아해요",
+                "en": "like"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 좋아해요",
+                "explanation": "Means like N.",
+                "example": "여름을 좋아해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 여름 with 겨울; 겨울 means winter."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-027"
+        },
+        {
+          "question_id": "l2-028",
+          "order": 28,
+          "skill": "listening",
+          "prompt": "What color is the umbrella?",
+          "passage": "Transcript: 검은 우산이 제 거예요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Black"
+            },
+            {
+              "id": "B",
+              "text": "White"
+            },
+            {
+              "id": "C",
+              "text": "Blue"
+            },
+            {
+              "id": "D",
+              "text": "Yellow"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "colors",
+            "objects",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "검은 우산 means black umbrella.",
+            "teaching_points": [
+              "검은 is the noun-modifying form of black.",
+              "제 거예요 means it is mine."
+            ],
+            "vocabulary": [
+              {
+                "ko": "검은",
+                "en": "black"
+              },
+              {
+                "ko": "우산",
+                "en": "umbrella"
+              },
+              {
+                "ko": "제 거",
+                "en": "mine"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "modifier + N",
+                "explanation": "A descriptive word can come before a noun.",
+                "example": "검은 우산"
+              }
+            ],
+            "common_mistakes": [
+              "검은 is black; 하얀 is white."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-028"
+        },
+        {
+          "question_id": "l2-029",
+          "order": 29,
+          "skill": "listening",
+          "prompt": "What does the man ask about?",
+          "passage": "Transcript: 남자: 지하철역이 어디예요?",
+          "options": [
+            {
+              "id": "A",
+              "text": "The bus price"
+            },
+            {
+              "id": "B",
+              "text": "The store name"
+            },
+            {
+              "id": "C",
+              "text": "The class time"
+            },
+            {
+              "id": "D",
+              "text": "The subway station location"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "directions",
+            "transportation",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "지하철역이 어디예요 asks where the subway station is.",
+            "teaching_points": [
+              "어디예요 asks where something is.",
+              "지하철역 means subway station."
+            ],
+            "vocabulary": [
+              {
+                "ko": "지하철역",
+                "en": "subway station"
+              },
+              {
+                "ko": "어디",
+                "en": "where"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 어디예요?",
+                "explanation": "Asks where N is.",
+                "example": "지하철역이 어디예요?"
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 지하철역 with 버스 정류장, a bus stop."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-029"
+        },
+        {
+          "question_id": "l2-030",
+          "order": 30,
+          "skill": "listening",
+          "prompt": "What is the announcement about?",
+          "passage": "Transcript: 박물관은 오늘 오후 다섯 시에 닫습니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The bus leaves in five minutes."
+            },
+            {
+              "id": "B",
+              "text": "The class starts at 5 p.m."
+            },
+            {
+              "id": "C",
+              "text": "The museum closes at 5 p.m. today."
+            },
+            {
+              "id": "D",
+              "text": "The museum opens at 5 a.m."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "announcement",
+            "time",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "오후 다섯 시에 닫습니다 means closes at 5 p.m.",
+            "teaching_points": [
+              "박물관 means museum.",
+              "닫습니다 is the formal form of closes."
+            ],
+            "vocabulary": [
+              {
+                "ko": "박물관",
+                "en": "museum"
+              },
+              {
+                "ko": "오후",
+                "en": "p.m."
+              },
+              {
+                "ko": "다섯 시",
+                "en": "five o'clock"
+              },
+              {
+                "ko": "닫습니다",
+                "en": "closes"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N은 time에 V",
+                "explanation": "States when an action happens for the topic N.",
+                "example": "박물관은 오후 다섯 시에 닫습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 닫습니다 with 엽니다; 엽니다 means opens."
+            ]
+          },
+          "audio_ref": "transcript-only:l2-030"
+        }
+      ]
+    },
+    {
+      "section_id": "reading",
+      "title": "Reading",
+      "time_limit_minutes": 60,
+      "instructions": "Read each sentence, notice, message, or short passage and choose the best answer.",
+      "questions": [
+        {
+          "question_id": "r2-001",
+          "order": 31,
+          "skill": "reading",
+          "prompt": "Choose the meaning of the sentence.",
+          "passage": "저는 매운 음식을 못 먹어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Spicy food is cheap."
+            },
+            {
+              "id": "B",
+              "text": "I cannot eat spicy food."
+            },
+            {
+              "id": "C",
+              "text": "I eat spicy food every day."
+            },
+            {
+              "id": "D",
+              "text": "I want to cook spicy food."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "negation",
+            "food",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "못 먹어요 means cannot eat, and 매운 음식 means spicy food.",
+            "teaching_points": [
+              "못 before a verb expresses inability.",
+              "매운 describes food as spicy."
+            ],
+            "vocabulary": [
+              {
+                "ko": "매운",
+                "en": "spicy"
+              },
+              {
+                "ko": "음식",
+                "en": "food"
+              },
+              {
+                "ko": "못 먹어요",
+                "en": "cannot eat"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "못 V",
+                "explanation": "Means cannot V.",
+                "example": "못 먹어요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not ignore 못; it changes the sentence to cannot eat."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-002",
+          "order": 32,
+          "skill": "reading",
+          "prompt": "Where does the person go?",
+          "passage": "오후에 병원에 가요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Hospital"
+            },
+            {
+              "id": "B",
+              "text": "School"
+            },
+            {
+              "id": "C",
+              "text": "Market"
+            },
+            {
+              "id": "D",
+              "text": "Airport"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "destination",
+            "health",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "병원에 가요 means goes to the hospital.",
+            "teaching_points": [
+              "-에 marks destination with 가요.",
+              "오후에 tells when."
+            ],
+            "vocabulary": [
+              {
+                "ko": "오후",
+                "en": "afternoon; p.m."
+              },
+              {
+                "ko": "병원",
+                "en": "hospital"
+              },
+              {
+                "ko": "가요",
+                "en": "go"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 가요",
+                "explanation": "Means go to N.",
+                "example": "병원에 가요."
+              }
+            ],
+            "common_mistakes": [
+              "병원 is hospital; 은행 is bank."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-003",
+          "order": 33,
+          "skill": "reading",
+          "prompt": "What should the person do?",
+          "passage": "창문을 열어 주세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Close the door."
+            },
+            {
+              "id": "B",
+              "text": "Sit down."
+            },
+            {
+              "id": "C",
+              "text": "Turn off the light."
+            },
+            {
+              "id": "D",
+              "text": "Open the window."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "requests",
+            "classroom",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "창문을 열어 주세요 is a polite request to open the window.",
+            "teaching_points": [
+              "열다 means open.",
+              "-아/어 주세요 asks someone to do something."
+            ],
+            "vocabulary": [
+              {
+                "ko": "창문",
+                "en": "window"
+              },
+              {
+                "ko": "열다",
+                "en": "to open"
+              },
+              {
+                "ko": "주세요",
+                "en": "please"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-아/어 주세요",
+                "explanation": "Polite request form.",
+                "example": "열어 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 열다 with 닫다; 닫다 means close."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-004",
+          "order": 34,
+          "skill": "reading",
+          "prompt": "Choose the best answer to the question.",
+          "passage": "어느 나라 사람이에요?",
+          "options": [
+            {
+              "id": "A",
+              "text": "오전 아홉 시예요."
+            },
+            {
+              "id": "B",
+              "text": "책상 위에 있어요."
+            },
+            {
+              "id": "C",
+              "text": "저는 베트남 사람이에요."
+            },
+            {
+              "id": "D",
+              "text": "네, 맛있어요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "conversation",
+            "identity",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "어느 나라 사람이에요 asks nationality, and 베트남 사람이에요 answers Vietnamese person.",
+            "teaching_points": [
+              "어느 나라 asks which country.",
+              "사람 can identify nationality after a country name."
+            ],
+            "vocabulary": [
+              {
+                "ko": "어느",
+                "en": "which"
+              },
+              {
+                "ko": "나라",
+                "en": "country"
+              },
+              {
+                "ko": "베트남",
+                "en": "Vietnam"
+              },
+              {
+                "ko": "사람",
+                "en": "person"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "country + 사람이에요",
+                "explanation": "States nationality or country identity.",
+                "example": "베트남 사람이에요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not answer with time or place; the question asks country/nationality."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-005",
+          "order": 35,
+          "skill": "reading",
+          "prompt": "What does the notice mean?",
+          "passage": "음식을 먹지 마세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Food is delicious."
+            },
+            {
+              "id": "B",
+              "text": "Do not eat food."
+            },
+            {
+              "id": "C",
+              "text": "Please eat here."
+            },
+            {
+              "id": "D",
+              "text": "Please buy food."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "notices",
+            "prohibition",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "먹지 마세요 means do not eat.",
+            "teaching_points": [
+              "-지 마세요 is a polite negative command.",
+              "음식 means food."
+            ],
+            "vocabulary": [
+              {
+                "ko": "음식",
+                "en": "food"
+              },
+              {
+                "ko": "먹다",
+                "en": "to eat"
+              },
+              {
+                "ko": "마세요",
+                "en": "do not"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-지 마세요",
+                "explanation": "Means please do not V.",
+                "example": "먹지 마세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not overlook 마세요; it makes the sentence a prohibition."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-006",
+          "order": 36,
+          "skill": "reading",
+          "prompt": "What is the person doing now?",
+          "passage": "지금 편지를 써요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Writing a letter"
+            },
+            {
+              "id": "B",
+              "text": "Reading a book"
+            },
+            {
+              "id": "C",
+              "text": "Taking a photo"
+            },
+            {
+              "id": "D",
+              "text": "Drinking tea"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "present_action",
+            "communication",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "편지를 써요 means writes a letter.",
+            "teaching_points": [
+              "지금 means now.",
+              "쓰다 means write in this context."
+            ],
+            "vocabulary": [
+              {
+                "ko": "지금",
+                "en": "now"
+              },
+              {
+                "ko": "편지",
+                "en": "letter"
+              },
+              {
+                "ko": "써요",
+                "en": "write"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 써요",
+                "explanation": "The object marker shows what is written.",
+                "example": "편지를 써요."
+              }
+            ],
+            "common_mistakes": [
+              "쓰다 can also mean use or be bitter, but with 편지 it means write."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-007",
+          "order": 37,
+          "skill": "reading",
+          "prompt": "Choose the sentence with the same meaning.",
+          "passage": "저는 가끔 수영해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "I swim every day."
+            },
+            {
+              "id": "B",
+              "text": "I cannot swim."
+            },
+            {
+              "id": "C",
+              "text": "I want to buy a swimsuit."
+            },
+            {
+              "id": "D",
+              "text": "I sometimes swim."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "frequency",
+            "hobbies",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "가끔 means sometimes, and 수영해요 means swim.",
+            "teaching_points": [
+              "가끔 is a frequency word.",
+              "수영하다 means to swim."
+            ],
+            "vocabulary": [
+              {
+                "ko": "가끔",
+                "en": "sometimes"
+              },
+              {
+                "ko": "수영해요",
+                "en": "swim"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "frequency + V",
+                "explanation": "A frequency word can come before the verb phrase.",
+                "example": "가끔 수영해요."
+              }
+            ],
+            "common_mistakes": [
+              "가끔 is not 매일; 매일 means every day."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-008",
+          "order": 38,
+          "skill": "reading",
+          "prompt": "What is true about the clothes?",
+          "passage": "옷이 싸지만 작아요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "They are clean but old."
+            },
+            {
+              "id": "B",
+              "text": "They are warm and blue."
+            },
+            {
+              "id": "C",
+              "text": "They are cheap but small."
+            },
+            {
+              "id": "D",
+              "text": "They are expensive and big."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "description",
+            "contrast",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "싸지만 작아요 means cheap but small.",
+            "teaching_points": [
+              "-지만 means but.",
+              "작아요 means small."
+            ],
+            "vocabulary": [
+              {
+                "ko": "옷",
+                "en": "clothes"
+              },
+              {
+                "ko": "싸다",
+                "en": "cheap"
+              },
+              {
+                "ko": "작다",
+                "en": "small"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-지만",
+                "explanation": "Connects contrasting ideas, meaning but.",
+                "example": "싸지만 작아요."
+              }
+            ],
+            "common_mistakes": [
+              "싸다 means cheap; 비싸다 means expensive."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-009",
+          "order": 39,
+          "skill": "reading",
+          "prompt": "What is the correct order of events?",
+          "passage": "샤워하고 잠을 자요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Clean, then go shopping."
+            },
+            {
+              "id": "B",
+              "text": "Shower, then sleep."
+            },
+            {
+              "id": "C",
+              "text": "Sleep, then shower."
+            },
+            {
+              "id": "D",
+              "text": "Eat breakfast, then study."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "sequence",
+            "daily_life",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "샤워하고 잠을 자요 means shower and then sleep.",
+            "teaching_points": [
+              "-고 can connect actions in order.",
+              "잠을 자다 means to sleep."
+            ],
+            "vocabulary": [
+              {
+                "ko": "샤워",
+                "en": "shower"
+              },
+              {
+                "ko": "잠",
+                "en": "sleep"
+              },
+              {
+                "ko": "자요",
+                "en": "sleep"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고 V",
+                "explanation": "Connects actions; often the first action happens before the second.",
+                "example": "샤워하고 잠을 자요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not reverse the order; the verb before -고 appears first."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-010",
+          "order": 40,
+          "skill": "reading",
+          "prompt": "What is the person asking?",
+          "passage": "이 우산 얼마예요?",
+          "options": [
+            {
+              "id": "A",
+              "text": "How much is this umbrella?"
+            },
+            {
+              "id": "B",
+              "text": "Where is this umbrella?"
+            },
+            {
+              "id": "C",
+              "text": "Whose umbrella is this?"
+            },
+            {
+              "id": "D",
+              "text": "What color is this umbrella?"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "shopping",
+            "price",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "얼마예요 asks the price, and 우산 means umbrella.",
+            "teaching_points": [
+              "이 means this before a noun.",
+              "얼마 is used for prices."
+            ],
+            "vocabulary": [
+              {
+                "ko": "이",
+                "en": "this"
+              },
+              {
+                "ko": "우산",
+                "en": "umbrella"
+              },
+              {
+                "ko": "얼마예요",
+                "en": "how much is it"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 얼마예요?",
+                "explanation": "Asks the price of N.",
+                "example": "이 우산 얼마예요?"
+              }
+            ],
+            "common_mistakes": [
+              "얼마 asks price; 어디 asks location."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-011",
+          "order": 41,
+          "skill": "reading",
+          "prompt": "What does the message ask the reader to do?",
+          "passage": "내일 오전에 병원에 오세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Call the school tonight."
+            },
+            {
+              "id": "B",
+              "text": "Buy medicine today."
+            },
+            {
+              "id": "C",
+              "text": "Go home this afternoon."
+            },
+            {
+              "id": "D",
+              "text": "Come to the hospital tomorrow morning."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "message",
+            "appointment",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "내일 오전에 병원에 오세요 asks the reader to come to the hospital tomorrow morning.",
+            "teaching_points": [
+              "오세요 is a polite request to come.",
+              "오전 means morning or a.m."
+            ],
+            "vocabulary": [
+              {
+                "ko": "내일",
+                "en": "tomorrow"
+              },
+              {
+                "ko": "오전",
+                "en": "morning; a.m."
+              },
+              {
+                "ko": "병원",
+                "en": "hospital"
+              },
+              {
+                "ko": "오세요",
+                "en": "please come"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-(으)세요",
+                "explanation": "Polite request or command.",
+                "example": "오세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 오전 with 오후; 오후 is p.m."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-012",
+          "order": 42,
+          "skill": "reading",
+          "prompt": "When is the movie?",
+          "passage": "영화는 일요일 오후 세 시입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Sunday at 3 a.m."
+            },
+            {
+              "id": "B",
+              "text": "Monday at 4 p.m."
+            },
+            {
+              "id": "C",
+              "text": "Sunday at 3 p.m."
+            },
+            {
+              "id": "D",
+              "text": "Saturday at 3 p.m."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "events",
+            "time",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "일요일 오후 세 시 means Sunday at three in the afternoon.",
+            "teaching_points": [
+              "오후 means p.m.",
+              "세 시 uses a native Korean number for the hour."
+            ],
+            "vocabulary": [
+              {
+                "ko": "영화",
+                "en": "movie"
+              },
+              {
+                "ko": "일요일",
+                "en": "Sunday"
+              },
+              {
+                "ko": "오후",
+                "en": "p.m."
+              },
+              {
+                "ko": "세 시",
+                "en": "three o'clock"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N입니다",
+                "explanation": "Formal statement meaning is N.",
+                "example": "오후 세 시입니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not miss 오후; it makes the time p.m."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-013",
+          "order": 43,
+          "skill": "reading",
+          "prompt": "What is true about Doyeon?",
+          "passage": "도연 씨는 요리를 잘해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Doyeon studies late."
+            },
+            {
+              "id": "B",
+              "text": "Doyeon cooks well."
+            },
+            {
+              "id": "C",
+              "text": "Doyeon cannot cook."
+            },
+            {
+              "id": "D",
+              "text": "Doyeon sings well."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "ability",
+            "daily_life",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "요리를 잘해요 means cooks well.",
+            "teaching_points": [
+              "잘 before a verb means well.",
+              "요리하다 means cook."
+            ],
+            "vocabulary": [
+              {
+                "ko": "요리",
+                "en": "cooking"
+              },
+              {
+                "ko": "잘해요",
+                "en": "does well"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "잘 V",
+                "explanation": "Means to do V well.",
+                "example": "요리를 잘해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 요리 with 노래; 노래 is singing/song."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-014",
+          "order": 44,
+          "skill": "reading",
+          "prompt": "What does the sign mean?",
+          "passage": "여기에 차를 세우지 마세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Do not park a car here."
+            },
+            {
+              "id": "B",
+              "text": "Please wash the car here."
+            },
+            {
+              "id": "C",
+              "text": "Cars are cheap here."
+            },
+            {
+              "id": "D",
+              "text": "Please wait for a taxi here."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "signs",
+            "prohibition",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "차를 세우지 마세요 means do not stop or park a car.",
+            "teaching_points": [
+              "세우다 can mean stop or park a vehicle.",
+              "-지 마세요 is a polite prohibition."
+            ],
+            "vocabulary": [
+              {
+                "ko": "여기",
+                "en": "here"
+              },
+              {
+                "ko": "차",
+                "en": "car"
+              },
+              {
+                "ko": "세우다",
+                "en": "to stop; to park"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-지 마세요",
+                "explanation": "Polite form meaning please do not V.",
+                "example": "세우지 마세요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose taxi; 차 here means car."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-015",
+          "order": 45,
+          "skill": "reading",
+          "prompt": "What does the person want to do?",
+          "passage": "저는 새 컴퓨터를 사고 싶어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Sell an old phone"
+            },
+            {
+              "id": "B",
+              "text": "Study at a library"
+            },
+            {
+              "id": "C",
+              "text": "Fix a bicycle"
+            },
+            {
+              "id": "D",
+              "text": "Buy a new computer"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "want",
+            "shopping",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "새 컴퓨터를 사고 싶어요 means I want to buy a new computer.",
+            "teaching_points": [
+              "새 before a noun means new.",
+              "-고 싶어요 expresses wanting to do something."
+            ],
+            "vocabulary": [
+              {
+                "ko": "새",
+                "en": "new"
+              },
+              {
+                "ko": "컴퓨터",
+                "en": "computer"
+              },
+              {
+                "ko": "사다",
+                "en": "to buy"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고 싶어요",
+                "explanation": "Means want to V.",
+                "example": "사고 싶어요."
+              }
+            ],
+            "common_mistakes": [
+              "사다 means buy; 팔다 means sell."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-016",
+          "order": 46,
+          "skill": "reading",
+          "prompt": "What is the person asking for?",
+          "passage": "차가운 물 두 병 주세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Two bowls of soup"
+            },
+            {
+              "id": "B",
+              "text": "Three cups of juice"
+            },
+            {
+              "id": "C",
+              "text": "Two bottles of cold water"
+            },
+            {
+              "id": "D",
+              "text": "One cup of warm tea"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "ordering",
+            "counters",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "차가운 물 두 병 means two bottles of cold water.",
+            "teaching_points": [
+              "두 is two before a counter.",
+              "병 is a counter for bottles."
+            ],
+            "vocabulary": [
+              {
+                "ko": "차가운",
+                "en": "cold"
+              },
+              {
+                "ko": "물",
+                "en": "water"
+              },
+              {
+                "ko": "두 병",
+                "en": "two bottles"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N + number counter",
+                "explanation": "A common way to count items.",
+                "example": "물 두 병"
+              }
+            ],
+            "common_mistakes": [
+              "병 counts bottles; 잔 counts cups or glasses."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-017",
+          "order": 47,
+          "skill": "reading",
+          "prompt": "How does the person go to school?",
+          "passage": "저는 지하철로 학교에 가요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "By bicycle"
+            },
+            {
+              "id": "B",
+              "text": "By subway"
+            },
+            {
+              "id": "C",
+              "text": "By bus"
+            },
+            {
+              "id": "D",
+              "text": "By taxi"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "transportation",
+            "school",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "지하철로 가요 means goes by subway.",
+            "teaching_points": [
+              "-(으)로 can mark transportation method.",
+              "학교에 is the destination."
+            ],
+            "vocabulary": [
+              {
+                "ko": "지하철",
+                "en": "subway"
+              },
+              {
+                "ko": "학교",
+                "en": "school"
+              },
+              {
+                "ko": "가요",
+                "en": "go"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(으)로 가요",
+                "explanation": "Means go by N when N is a transportation method.",
+                "example": "지하철로 가요."
+              }
+            ],
+            "common_mistakes": [
+              "지하철 is subway; 버스 is bus."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-018",
+          "order": 48,
+          "skill": "reading",
+          "prompt": "What is the relationship?",
+          "passage": "저분은 제 할머니입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Grandmother"
+            },
+            {
+              "id": "B",
+              "text": "Grandfather"
+            },
+            {
+              "id": "C",
+              "text": "Younger sibling"
+            },
+            {
+              "id": "D",
+              "text": "Teacher"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "family",
+            "identity",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "제 할머니 means my grandmother.",
+            "teaching_points": [
+              "저분 politely means that person.",
+              "제 is polite my."
+            ],
+            "vocabulary": [
+              {
+                "ko": "저분",
+                "en": "that person, polite"
+              },
+              {
+                "ko": "제",
+                "en": "my"
+              },
+              {
+                "ko": "할머니",
+                "en": "grandmother"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N입니다",
+                "explanation": "Formal statement meaning is N.",
+                "example": "제 할머니입니다."
+              }
+            ],
+            "common_mistakes": [
+              "할머니 is grandmother; 할아버지 is grandfather."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-019",
+          "order": 49,
+          "skill": "reading",
+          "prompt": "Why did the writer take a taxi?",
+          "passage": "비가 와서 택시를 탔어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Because the bus was cheap"
+            },
+            {
+              "id": "B",
+              "text": "Because school ended"
+            },
+            {
+              "id": "C",
+              "text": "Because the taxi was red"
+            },
+            {
+              "id": "D",
+              "text": "Because it rained"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "reason_result",
+            "transportation",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "비가 와서 gives the reason: because it rained.",
+            "teaching_points": [
+              "-아서/어서 can connect reason and result.",
+              "택시를 탔어요 means took a taxi."
+            ],
+            "vocabulary": [
+              {
+                "ko": "비",
+                "en": "rain"
+              },
+              {
+                "ko": "와서",
+                "en": "because it came"
+              },
+              {
+                "ko": "택시",
+                "en": "taxi"
+              },
+              {
+                "ko": "탔어요",
+                "en": "took; rode"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-아서/어서",
+                "explanation": "Can express because or so.",
+                "example": "비가 와서 택시를 탔어요."
+              }
+            ],
+            "common_mistakes": [
+              "The taxi is the result, not the reason."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-020",
+          "order": 50,
+          "skill": "reading",
+          "prompt": "What is being described?",
+          "passage": "이것은 크고 하얀 집입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A warm red coat"
+            },
+            {
+              "id": "B",
+              "text": "A clean blue room"
+            },
+            {
+              "id": "C",
+              "text": "A big white house"
+            },
+            {
+              "id": "D",
+              "text": "A small black bag"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "description",
+            "colors",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "크고 하얀 집 means a big white house.",
+            "teaching_points": [
+              "-고 connects descriptive words.",
+              "하얀 is the modifier form of white."
+            ],
+            "vocabulary": [
+              {
+                "ko": "크고",
+                "en": "big and"
+              },
+              {
+                "ko": "하얀",
+                "en": "white"
+              },
+              {
+                "ko": "집",
+                "en": "house"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A-고 A + N",
+                "explanation": "Connects descriptions before a noun.",
+                "example": "크고 하얀 집"
+              }
+            ],
+            "common_mistakes": [
+              "하얀 means white; 검은 means black."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-021",
+          "order": 51,
+          "skill": "reading",
+          "prompt": "What is true about the pharmacy?",
+          "passage": "약국은 오전 아홉 시에 열고 오후 여덟 시에 닫습니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "It opens only on Sunday."
+            },
+            {
+              "id": "B",
+              "text": "It opens at 9 a.m. and closes at 8 p.m."
+            },
+            {
+              "id": "C",
+              "text": "It opens at 8 a.m. and closes at 9 p.m."
+            },
+            {
+              "id": "D",
+              "text": "It is closed all day."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "notice",
+            "time",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "오전 아홉 시 is 9 a.m. and 오후 여덟 시 is 8 p.m.",
+            "teaching_points": [
+              "열다 means open and 닫다 means close.",
+              "오전 and 오후 distinguish a.m. and p.m."
+            ],
+            "vocabulary": [
+              {
+                "ko": "약국",
+                "en": "pharmacy"
+              },
+              {
+                "ko": "오전",
+                "en": "a.m."
+              },
+              {
+                "ko": "열다",
+                "en": "to open"
+              },
+              {
+                "ko": "닫다",
+                "en": "to close"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고",
+                "explanation": "Connects two actions or facts.",
+                "example": "열고 ... 닫습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not swap the opening and closing times."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-022",
+          "order": 52,
+          "skill": "reading",
+          "prompt": "What should the reader bring?",
+          "passage": "여권과 사진을 가져오세요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A passport and a photo"
+            },
+            {
+              "id": "B",
+              "text": "A pencil and an eraser"
+            },
+            {
+              "id": "C",
+              "text": "A hat and gloves"
+            },
+            {
+              "id": "D",
+              "text": "Food and water"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "notice",
+            "documents",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "여권과 사진 means passport and photo.",
+            "teaching_points": [
+              "과 connects nouns in writing/formal style.",
+              "가져오세요 means please bring."
+            ],
+            "vocabulary": [
+              {
+                "ko": "여권",
+                "en": "passport"
+              },
+              {
+                "ko": "사진",
+                "en": "photo"
+              },
+              {
+                "ko": "가져오세요",
+                "en": "please bring"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N과/와 N",
+                "explanation": "Connects nouns, meaning and.",
+                "example": "여권과 사진"
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose school supplies; the text names travel/ID items."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-023",
+          "order": 53,
+          "skill": "reading",
+          "prompt": "What did Jiho do?",
+          "passage": "지호 씨는 선생님께 문자를 보냈어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "He received a gift from a teacher."
+            },
+            {
+              "id": "B",
+              "text": "He called his mother."
+            },
+            {
+              "id": "C",
+              "text": "He read a book to a friend."
+            },
+            {
+              "id": "D",
+              "text": "He sent a text message to the teacher."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "past_tense",
+            "communication",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "선생님께 문자를 보냈어요 means sent a text message to the teacher.",
+            "teaching_points": [
+              "-께 is a polite recipient marker.",
+              "보냈어요 is past tense of 보내다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "선생님",
+                "en": "teacher"
+              },
+              {
+                "ko": "문자",
+                "en": "text message"
+              },
+              {
+                "ko": "보냈어요",
+                "en": "sent"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N께",
+                "explanation": "Polite marker for the recipient of an action.",
+                "example": "선생님께 문자를 보냈어요."
+              }
+            ],
+            "common_mistakes": [
+              "보내다 means send; 받다 means receive."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-024",
+          "order": 54,
+          "skill": "reading",
+          "prompt": "Which sentence best matches the dialogue?",
+          "passage": "가: 숙제를 다 했어요? 나: 아니요, 아직 못 했어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "No, homework is easy."
+            },
+            {
+              "id": "B",
+              "text": "Yes, I will go home."
+            },
+            {
+              "id": "C",
+              "text": "No, I have not finished it yet."
+            },
+            {
+              "id": "D",
+              "text": "Yes, I finished it yesterday."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "dialogue",
+            "negation",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "아직 못 했어요 means have not done it yet.",
+            "teaching_points": [
+              "아직 means yet or still.",
+              "못 했어요 means could not/did not do."
+            ],
+            "vocabulary": [
+              {
+                "ko": "숙제",
+                "en": "homework"
+              },
+              {
+                "ko": "다",
+                "en": "all; completely"
+              },
+              {
+                "ko": "아직",
+                "en": "yet"
+              },
+              {
+                "ko": "못 했어요",
+                "en": "have not done"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "아직 못 V-았/었어요",
+                "explanation": "Means have not been able to V yet.",
+                "example": "아직 못 했어요."
+              }
+            ],
+            "common_mistakes": [
+              "아니요 signals a negative answer, so do not choose yes."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-025",
+          "order": 55,
+          "skill": "reading",
+          "prompt": "What does the person suggest?",
+          "passage": "날씨가 좋으면 등산합시다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Eat lunch if the cafe is closed"
+            },
+            {
+              "id": "B",
+              "text": "Go hiking if the weather is good"
+            },
+            {
+              "id": "C",
+              "text": "Stay home because it rains"
+            },
+            {
+              "id": "D",
+              "text": "Study because the test is hard"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "condition",
+            "suggestion",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "날씨가 좋으면 means if the weather is good, and 등산합시다 means let's hike.",
+            "teaching_points": [
+              "-(으)면 introduces a condition.",
+              "-ㅂ시다 suggests doing something together."
+            ],
+            "vocabulary": [
+              {
+                "ko": "날씨",
+                "en": "weather"
+              },
+              {
+                "ko": "좋으면",
+                "en": "if good"
+              },
+              {
+                "ko": "등산합시다",
+                "en": "let's hike"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-(으)면",
+                "explanation": "Means if or when.",
+                "example": "날씨가 좋으면 등산합시다."
+              }
+            ],
+            "common_mistakes": [
+              "좋으면 means if good; 나쁘면 would mean if bad."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-026",
+          "order": 56,
+          "skill": "reading",
+          "prompt": "Why was the writer late?",
+          "passage": "길을 몰라서 늦었어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Because the writer did not know the way"
+            },
+            {
+              "id": "B",
+              "text": "Because the bus was early"
+            },
+            {
+              "id": "C",
+              "text": "Because lunch was late"
+            },
+            {
+              "id": "D",
+              "text": "Because the store was closed"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "reason_result",
+            "directions",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "길을 몰라서 gives the reason: because the writer did not know the way.",
+            "teaching_points": [
+              "모르다 means not know.",
+              "늦었어요 means was late."
+            ],
+            "vocabulary": [
+              {
+                "ko": "길",
+                "en": "way; road"
+              },
+              {
+                "ko": "몰라서",
+                "en": "because I did not know"
+              },
+              {
+                "ko": "늦었어요",
+                "en": "was late"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-아서/어서",
+                "explanation": "Connects a cause to a result.",
+                "example": "길을 몰라서 늦었어요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not read 몰라서 as 알다; 알다 means know."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-027",
+          "order": 57,
+          "skill": "reading",
+          "prompt": "What is true about the writer's family?",
+          "passage": "우리 가족은 세 명입니다. 부모님과 저입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "There are four people including an older brother."
+            },
+            {
+              "id": "B",
+              "text": "The writer lives alone."
+            },
+            {
+              "id": "C",
+              "text": "The writer has two younger sisters."
+            },
+            {
+              "id": "D",
+              "text": "There are three people: the parents and the writer."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "family",
+            "numbers",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "세 명 means three people, and the list is parents and the writer.",
+            "teaching_points": [
+              "명 is a counter for people.",
+              "부모님 refers to both parents."
+            ],
+            "vocabulary": [
+              {
+                "ko": "가족",
+                "en": "family"
+              },
+              {
+                "ko": "세 명",
+                "en": "three people"
+              },
+              {
+                "ko": "부모님",
+                "en": "parents"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "counter + 입니다",
+                "explanation": "A formal way to state an amount.",
+                "example": "세 명입니다."
+              }
+            ],
+            "common_mistakes": [
+              "Remember 부모님 counts as two people, not one."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-028",
+          "order": 58,
+          "skill": "reading",
+          "prompt": "What does the text say about the cafe?",
+          "passage": "이 카페는 창문이 크고 조용해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "It is expensive but famous."
+            },
+            {
+              "id": "B",
+              "text": "It is small and cold."
+            },
+            {
+              "id": "C",
+              "text": "It has big windows and is quiet."
+            },
+            {
+              "id": "D",
+              "text": "It has no windows and is noisy."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "description",
+            "cafe",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "창문이 크고 조용해요 says the windows are big and the cafe is quiet.",
+            "teaching_points": [
+              "크다 means big when describing 창문.",
+              "조용해요 means quiet."
+            ],
+            "vocabulary": [
+              {
+                "ko": "카페",
+                "en": "cafe"
+              },
+              {
+                "ko": "창문",
+                "en": "window"
+              },
+              {
+                "ko": "크다",
+                "en": "big"
+              },
+              {
+                "ko": "조용하다",
+                "en": "quiet"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-고",
+                "explanation": "Connects two descriptions.",
+                "example": "창문이 크고 조용해요."
+              }
+            ],
+            "common_mistakes": [
+              "조용해요 is quiet; 시끄러워요 is noisy."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-029",
+          "order": 59,
+          "skill": "reading",
+          "prompt": "What did the writer buy?",
+          "passage": "시장에서 감자 네 개를 샀어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "One watermelon"
+            },
+            {
+              "id": "B",
+              "text": "Four potatoes"
+            },
+            {
+              "id": "C",
+              "text": "Four tangerines"
+            },
+            {
+              "id": "D",
+              "text": "Two apples"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "shopping",
+            "counters",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "감자 네 개 means four potatoes, and 샀어요 means bought.",
+            "teaching_points": [
+              "개 is a general counter.",
+              "네 is four before a counter."
+            ],
+            "vocabulary": [
+              {
+                "ko": "시장",
+                "en": "market"
+              },
+              {
+                "ko": "감자",
+                "en": "potato"
+              },
+              {
+                "ko": "네 개",
+                "en": "four items"
+              },
+              {
+                "ko": "샀어요",
+                "en": "bought"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N number counter",
+                "explanation": "A common counting pattern after a noun.",
+                "example": "감자 네 개"
+              }
+            ],
+            "common_mistakes": [
+              "감자 is potato; 귤 is tangerine."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-030",
+          "order": 60,
+          "skill": "reading",
+          "prompt": "What is true about the writer?",
+          "passage": "저는 일본어를 배우지만 아직 잘 못해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The writer studies Japanese but is not good at it yet."
+            },
+            {
+              "id": "B",
+              "text": "The writer teaches Japanese well."
+            },
+            {
+              "id": "C",
+              "text": "The writer does not want to learn Japanese."
+            },
+            {
+              "id": "D",
+              "text": "The writer speaks Japanese perfectly."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "contrast",
+            "ability",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "배우지만 means learns but, and 아직 잘 못해요 means is not good at it yet.",
+            "teaching_points": [
+              "-지만 marks contrast.",
+              "잘 못해요 is negative ability."
+            ],
+            "vocabulary": [
+              {
+                "ko": "일본어",
+                "en": "Japanese language"
+              },
+              {
+                "ko": "배우다",
+                "en": "to learn"
+              },
+              {
+                "ko": "아직",
+                "en": "yet"
+              },
+              {
+                "ko": "잘 못해요",
+                "en": "cannot do well"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-지만",
+                "explanation": "Means but, connecting contrasting ideas.",
+                "example": "배우지만 아직 잘 못해요."
+              }
+            ],
+            "common_mistakes": [
+              "잘 못해요 is not the same as 잘해요; 못 makes it negative."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-031",
+          "order": 61,
+          "skill": "reading",
+          "prompt": "What is the best title for the passage?",
+          "passage": "저는 저녁마다 집에서 요리해요. 오늘은 김치찌개를 만들었어요. 가족하고 맛있게 먹었어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "A Morning Walk"
+            },
+            {
+              "id": "B",
+              "text": "Buying a New Phone"
+            },
+            {
+              "id": "C",
+              "text": "A Trip to the Beach"
+            },
+            {
+              "id": "D",
+              "text": "Cooking Dinner at Home"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "main_idea",
+            "routine",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The passage is about cooking dinner at home and eating with family.",
+            "teaching_points": [
+              "저녁마다 means every evening.",
+              "만들었어요 means made."
+            ],
+            "vocabulary": [
+              {
+                "ko": "저녁마다",
+                "en": "every evening"
+              },
+              {
+                "ko": "요리해요",
+                "en": "cook"
+              },
+              {
+                "ko": "김치찌개",
+                "en": "kimchi stew"
+              },
+              {
+                "ko": "가족",
+                "en": "family"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N마다",
+                "explanation": "Means every N.",
+                "example": "저녁마다 요리해요."
+              }
+            ],
+            "common_mistakes": [
+              "Choose the title from the whole passage, not only one food word."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-032",
+          "order": 62,
+          "skill": "reading",
+          "prompt": "What does the writer say about the bag?",
+          "passage": "이 가방은 새롭지만 비싸요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "It is small and light."
+            },
+            {
+              "id": "B",
+              "text": "It is black and clean."
+            },
+            {
+              "id": "C",
+              "text": "It is new but expensive."
+            },
+            {
+              "id": "D",
+              "text": "It is old but cheap."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "description",
+            "contrast",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "새롭지만 비싸요 means new but expensive.",
+            "teaching_points": [
+              "-지만 marks contrast.",
+              "비싸요 means expensive."
+            ],
+            "vocabulary": [
+              {
+                "ko": "가방",
+                "en": "bag"
+              },
+              {
+                "ko": "새롭다",
+                "en": "new"
+              },
+              {
+                "ko": "비싸다",
+                "en": "expensive"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-지만",
+                "explanation": "Shows contrast between two descriptions.",
+                "example": "새롭지만 비싸요."
+              }
+            ],
+            "common_mistakes": [
+              "비싸요 means expensive; 싸요 means cheap."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-033",
+          "order": 63,
+          "skill": "reading",
+          "prompt": "Where is the bank?",
+          "passage": "은행은 지하 일 층에 있습니다. 계단 앞입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Behind the pharmacy"
+            },
+            {
+              "id": "B",
+              "text": "On basement level 1, in front of the stairs"
+            },
+            {
+              "id": "C",
+              "text": "On the second floor next to the elevator"
+            },
+            {
+              "id": "D",
+              "text": "Outside the building"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "location",
+            "building",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "지하 일 층 means basement level one, and 계단 앞 means in front of the stairs.",
+            "teaching_points": [
+              "지하 means underground or basement.",
+              "앞 means front."
+            ],
+            "vocabulary": [
+              {
+                "ko": "은행",
+                "en": "bank"
+              },
+              {
+                "ko": "지하",
+                "en": "basement; underground"
+              },
+              {
+                "ko": "계단",
+                "en": "stairs"
+              },
+              {
+                "ko": "앞",
+                "en": "front"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 앞입니다",
+                "explanation": "Means it is in front of N.",
+                "example": "계단 앞입니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not confuse 앞 with 옆; 옆 means beside."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-034",
+          "order": 64,
+          "skill": "reading",
+          "prompt": "Why does the writer like spring?",
+          "passage": "저는 봄을 좋아해요. 꽃이 많이 피어서 예뻐요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Because many flowers bloom and it is pretty"
+            },
+            {
+              "id": "B",
+              "text": "Because the writer can ski"
+            },
+            {
+              "id": "C",
+              "text": "Because school is closed"
+            },
+            {
+              "id": "D",
+              "text": "Because the sea is cold"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "season",
+            "reason",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "꽃이 많이 피어서 예뻐요 explains that many flowers bloom, so it is pretty.",
+            "teaching_points": [
+              "피다 means bloom for flowers.",
+              "-어서 gives a reason."
+            ],
+            "vocabulary": [
+              {
+                "ko": "봄",
+                "en": "spring"
+              },
+              {
+                "ko": "꽃",
+                "en": "flower"
+              },
+              {
+                "ko": "많이",
+                "en": "many; a lot"
+              },
+              {
+                "ko": "피다",
+                "en": "to bloom"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-아서/어서",
+                "explanation": "Can express because or so.",
+                "example": "꽃이 많이 피어서 예뻐요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose skiing; that fits winter, not this spring passage."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-035",
+          "order": 65,
+          "skill": "reading",
+          "prompt": "What will the person do first?",
+          "passage": "먼저 빨래를 하고 시장에 갈 거예요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Go to the market"
+            },
+            {
+              "id": "B",
+              "text": "Meet a teacher"
+            },
+            {
+              "id": "C",
+              "text": "Cook dinner"
+            },
+            {
+              "id": "D",
+              "text": "Do laundry"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "sequence",
+            "future",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "먼저 빨래를 하고 means first do laundry, then go to the market.",
+            "teaching_points": [
+              "먼저 identifies the first action.",
+              "-(으)ㄹ 거예요 expresses a future plan."
+            ],
+            "vocabulary": [
+              {
+                "ko": "먼저",
+                "en": "first"
+              },
+              {
+                "ko": "빨래",
+                "en": "laundry"
+              },
+              {
+                "ko": "시장",
+                "en": "market"
+              },
+              {
+                "ko": "갈 거예요",
+                "en": "will go"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-(으)ㄹ 거예요",
+                "explanation": "Expresses future or plan.",
+                "example": "시장에 갈 거예요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose the second action; 먼저 marks laundry as first."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-036",
+          "order": 66,
+          "skill": "reading",
+          "prompt": "What does the invitation say?",
+          "passage": "금요일에 같이 농구해요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "Please call me on Sunday."
+            },
+            {
+              "id": "B",
+              "text": "Do not take photos here."
+            },
+            {
+              "id": "C",
+              "text": "Let's play basketball together on Friday."
+            },
+            {
+              "id": "D",
+              "text": "Let's eat breakfast on Monday."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "invitation",
+            "sports",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "같이 농구해요 invites someone to play basketball together on Friday.",
+            "teaching_points": [
+              "같이 means together.",
+              "농구하다 means play basketball."
+            ],
+            "vocabulary": [
+              {
+                "ko": "금요일",
+                "en": "Friday"
+              },
+              {
+                "ko": "같이",
+                "en": "together"
+              },
+              {
+                "ko": "농구",
+                "en": "basketball"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "같이 V-아요/어요",
+                "explanation": "Can sound like an invitation to do something together.",
+                "example": "같이 농구해요."
+              }
+            ],
+            "common_mistakes": [
+              "농구 is basketball; 축구 is soccer."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-037",
+          "order": 67,
+          "skill": "reading",
+          "prompt": "What is true about the writer's friend?",
+          "passage": "제 친구는 머리가 짧고 안경을 써요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The friend has long hair and no glasses."
+            },
+            {
+              "id": "B",
+              "text": "The friend has short hair and wears glasses."
+            },
+            {
+              "id": "C",
+              "text": "The friend is tall and has big eyes."
+            },
+            {
+              "id": "D",
+              "text": "The friend is busy and tired."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "B"
+          },
+          "points": 1,
+          "tags": [
+            "appearance",
+            "description",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "머리가 짧고 안경을 써요 describes short hair and wearing glasses.",
+            "teaching_points": [
+              "머리가 짧다 means hair is short.",
+              "안경을 쓰다 means wear glasses."
+            ],
+            "vocabulary": [
+              {
+                "ko": "친구",
+                "en": "friend"
+              },
+              {
+                "ko": "머리",
+                "en": "hair; head"
+              },
+              {
+                "ko": "짧다",
+                "en": "short"
+              },
+              {
+                "ko": "안경",
+                "en": "glasses"
+              },
+              {
+                "ko": "쓰다",
+                "en": "to wear; to use"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 쓰다",
+                "explanation": "With 안경, 쓰다 means wear.",
+                "example": "안경을 써요."
+              }
+            ],
+            "common_mistakes": [
+              "쓰다 has several meanings; with glasses it means wear."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-038",
+          "order": 68,
+          "skill": "reading",
+          "prompt": "What is the best title for the passage?",
+          "passage": "저는 화요일마다 컴퓨터 수업에 가요. 한 시간 동안 타자를 연습해요. 수업이 쉽고 재미있어요.",
+          "options": [
+            {
+              "id": "A",
+              "text": "My Computer Class"
+            },
+            {
+              "id": "B",
+              "text": "My Favorite Food"
+            },
+            {
+              "id": "C",
+              "text": "A New Apartment"
+            },
+            {
+              "id": "D",
+              "text": "A Bus Trip"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "tags": [
+            "main_idea",
+            "school",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The passage describes going to computer class every Tuesday and practicing typing.",
+            "teaching_points": [
+              "화요일마다 means every Tuesday.",
+              "한 시간 동안 means for one hour."
+            ],
+            "vocabulary": [
+              {
+                "ko": "화요일마다",
+                "en": "every Tuesday"
+              },
+              {
+                "ko": "컴퓨터",
+                "en": "computer"
+              },
+              {
+                "ko": "수업",
+                "en": "class"
+              },
+              {
+                "ko": "타자",
+                "en": "typing"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "time 동안",
+                "explanation": "Means for a duration of time.",
+                "example": "한 시간 동안 연습해요."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose a travel title; the passage focuses on class."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-039",
+          "order": 69,
+          "skill": "reading",
+          "prompt": "What can you infer from the note?",
+          "passage": "민수야, 나는 운동장에 있어. 네 시에 교실에 갈게.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The writer is in the classroom and will go to the playground at four."
+            },
+            {
+              "id": "B",
+              "text": "Minsu is at home now."
+            },
+            {
+              "id": "C",
+              "text": "The writer lost a sports bag."
+            },
+            {
+              "id": "D",
+              "text": "The writer is at the playground and will go to the classroom at four."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "D"
+          },
+          "points": 1,
+          "tags": [
+            "note",
+            "future",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "운동장에 있어 says the writer is at the playground, and 네 시에 교실에 갈게 says they will go to the classroom at four.",
+            "teaching_points": [
+              "-에 있어 states location.",
+              "-ㄹ게 can state the speaker's intention informally."
+            ],
+            "vocabulary": [
+              {
+                "ko": "운동장",
+                "en": "playground"
+              },
+              {
+                "ko": "네 시",
+                "en": "four o'clock"
+              },
+              {
+                "ko": "교실",
+                "en": "classroom"
+              },
+              {
+                "ko": "갈게",
+                "en": "I will go"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-(으)ㄹ게요",
+                "explanation": "States the speaker's intention or promise; 갈게 is informal/plain casual style.",
+                "example": "교실에 갈게."
+              }
+            ],
+            "common_mistakes": [
+              "Do not reverse the current location and future destination."
+            ]
+          }
+        },
+        {
+          "question_id": "r2-040",
+          "order": 70,
+          "skill": "reading",
+          "prompt": "What is the main idea of the passage?",
+          "passage": "저는 작은 서점에서 일합니다. 아침에는 책을 정리하고 오후에는 손님을 돕습니다. 조용하지만 재미있는 일입니다.",
+          "options": [
+            {
+              "id": "A",
+              "text": "The writer buys bread every morning."
+            },
+            {
+              "id": "B",
+              "text": "The writer wants to close a noisy cafe."
+            },
+            {
+              "id": "C",
+              "text": "The writer works at a small bookstore and finds the quiet work interesting."
+            },
+            {
+              "id": "D",
+              "text": "The writer studies at a big school and dislikes books."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "C"
+          },
+          "points": 1,
+          "tags": [
+            "main_idea",
+            "work",
+            "level_1"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The passage describes working in a small bookstore, arranging books, helping customers, and finding the work quiet but interesting.",
+            "teaching_points": [
+              "서점 means bookstore.",
+              "정리하다 means arrange or organize."
+            ],
+            "vocabulary": [
+              {
+                "ko": "서점",
+                "en": "bookstore"
+              },
+              {
+                "ko": "일합니다",
+                "en": "work"
+              },
+              {
+                "ko": "정리하다",
+                "en": "arrange; organize"
+              },
+              {
+                "ko": "손님",
+                "en": "customer"
+              },
+              {
+                "ko": "조용하다",
+                "en": "quiet"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A/V-지만",
+                "explanation": "Connects contrasting ideas, meaning but.",
+                "example": "조용하지만 재미있는 일입니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not choose bakery or cafe details; this passage is about a bookstore."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
