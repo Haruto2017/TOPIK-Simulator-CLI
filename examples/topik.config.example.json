@@ -16,6 +16,7 @@
   },
   "shell": {
     "audio": true,
-    "show_transcript": false
+    "show_transcript": false,
+    "keyboard_hints": false
   }
 }

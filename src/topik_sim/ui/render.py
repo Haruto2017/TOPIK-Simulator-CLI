@@ -101,6 +101,37 @@ def continue_hint() -> str:
     return ansi.style("Enter → next · /replay hear again · /transcript · /pause save & leave", ansi.GREY)
 
 
+def keyboard_chart() -> str:
+    from ..hangul import LAYOUT_ROWS
+
+    lines = [rule("두벌식 keyboard · left hand consonants, right hand vowels")]
+    for row in LAYOUT_ROWS:
+        keys_line = ""
+        jamo_line = ""
+        shift_line = ""
+        has_shift = False
+        for cell in row:
+            if cell is None:
+                keys_line += " │ "
+                jamo_line += " │ "
+                shift_line += " │ "
+                continue
+            key, jamo, shifted = cell
+            keys_line += f" {ansi.style(key, ansi.BOLD, ansi.CYAN)}  "
+            jamo_line += f" {jamo} "
+            if shifted:
+                shift_line += f" {shifted} "
+                has_shift = True
+            else:
+                shift_line += "    "
+        lines.append(keys_line)
+        lines.append(jamo_line)
+        if has_shift:
+            lines.append(ansi.style(shift_line, ansi.DIM) + ansi.style("  ← Shift", ansi.DIM))
+    lines.append(ansi.style("Compound vowels are sequences: ㅘ = ㅗ+ㅏ (hk) · ㅢ = ㅡ+ㅣ (ml)", ansi.GREY))
+    return "\n".join(lines)
+
+
 def format_clock(seconds: float) -> str:
     total = max(0, int(seconds))
     return f"{total // 60:02d}:{total % 60:02d}"

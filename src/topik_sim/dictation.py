@@ -30,7 +30,7 @@ def accuracy(expected: str, typed: str) -> float:
     return SequenceMatcher(None, normalize(expected), normalize(typed)).ratio()
 
 
-def feedback_lines(expected: str, typed: str) -> list[str]:
+def feedback_lines(expected: str, typed: str, keyboard_hints: bool = False) -> list[str]:
     if normalize(expected) == normalize(typed):
         return ["Perfect! 100%"]
     lines = [f"Accuracy: {accuracy(expected, typed) * 100:.0f}%"]
@@ -56,4 +56,8 @@ def feedback_lines(expected: str, typed: str) -> list[str]:
         lines.append(f"Missing or wrong: {' '.join(missing)}")
     if extra:
         lines.append(f"Not in the sentence: {' '.join(extra)}")
+    if keyboard_hints:
+        from .hangul import keystroke_hint
+
+        lines.append(keystroke_hint(expected))
     return lines

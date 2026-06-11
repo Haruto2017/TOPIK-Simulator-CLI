@@ -29,6 +29,8 @@ COMMANDS: list[Command] = [
     Command("say", "cmd_say", "/say <korean text>", "Pronounce any sentence aloud; does not touch your answer.", ("speak",)),
     Command("flashcards", "cmd_flashcards", "/flashcards <pack>", "Drill vocabulary cards built from a pack's teaching notes.", ("cards",)),
     Command("dictation", "cmd_dictation", "/dictation <pack> [limit]", "Hear listening transcripts and type what you hear."),
+    Command("typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words."),
+    Command("keyboard", "cmd_keyboard", "/keyboard [on|off]", "Show the 두벌식 layout; on/off toggles typing hints everywhere.", ("kb",)),
     Command("hint", "cmd_hint", "/hint", "Reveal one vocabulary hint for the current question."),
     Command("replay", "cmd_replay", "/replay", "Play the current question audio again.", ("r",)),
     Command("transcript", "cmd_transcript", "/transcript", "Reveal the transcript of the current listening question.", ("t",)),

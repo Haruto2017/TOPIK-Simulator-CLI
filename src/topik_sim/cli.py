@@ -424,6 +424,7 @@ def handle_shell(args: argparse.Namespace) -> int:
         tts_config=build_tts_config(args),
         show_transcript=args.show_transcript or bool(config_value(config, "shell", "show_transcript", False)),
         audio_enabled=bool(config_value(config, "shell", "audio", True)),
+        keyboard_hints=bool(config_value(config, "shell", "keyboard_hints", False)),
     )
 
 

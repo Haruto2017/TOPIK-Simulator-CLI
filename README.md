@@ -24,6 +24,7 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 - `/drill` — re-practice the questions you missed in your last completed attempt
 - `/review` — spaced-repetition session over everything you have missed before
 - `/flashcards <pack>`, `/dictation <pack>` — vocabulary cards and listen-and-type practice
+- `/typing`, `/keyboard on` — Korean keyboard trainer and 두벌식 layout chart with keystroke hints everywhere you type
 - `/stats`, `/report` — accuracy trends and a Markdown study sheet
 - `/tts volume 0.8`, `/tts off` — change speech settings live
 - `/help`, `/quit`

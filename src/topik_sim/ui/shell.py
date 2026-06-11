@@ -28,6 +28,7 @@ CONTINUE = "continue"
 FLASH_FRONT = "flash_front"
 FLASH_BACK = "flash_back"
 DICTATION = "dictation"
+TYPING = "typing"
 PICK = "pick"
 
 TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
@@ -52,6 +53,7 @@ class Shell:
         show_transcript: bool = False,
         prefetcher: AudioPrefetcher | None = None,
         flashcard_seed: int | None = None,
+        keyboard_hints: bool = False,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -80,6 +82,11 @@ class Shell:
         self._dictation_perfect = 0
         self._pick_entries: list[tuple[Path, dict[str, Any]]] = []
         self._pick_action: str | None = None
+        self.keyboard_hints = keyboard_hints
+        self._typing_items: list[str] = []
+        self._typing_index = 0
+        self._typing_hits = 0
+        self._typing_missed: list[str] = []
 
     # ------------------------------------------------------------- plumbing
 
@@ -140,6 +147,11 @@ class Shell:
                 self._grade_dictation(text)
             else:
                 self.emit("Type what you heard, or /replay to hear it again.")
+        elif self.state == TYPING:
+            if text:
+                self._grade_typing(text)
+            else:
+                self.emit("Type the shown text, or /pause to stop.")
         elif self.state == PICK:
             self._handle_pick(text)
         elif text:
@@ -190,8 +202,7 @@ class Shell:
         self.emit("Use /resume <n>, /drill <n>, or /report <n>.")
 
     def cmd_take(self, argument: str) -> None:
-        if self.state in {FLASH_FRONT, FLASH_BACK}:
-            self._end_flashcards(early=True)
+        self._end_minigames()
         if not argument:
             self.emit("Usage: /take <pack_id[@version]|path> [section] [limit]")
             return
@@ -269,8 +280,7 @@ class Shell:
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
             return
-        if self.state in {FLASH_FRONT, FLASH_BACK}:
-            self._end_flashcards(early=True)
+        self._end_minigames()
         queue = srs.load_queue(srs.queue_path_for(self.attempt_dir))
         if argument:
             pack_id = argument.split("@", 1)[0]
@@ -301,10 +311,106 @@ class Shell:
         if not argument and self.state in {FLASH_FRONT, FLASH_BACK} and self._flash_deck:
             self._speak([self._flash_deck[self._flash_index]["ko"]], playback=True)
             return
+        if not argument and self.state == TYPING and self._typing_items:
+            self._speak([self._typing_items[self._typing_index]], playback=True)
+            return
         if not argument:
             self.emit("Usage: /say <text> — pronounces the sentence without touching your answer.")
             return
         self._speak([argument], playback=True)
+
+    def cmd_keyboard(self, argument: str) -> None:
+        key = argument.strip().lower()
+        if key == "on":
+            self.keyboard_hints = True
+            self.emit("Keyboard hints on: typing keys are shown in dictation, flashcards, and /typing.")
+        elif key == "off":
+            self.keyboard_hints = False
+            self.emit("Keyboard hints off.")
+            return
+        elif key:
+            self.emit("Usage: /keyboard [on|off]")
+            return
+        self.emit(render.keyboard_chart())
+
+    def cmd_typing(self, argument: str) -> None:
+        from ..typing_drill import build_typing_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        pack = None
+        count = 12
+        for part in argument.split():
+            if part.isdigit():
+                count = int(part)
+            else:
+                try:
+                    pack = self._resolve_pack(part)
+                except (ValueError, ContentValidationError, OSError) as exc:
+                    self.emit(str(exc))
+                    suggestions = self._suggest_packs(part)
+                    if suggestions:
+                        self.emit(f"Did you mean: {', '.join(suggestions)}?")
+                    return
+        self._typing_items = build_typing_items(seed=self._flashcard_seed, pack=pack, count=count)
+        self._typing_index = 0
+        self._typing_hits = 0
+        self._typing_missed = []
+        title = f"Typing practice: {pack.title}" if pack else "Typing practice"
+        self.emit(ansi.style(title, ansi.BOLD))
+        self.emit(f"{len(self._typing_items)} item(s) · type what you see · /keyboard shows the layout · /pause stops")
+        self._present_typing()
+
+    def _present_typing(self) -> None:
+        item = self._typing_items[self._typing_index]
+        self.emit("")
+        self.emit(render.rule(f"Typing {self._typing_index + 1}/{len(self._typing_items)}"))
+        self.emit(ansi.style(item, ansi.BOLD, ansi.CYAN))
+        self.state = TYPING
+
+    def _grade_typing(self, typed: str) -> None:
+        from ..hangul import keystroke_hint
+        from ..typing_drill import normalize_typed
+
+        target = self._typing_items[self._typing_index]
+        if normalize_typed(typed) == normalize_typed(target):
+            self._typing_hits += 1
+            self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
+        else:
+            self._typing_missed.append(target)
+            self.emit(ansi.style(f"✗ {target}", ansi.BOLD, ansi.RED) + f" — {keystroke_hint(target)}")
+        self._typing_index += 1
+        if self._typing_index >= len(self._typing_items):
+            self._end_typing()
+        else:
+            self._present_typing()
+
+    def _end_typing(self, early: bool = False) -> None:
+        from ..hangul import keystrokes
+
+        done = self._typing_index
+        if early:
+            self.emit(f"Typing practice stopped after {done}/{len(self._typing_items)} item(s).")
+        if done:
+            self.emit(f"Typed {self._typing_hits}/{done} correctly.")
+        if self._typing_missed:
+            review = " · ".join(f"{item} ({keystrokes(item)})" for item in dict.fromkeys(self._typing_missed))
+            self.emit(f"Practice again: {review}")
+        self._typing_items = []
+        self._typing_index = 0
+        self._typing_hits = 0
+        self._typing_missed = []
+        self.state = IDLE
+
+    def _end_minigames(self) -> None:
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
+        elif self.state == DICTATION:
+            self._end_dictation(early=True)
+        elif self.state == TYPING:
+            self._end_typing(early=True)
 
     def cmd_flashcards(self, argument: str) -> None:
         from ..flashcards import build_deck
@@ -312,6 +418,7 @@ class Shell:
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
             return
+        self._end_minigames()
         if not argument:
             self.emit("Usage: /flashcards <pack_id[@version]|path>")
             return
@@ -341,8 +448,7 @@ class Shell:
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
             return
-        if self.state in {FLASH_FRONT, FLASH_BACK}:
-            self._end_flashcards(early=True)
+        self._end_minigames()
         if not argument:
             self.emit("Usage: /dictation <pack_id[@version]|path> [limit]")
             return
@@ -386,7 +492,7 @@ class Shell:
         self._dictation_total_accuracy += score
         if score >= 0.999:
             self._dictation_perfect += 1
-        for line in feedback_lines(expected, typed):
+        for line in feedback_lines(expected, typed, keyboard_hints=self.keyboard_hints):
             self.emit(line)
         self._dictation_index += 1
         if self._dictation_index >= len(self._dictation_texts):
@@ -419,6 +525,10 @@ class Shell:
         card = self._flash_deck[self._flash_index]
         note = f" ({card['note']})" if card.get("note") else ""
         self.emit(f"{card['en']}{note}")
+        if self.keyboard_hints:
+            from ..hangul import keystroke_hint
+
+            self.emit(ansi.style(keystroke_hint(card["ko"]), ansi.DIM))
         self.emit(ansi.style("Knew it? y / n", ansi.GREY))
         self.state = FLASH_BACK
 
@@ -485,11 +595,8 @@ class Shell:
         self._submit("")
 
     def cmd_pause(self, argument: str) -> None:
-        if self.state in {FLASH_FRONT, FLASH_BACK}:
-            self._end_flashcards(early=True)
-            return
-        if self.state == DICTATION:
-            self._end_dictation(early=True)
+        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING}:
+            self._end_minigames()
             return
         if self.session is None:
             self.emit("No test is running.")
@@ -902,6 +1009,7 @@ def run_shell(
     tts_config: TTSConfig | None = None,
     show_transcript: bool = False,
     audio_enabled: bool = True,
+    keyboard_hints: bool = False,
     input_fn: Callable[[str], str] | None = None,
 ) -> int:
     shell = Shell(
@@ -910,6 +1018,7 @@ def run_shell(
         tts_config=tts_config,
         show_transcript=show_transcript,
         audio_enabled=audio_enabled,
+        keyboard_hints=keyboard_hints,
     )
     shell.emit(render.banner())
     frontend = _build_frontend(shell, input_fn)
