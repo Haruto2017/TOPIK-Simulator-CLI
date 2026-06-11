@@ -33,6 +33,7 @@ COMMANDS: list[Command] = [
     Command("pause", "cmd_pause", "/pause", "Save the current test and return to idle; resume later."),
     Command("status", "cmd_status", "/status", "Show session progress and speech settings."),
     Command("stats", "cmd_stats", "/stats", "Per-skill accuracy and trends across completed attempts."),
+    Command("report", "cmd_report", "/report [n|path]", "Write a Markdown study report for a completed attempt."),
     Command("tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]", "Show or change speech settings."),
     Command("quit", "cmd_quit", "/quit", "Exit the shell. Progress is already saved.", ("exit", "q")),
 ]

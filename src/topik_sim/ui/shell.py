@@ -293,6 +293,24 @@ class Shell:
             f" · speed {config.speed} · volume {config.volume}"
         )
 
+    def cmd_report(self, argument: str) -> None:
+        from ..report import build_report
+
+        located = self._locate_attempt(argument, want_completed=True)
+        if located is None:
+            return
+        path, attempt = located
+        try:
+            pack = self._resolve_pack_for_attempt(attempt)
+        except (KeyError, ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            return
+        report_dir = self.attempt_dir / "reports"
+        report_dir.mkdir(parents=True, exist_ok=True)
+        report_path = report_dir / f"{attempt.get('attempt_id', path.stem)}.md"
+        report_path.write_text(build_report(attempt, pack), encoding="utf-8")
+        self.emit(f"Report written to {report_path}")
+
     def cmd_stats(self, argument: str) -> None:
         from ..stats import collect_stats, format_stats
 

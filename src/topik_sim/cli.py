@@ -172,6 +172,12 @@ def build_parser() -> argparse.ArgumentParser:
     validate_library_parser.add_argument("--library", default=library_default, help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
 
+    report = subparsers.add_parser("report", help="Write a Markdown study report for a completed attempt.")
+    report.add_argument("attempt", help="Path to a completed attempt JSON file.")
+    report.add_argument("--library", default=library_default, help="Content library directory.")
+    report.add_argument("--output", help="Write to this file instead of stdout.")
+    report.set_defaults(handler=handle_report)
+
     stats_parser = subparsers.add_parser("stats", help="Show per-skill accuracy and trends across completed attempts.")
     stats_parser.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     stats_parser.add_argument("--library", default=library_default, help="Content library directory.")
@@ -588,6 +594,29 @@ def handle_validate_library(args: argparse.Namespace) -> int:
             print(f"- {error}")
         return 1
     print("Content library is valid.")
+    return 0
+
+
+def handle_report(args: argparse.Namespace) -> int:
+    from .report import build_report
+    from .stats import resolve_attempt_pack
+
+    attempt = load_attempt(args.attempt)
+    if attempt.get("status") != "completed":
+        print("Reports need a completed attempt. Resume and finish it first.", file=sys.stderr)
+        return 1
+    pack = resolve_attempt_pack(attempt, args.library)
+    if pack is None:
+        print("The attempt's pack could not be loaded from the library or its source path.", file=sys.stderr)
+        return 1
+    markdown = build_report(attempt, pack)
+    if args.output:
+        output_path = Path(args.output)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(markdown, encoding="utf-8")
+        print(output_path)
+    else:
+        print(markdown)
     return 0
 
 
