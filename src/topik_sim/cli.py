@@ -211,8 +211,24 @@ def build_parser() -> argparse.ArgumentParser:
     audio_warm.add_argument("--library", default=library_default, help="Content library directory.")
     audio_warm.add_argument("--all-questions", action="store_true", help="Warm every question passage, not just listening.")
     audio_warm.add_argument("--teaching", action="store_true", help="Also warm vocabulary and grammar example audio.")
+    audio_warm.add_argument("--voices", help="Comma-separated voice presets to warm for A/B comparison, e.g. F1,M1.")
     add_tts_arguments(audio_warm)
     audio_warm.set_defaults(handler=handle_audio_warm)
+
+    audio_compress = audio_sub.add_parser("compress", help="Transcode cold cache WAVs to Opus via ffmpeg.")
+    audio_compress.add_argument("--audio-dir", default=audio_default, help="Audio cache directory.")
+    audio_compress.add_argument("--older-than-days", type=float, help="Only compress audio unused for this many days.")
+    audio_compress.add_argument("--bitrate", default="24k", help="Opus bitrate (24k suits speech).")
+    audio_compress.set_defaults(handler=handle_audio_compress)
+
+    audio_bundle = audio_sub.add_parser("bundle", help="Export a pack's warmed audio plus manifest as a zip.")
+    audio_bundle.add_argument("pack_ref", help="Pack file path, pack_id, or pack_id@pack_version.")
+    audio_bundle.add_argument("--library", default=library_default, help="Content library directory.")
+    audio_bundle.add_argument("--output", help="Zip path. Defaults to exports/<pack_id>-<version>-audio.zip.")
+    audio_bundle.add_argument("--all-questions", action="store_true", help="Bundle every question passage, not just listening.")
+    audio_bundle.add_argument("--teaching", action="store_true", help="Also bundle vocabulary and grammar example audio.")
+    add_tts_arguments(audio_bundle)
+    audio_bundle.set_defaults(handler=handle_audio_bundle)
 
     speak = subparsers.add_parser("speak", help="Generate Korean TTS audio for direct text.")
     speak.add_argument("text", nargs="+", help="Text to synthesize.")
@@ -702,7 +718,7 @@ def handle_stats(args: argparse.Namespace) -> int:
 def handle_audio_stats(args: argparse.Namespace) -> int:
     stats = cache_stats(args.audio_dir)
     print(f"Audio cache: {stats.directory}")
-    print(f"Files: {stats.file_count}")
+    print(f"Files: {stats.file_count} ({stats.wav_count} wav, {stats.opus_count} opus)")
     print(f"Size: {stats.total_bytes / (1024 * 1024):.1f} MB")
     if stats.oldest_mtime is not None:
         oldest = datetime.fromtimestamp(stats.oldest_mtime).isoformat(timespec="seconds")
@@ -726,25 +742,66 @@ def handle_audio_prune(args: argparse.Namespace) -> int:
 
 
 def handle_audio_warm(args: argparse.Namespace) -> int:
+    from dataclasses import replace
+
     pack = resolve_pack(args.pack_ref, args.library)
-    config = build_tts_config(args)
+    base_config = build_tts_config(args)
+    voices = [voice.strip() for voice in args.voices.split(",") if voice.strip()] if args.voices else [None]
 
     def progress(index: int, total: int, text: str) -> None:
         snippet = text if len(text) <= 42 else f"{text[:39]}..."
         print(f"[{index}/{total}] {snippet}")
 
+    for voice in voices:
+        config = base_config if voice is None else replace(base_config, speaker_id=voice)
+        if voice is not None:
+            print(f"Voice {voice}:")
+        try:
+            generated, cached = warm_pack(
+                pack,
+                config,
+                include_all_questions=args.all_questions,
+                include_teaching=args.teaching,
+                progress=progress,
+            )
+        except RuntimeError as exc:
+            print(str(exc), file=sys.stderr)
+            return 1
+        print(f"Generated {generated} file(s), reused {cached} cached file(s).")
+    return 0
+
+
+def handle_audio_compress(args: argparse.Namespace) -> int:
+    from .audio_cache import compress_cache
+
     try:
-        generated, cached = warm_pack(
-            pack,
-            config,
-            include_all_questions=args.all_questions,
-            include_teaching=args.teaching,
-            progress=progress,
-        )
+        result = compress_cache(args.audio_dir, older_than_days=args.older_than_days, bitrate=args.bitrate)
     except RuntimeError as exc:
         print(str(exc), file=sys.stderr)
         return 1
-    print(f"Generated {generated} file(s), reused {cached} cached file(s).")
+    saved_mb = result.bytes_saved / (1024 * 1024)
+    print(f"Compressed {result.compressed} file(s), saved {saved_mb:.1f} MB, skipped {result.skipped} recent file(s).")
+    return 0
+
+
+def handle_audio_bundle(args: argparse.Namespace) -> int:
+    from .audio_cache import bundle_pack
+
+    pack = resolve_pack(args.pack_ref, args.library)
+    config = build_tts_config(args)
+    output = args.output or str(Path("exports") / f"{pack.pack_id}-{pack.data['pack_version']}-audio.zip")
+    try:
+        zip_path = bundle_pack(
+            pack,
+            config,
+            output,
+            include_all_questions=args.all_questions,
+            include_teaching=args.teaching,
+        )
+    except (RuntimeError, ValueError, OSError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    print(zip_path)
     return 0
 
 

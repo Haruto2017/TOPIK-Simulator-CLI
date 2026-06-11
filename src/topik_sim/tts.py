@@ -72,6 +72,8 @@ def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
         if output_path.exists() and not config.force:
             touch_cache_entry(output_path)
             continue
+        if not config.force and restore_cached_audio(output_path):
+            continue
         if provider is None:
             provider = build_provider(config.provider)
         synthesize_atomic(provider, text, output_path, config)
@@ -100,6 +102,31 @@ def touch_cache_entry(path: Path) -> None:
         os.utime(path, None)
     except OSError:
         pass
+
+
+def ffmpeg_path() -> str | None:
+    return shutil.which("ffmpeg")
+
+
+def restore_cached_audio(wav_path: Path) -> bool:
+    """Re-expand an opus-compressed cache entry back to WAV. See docs/AUDIO_DESIGN.md."""
+    opus_path = wav_path.with_suffix(".opus")
+    if not opus_path.exists():
+        return False
+    ffmpeg = ffmpeg_path()
+    if ffmpeg is None:
+        return False
+    result = subprocess.run(
+        [ffmpeg, "-y", "-loglevel", "error", "-i", str(opus_path), str(wav_path)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0 or not wav_path.exists():
+        wav_path.unlink(missing_ok=True)
+        return False
+    opus_path.unlink(missing_ok=True)
+    return True
 
 
 def build_provider(provider_name: str) -> TTSProvider:
