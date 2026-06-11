@@ -172,6 +172,11 @@ def build_parser() -> argparse.ArgumentParser:
     validate_library_parser.add_argument("--library", default=library_default, help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
 
+    stats_parser = subparsers.add_parser("stats", help="Show per-skill accuracy and trends across completed attempts.")
+    stats_parser.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
+    stats_parser.add_argument("--library", default=library_default, help="Content library directory.")
+    stats_parser.set_defaults(handler=handle_stats)
+
     audio = subparsers.add_parser("audio", help="Manage the generated audio cache.")
     audio_sub = audio.add_subparsers(required=True)
 
@@ -583,6 +588,14 @@ def handle_validate_library(args: argparse.Namespace) -> int:
             print(f"- {error}")
         return 1
     print("Content library is valid.")
+    return 0
+
+
+def handle_stats(args: argparse.Namespace) -> int:
+    from .stats import collect_stats, format_stats
+
+    for line in format_stats(collect_stats(args.attempt_dir, args.library)):
+        print(line)
     return 0
 
 

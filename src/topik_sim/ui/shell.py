@@ -293,6 +293,13 @@ class Shell:
             f" · speed {config.speed} · volume {config.volume}"
         )
 
+    def cmd_stats(self, argument: str) -> None:
+        from ..stats import collect_stats, format_stats
+
+        self.emit(render.rule("Study stats"))
+        for line in format_stats(collect_stats(self.attempt_dir, self.library_dir)):
+            self.emit(line)
+
     def cmd_tts(self, argument: str) -> None:
         if not argument:
             self.cmd_status("")
