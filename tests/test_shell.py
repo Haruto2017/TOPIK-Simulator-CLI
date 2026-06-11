@@ -4,11 +4,18 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from topik_sim.attempts import load_attempt
+from topik_sim.attempts import (
+    answer_question,
+    complete_attempt,
+    create_attempt,
+    load_attempt,
+    save_attempt_to_dir,
+)
 from topik_sim.cli import main
+from topik_sim.content import load_pack
 from topik_sim.tts import TTSConfig
 from topik_sim.ui import ansi
-from topik_sim.ui.shell import ANSWERING, CONTINUE, IDLE, Shell
+from topik_sim.ui.shell import ANSWERING, CONTINUE, IDLE, PICK, Shell
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -139,6 +146,83 @@ class ShellTests(unittest.TestCase):
         self.assertIn("Resuming: 1/2 answered", text)
         self.assertIn("Score: 2/2", text)
         self.assertEqual(shell.state, IDLE)
+
+    def _save_attempt(self, responses, updated_at, completed=False):
+        pack = load_pack(SAMPLE_PACK)
+        attempt = create_attempt(pack)
+        for response in responses:
+            attempt = answer_question(attempt, pack, response)
+        if completed:
+            attempt = complete_attempt(attempt, pack)
+        attempt["updated_at"] = updated_at
+        return save_attempt_to_dir(attempt, self.temp_dir / "attempts")
+
+    def test_resume_picker_lists_choices_and_resumes_selection(self):
+        newest = self._save_attempt(["B"], "2026-06-09T10:00:00+00:00")
+        oldest = self._save_attempt([], "2026-06-08T10:00:00+00:00")
+        shell, output, _ = self.make_shell()
+
+        self.feed(shell, ["/resume"])
+        text = "\n".join(output)
+        self.assertEqual(shell.state, PICK)
+        self.assertIn("Pick an attempt to resume", text)
+        self.assertIn(f"1. in_progress · 1/2 answered · topik-i-mini-pack@0.1.0 · 2026-06-09 10:00 · {newest.name}", text)
+        self.assertIn(f"2. in_progress · 0/2 answered", text)
+
+        output.clear()
+        self.feed(shell, ["2", "B", "", "A", ""])
+        text = "\n".join(output)
+        self.assertIn("Resuming: 0/2 answered", text)
+        self.assertIn("Score: 2/2", text)
+        self.assertEqual(load_attempt(oldest)["status"], "completed")
+        self.assertEqual(load_attempt(newest)["status"], "in_progress")
+
+    def test_resume_picker_cancels_and_rejects_bad_input(self):
+        self._save_attempt(["B"], "2026-06-09T10:00:00+00:00")
+        self._save_attempt([], "2026-06-08T10:00:00+00:00")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/resume", "7", "x"])
+        text = "\n".join(output)
+        self.assertEqual(text.count("Enter a number from 1 to 2"), 2)
+        self.assertEqual(shell.state, PICK)
+
+        self.feed(shell, [""])
+        self.assertIn("Cancelled.", "\n".join(output))
+        self.assertEqual(shell.state, IDLE)
+
+    def test_resume_with_single_candidate_skips_picker(self):
+        self._save_attempt(["B"], "2026-06-09T10:00:00+00:00")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/resume"])
+        self.assertEqual(shell.state, ANSWERING)
+        self.assertIn("Resuming: 1/2 answered", "\n".join(output))
+
+    def test_drill_picker_for_multiple_completed_attempts(self):
+        self._save_attempt(["B", "C"], "2026-06-09T10:00:00+00:00", completed=True)
+        self._save_attempt(["C", "A"], "2026-06-08T10:00:00+00:00", completed=True)
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/drill"])
+        self.assertEqual(shell.state, PICK)
+        self.assertIn("Pick an attempt to drill", "\n".join(output))
+
+        output.clear()
+        self.feed(shell, ["2"])
+        text = "\n".join(output)
+        # The older attempt missed r-001, so the drill asks exactly that question.
+        self.assertIn("1 missed question(s)", text)
+        self.assertIn("r-001", text)
+        self.assertEqual(shell.state, ANSWERING)
+
+    def test_attempt_completion_items_match_recent_indices(self):
+        self._save_attempt(["B"], "2026-06-09T10:00:00+00:00")
+        self._save_attempt(["B", "C"], "2026-06-08T10:00:00+00:00", completed=True)
+        shell, _, _ = self.make_shell()
+        resume_items = shell.attempt_completion_items("resume")
+        drill_items = shell.attempt_completion_items("drill")
+        self.assertEqual([value for value, _ in resume_items], ["1"])
+        self.assertEqual([value for value, _ in drill_items], ["2"])
+        self.assertIn("in_progress · 1/2", resume_items[0][1])
+        self.assertIn("completed · 2/2", drill_items[0][1])
 
     def test_drill_replays_only_missed_questions(self):
         shell, output, _ = self.make_shell()

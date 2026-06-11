@@ -22,8 +22,8 @@ python -m topik_sim   # same as: shell
 Slash commands:
 
 - `/take <pack> [section] [limit]`: start a test from a library ref or pack file. Pack ids autocomplete; typos get close-match suggestions.
-- `/resume [n|path]`: resume an in-progress attempt (defaults to the most recent).
-- `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt (defaults to the most recent completed one).
+- `/resume [n|path]`: resume an in-progress attempt. With no argument and several candidates, an interactive numbered picker opens (type the number, Enter cancels); a single candidate resumes directly. Tab after `/resume ` completes attempt numbers with status and progress.
+- `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt. Same picker and completion behavior as `/resume`, over completed attempts.
 - `/review [pack]`: spaced-repetition session over due previously-missed questions (see `review`).
 - `/flashcards <pack>` (alias `/cards`): vocabulary card drill built from the pack's teaching notes; Enter flips, y/n grades.
 - `/dictation <pack> [limit]`: hear listening transcripts and type them; diff-based feedback with accuracy percentages.
@@ -36,7 +36,7 @@ Slash commands:
 - `/pause`: save and leave the current test (or stop flashcards/dictation early).
 - `/status`: progress, running score, and TTS settings.
 - `/stats`: per-skill accuracy and trends across completed attempts.
-- `/report [n|path]`: write a Markdown study report for a completed attempt.
+- `/report [n|path]`: write a Markdown study report for a completed attempt (interactive picker like `/resume`).
 - `/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]`: change speech settings mid-session.
 - `/help`, `/quit`.
 

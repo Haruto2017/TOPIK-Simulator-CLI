@@ -28,6 +28,7 @@ CONTINUE = "continue"
 FLASH_FRONT = "flash_front"
 FLASH_BACK = "flash_back"
 DICTATION = "dictation"
+PICK = "pick"
 
 TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
@@ -77,6 +78,8 @@ class Shell:
         self._dictation_index = 0
         self._dictation_total_accuracy = 0.0
         self._dictation_perfect = 0
+        self._pick_entries: list[tuple[Path, dict[str, Any]]] = []
+        self._pick_action: str | None = None
 
     # ------------------------------------------------------------- plumbing
 
@@ -137,6 +140,8 @@ class Shell:
                 self._grade_dictation(text)
             else:
                 self.emit("Type what you heard, or /replay to hear it again.")
+        elif self.state == PICK:
+            self._handle_pick(text)
         elif text:
             self.emit("No test is running. /take <pack> to start, /help for commands.")
         return not self._quit
@@ -181,12 +186,8 @@ class Shell:
             return
         self.emit(render.rule("Recent attempts"))
         for index, (path, attempt) in enumerate(entries, start=1):
-            answered = len(attempt.get("answers", []))
-            total = len(attempt.get("question_ids", []))
-            status = attempt.get("status", "unknown")
-            ref = f"{attempt.get('pack_id', '?')}@{attempt.get('pack_version', '?')}"
-            self.emit(f"  {index}. {status} · {answered}/{total} answered · {ref} · {path.name}")
-        self.emit("Use /resume <n> or /drill <n>.")
+            self.emit(self._attempt_line(index, path, attempt))
+        self.emit("Use /resume <n>, /drill <n>, or /report <n>.")
 
     def cmd_take(self, argument: str) -> None:
         if self.state in {FLASH_FRONT, FLASH_BACK}:
@@ -223,10 +224,12 @@ class Shell:
         self._present()
 
     def cmd_resume(self, argument: str) -> None:
-        located = self._locate_attempt(argument)
+        located = self._locate_attempt(argument, action="resume")
         if located is None:
             return
-        path, attempt = located
+        self._do_resume(*located)
+
+    def _do_resume(self, path: Path, attempt: dict[str, Any]) -> None:
         if attempt.get("status") == "completed":
             self.emit("That attempt is already completed. /drill re-practices its missed questions.")
             return
@@ -242,10 +245,12 @@ class Shell:
         self._present()
 
     def cmd_drill(self, argument: str) -> None:
-        located = self._locate_attempt(argument, want_completed=True)
+        located = self._locate_attempt(argument, want_completed=True, action="drill")
         if located is None:
             return
-        path, source = located
+        self._do_drill(*located)
+
+    def _do_drill(self, path: Path, source: dict[str, Any]) -> None:
         try:
             pack = self._resolve_pack_for_attempt(source)
             attempt = create_drill_attempt(pack, source)
@@ -511,12 +516,14 @@ class Shell:
         )
 
     def cmd_report(self, argument: str) -> None:
-        from ..report import build_report
-
-        located = self._locate_attempt(argument, want_completed=True)
+        located = self._locate_attempt(argument, want_completed=True, action="report")
         if located is None:
             return
-        path, attempt = located
+        self._do_report(*located)
+
+    def _do_report(self, path: Path, attempt: dict[str, Any]) -> None:
+        from ..report import build_report
+
         try:
             pack = self._resolve_pack_for_attempt(attempt)
         except (KeyError, ValueError, ContentValidationError, OSError) as exc:
@@ -694,7 +701,12 @@ class Shell:
         self._recent_attempts = recent_attempt_entries(self.attempt_dir, RECENT_LIMIT)
         return self._recent_attempts
 
-    def _locate_attempt(self, argument: str, want_completed: bool = False) -> tuple[Path, dict[str, Any]] | None:
+    def _locate_attempt(
+        self,
+        argument: str,
+        want_completed: bool = False,
+        action: str | None = None,
+    ) -> tuple[Path, dict[str, Any]] | None:
         entries = self._refresh_recent()
         if argument:
             candidate = Path(argument)
@@ -708,12 +720,75 @@ class Shell:
                 return None
             self.emit(f"Attempt {argument!r} was not found.")
             return None
+
         wanted_status = "completed" if want_completed else "in_progress"
-        for path, attempt in entries:
-            if attempt.get("status") == wanted_status:
-                return path, attempt
-        self.emit(f"No {wanted_status.replace('_', ' ')} attempt found. /attempts lists what is saved.")
+        candidates = [(path, attempt) for path, attempt in entries if attempt.get("status") == wanted_status]
+        if not candidates:
+            self.emit(f"No {wanted_status.replace('_', ' ')} attempt found. /attempts lists what is saved.")
+            return None
+        if len(candidates) == 1 or action is None:
+            return candidates[0]
+        if self.session is not None:
+            # Mid-test there is no safe place to park a picker; keep the old
+            # most-recent behavior instead.
+            return candidates[0]
+        self._pick_entries = candidates
+        self._pick_action = action
+        self.emit(render.rule(f"Pick an attempt to {action}"))
+        for index, (path, attempt) in enumerate(candidates, start=1):
+            self.emit(self._attempt_line(index, path, attempt))
+        self.emit("Type the number, or press Enter to cancel.")
+        self.state = PICK
         return None
+
+    def _handle_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._clear_pick()
+            return
+        if text.isdigit():
+            index = int(text)
+            if 1 <= index <= len(self._pick_entries):
+                path, attempt = self._pick_entries[index - 1]
+                action = self._pick_action
+                self._clear_pick()
+                if action == "resume":
+                    self._do_resume(path, attempt)
+                elif action == "drill":
+                    self._do_drill(path, attempt)
+                elif action == "report":
+                    self._do_report(path, attempt)
+                return
+        self.emit(f"Enter a number from 1 to {len(self._pick_entries)}, or press Enter to cancel.")
+
+    def _clear_pick(self) -> None:
+        self._pick_entries = []
+        self._pick_action = None
+        if self.state == PICK:
+            self.state = IDLE
+
+    def _attempt_line(self, index: int, path: Path, attempt: dict[str, Any]) -> str:
+        answered = len(attempt.get("answers", []))
+        total = len(attempt.get("question_ids", []))
+        status = attempt.get("status", "unknown")
+        ref = f"{attempt.get('pack_id', '?')}@{attempt.get('pack_version', '?')}"
+        updated = str(attempt.get("updated_at") or attempt.get("completed_at") or "")[:16].replace("T", " ")
+        return f"  {index}. {status} · {answered}/{total} answered · {ref} · {updated} · {path.name}"
+
+    def attempt_completion_items(self, command: str) -> list[tuple[str, str]]:
+        """Tab-completion values for /resume, /drill, /report: the /attempts index plus a summary."""
+        wanted = {"resume": "in_progress", "drill": "completed", "report": "completed"}.get(command)
+        if wanted is None:
+            return []
+        items: list[tuple[str, str]] = []
+        for index, (path, attempt) in enumerate(self._refresh_recent(), start=1):
+            if attempt.get("status") != wanted:
+                continue
+            answered = len(attempt.get("answers", []))
+            total = len(attempt.get("question_ids", []))
+            ref = f"{attempt.get('pack_id', '?')}@{attempt.get('pack_version', '?')}"
+            items.append((str(index), f"{attempt.get('status')} · {answered}/{total} · {ref}"))
+        return items
 
     def _speak(self, texts: list[str], playback: bool) -> list[Path]:
         if not self.audio_enabled:
@@ -791,10 +866,22 @@ def _make_completer(shell: Shell):
                             break
                 return
             command_token, _, argument = text.partition(" ")
-            if command_token.lower() == "/take" and " " not in argument:
+            name = command_token[1:].lower()
+            if " " in argument:
+                return
+            if name == "take":
                 for ref in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(ref, start_position=-len(argument), display=ref)
+            elif name in {"resume", "drill", "report"}:
+                for value, meta in shell.attempt_completion_items(name):
+                    if value.startswith(argument):
+                        yield Completion(
+                            value,
+                            start_position=-len(argument),
+                            display=value,
+                            display_meta=meta,
+                        )
 
     return SlashCompleter()
 
