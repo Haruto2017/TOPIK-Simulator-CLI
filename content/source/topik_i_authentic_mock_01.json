@@ -1,0 +1,5360 @@
+{
+  "schema_version": "topik-sim.content.v1",
+  "pack_id": "topik-i-authentic-mock-01",
+  "pack_version": "0.1.0",
+  "title": "TOPIK I Authentic Mock Exam 01 (실전 모의고사)",
+  "topik_level": "TOPIK_I",
+  "language_pair": "ko-ko",
+  "source_type": "original",
+  "sections": [
+    {
+      "section_id": "listening",
+      "title": "듣기",
+      "time_limit_minutes": 40,
+      "instructions": "잘 듣고 물음에 맞는 답을 고르십시오.",
+      "questions": [
+        {
+          "question_id": "l-001",
+          "order": 1,
+          "skill": "listening",
+          "prompt": "잘 듣고 물음에 맞는 대답을 고르십시오.",
+          "audio_ref": "transcript-only:l-001",
+          "passage": "Transcript: 남자: 학생이에요?",
+          "options": [
+            {
+              "id": "1",
+              "text": "네, 학생이에요."
+            },
+            {
+              "id": "2",
+              "text": "네, 학생이 없어요."
+            },
+            {
+              "id": "3",
+              "text": "아니요, 학생이 많아요."
+            },
+            {
+              "id": "4",
+              "text": "아니요, 학생을 만나요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 4,
+          "tags": [
+            "yes_no_question",
+            "identity"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The man asks 학생이에요? (Are you a student?). A yes/no question built on N이에요 is answered by confirming or denying the same noun: 네, 학생이에요 (Yes, I am a student). The other replies talk about students existing, being numerous, or being met, which does not answer an identity question.",
+            "teaching_points": [
+              "A 네 answer to N이에요? should repeat the same pattern: 네, N이에요.",
+              "A natural 아니요 answer would be 아니요, 학생이 아니에요 (No, I am not a student).",
+              "Listen for the final rising intonation that marks 이에요? as a question."
+            ],
+            "vocabulary": [
+              {
+                "ko": "학생",
+                "en": "student"
+              },
+              {
+                "ko": "이에요",
+                "en": "to be (polite, after consonant-final noun)"
+              },
+              {
+                "ko": "만나다",
+                "en": "to meet"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이에요/예요?",
+                "explanation": "Polite question asking whether something or someone is N; answered with 네, N이에요 or 아니요, N이/가 아니에요.",
+                "example": "학생이에요? - 네, 학생이에요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 starts with 네 but then denies with 없어요 (there is no student) - 있다/없다 is about existence, not identity.",
+              "Option 3 confuses identity (이다) with quantity (많다, to be many).",
+              "Option 4 answers a completely different question, 누구를 만나요? (Who do you meet?)."
+            ]
+          }
+        },
+        {
+          "question_id": "l-002",
+          "order": 2,
+          "skill": "listening",
+          "prompt": "잘 듣고 물음에 맞는 대답을 고르십시오.",
+          "audio_ref": "transcript-only:l-002",
+          "passage": "Transcript: 여자: 우산이 있어요?",
+          "options": [
+            {
+              "id": "1",
+              "text": "네, 우산이 있어요."
+            },
+            {
+              "id": "2",
+              "text": "네, 우산이 작아요."
+            },
+            {
+              "id": "3",
+              "text": "아니요, 우산이에요."
+            },
+            {
+              "id": "4",
+              "text": "아니요, 우산을 사요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 4,
+          "tags": [
+            "yes_no_question",
+            "possession"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "우산이 있어요? asks Do you have an umbrella? Questions with 있어요 (have/exist) are answered with 있어요 or 없어요: 네, 우산이 있어요 (Yes, I have an umbrella).",
+            "teaching_points": [
+              "있다 covers both existence (there is) and possession (someone has).",
+              "The matching negative answer would be 아니요, 우산이 없어요.",
+              "Echoing the verb of the question is the safest way to answer Korean yes/no questions."
+            ],
+            "vocabulary": [
+              {
+                "ko": "우산",
+                "en": "umbrella"
+              },
+              {
+                "ko": "있다",
+                "en": "to exist, to have"
+              },
+              {
+                "ko": "사다",
+                "en": "to buy"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 있어요?",
+                "explanation": "Asks whether N exists or whether the listener has N; answer with 있어요 or 없어요.",
+                "example": "우산이 있어요? - 네, 있어요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 answers a different question about size (작아요, it is small), not possession.",
+              "Option 3 replies with identity (우산이에요, it is an umbrella) - 이다 and 있다 sound similar but mean different things.",
+              "Option 4 describes buying an umbrella, which would answer 뭐 해요?, not 있어요?."
+            ]
+          }
+        },
+        {
+          "question_id": "l-003",
+          "order": 3,
+          "skill": "listening",
+          "prompt": "잘 듣고 물음에 맞는 대답을 고르십시오.",
+          "audio_ref": "transcript-only:l-003",
+          "passage": "Transcript: 남자: 운동을 자주 해요?",
+          "options": [
+            {
+              "id": "1",
+              "text": "네, 운동이에요."
+            },
+            {
+              "id": "2",
+              "text": "네, 운동이 없어요."
+            },
+            {
+              "id": "3",
+              "text": "아니요, 가끔 해요."
+            },
+            {
+              "id": "4",
+              "text": "아니요, 운동장이 멀어요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "yes_no_question",
+            "frequency"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The question asks about frequency: 운동을 자주 해요? (Do you exercise often?). The only reply that addresses frequency is 아니요, 가끔 해요 (No, I do it occasionally) - 가끔 directly contrasts with 자주.",
+            "teaching_points": [
+              "Frequency adverbs to know together: 항상 (always), 자주 (often), 보통 (usually), 가끔 (sometimes), 거의 안 (rarely).",
+              "An 아니요 answer often replaces the questioned adverb with a weaker one: 자주 → 가끔.",
+              "네 answers must still match the verb: 네, 자주 해요 would also be correct, but none of the 네 options here repeats 하다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "운동",
+                "en": "exercise"
+              },
+              {
+                "ko": "자주",
+                "en": "often"
+              },
+              {
+                "ko": "가끔",
+                "en": "sometimes, occasionally"
+              },
+              {
+                "ko": "운동장",
+                "en": "sports field, playground"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 하다",
+                "explanation": "Many activity nouns combine with 하다: 운동을 하다 (to exercise), 공부를 하다 (to study).",
+                "example": "저는 운동을 가끔 해요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 mistakes the activity question for an identity statement (운동이에요).",
+              "Option 2 misuses 없어요 - exercise frequency is asked with 하다, not existence with 있다/없다.",
+              "Option 4 gives a reason (the field is far) instead of answering how often; it is on-topic but does not answer the question."
+            ]
+          }
+        },
+        {
+          "question_id": "l-004",
+          "order": 4,
+          "skill": "listening",
+          "prompt": "잘 듣고 물음에 맞는 대답을 고르십시오.",
+          "audio_ref": "transcript-only:l-004",
+          "passage": "Transcript: 여자: 어디에서 점심을 먹어요?",
+          "options": [
+            {
+              "id": "1",
+              "text": "친구하고 먹어요."
+            },
+            {
+              "id": "2",
+              "text": "열두 시에 먹어요."
+            },
+            {
+              "id": "3",
+              "text": "회사 식당에서 먹어요."
+            },
+            {
+              "id": "4",
+              "text": "비빔밥을 먹어요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "wh_question",
+            "place"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "어디에서 asks WHERE an action happens, so the answer must name a place with 에서: 회사 식당에서 먹어요 (I eat at the company cafeteria). Each wrong option answers a different question word - who with, what time, or what food.",
+            "teaching_points": [
+              "Match the question word to the answer: 어디에서 → place + 에서, 누구하고 → person + 하고, 언제/몇 시에 → time + 에, 뭐/무엇을 → object + 을/를.",
+              "In listening, catch the question word at the start; the rest of the sentence is often identical across questions.",
+              "회사 식당 is a compound: company + cafeteria."
+            ],
+            "vocabulary": [
+              {
+                "ko": "어디",
+                "en": "where"
+              },
+              {
+                "ko": "점심",
+                "en": "lunch"
+              },
+              {
+                "ko": "회사",
+                "en": "company, office"
+              },
+              {
+                "ko": "식당",
+                "en": "restaurant, cafeteria"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에서",
+                "explanation": "Marks the place where an action happens; required in answers to 어디에서 questions.",
+                "example": "회사 식당에서 점심을 먹어요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 answers 누구하고 먹어요? (Who do you eat with?) - 하고 marks a companion, not a place.",
+              "Option 2 answers 몇 시에 먹어요? (What time do you eat?).",
+              "Option 4 answers 뭐 먹어요? (What do you eat?). All three are grammatical, so you must listen for 어디에서."
+            ]
+          }
+        },
+        {
+          "question_id": "l-005",
+          "order": 5,
+          "skill": "listening",
+          "prompt": "잘 듣고 이어지는 말을 고르십시오.",
+          "audio_ref": "transcript-only:l-005",
+          "passage": "Transcript: 남자: 처음 뵙겠습니다. 저는 김민수입니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "만나서 반갑습니다."
+            },
+            {
+              "id": "2",
+              "text": "안녕히 가세요."
+            },
+            {
+              "id": "3",
+              "text": "잘 먹겠습니다."
+            },
+            {
+              "id": "4",
+              "text": "오랜만이에요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 4,
+          "tags": [
+            "set_phrases",
+            "first_meeting"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "처음 뵙겠습니다 (How do you do, literally I am seeing you for the first time) is said at a first meeting, and the fixed reply is 만나서 반갑습니다 (Nice to meet you). 오랜만이에요 (Long time no see) directly contradicts 처음 (first time).",
+            "teaching_points": [
+              "Set phrase pairs: 처음 뵙겠습니다 ↔ 만나서 반갑습니다; 안녕히 가세요 ↔ 안녕히 계세요; 잘 먹겠습니다 (before eating) ↔ 잘 먹었습니다 (after eating).",
+              "Introducing yourself with 저는 N입니다 usually follows or precedes 처음 뵙겠습니다.",
+              "뵙다 is the humble form of 보다/만나다, used toward someone you respect."
+            ],
+            "vocabulary": [
+              {
+                "ko": "처음",
+                "en": "first time"
+              },
+              {
+                "ko": "뵙다",
+                "en": "to meet (humble)"
+              },
+              {
+                "ko": "반갑다",
+                "en": "to be glad (to meet)"
+              },
+              {
+                "ko": "오랜만",
+                "en": "after a long time"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(스)ㅂ니다",
+                "explanation": "Formal polite ending used in introductions and formal speech.",
+                "example": "저는 김민수입니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 is the classic trap: 오랜만이에요 is for people you already know, but 처음 means this is a first meeting.",
+              "Option 2 (안녕히 가세요) is a farewell to someone leaving, not a greeting.",
+              "Option 3 (잘 먹겠습니다) is said before a meal and has nothing to do with introductions."
+            ]
+          }
+        },
+        {
+          "question_id": "l-006",
+          "order": 6,
+          "skill": "listening",
+          "prompt": "잘 듣고 이어지는 말을 고르십시오.",
+          "audio_ref": "transcript-only:l-006",
+          "passage": "Transcript: 여자: 주말 잘 보내세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "네, 수미 씨도 잘 보내세요."
+            },
+            {
+              "id": "2",
+              "text": "네, 잘 먹었습니다."
+            },
+            {
+              "id": "3",
+              "text": "네, 처음 뵙겠습니다."
+            },
+            {
+              "id": "4",
+              "text": "네, 여기 있어요."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "set_phrases",
+            "farewell"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "주말 잘 보내세요 (Have a good weekend) is a parting wish. The natural reply returns the same wish to the speaker: 네, 수미 씨도 잘 보내세요 (You have a good weekend too) - 도 (also) sends the wish back.",
+            "teaching_points": [
+              "Wishes like 잘 보내세요, 좋은 하루 보내세요 are commonly returned with N 씨도 + the same expression.",
+              "보내다 here means to spend (time), not to send a thing.",
+              "도 replaces 은/는/이/가 when adding 'also': 수미 씨도."
+            ],
+            "vocabulary": [
+              {
+                "ko": "주말",
+                "en": "weekend"
+              },
+              {
+                "ko": "보내다",
+                "en": "to spend (time); to send"
+              },
+              {
+                "ko": "도",
+                "en": "also, too (particle)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)세요",
+                "explanation": "Polite request or gentle command; in farewells it expresses a wish for the listener.",
+                "example": "주말 잘 보내세요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 (잘 먹었습니다) thanks someone after a meal - it only fits food situations.",
+              "Option 3 is for first meetings; this conversation is a parting.",
+              "Option 4 (여기 있어요, here it is) is what you say when handing something over."
+            ]
+          }
+        },
+        {
+          "question_id": "l-007",
+          "order": 7,
+          "skill": "listening",
+          "prompt": "여기는 어디입니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-007",
+          "passage": "Transcript: 남자: 이 책 세 권을 빌리고 싶어요. 여자: 네, 학생증을 보여 주세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "서점"
+            },
+            {
+              "id": "2",
+              "text": "도서관"
+            },
+            {
+              "id": "3",
+              "text": "문구점"
+            },
+            {
+              "id": "4",
+              "text": "교실"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "place",
+            "library"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The man wants to BORROW three books (빌리고 싶어요) and the woman asks for a student ID (학생증) - borrowing books with an ID happens at a library (도서관). At a bookstore (서점) you buy (사다) books, you do not borrow them.",
+            "teaching_points": [
+              "The verb decides the place: 빌리다 (borrow) → 도서관; 사다 (buy) → 서점/가게.",
+              "권 is the counter for books: 세 권 = three volumes.",
+              "학생증 (student ID) is typical at libraries, schools, and student discounts."
+            ],
+            "vocabulary": [
+              {
+                "ko": "빌리다",
+                "en": "to borrow"
+              },
+              {
+                "ko": "권",
+                "en": "counter for books"
+              },
+              {
+                "ko": "학생증",
+                "en": "student ID card"
+              },
+              {
+                "ko": "서점",
+                "en": "bookstore"
+              },
+              {
+                "ko": "문구점",
+                "en": "stationery store"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-고 싶다",
+                "explanation": "Expresses the speaker's desire to do something.",
+                "example": "책을 빌리고 싶어요."
+              }
+            ],
+            "common_mistakes": [
+              "서점 is the strongest distractor because books appear in both places - but 빌리다 (borrow) rules out a store.",
+              "교실 (classroom) has students but no book lending desk.",
+              "문구점 sells pens and notebooks, not books to borrow."
+            ]
+          }
+        },
+        {
+          "question_id": "l-008",
+          "order": 8,
+          "skill": "listening",
+          "prompt": "여기는 어디입니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-008",
+          "passage": "Transcript: 여자: 어서 오세요. 어디가 아프세요? 남자: 어제부터 머리가 아프고 열이 나요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "약국"
+            },
+            {
+              "id": "2",
+              "text": "병원"
+            },
+            {
+              "id": "3",
+              "text": "학교"
+            },
+            {
+              "id": "4",
+              "text": "미용실"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "place",
+            "health"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "어디가 아프세요? (Where does it hurt?) is the standard question a doctor or nurse asks, and the man describes symptoms (headache since yesterday, fever). Describing symptoms to be examined happens at a hospital/clinic (병원).",
+            "teaching_points": [
+              "어디가 아프세요? is the signature line of a 병원 dialogue.",
+              "Symptom vocabulary: 머리가 아프다 (head hurts), 열이 나다 (have a fever), 기침을 하다 (cough).",
+              "N부터 marks a starting point in time: 어제부터 = since yesterday."
+            ],
+            "vocabulary": [
+              {
+                "ko": "아프다",
+                "en": "to hurt, to be sick"
+              },
+              {
+                "ko": "열이 나다",
+                "en": "to have a fever"
+              },
+              {
+                "ko": "약국",
+                "en": "pharmacy"
+              },
+              {
+                "ko": "병원",
+                "en": "hospital, clinic"
+              },
+              {
+                "ko": "미용실",
+                "en": "hair salon"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N부터",
+                "explanation": "Marks the starting point of a time span (since/from).",
+                "example": "어제부터 머리가 아파요."
+              }
+            ],
+            "common_mistakes": [
+              "약국 (pharmacy) is the trap: at a pharmacy you ask for medicine (약 주세요); the examining question 어디가 아프세요? points to a clinic.",
+              "어서 오세요 alone does not identify the place - shops, salons, and clinics all use it; listen to what follows.",
+              "미용실 also greets customers with 어서 오세요 but would ask about hair, not pain."
+            ]
+          }
+        },
+        {
+          "question_id": "l-009",
+          "order": 9,
+          "skill": "listening",
+          "prompt": "여기는 어디입니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-009",
+          "passage": "Transcript: 남자: 사과는 얼마예요? 여자: 세 개에 오천 원이에요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "과일 가게"
+            },
+            {
+              "id": "2",
+              "text": "꽃집"
+            },
+            {
+              "id": "3",
+              "text": "빵집"
+            },
+            {
+              "id": "4",
+              "text": "식당"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "place",
+            "shopping",
+            "price"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The man asks the price of apples (사과는 얼마예요?) and the woman quotes three for 5,000 won - buying apples by the piece happens at a fruit shop (과일 가게).",
+            "teaching_points": [
+              "얼마예요? is the universal price question.",
+              "N에 in 세 개에 오천 원 means 'for/per': three (items) for 5,000 won.",
+              "개 is the general counter for things; fruit is counted with 개."
+            ],
+            "vocabulary": [
+              {
+                "ko": "사과",
+                "en": "apple"
+              },
+              {
+                "ko": "얼마",
+                "en": "how much"
+              },
+              {
+                "ko": "개",
+                "en": "counter for items"
+              },
+              {
+                "ko": "과일",
+                "en": "fruit"
+              },
+              {
+                "ko": "가게",
+                "en": "shop, store"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 X원",
+                "explanation": "Expresses a unit price: quantity + 에 + price means 'X won for (that quantity)'.",
+                "example": "사과는 세 개에 오천 원이에요."
+              }
+            ],
+            "common_mistakes": [
+              "All four options are places where you can spend money; only the item named (사과, apples) identifies the fruit shop.",
+              "빵집 (bakery) is tempting if you only catch the buying context - listen for the product word.",
+              "식당 conversations are about ordering dishes (주문하시겠어요?), not per-item prices of raw fruit."
+            ]
+          }
+        },
+        {
+          "question_id": "l-010",
+          "order": 10,
+          "skill": "listening",
+          "prompt": "여기는 어디입니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-010",
+          "passage": "Transcript: 여자: 부산까지 가는 표 두 장 주세요. 남자: 네, 세 시 기차 괜찮으세요?",
+          "options": [
+            {
+              "id": "1",
+              "text": "공항"
+            },
+            {
+              "id": "2",
+              "text": "기차역"
+            },
+            {
+              "id": "3",
+              "text": "버스 정류장"
+            },
+            {
+              "id": "4",
+              "text": "지하철역"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 4,
+          "tags": [
+            "place",
+            "transportation"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The woman buys two tickets to Busan and the clerk offers the three o'clock TRAIN (세 시 기차) - so this is a train station (기차역). The word 기차 is the deciding clue among four transport-related places.",
+            "teaching_points": [
+              "All options are transport hubs; the vehicle word (기차, 비행기, 버스, 지하철) picks the right one.",
+              "장 is the counter for flat things like tickets and paper: 표 두 장.",
+              "N까지 marks the destination endpoint: 부산까지 = to Busan."
+            ],
+            "vocabulary": [
+              {
+                "ko": "표",
+                "en": "ticket"
+              },
+              {
+                "ko": "장",
+                "en": "counter for tickets/sheets"
+              },
+              {
+                "ko": "기차",
+                "en": "train"
+              },
+              {
+                "ko": "기차역",
+                "en": "train station"
+              },
+              {
+                "ko": "정류장",
+                "en": "bus stop"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N까지",
+                "explanation": "Marks the endpoint of movement or a range (to/until).",
+                "example": "부산까지 가는 표 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "공항 fits ticket-buying but the clerk says 기차, not 비행기 (airplane).",
+              "지하철역 is wrong because subways do not sell destination tickets to another city like Busan.",
+              "Do not decide from 표 두 장 주세요 alone - wait for the vehicle word in the reply."
+            ]
+          }
+        },
+        {
+          "question_id": "l-011",
+          "order": 11,
+          "skill": "listening",
+          "prompt": "다음은 무엇에 대해 말하고 있습니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-011",
+          "passage": "Transcript: 남자: 저는 여름을 좋아해요. 여자: 저는 너무 더워서 겨울이 더 좋아요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "날짜"
+            },
+            {
+              "id": "2",
+              "text": "계절"
+            },
+            {
+              "id": "3",
+              "text": "날씨"
+            },
+            {
+              "id": "4",
+              "text": "여행"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "topic",
+            "seasons"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "Both speakers name a season they prefer - 여름 (summer) and 겨울 (winter) - so the topic is 계절 (seasons). 날씨 (weather) is the trap: 더워서 (because it is hot) mentions weather, but only as the REASON for the season preference.",
+            "teaching_points": [
+              "For topic questions, find the category that covers BOTH speakers' key nouns: 여름 + 겨울 = 계절.",
+              "Season set: 봄 (spring), 여름 (summer), 가을 (fall), 겨울 (winter).",
+              "-아/어서 gives a reason: 더워서 = because it is hot."
+            ],
+            "vocabulary": [
+              {
+                "ko": "여름",
+                "en": "summer"
+              },
+              {
+                "ko": "겨울",
+                "en": "winter"
+              },
+              {
+                "ko": "계절",
+                "en": "season"
+              },
+              {
+                "ko": "덥다",
+                "en": "to be hot"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어서",
+                "explanation": "Connects a reason to a result: A-아/어서 B = because A, B.",
+                "example": "너무 더워서 겨울이 더 좋아요."
+              },
+              {
+                "pattern": "N이/가 더 좋다",
+                "explanation": "더 (more) expresses comparison/preference.",
+                "example": "겨울이 더 좋아요."
+              }
+            ],
+            "common_mistakes": [
+              "날씨 is mentioned only inside the reason (더워서); the things being compared are seasons, not weather conditions.",
+              "날짜 (date) refers to calendar dates like 5월 10일, which never appear here.",
+              "Topic questions ask what the conversation is ABOUT overall, not which individual words you heard."
+            ]
+          }
+        },
+        {
+          "question_id": "l-012",
+          "order": 12,
+          "skill": "listening",
+          "prompt": "다음은 무엇에 대해 말하고 있습니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-012",
+          "passage": "Transcript: 여자: 저는 동생이 한 명 있어요. 남자: 저는 형하고 누나가 있어요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "가족"
+            },
+            {
+              "id": "2",
+              "text": "친구"
+            },
+            {
+              "id": "3",
+              "text": "나이"
+            },
+            {
+              "id": "4",
+              "text": "이름"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "topic",
+            "family"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "동생 (younger sibling), 형 (older brother), and 누나 (older sister) are all family words, so the speakers are talking about 가족 (family) - specifically their siblings.",
+            "teaching_points": [
+              "Sibling terms depend on the speaker: a man says 형/누나, a woman says 오빠/언니 for older brother/sister; 동생 is the same for everyone.",
+              "명 is the counter for people: 한 명 = one person.",
+              "하고 joins nouns: 형하고 누나 = older brother and older sister."
+            ],
+            "vocabulary": [
+              {
+                "ko": "동생",
+                "en": "younger sibling"
+              },
+              {
+                "ko": "형",
+                "en": "older brother (of a male)"
+              },
+              {
+                "ko": "누나",
+                "en": "older sister (of a male)"
+              },
+              {
+                "ko": "명",
+                "en": "counter for people"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N하고 N",
+                "explanation": "Connects two nouns (and); colloquial equivalent of 와/과.",
+                "example": "형하고 누나가 있어요."
+              }
+            ],
+            "common_mistakes": [
+              "나이 (age) is tempting because sibling words imply older/younger, but no ages are stated.",
+              "친구 is wrong: 형 and 누나 here are family, not friendly address terms.",
+              "Counting people with 한 명 does not make the topic numbers - it is still about who is in the family."
+            ]
+          }
+        },
+        {
+          "question_id": "l-013",
+          "order": 13,
+          "skill": "listening",
+          "prompt": "다음은 무엇에 대해 말하고 있습니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-013",
+          "passage": "Transcript: 남자: 수미 씨는 시간이 있을 때 보통 뭐 해요? 여자: 저는 음악을 듣거나 기타를 쳐요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "취미"
+            },
+            {
+              "id": "2",
+              "text": "음악회"
+            },
+            {
+              "id": "3",
+              "text": "직업"
+            },
+            {
+              "id": "4",
+              "text": "주말"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 4,
+          "tags": [
+            "topic",
+            "hobby"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "시간이 있을 때 보통 뭐 해요? (What do you usually do in your free time?) is the standard way to ask about hobbies, and the woman lists leisure activities (listening to music, playing the guitar). The topic is 취미 (hobby).",
+            "teaching_points": [
+              "Hobby questions rarely contain the word 취미 - listen for 시간이 있을 때 / 쉬는 날에 + 뭐 해요?.",
+              "Instrument collocation: 기타를 치다, 피아노를 치다 (play by striking) vs. 음악을 듣다 (listen to music).",
+              "-거나 lists alternative actions: A하거나 B해요 = I do A or B."
+            ],
+            "vocabulary": [
+              {
+                "ko": "취미",
+                "en": "hobby"
+              },
+              {
+                "ko": "음악",
+                "en": "music"
+              },
+              {
+                "ko": "기타를 치다",
+                "en": "to play the guitar"
+              },
+              {
+                "ko": "보통",
+                "en": "usually"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-거나",
+                "explanation": "Connects verb alternatives (or): 듣거나 치다 = listen or play.",
+                "example": "음악을 듣거나 기타를 쳐요."
+              },
+              {
+                "pattern": "-(으)ㄹ 때",
+                "explanation": "Means 'when (doing/being)': 시간이 있을 때 = when there is time.",
+                "example": "시간이 있을 때 음악을 들어요."
+              }
+            ],
+            "common_mistakes": [
+              "음악회 (concert) borrows the word 음악, but nobody is attending a performance - she listens at home as a pastime.",
+              "직업 (job) would be asked with 무슨 일을 하세요?, not 시간이 있을 때 뭐 해요?.",
+              "주말 is not mentioned; free time (시간이 있을 때) is broader than weekends."
+            ]
+          }
+        },
+        {
+          "question_id": "l-014",
+          "order": 14,
+          "skill": "listening",
+          "prompt": "다음은 무엇에 대해 말하고 있습니까? 잘 듣고 알맞은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-014",
+          "passage": "Transcript: 남자: 수미 씨, 생일이 언제예요? 여자: 시월 구 일이에요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "생일"
+            },
+            {
+              "id": "2",
+              "text": "나이"
+            },
+            {
+              "id": "3",
+              "text": "시간"
+            },
+            {
+              "id": "4",
+              "text": "주소"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "topic",
+            "dates"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The man asks 생일이 언제예요? (When is your birthday?) and the woman gives the date October 9th, so the topic is 생일 (birthday).",
+            "teaching_points": [
+              "Dates use Sino-Korean numbers: 구 일 = the 9th; months are number + 월.",
+              "Two irregular month names: 유월 (June, not 육월) and 시월 (October, not 십월).",
+              "언제 asks 'when' and is answered with a date or time expression + 이에요/예요."
+            ],
+            "vocabulary": [
+              {
+                "ko": "생일",
+                "en": "birthday"
+              },
+              {
+                "ko": "언제",
+                "en": "when"
+              },
+              {
+                "ko": "시월",
+                "en": "October"
+              },
+              {
+                "ko": "일",
+                "en": "day (of the month)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N이/가 언제예요?",
+                "explanation": "Asks for the date or time of an event.",
+                "example": "생일이 언제예요? - 시월 구 일이에요."
+              }
+            ],
+            "common_mistakes": [
+              "나이 (age) is related to birthdays but the question asks for the DATE, not how old she is.",
+              "시간 (time of day) would be answered with 시/분 (o'clock/minutes), not a calendar date.",
+              "Remember 시월 = October; hearing 시 does not mean o'clock here."
+            ]
+          }
+        },
+        {
+          "question_id": "l-015",
+          "order": 15,
+          "skill": "listening",
+          "prompt": "다음 대화를 듣고 알맞은 상황을 고르십시오.",
+          "audio_ref": "transcript-only:l-015",
+          "passage": "Transcript: 남자: 손님, 무엇을 찾으세요? 여자: 운동화를 사고 싶어요. 좀 보여 주세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "여자가 신발 가게에서 운동화를 찾고 있습니다."
+            },
+            {
+              "id": "2",
+              "text": "여자가 운동장에서 운동화를 신고 달리고 있습니다."
+            },
+            {
+              "id": "3",
+              "text": "남자가 여자에게 운동화를 선물하고 있습니다."
+            },
+            {
+              "id": "4",
+              "text": "남자가 가게에서 운동화를 사고 있습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 4,
+          "tags": [
+            "situation",
+            "shopping"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The man calls the woman 손님 (customer) and asks what she is looking for; she wants to buy sneakers and asks to see some. So the scene is: the woman is looking for sneakers in a shoe store. Note who plays which role - the WOMAN is the customer, the man is the clerk.",
+            "teaching_points": [
+              "This item replaces the exam's picture choice: each option describes a scene, so check place, people, and action against the dialogue.",
+              "손님 + 무엇을 찾으세요? identifies a clerk talking to a customer.",
+              "보여 주세요 (please show me) asks the clerk to bring items to look at - 보여 주다 = show for my benefit."
+            ],
+            "vocabulary": [
+              {
+                "ko": "손님",
+                "en": "customer, guest"
+              },
+              {
+                "ko": "운동화",
+                "en": "sneakers"
+              },
+              {
+                "ko": "찾다",
+                "en": "to look for"
+              },
+              {
+                "ko": "신다",
+                "en": "to wear (footwear)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어 주세요",
+                "explanation": "Requests that someone do an action for the speaker.",
+                "example": "운동화 좀 보여 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 swaps the roles: the MAN is the clerk, not the buyer - listen for who is called 손님.",
+              "Option 2 takes 운동화 to a sports field; the dialogue is about buying shoes, not using them.",
+              "Option 3 invents a gift; 사고 싶어요 means she wants to buy them herself."
+            ]
+          }
+        },
+        {
+          "question_id": "l-016",
+          "order": 16,
+          "skill": "listening",
+          "prompt": "다음 대화를 듣고 알맞은 상황을 고르십시오.",
+          "audio_ref": "transcript-only:l-016",
+          "passage": "Transcript: 여자: 비가 오는데 우산이 없어요. 남자: 그럼 이 우산을 같이 써요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "두 사람이 우산 가게에서 우산을 사고 있습니다."
+            },
+            {
+              "id": "2",
+              "text": "남자가 여자하고 우산을 같이 쓰고 있습니다."
+            },
+            {
+              "id": "3",
+              "text": "여자가 남자에게 우산을 빌려주고 있습니다."
+            },
+            {
+              "id": "4",
+              "text": "두 사람이 비를 맞고 뛰어가고 있습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 4,
+          "tags": [
+            "situation",
+            "weather"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "It is raining, the woman has no umbrella, and the man suggests sharing his: 이 우산을 같이 써요 (Let's use this umbrella together). The matching scene is the man and woman sharing one umbrella.",
+            "teaching_points": [
+              "우산을 쓰다 means to use/hold up an umbrella - 쓰다 also means to write and to wear (a hat), so context decides.",
+              "같이 + verb proposes doing something together; -아/어요 can be a suggestion (let's).",
+              "-는데 sets background: 비가 오는데 = it is raining, and (given that)..."
+            ],
+            "vocabulary": [
+              {
+                "ko": "우산을 쓰다",
+                "en": "to use an umbrella"
+              },
+              {
+                "ko": "같이",
+                "en": "together"
+              },
+              {
+                "ko": "빌려주다",
+                "en": "to lend"
+              },
+              {
+                "ko": "비를 맞다",
+                "en": "to get rained on"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-는데",
+                "explanation": "Gives background circumstances for what follows.",
+                "example": "비가 오는데 우산이 없어요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 3 reverses the direction of help: the MAN offers his umbrella; also he shares it (같이 써요) rather than lending it away (빌려주다).",
+              "Option 4 describes what would happen WITHOUT the man's offer.",
+              "Option 1 misreads 우산이 없어요 as a reason to shop; nobody is buying anything."
+            ]
+          }
+        },
+        {
+          "question_id": "l-017",
+          "order": 17,
+          "skill": "listening",
+          "prompt": "다음을 듣고 대화 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-017",
+          "passage": "Transcript: 남자: 수미 씨, 내일 같이 영화 볼까요? 여자: 미안해요. 내일은 고향에서 부모님이 오세요. 그래서 공항에 가야 돼요. 남자: 그래요? 그럼 다음 주에 봐요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "남자는 내일 공항에 갑니다."
+            },
+            {
+              "id": "2",
+              "text": "여자는 내일 영화를 봅니다."
+            },
+            {
+              "id": "3",
+              "text": "여자는 내일 부모님을 만납니다."
+            },
+            {
+              "id": "4",
+              "text": "두 사람은 다음 주에 고향에 갑니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "plans"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman declines the movie because her parents arrive from her hometown tomorrow and she must go to the airport - so tomorrow she meets her parents. The movie is postponed to next week (다음 주에 봐요 refers to the movie/each other, not going to the hometown).",
+            "teaching_points": [
+              "-(으)ㄹ까요? invites a joint plan: 같이 영화 볼까요? = Shall we watch a movie together?",
+              "미안해요 + reason is the standard polite refusal pattern.",
+              "-아/어야 되다 expresses obligation: 공항에 가야 돼요 = I have to go to the airport."
+            ],
+            "vocabulary": [
+              {
+                "ko": "고향",
+                "en": "hometown"
+              },
+              {
+                "ko": "부모님",
+                "en": "parents"
+              },
+              {
+                "ko": "공항",
+                "en": "airport"
+              },
+              {
+                "ko": "다음 주",
+                "en": "next week"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어야 되다",
+                "explanation": "Expresses necessity or obligation (have to).",
+                "example": "공항에 가야 돼요."
+              },
+              {
+                "pattern": "-(으)ㄹ까요?",
+                "explanation": "Suggests doing something together or asks for opinion.",
+                "example": "같이 영화 볼까요?"
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 gives the airport trip to the wrong person - the WOMAN goes to the airport.",
+              "Option 2 is exactly what she cannot do tomorrow.",
+              "Option 4 misreads 다음 주에 봐요: 보다 here means see (each other / the movie), and nobody plans to travel to the hometown - the parents come FROM there."
+            ]
+          }
+        },
+        {
+          "question_id": "l-018",
+          "order": 18,
+          "skill": "listening",
+          "prompt": "다음을 듣고 대화 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-018",
+          "passage": "Transcript: 여자: 민수 씨, 이번 휴가에 뭐 할 거예요? 남자: 제주도에 갈 거예요. 비행기 표도 벌써 샀어요. 여자: 좋겠어요. 저는 집에서 쉴 거예요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "남자는 휴가에 집에서 쉴 겁니다."
+            },
+            {
+              "id": "2",
+              "text": "남자는 비행기 표를 아직 안 샀습니다."
+            },
+            {
+              "id": "3",
+              "text": "여자는 제주도에 갈 겁니다."
+            },
+            {
+              "id": "4",
+              "text": "남자는 휴가에 제주도에 갈 겁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "4"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "vacation"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The man will go to Jeju Island for his vacation and has ALREADY bought his plane ticket (벌써 샀어요); the woman will rest at home. Option 4 matches the man's plan; the other options swap the speakers or negate the ticket purchase.",
+            "teaching_points": [
+              "Track each speaker's plan separately - detail questions love to swap 남자 and 여자.",
+              "벌써 (already) vs. 아직 (yet/still): 벌써 샀어요 = already bought; 아직 안 샀어요 = has not bought yet.",
+              "-(으)ㄹ 거예요 marks future plans; in the formal options it appears as -(으)ㄹ 겁니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "휴가",
+                "en": "vacation (from work)"
+              },
+              {
+                "ko": "비행기 표",
+                "en": "plane ticket"
+              },
+              {
+                "ko": "벌써",
+                "en": "already"
+              },
+              {
+                "ko": "쉬다",
+                "en": "to rest"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)ㄹ 거예요",
+                "explanation": "Expresses a future plan or intention.",
+                "example": "제주도에 갈 거예요."
+              }
+            ],
+            "common_mistakes": [
+              "Options 1 and 3 swap the two speakers' plans - the classic trap in 내용과 같은 것 items.",
+              "Option 2 flips 벌써 (already) into 아직 안 (not yet); catch these small adverbs.",
+              "좋겠어요 (that sounds nice) expresses envy, not the woman's own plan to go."
+            ]
+          }
+        },
+        {
+          "question_id": "l-019",
+          "order": 19,
+          "skill": "listening",
+          "prompt": "다음을 듣고 대화 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-019",
+          "passage": "Transcript: 남자: 이 식당은 처음 와 봐요. 뭐가 맛있어요? 여자: 여기는 불고기가 제일 유명해요. 그런데 오늘은 사람이 많아서 조금 기다려야 돼요. 남자: 괜찮아요. 기다릴게요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "남자는 이 식당에 자주 옵니다."
+            },
+            {
+              "id": "2",
+              "text": "이 식당은 불고기가 유명합니다."
+            },
+            {
+              "id": "3",
+              "text": "오늘은 식당에 사람이 적습니다."
+            },
+            {
+              "id": "4",
+              "text": "남자는 다른 식당에 갈 겁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "restaurant"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman says the restaurant is most famous for bulgogi (불고기가 제일 유명해요), which matches option 2. The man is here for the FIRST time, the restaurant is crowded (사람이 많아서), and he agrees to wait rather than leave.",
+            "teaching_points": [
+              "처음 와 봐요 = it is my first time here; -아/어 보다 adds the sense of trying/experiencing.",
+              "제일 + adjective = the most: 제일 유명해요 = is the most famous.",
+              "-(으)ㄹ게요 is a speaker's promise/decision made on the spot: 기다릴게요 = I will wait."
+            ],
+            "vocabulary": [
+              {
+                "ko": "처음",
+                "en": "first time"
+              },
+              {
+                "ko": "제일",
+                "en": "the most"
+              },
+              {
+                "ko": "유명하다",
+                "en": "to be famous"
+              },
+              {
+                "ko": "기다리다",
+                "en": "to wait"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)ㄹ게요",
+                "explanation": "States the speaker's on-the-spot decision or promise.",
+                "example": "괜찮아요. 기다릴게요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 contradicts 처음 와 봐요 (first visit) - 자주 means often.",
+              "Option 3 flips 많아서 (many) into 적습니다 (few); antonym swaps are a standard distractor.",
+              "Option 4 ignores 기다릴게요 - he decides to wait, not to go elsewhere."
+            ]
+          }
+        },
+        {
+          "question_id": "l-020",
+          "order": 20,
+          "skill": "listening",
+          "prompt": "다음을 듣고 대화 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-020",
+          "passage": "Transcript: 여자: 어제 산 옷인데 좀 커요. 바꿀 수 있어요? 남자: 네, 영수증 있으세요? 여자: 네, 여기요. 한 사이즈 작은 거로 주세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "여자는 오늘 옷을 샀습니다."
+            },
+            {
+              "id": "2",
+              "text": "여자는 옷이 작아서 바꿉니다."
+            },
+            {
+              "id": "3",
+              "text": "여자는 영수증이 없습니다."
+            },
+            {
+              "id": "4",
+              "text": "여자는 더 작은 옷으로 바꾸고 싶어 합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "4"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "shopping",
+            "exchange"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The clothes she bought YESTERDAY are a bit BIG (좀 커요), she has the receipt, and she asks for one size smaller (한 사이즈 작은 거로 주세요) - so she wants to exchange for smaller clothes. Option 2 reverses the problem: the clothes are big, not small.",
+            "teaching_points": [
+              "Exchange dialogue essentials: 바꾸다 (exchange), 영수증 (receipt), 사이즈 (size).",
+              "N(으)로 marks the thing you change INTO: 작은 거로 바꾸다 = exchange it for a smaller one.",
+              "어제 산 옷 uses the past noun-modifier -(으)ㄴ: the clothes (I) bought yesterday."
+            ],
+            "vocabulary": [
+              {
+                "ko": "바꾸다",
+                "en": "to exchange, to change"
+              },
+              {
+                "ko": "영수증",
+                "en": "receipt"
+              },
+              {
+                "ko": "크다",
+                "en": "to be big"
+              },
+              {
+                "ko": "작다",
+                "en": "to be small"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(으)로 바꾸다",
+                "explanation": "(으)로 marks the result of a change: exchange (something) FOR N.",
+                "example": "작은 거로 바꾸고 싶어요."
+              },
+              {
+                "pattern": "-(으)ㄴ (past noun modifier)",
+                "explanation": "Attaches to a verb to describe a noun with a completed action.",
+                "example": "어제 산 옷이에요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 swaps the direction: 커요 means too BIG, so she wants a smaller size - not the other way around.",
+              "Option 1 changes 어제 (yesterday) to 오늘 (today).",
+              "Option 3 contradicts 네, 여기요 - she hands the receipt over."
+            ]
+          }
+        },
+        {
+          "question_id": "l-021",
+          "order": 21,
+          "skill": "listening",
+          "prompt": "다음을 듣고 대화 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-021",
+          "passage": "Transcript: 남자: 수미 씨, 한국어를 정말 잘하네요. 어떻게 공부했어요? 여자: 매일 아침에 한국 뉴스를 듣고 단어를 외웠어요. 한국 친구하고 이야기도 많이 했어요. 남자: 저도 그렇게 해 봐야겠어요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "여자는 아침마다 뉴스를 들으면서 한국어를 공부했습니다."
+            },
+            {
+              "id": "2",
+              "text": "남자는 한국 친구가 많습니다."
+            },
+            {
+              "id": "3",
+              "text": "여자는 한국어 공부가 어려워서 그만뒀습니다."
+            },
+            {
+              "id": "4",
+              "text": "남자는 매일 단어를 외웁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "study_method"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman explains her study method: every morning she listened to Korean news and memorized words, and she also talked a lot with Korean friends. Option 1 restates this. The man only says he SHOULD try the same method (해 봐야겠어요) - he is not doing it yet.",
+            "teaching_points": [
+              "어떻게 공부했어요? asks for a method; the answer lists habitual past actions.",
+              "N마다 = every N: 아침마다 = every morning (equivalent to 매일 아침에).",
+              "-아/어야겠어요 expresses a fresh resolution: 해 봐야겠어요 = I should give that a try."
+            ],
+            "vocabulary": [
+              {
+                "ko": "단어",
+                "en": "word, vocabulary"
+              },
+              {
+                "ko": "외우다",
+                "en": "to memorize"
+              },
+              {
+                "ko": "뉴스",
+                "en": "news"
+              },
+              {
+                "ko": "그만두다",
+                "en": "to quit"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)면서",
+                "explanation": "Two actions done at the same time by one subject (while).",
+                "example": "뉴스를 들으면서 공부했어요."
+              },
+              {
+                "pattern": "-아/어야겠다",
+                "explanation": "The speaker's spontaneous resolution: I should/had better.",
+                "example": "저도 그렇게 해 봐야겠어요."
+              }
+            ],
+            "common_mistakes": [
+              "Options 2 and 4 attribute the woman's habits to the man - he only expresses an intention to copy them.",
+              "Option 3 contradicts the dialogue: she succeeded (한국어를 정말 잘하네요); nothing says she quit.",
+              "잘하네요 with -네요 expresses the man's admiring discovery, not a question."
+            ]
+          }
+        },
+        {
+          "question_id": "l-022",
+          "order": 22,
+          "skill": "listening",
+          "prompt": "다음을 듣고 여자의 중심 생각을 고르십시오.",
+          "audio_ref": "transcript-only:l-022",
+          "passage": "Transcript: 남자: 수미 씨, 회사까지 뭐로 와요? 여자: 저는 지하철로 와요. 버스는 길이 막히면 시간이 많이 걸려요. 지하철은 빠르고 시간도 잘 지킬 수 있어요. 남자: 그렇군요. 저도 지하철을 타 봐야겠어요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "버스가 지하철보다 편합니다."
+            },
+            {
+              "id": "2",
+              "text": "지하철로 다니는 것이 좋습니다."
+            },
+            {
+              "id": "3",
+              "text": "회사가 집에서 가깝습니다."
+            },
+            {
+              "id": "4",
+              "text": "아침에 일찍 일어나야 합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 4,
+          "tags": [
+            "main_idea",
+            "transportation"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman gives two reasons for taking the subway: buses lose time in traffic (길이 막히면 시간이 많이 걸려요), while the subway is fast and lets her be on time. Her central idea is that commuting by subway is good - option 1 states the opposite comparison.",
+            "teaching_points": [
+              "중심 생각 (main idea) questions ask what the speaker is arguing overall; reasons (traffic, speed) support the conclusion but are not the answer.",
+              "길이 막히다 = the roads are congested; 시간이 걸리다 = it takes time.",
+              "시간을 지키다 = to keep (be on) time."
+            ],
+            "vocabulary": [
+              {
+                "ko": "지하철",
+                "en": "subway"
+              },
+              {
+                "ko": "길이 막히다",
+                "en": "to have a traffic jam"
+              },
+              {
+                "ko": "시간이 걸리다",
+                "en": "to take time"
+              },
+              {
+                "ko": "지키다",
+                "en": "to keep (a promise, time)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(으)로 (means)",
+                "explanation": "Marks the means of transportation or tool: 지하철로 = by subway.",
+                "example": "저는 지하철로 회사에 와요."
+              },
+              {
+                "pattern": "-(으)면",
+                "explanation": "Conditional: if/when A, then B.",
+                "example": "길이 막히면 시간이 많이 걸려요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 reverses her comparison - she prefers the subway over the bus.",
+              "Option 3 invents a distance claim; she never says where she lives.",
+              "Do not pick a sentence just because a word (버스, 회사) appeared; the main idea is her overall recommendation."
+            ]
+          }
+        },
+        {
+          "question_id": "l-023",
+          "order": 23,
+          "skill": "listening",
+          "prompt": "다음을 듣고 여자의 중심 생각을 고르십시오.",
+          "audio_ref": "transcript-only:l-023",
+          "passage": "Transcript: 남자: 요즘 너무 바빠서 아침을 자주 못 먹어요. 여자: 그래도 아침은 꼭 드세요. 아침을 안 먹으면 오전에 힘이 없어요. 저는 바빠도 과일이라도 먹어요. 남자: 네, 알겠어요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "아침을 꼭 먹는 것이 좋습니다."
+            },
+            {
+              "id": "2",
+              "text": "과일은 비싸서 자주 못 삽니다."
+            },
+            {
+              "id": "3",
+              "text": "아침에는 일이 많아서 바쁩니다."
+            },
+            {
+              "id": "4",
+              "text": "밥보다 과일이 더 맛있습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "main_idea",
+            "health",
+            "advice"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman's advice is 아침은 꼭 드세요 (definitely eat breakfast) with a reason: skipping it leaves you without energy in the morning. Even when busy she eats at least fruit (과일이라도). Her central idea: one should always eat breakfast.",
+            "teaching_points": [
+              "꼭 (without fail) + imperative signals strong advice - a frequent marker of the main idea.",
+              "드시다 is the honorific of 먹다: 드세요 = please eat.",
+              "N(이)라도 means 'at least N / N if nothing better': 과일이라도 먹어요 = I eat at least fruit."
+            ],
+            "vocabulary": [
+              {
+                "ko": "아침",
+                "en": "morning; breakfast"
+              },
+              {
+                "ko": "꼭",
+                "en": "surely, without fail"
+              },
+              {
+                "ko": "힘이 없다",
+                "en": "to have no energy"
+              },
+              {
+                "ko": "과일",
+                "en": "fruit"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(이)라도",
+                "explanation": "Marks a second-best alternative: at least N.",
+                "example": "바빠도 과일이라도 먹어요."
+              },
+              {
+                "pattern": "-아/어도",
+                "explanation": "Concessive: even if/though.",
+                "example": "바빠도 아침을 먹어요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 misreads 과일이라도 - fruit is her minimum fallback, not her favorite food.",
+              "Option 3 picks up 바빠서 from the MAN's situation, not the woman's point.",
+              "Option 2 talks about fruit prices, which are never mentioned."
+            ]
+          }
+        },
+        {
+          "question_id": "l-024",
+          "order": 24,
+          "skill": "listening",
+          "prompt": "다음을 듣고 여자의 중심 생각을 고르십시오.",
+          "audio_ref": "transcript-only:l-024",
+          "passage": "Transcript: 남자: 수미 씨는 주말에도 일찍 일어나요? 여자: 네, 주말에 늦게까지 자면 월요일에 더 피곤해요. 주말에도 같은 시간에 일어나면 몸이 편해요. 남자: 저는 주말에는 늦잠을 자는데요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "주말에는 늦게까지 자는 것이 좋습니다."
+            },
+            {
+              "id": "2",
+              "text": "주말에도 일찍 일어나는 것이 좋습니다."
+            },
+            {
+              "id": "3",
+              "text": "월요일에는 일이 제일 많습니다."
+            },
+            {
+              "id": "4",
+              "text": "잠을 많이 자면 건강에 좋습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "main_idea",
+            "habits"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman argues for waking up early even on weekends: sleeping in makes Monday MORE tiring, while keeping the same wake-up time keeps the body comfortable. Option 1 is the man's habit (늦잠), the opposite of her view.",
+            "teaching_points": [
+              "When two speakers disagree, the question asks for the WOMAN's idea - keep the two positions separate.",
+              "늦잠을 자다 = to sleep in, oversleep on purpose; 늦게까지 자다 = sleep until late.",
+              "도 in 주말에도 = even on weekends, signaling her rule applies everywhere."
+            ],
+            "vocabulary": [
+              {
+                "ko": "일찍",
+                "en": "early"
+              },
+              {
+                "ko": "늦잠",
+                "en": "sleeping in"
+              },
+              {
+                "ko": "피곤하다",
+                "en": "to be tired"
+              },
+              {
+                "ko": "몸",
+                "en": "body"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)면",
+                "explanation": "Conditional used twice to contrast outcomes: if you sleep late vs. if you keep the same hours.",
+                "example": "같은 시간에 일어나면 몸이 편해요."
+              },
+              {
+                "pattern": "-는데요",
+                "explanation": "Soft contrastive ending: states one's own differing situation.",
+                "example": "저는 주말에는 늦잠을 자는데요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 belongs to the man (늦잠을 자는데요) - a speaker-swap trap.",
+              "Option 4 generalizes about sleeping a lot; her point is about a REGULAR wake-up time, not more sleep.",
+              "Option 3 exaggerates 월요일에 더 피곤해요 into a claim about workload."
+            ]
+          }
+        },
+        {
+          "question_id": "l-025",
+          "order": 25,
+          "skill": "listening",
+          "prompt": "다음을 듣고 여자가 왜 이 이야기를 하는지 고르십시오.",
+          "audio_ref": "transcript-only:l-025",
+          "passage": "Transcript: 여자: 아파트 관리 사무소에서 안내 말씀드립니다. 내일 오전 아홉 시부터 열두 시까지 엘리베이터를 점검합니다. 이 시간에는 엘리베이터를 이용할 수 없습니다. 계단을 이용해 주시기 바랍니다. 감사합니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "엘리베이터 점검을 안내하려고"
+            },
+            {
+              "id": "2",
+              "text": "새 엘리베이터를 소개하려고"
+            },
+            {
+              "id": "3",
+              "text": "계단 청소를 부탁하려고"
+            },
+            {
+              "id": "4",
+              "text": "관리 사무소 위치를 알리려고"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "announcement",
+            "purpose"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "This is a building announcement: tomorrow from 9 to 12 the elevator will be INSPECTED (점검합니다) and cannot be used, so residents should take the stairs. The purpose is to inform residents about the elevator inspection - the stairs are only the suggested alternative.",
+            "teaching_points": [
+              "안내 말씀드립니다 is the fixed opening of public announcements - what follows is the purpose.",
+              "N부터 N까지 brackets a time span: 아홉 시부터 열두 시까지.",
+              "-(으)시기 바랍니다 is formal announcement language for 'please do'."
+            ],
+            "vocabulary": [
+              {
+                "ko": "관리 사무소",
+                "en": "management office"
+              },
+              {
+                "ko": "점검하다",
+                "en": "to inspect, to check"
+              },
+              {
+                "ko": "이용하다",
+                "en": "to use (a service/facility)"
+              },
+              {
+                "ko": "계단",
+                "en": "stairs"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)려고",
+                "explanation": "Expresses purpose/intention (in order to); used in the answer options to state why the speaker talks.",
+                "example": "점검을 안내하려고 방송을 해요."
+              },
+              {
+                "pattern": "N부터 N까지",
+                "explanation": "From N to N (time or place range).",
+                "example": "아홉 시부터 열두 시까지 점검합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 3 misunderstands 계단을 이용해 주시기 바랍니다 - residents are asked to USE the stairs, not to clean them.",
+              "Option 2: 점검 means inspection of the existing elevator, not introducing a new one.",
+              "Option 4 confuses the speaker's identity (the office) with the content of the message."
+            ]
+          }
+        },
+        {
+          "question_id": "l-026",
+          "order": 26,
+          "skill": "listening",
+          "prompt": "다음을 듣고 들은 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-026",
+          "passage": "Transcript: 여자: 아파트 관리 사무소에서 안내 말씀드립니다. 내일 오전 아홉 시부터 열두 시까지 엘리베이터를 점검합니다. 이 시간에는 엘리베이터를 이용할 수 없습니다. 계단을 이용해 주시기 바랍니다. 감사합니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "점검은 내일 오후에 합니다."
+            },
+            {
+              "id": "2",
+              "text": "내일 오전에는 계단을 이용해야 합니다."
+            },
+            {
+              "id": "3",
+              "text": "엘리베이터를 새로 만듭니다."
+            },
+            {
+              "id": "4",
+              "text": "오늘부터 엘리베이터를 이용할 수 없습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 4,
+          "tags": [
+            "announcement",
+            "detail"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The inspection is TOMORROW MORNING (내일 오전 9-12), during which the elevator cannot be used and residents must take the stairs - option 2. The other options shift the time to the afternoon or to today, or replace inspection with construction.",
+            "teaching_points": [
+              "Announcements pack the key facts into time + action: write down 내일 / 오전 / 9-12 / 점검 as you listen.",
+              "이용할 수 없습니다 = cannot use; -(으)ㄹ 수 있다/없다 expresses possibility.",
+              "오전 = a.m./morning, 오후 = p.m./afternoon - a one-syllable difference that distractors exploit."
+            ],
+            "vocabulary": [
+              {
+                "ko": "오전",
+                "en": "morning, a.m."
+              },
+              {
+                "ko": "오후",
+                "en": "afternoon, p.m."
+              },
+              {
+                "ko": "엘리베이터",
+                "en": "elevator"
+              },
+              {
+                "ko": "새로",
+                "en": "newly"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)ㄹ 수 있다/없다",
+                "explanation": "Can / cannot do something.",
+                "example": "엘리베이터를 이용할 수 없습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 swaps 오전 for 오후 - always verify a.m./p.m.",
+              "Option 4 changes 내일 (tomorrow) to 오늘부터 (from today).",
+              "Option 3 inflates 점검 (inspection) into building a new elevator."
+            ]
+          }
+        },
+        {
+          "question_id": "l-027",
+          "order": 27,
+          "skill": "listening",
+          "prompt": "다음을 듣고 두 사람이 무엇에 대해 이야기하고 있는지 고르십시오.",
+          "audio_ref": "transcript-only:l-027",
+          "passage": "Transcript: 남자: 수미 씨, 다음 달에 회사 근처로 이사해요? 여자: 네, 지금 집은 회사에서 너무 멀어요. 매일 길에서 두 시간을 보내요. 남자: 새 집은 어때요? 여자: 회사까지 걸어서 십오 분이에요. 방은 조금 작지만 깨끗해요. 남자: 잘됐네요. 이사할 때 도와줄게요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "여자의 이사"
+            },
+            {
+              "id": "2",
+              "text": "회사 일"
+            },
+            {
+              "id": "3",
+              "text": "새 회사"
+            },
+            {
+              "id": "4",
+              "text": "주말 계획"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "topic",
+            "moving"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Everything in the dialogue revolves around the woman moving house: why (the commute is too long), what the new home is like (15 minutes on foot, small but clean), and the man's offer to help her move. The topic is 여자의 이사 (the woman's move).",
+            "teaching_points": [
+              "이사하다 = to move (house); 이사 is the noun.",
+              "걸어서 + time = time it takes on foot: 걸어서 십오 분 = 15 minutes' walk.",
+              "-지만 contrasts two qualities: 작지만 깨끗해요 = small but clean."
+            ],
+            "vocabulary": [
+              {
+                "ko": "이사하다",
+                "en": "to move (house)"
+              },
+              {
+                "ko": "근처",
+                "en": "vicinity, near"
+              },
+              {
+                "ko": "멀다",
+                "en": "to be far"
+              },
+              {
+                "ko": "깨끗하다",
+                "en": "to be clean"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-지만",
+                "explanation": "Contrast connector (but/although).",
+                "example": "방은 조금 작지만 깨끗해요."
+              },
+              {
+                "pattern": "-(으)ㄹ 때",
+                "explanation": "Means 'when (doing)': 이사할 때 = when (you) move.",
+                "example": "이사할 때 도와줄게요."
+              }
+            ],
+            "common_mistakes": [
+              "회사 is mentioned repeatedly but only as a reference point for distance - the subject is the move, not office work.",
+              "She moves NEAR the company; she is not changing companies (새 회사).",
+              "No weekend is mentioned; 다음 달 (next month) is the time of the move."
+            ]
+          }
+        },
+        {
+          "question_id": "l-028",
+          "order": 28,
+          "skill": "listening",
+          "prompt": "다음을 듣고 들은 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-028",
+          "passage": "Transcript: 남자: 수미 씨, 다음 달에 회사 근처로 이사해요? 여자: 네, 지금 집은 회사에서 너무 멀어요. 매일 길에서 두 시간을 보내요. 남자: 새 집은 어때요? 여자: 회사까지 걸어서 십오 분이에요. 방은 조금 작지만 깨끗해요. 남자: 잘됐네요. 이사할 때 도와줄게요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "여자의 새 집은 회사에서 멉니다."
+            },
+            {
+              "id": "2",
+              "text": "여자는 지금 회사 근처에 삽니다."
+            },
+            {
+              "id": "3",
+              "text": "남자는 여자의 이사를 도와줄 겁니다."
+            },
+            {
+              "id": "4",
+              "text": "새 집의 방은 크지만 더럽습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "moving"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "At the end the man promises 이사할 때 도와줄게요 (I will help when you move) - option 3. The new home is CLOSE to the company (15 minutes on foot), her CURRENT home is far, and the new room is small but clean - each wrong option flips one of these facts.",
+            "teaching_points": [
+              "Map old home vs. new home before judging options: 지금 집 = far; 새 집 = close.",
+              "-아/어 주다 marks doing something for someone's benefit: 도와주다 = help (for you).",
+              "두 시간을 길에서 보내다 = to spend two hours on the road."
+            ],
+            "vocabulary": [
+              {
+                "ko": "도와주다",
+                "en": "to help"
+              },
+              {
+                "ko": "보내다",
+                "en": "to spend (time)"
+              },
+              {
+                "ko": "방",
+                "en": "room"
+              },
+              {
+                "ko": "더럽다",
+                "en": "to be dirty"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어 주다",
+                "explanation": "Doing an action for someone's benefit.",
+                "example": "이사할 때 도와줄게요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 attaches 멀어요 to the NEW home, but it describes the current one.",
+              "Option 2 reverses her situation - she will live near the company only AFTER moving.",
+              "Option 4 negates both adjectives: the room is 작지만 깨끗해요 (small but clean)."
+            ]
+          }
+        },
+        {
+          "question_id": "l-029",
+          "order": 29,
+          "skill": "listening",
+          "prompt": "다음을 듣고 남자가 모임에 안 간 이유를 고르십시오.",
+          "audio_ref": "transcript-only:l-029",
+          "passage": "Transcript: 여자: 민수 씨, 어제 모임에 왜 안 왔어요? 남자: 미안해요. 동생이 갑자기 아파서 병원에 갔어요. 여자: 동생은 괜찮아요? 남자: 네, 약을 먹고 지금은 괜찮아요. 다음 모임에는 꼭 갈게요. 여자: 네, 다음 모임은 토요일 두 시예요. 잊지 마세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "회사에 일이 많아서"
+            },
+            {
+              "id": "2",
+              "text": "동생이 아파서"
+            },
+            {
+              "id": "3",
+              "text": "약속을 잊어버려서"
+            },
+            {
+              "id": "4",
+              "text": "남자가 아파서"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "reason",
+            "apology"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Asked why he missed yesterday's meeting, the man answers: 동생이 갑자기 아파서 병원에 갔어요 - his younger sibling suddenly got sick, so he went to the hospital. The reason is the SIBLING's illness, not his own (option 4).",
+            "teaching_points": [
+              "왜 + -아/어서: reason questions are answered with the -아/어서 clause; catch the noun before 아파서.",
+              "갑자기 = suddenly, often used with unexpected reasons for absences.",
+              "잊지 마세요 = don't forget; -지 말다 makes negative commands."
+            ],
+            "vocabulary": [
+              {
+                "ko": "모임",
+                "en": "meeting, gathering"
+              },
+              {
+                "ko": "갑자기",
+                "en": "suddenly"
+              },
+              {
+                "ko": "약",
+                "en": "medicine"
+              },
+              {
+                "ko": "잊다",
+                "en": "to forget"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어서 (reason)",
+                "explanation": "States the cause of what follows; the standard form for answering 왜 questions.",
+                "example": "동생이 아파서 병원에 갔어요."
+              },
+              {
+                "pattern": "-지 마세요",
+                "explanation": "Polite negative command: please don't.",
+                "example": "잊지 마세요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 puts the illness on the wrong person - the subject of 아파서 is 동생.",
+              "Option 3 echoes 잊지 마세요, but that is the woman's warning about the NEXT meeting, not why he missed this one.",
+              "Option 1 is a plausible everyday excuse that simply never appears in the dialogue."
+            ]
+          }
+        },
+        {
+          "question_id": "l-030",
+          "order": 30,
+          "skill": "listening",
+          "prompt": "다음을 듣고 들은 내용과 같은 것을 고르십시오.",
+          "audio_ref": "transcript-only:l-030",
+          "passage": "Transcript: 여자: 민수 씨, 어제 모임에 왜 안 왔어요? 남자: 미안해요. 동생이 갑자기 아파서 병원에 갔어요. 여자: 동생은 괜찮아요? 남자: 네, 약을 먹고 지금은 괜찮아요. 다음 모임에는 꼭 갈게요. 여자: 네, 다음 모임은 토요일 두 시예요. 잊지 마세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "남자의 동생은 지금도 많이 아픕니다."
+            },
+            {
+              "id": "2",
+              "text": "다음 모임은 토요일에 있습니다."
+            },
+            {
+              "id": "3",
+              "text": "여자는 어제 모임에 안 갔습니다."
+            },
+            {
+              "id": "4",
+              "text": "남자는 다음 모임에 못 갑니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 4,
+          "tags": [
+            "detail",
+            "schedule"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The woman states the next meeting is Saturday at two o'clock (다음 모임은 토요일 두 시예요) - option 2. The sibling is fine NOW after taking medicine, the man promises to attend next time (꼭 갈게요), and it was the MAN, not the woman, who missed yesterday's meeting.",
+            "teaching_points": [
+              "지금은 괜찮아요 marks a change of state: was sick, is fine now - watch for 지금도 (still) vs. 지금은 (as of now).",
+              "꼭 갈게요 = I will definitely go; -(으)ㄹ게요 is a promise.",
+              "The asker of 왜 안 왔어요? attended; the person apologizing did not."
+            ],
+            "vocabulary": [
+              {
+                "ko": "토요일",
+                "en": "Saturday"
+              },
+              {
+                "ko": "괜찮다",
+                "en": "to be okay"
+              },
+              {
+                "ko": "꼭",
+                "en": "surely, without fail"
+              },
+              {
+                "ko": "못",
+                "en": "cannot (negative adverb)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "못 + V",
+                "explanation": "Expresses inability or failure to do something - contrast with 안 (choosing not to).",
+                "example": "어제 모임에 못 갔어요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1: 지금은 괜찮아요 means the sibling has recovered; 지금도 아픕니다 would mean still sick.",
+              "Option 3 swaps who was absent - the woman was there asking why the MAN did not come.",
+              "Option 4 contradicts his promise 꼭 갈게요."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "section_id": "reading",
+      "title": "읽기",
+      "time_limit_minutes": 60,
+      "instructions": "다음을 읽고 물음에 맞는 답을 고르십시오.",
+      "questions": [
+        {
+          "question_id": "r-001",
+          "order": 31,
+          "skill": "reading",
+          "prompt": "무엇에 대한 이야기입니까? 알맞은 것을 고르십시오.",
+          "passage": "저는 스무 살입니다. 제 동생은 열일곱 살입니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "나이"
+            },
+            {
+              "id": "2",
+              "text": "생일"
+            },
+            {
+              "id": "3",
+              "text": "가족"
+            },
+            {
+              "id": "4",
+              "text": "이름"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "topic",
+            "age"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "Both sentences state ages - 스무 살 (twenty years old) and 열일곱 살 (seventeen years old) - so the passage is about 나이 (age). The sibling word 동생 makes 가족 tempting, but the information GIVEN about each person is their age.",
+            "teaching_points": [
+              "살 (years old) takes native Korean numbers: 스무 살, 열일곱 살.",
+              "스물 becomes 스무 before a counter: 스무 살, not 스물 살.",
+              "Topic questions ask what both sentences have in common - here, age statements."
+            ],
+            "vocabulary": [
+              {
+                "ko": "나이",
+                "en": "age"
+              },
+              {
+                "ko": "살",
+                "en": "years old (counter)"
+              },
+              {
+                "ko": "스무 살",
+                "en": "twenty years old"
+              },
+              {
+                "ko": "열일곱",
+                "en": "seventeen"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "native number + 살",
+                "explanation": "Age is counted with native Korean numbers plus 살.",
+                "example": "저는 스무 살입니다."
+              }
+            ],
+            "common_mistakes": [
+              "가족 is the strong distractor: 동생 appears, but the passage tells us the sibling's AGE, not who is in the family.",
+              "생일 (birthday) would involve a date like 시월 구 일, which is absent.",
+              "Do not confuse 열일곱 (17) with 일곱 (7) when reading quickly."
+            ]
+          }
+        },
+        {
+          "question_id": "r-002",
+          "order": 32,
+          "skill": "reading",
+          "prompt": "무엇에 대한 이야기입니까? 알맞은 것을 고르십시오.",
+          "passage": "아버지는 의사입니다. 어머니는 은행에서 일합니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "가족"
+            },
+            {
+              "id": "2",
+              "text": "직업"
+            },
+            {
+              "id": "3",
+              "text": "병원"
+            },
+            {
+              "id": "4",
+              "text": "취미"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "topic",
+            "occupation"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The passage tells WHAT each parent does: father is a doctor, mother works at a bank. The new information in both sentences is occupation (직업). 가족 names the people but not what is said ABOUT them.",
+            "teaching_points": [
+              "For topic items, ask: what is being SAID about the subjects? Here, jobs.",
+              "Occupation can be stated two ways: N입니다 (의사입니다) or 장소에서 일합니다 (은행에서 일합니다).",
+              "은/는 marks each family member as a contrasted topic: 아버지는... 어머니는..."
+            ],
+            "vocabulary": [
+              {
+                "ko": "직업",
+                "en": "occupation, job"
+              },
+              {
+                "ko": "의사",
+                "en": "doctor"
+              },
+              {
+                "ko": "은행",
+                "en": "bank"
+              },
+              {
+                "ko": "일하다",
+                "en": "to work"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에서 일하다",
+                "explanation": "States one's workplace; 에서 marks where the action of working happens.",
+                "example": "어머니는 은행에서 일합니다."
+              }
+            ],
+            "common_mistakes": [
+              "가족 is tempting because parents appear - but the passage describes their JOBS, not the family itself.",
+              "병원 only relates to 의사 indirectly; no hospital is mentioned.",
+              "Distinguish 의사 (doctor) from 의자 (chair) - one letter apart."
+            ]
+          }
+        },
+        {
+          "question_id": "r-003",
+          "order": 33,
+          "skill": "reading",
+          "prompt": "무엇에 대한 이야기입니까? 알맞은 것을 고르십시오.",
+          "passage": "오늘은 흐립니다. 내일은 눈이 옵니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "계절"
+            },
+            {
+              "id": "2",
+              "text": "요일"
+            },
+            {
+              "id": "3",
+              "text": "날씨"
+            },
+            {
+              "id": "4",
+              "text": "여행"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 2,
+          "tags": [
+            "topic",
+            "weather"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "흐립니다 (it is cloudy) and 눈이 옵니다 (it snows) are weather descriptions for today and tomorrow, so the topic is 날씨 (weather). Snow suggests winter, but no season is actually named, so 계절 is wrong.",
+            "teaching_points": [
+              "Weather verbs/adjectives: 맑다 (clear), 흐리다 (cloudy), 비가 오다 (rain), 눈이 오다 (snow).",
+              "Precipitation uses 오다 (to come): 눈이 옵니다 = it is snowing / it will snow.",
+              "오늘/내일 are time words, but the CONTENT of both sentences is weather."
+            ],
+            "vocabulary": [
+              {
+                "ko": "흐리다",
+                "en": "to be cloudy"
+              },
+              {
+                "ko": "눈",
+                "en": "snow; eye"
+              },
+              {
+                "ko": "날씨",
+                "en": "weather"
+              },
+              {
+                "ko": "내일",
+                "en": "tomorrow"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "눈/비가 오다",
+                "explanation": "Idiomatic weather expression: snow/rain 'comes'.",
+                "example": "내일은 눈이 옵니다."
+              }
+            ],
+            "common_mistakes": [
+              "계절 (season) is inferred from snow, but topic questions reward what the text SAYS, not what it implies.",
+              "요일 (day of the week) would name 월요일, 화요일 etc., which never appear.",
+              "눈 also means 'eye' - here 눈이 오다 fixes the meaning as snow."
+            ]
+          }
+        },
+        {
+          "question_id": "r-004",
+          "order": 34,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 한국 음악(    ) 좋아합니다. 매일 듣습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "이"
+            },
+            {
+              "id": "2",
+              "text": "을"
+            },
+            {
+              "id": "3",
+              "text": "에"
+            },
+            {
+              "id": "4",
+              "text": "의"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "particle",
+            "object_marker"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "좋아하다 (to like) is a transitive verb, so the thing liked takes the object particle 을/를: 음악을 좋아합니다. After the consonant-final 음악, the form is 을.",
+            "teaching_points": [
+              "좋아하다 takes 을/를 (object); 좋다 takes 이/가 (subject): 음악을 좋아해요 vs. 음악이 좋아요.",
+              "Choose 을 after a consonant (음악을), 를 after a vowel (영화를).",
+              "The second sentence 매일 듣습니다 confirms 음악 is something the speaker acts on."
+            ],
+            "vocabulary": [
+              {
+                "ko": "음악",
+                "en": "music"
+              },
+              {
+                "ko": "좋아하다",
+                "en": "to like"
+              },
+              {
+                "ko": "매일",
+                "en": "every day"
+              },
+              {
+                "ko": "듣다",
+                "en": "to listen"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 좋아하다",
+                "explanation": "The liked thing is the object of 좋아하다 and takes 을/를.",
+                "example": "한국 음악을 좋아합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 (이) is the classic 좋다/좋아하다 confusion: 음악이 좋습니다 is fine, but with 좋아합니다 you need 을.",
+              "에 marks time/place/destination, none of which fits a direct object.",
+              "의 (possessive) would leave the verb without an object."
+            ]
+          }
+        },
+        {
+          "question_id": "r-005",
+          "order": 35,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "동생은 지금 집(    ) 없습니다. 학교에 갔습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "에"
+            },
+            {
+              "id": "2",
+              "text": "에서"
+            },
+            {
+              "id": "3",
+              "text": "을"
+            },
+            {
+              "id": "4",
+              "text": "하고"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "particle",
+            "location"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "With existence verbs 있다/없다, the location takes 에: 집에 없습니다 (is not at home). 에서 is for locations where an ACTION happens (공부하다, 먹다), not for simple existence.",
+            "teaching_points": [
+              "Rule of thumb: 에 + 있다/없다/가다/오다; 에서 + action verbs.",
+              "The second sentence 학교에 갔습니다 also uses 에 - destination of 가다.",
+              "지금 + past tense 갔습니다 together mean 'has gone (and is there now)'."
+            ],
+            "vocabulary": [
+              {
+                "ko": "집",
+                "en": "house, home"
+              },
+              {
+                "ko": "없다",
+                "en": "to not exist, to not be (somewhere)"
+              },
+              {
+                "ko": "학교",
+                "en": "school"
+              },
+              {
+                "ko": "지금",
+                "en": "now"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 있다/없다",
+                "explanation": "Existence/location uses the particle 에.",
+                "example": "동생은 집에 없습니다."
+              }
+            ],
+            "common_mistakes": [
+              "에서 is the strongest trap: 집에서 없습니다 is wrong because 없다 is not an action verb.",
+              "을 would make 집 a direct object, but 없다 takes no object.",
+              "하고 (with/and) needs another noun or person to accompany."
+            ]
+          }
+        },
+        {
+          "question_id": "r-006",
+          "order": 36,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "날씨가 춥습니다. 그래서 따뜻한 (    )를 입습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "코트"
+            },
+            {
+              "id": "2",
+              "text": "우산"
+            },
+            {
+              "id": "3",
+              "text": "모자"
+            },
+            {
+              "id": "4",
+              "text": "구두"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "vocabulary",
+            "clothing",
+            "collocation"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The verb 입다 (to wear on the body) only matches clothing like 코트 (coat) - and a warm coat fits cold weather. 모자 takes 쓰다, 구두 takes 신다, and 우산 takes 쓰다, so they fail the verb collocation even though they are all things you use.",
+            "teaching_points": [
+              "Korean 'wear' verbs depend on body part: 입다 (clothes on the body), 신다 (footwear), 쓰다 (hats, glasses, umbrellas), 끼다 (gloves, rings).",
+              "그래서 links the cold weather (cause) to wearing a warm coat (result).",
+              "따뜻한 is the noun-modifying form of 따뜻하다 (warm)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "코트",
+                "en": "coat"
+              },
+              {
+                "ko": "입다",
+                "en": "to wear (clothing)"
+              },
+              {
+                "ko": "따뜻하다",
+                "en": "to be warm"
+              },
+              {
+                "ko": "춥다",
+                "en": "to be cold (weather)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "A-(으)ㄴ N",
+                "explanation": "Adjective modifying a noun: 따뜻하다 → 따뜻한 코트.",
+                "example": "따뜻한 코트를 입습니다."
+              }
+            ],
+            "common_mistakes": [
+              "모자 (hat) also keeps you warm, but you 쓰다 a hat - never 입다.",
+              "구두 (dress shoes) takes 신다.",
+              "우산 fits rain, not cold, and also pairs with 쓰다."
+            ]
+          }
+        },
+        {
+          "question_id": "r-007",
+          "order": 37,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 음악을 좋아합니다. 시간이 있을 때 노래를 (    ).",
+          "options": [
+            {
+              "id": "1",
+              "text": "부릅니다"
+            },
+            {
+              "id": "2",
+              "text": "칩니다"
+            },
+            {
+              "id": "3",
+              "text": "봅니다"
+            },
+            {
+              "id": "4",
+              "text": "읽습니다"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "vocabulary",
+            "collocation",
+            "verbs"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "노래 (song) collocates with 부르다 (to sing): 노래를 부릅니다 = I sing songs. 치다 is for striking instruments (피아노/기타를 치다), so it cannot take 노래 as its object.",
+            "teaching_points": [
+              "Music collocations: 노래를 부르다 (sing), 피아노를 치다 (play piano), 음악을 듣다 (listen to music).",
+              "부르다 also means to call (someone): 친구를 부르다.",
+              "시간이 있을 때 = when (I) have time, a common hobby-context phrase."
+            ],
+            "vocabulary": [
+              {
+                "ko": "노래",
+                "en": "song"
+              },
+              {
+                "ko": "부르다",
+                "en": "to sing; to call"
+              },
+              {
+                "ko": "치다",
+                "en": "to play (an instrument by striking); to hit"
+              },
+              {
+                "ko": "시간",
+                "en": "time"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 부르다",
+                "explanation": "Fixed collocation: sing a song = 노래를 부르다.",
+                "example": "노래방에서 노래를 부릅니다."
+              }
+            ],
+            "common_mistakes": [
+              "칩니다 is the strongest distractor - it is correct for instruments (기타를 치다) but not for 노래.",
+              "봅니다 (watch) fits 영화/텔레비전, not songs.",
+              "읽습니다 (read) fits 책/신문; you do not 'read' a song."
+            ]
+          }
+        },
+        {
+          "question_id": "r-008",
+          "order": 38,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "어제 너무 피곤했습니다. (    ) 일찍 잤습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "그래서"
+            },
+            {
+              "id": "2",
+              "text": "그렇지만"
+            },
+            {
+              "id": "3",
+              "text": "그러면"
+            },
+            {
+              "id": "4",
+              "text": "그리고"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "conjunction",
+            "cause_effect"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "Being very tired is the CAUSE of going to bed early, so the cause-and-effect connector 그래서 (so/therefore) fits: I was very tired, SO I slept early.",
+            "teaching_points": [
+              "Sentence connectors: 그래서 (so - result), 그렇지만 (but - contrast), 그러면 (then - condition), 그리고 (and - addition).",
+              "Test the logic: does sentence 2 follow as a result of sentence 1? If yes, 그래서.",
+              "그렇지만 would need a surprising continuation like 'but I stayed up late'."
+            ],
+            "vocabulary": [
+              {
+                "ko": "피곤하다",
+                "en": "to be tired"
+              },
+              {
+                "ko": "일찍",
+                "en": "early"
+              },
+              {
+                "ko": "자다",
+                "en": "to sleep"
+              },
+              {
+                "ko": "그래서",
+                "en": "so, therefore"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "그래서",
+                "explanation": "Connects a cause sentence to its result sentence.",
+                "example": "피곤했습니다. 그래서 일찍 잤습니다."
+              }
+            ],
+            "common_mistakes": [
+              "그렇지만 reverses the logic - sleeping early is the EXPECTED result of being tired, not a contrast.",
+              "그러면 needs a condition ('if so/then'), but sentence 1 states a fact.",
+              "그리고 merely lists; it loses the cause-effect link the sentences clearly have."
+            ]
+          }
+        },
+        {
+          "question_id": "r-009",
+          "order": 39,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "지금은 삼 월입니다. 두 달 (    ) 가족이 한국에 옵니다. 빨리 오 월이 되면 좋겠습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "후에"
+            },
+            {
+              "id": "2",
+              "text": "전에"
+            },
+            {
+              "id": "3",
+              "text": "동안"
+            },
+            {
+              "id": "4",
+              "text": "부터"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "time_expression",
+            "months"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "It is March now and the writer hopes May comes quickly, so the family arrives two months LATER: 두 달 후에 = two months from now. March + 2 months = May, which the last sentence confirms.",
+            "teaching_points": [
+              "시간 + 후에 = after (that time); 시간 + 전에 = before; 시간 + 동안 = during/for.",
+              "Months use Sino-Korean numbers + 월: 삼 월 (March), 오 월 (May).",
+              "-(으)면 좋겠다 expresses a wish: 빨리 오 월이 되면 좋겠습니다 = I hope it becomes May soon."
+            ],
+            "vocabulary": [
+              {
+                "ko": "후",
+                "en": "after, later"
+              },
+              {
+                "ko": "전",
+                "en": "before"
+              },
+              {
+                "ko": "동안",
+                "en": "during, for (a period)"
+              },
+              {
+                "ko": "달",
+                "en": "month (native counter)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 후에",
+                "explanation": "Marks a point in time after a duration or event.",
+                "example": "두 달 후에 가족이 옵니다."
+              },
+              {
+                "pattern": "-(으)면 좋겠다",
+                "explanation": "Expresses the speaker's hope or wish.",
+                "example": "빨리 오 월이 되면 좋겠습니다."
+              }
+            ],
+            "common_mistakes": [
+              "전에 (before) would mean the family came in January - contradicting the wish for May.",
+              "동안 (for/during) describes how long something lasts, not when it starts: 두 달 동안 = for two months.",
+              "부터 (starting from) attaches to a point in time (오 월부터), not to a duration like 두 달 in this meaning."
+            ]
+          }
+        },
+        {
+          "question_id": "r-010",
+          "order": 40,
+          "skill": "reading",
+          "prompt": "다음을 읽고 맞지 않는 것을 고르십시오.",
+          "passage": "<한국어 말하기 교실>  날짜: 7월 5일 토요일  시간: 오후 2시 ~ 4시  장소: 한국문화센터 3층  ※ 공책과 연필을 가지고 오세요.",
+          "options": [
+            {
+              "id": "1",
+              "text": "말하기 교실은 토요일에 합니다."
+            },
+            {
+              "id": "2",
+              "text": "수업은 두 시간 동안 합니다."
+            },
+            {
+              "id": "3",
+              "text": "한국문화센터 2층에서 합니다."
+            },
+            {
+              "id": "4",
+              "text": "공책과 연필이 필요합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "notice",
+            "schedule"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The notice says the class is on the THIRD floor (3층) of the Korea Culture Center, so option 3 (2층, second floor) does not match. Note the question asks for the statement that is NOT correct (맞지 않는 것).",
+            "teaching_points": [
+              "맞지 않는 것 items reverse the usual task: three options are true, one is false - verify each against the notice.",
+              "2시 ~ 4시 spans two hours, which is why option 2 (두 시간 동안) is TRUE.",
+              "가지고 오세요 = bring (with you); ※ marks an extra instruction on Korean notices."
+            ],
+            "vocabulary": [
+              {
+                "ko": "교실",
+                "en": "classroom, class"
+              },
+              {
+                "ko": "층",
+                "en": "floor (of a building)"
+              },
+              {
+                "ko": "공책",
+                "en": "notebook"
+              },
+              {
+                "ko": "연필",
+                "en": "pencil"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 동안",
+                "explanation": "Expresses duration: 두 시간 동안 = for two hours.",
+                "example": "수업은 두 시간 동안 합니다."
+              },
+              {
+                "pattern": "가지고 오다",
+                "explanation": "To bring something along.",
+                "example": "공책과 연필을 가지고 오세요."
+              }
+            ],
+            "common_mistakes": [
+              "Misreading the task: if you look for a TRUE statement here, you will eliminate the correct answer.",
+              "Floor numbers 2층/3층 differ by one syllable - check numbers against the notice character by character.",
+              "Option 2 requires computing the duration from 2시 ~ 4시; do the math instead of looking for the words 두 시간 in the notice."
+            ]
+          }
+        },
+        {
+          "question_id": "r-011",
+          "order": 41,
+          "skill": "reading",
+          "prompt": "다음을 읽고 맞지 않는 것을 고르십시오.",
+          "passage": "<하나 마트>  문 여는 시간: 오전 9시 ~ 오후 10시  ※ 매주 화요일은 쉽니다.  ※ 만 원 이상 사면 집까지 배달해 드립니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "하나 마트는 밤 열 시에 문을 닫습니다."
+            },
+            {
+              "id": "2",
+              "text": "화요일에는 마트를 이용할 수 없습니다."
+            },
+            {
+              "id": "3",
+              "text": "마트는 아침 아홉 시에 문을 엽니다."
+            },
+            {
+              "id": "4",
+              "text": "오천 원어치 사면 배달해 줍니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "4"
+          },
+          "points": 3,
+          "tags": [
+            "notice",
+            "store"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Delivery requires buying 만 원 이상 (10,000 won or more), so option 4 - delivery for 5,000 won of goods - does not match. The hours (9 a.m. to 10 p.m.) and the Tuesday closure match options 1, 2, and 3.",
+            "teaching_points": [
+              "이상 = 'or more': 만 원 이상 includes exactly 10,000 won and everything above; 5,000 won does not qualify.",
+              "쉽니다 on a store notice means the store is CLOSED that day.",
+              "오전/오후 convert to 아침/밤 in the options - match meanings, not exact words."
+            ],
+            "vocabulary": [
+              {
+                "ko": "이상",
+                "en": "or more, and above"
+              },
+              {
+                "ko": "배달하다",
+                "en": "to deliver"
+              },
+              {
+                "ko": "문을 열다/닫다",
+                "en": "to open/close (a store)"
+              },
+              {
+                "ko": "어치",
+                "en": "worth (of goods)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어 드리다",
+                "explanation": "Humble form of -아/어 주다: doing something for a customer respectfully.",
+                "example": "집까지 배달해 드립니다."
+              },
+              {
+                "pattern": "-(으)면",
+                "explanation": "Condition: if you buy 10,000 won or more, then delivery follows.",
+                "example": "만 원 이상 사면 배달해 드립니다."
+              }
+            ],
+            "common_mistakes": [
+              "Skipping the condition 만 원 이상 and assuming any purchase gets delivery.",
+              "Confusing 만 원 (10,000 won) with 오천 원 (5,000 won) when scanning numbers.",
+              "쉽니다 comes from 쉬다 (to rest/be closed), not from 쉽다 (to be easy)."
+            ]
+          }
+        },
+        {
+          "question_id": "r-012",
+          "order": 42,
+          "skill": "reading",
+          "prompt": "다음을 읽고 맞지 않는 것을 고르십시오.",
+          "passage": "<영화표>  영화: 봄날의 약속  날짜: 5월 10일 금요일 저녁 7시 30분  장소: 서울극장 2관  자리: 마열 7번  값: 9,000원",
+          "options": [
+            {
+              "id": "1",
+              "text": "이 영화는 금요일에 봅니다."
+            },
+            {
+              "id": "2",
+              "text": "영화표는 구천 원입니다."
+            },
+            {
+              "id": "3",
+              "text": "영화는 일곱 시에 시작합니다."
+            },
+            {
+              "id": "4",
+              "text": "영화는 서울극장 이 관에서 합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "ticket",
+            "informational_text"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The ticket says 7시 30분 (7:30), so option 3 - the movie starts at seven o'clock - is off by thirty minutes and does not match. Date (Friday), price (9,000 won), and screen (2관) all check out.",
+            "teaching_points": [
+              "Half-hour traps are classic: 일곱 시 (7:00) ≠ 일곱 시 삼십 분 (7:30).",
+              "Reading numbers in Korean: 9,000원 = 구천 원; 2관 = 이 관 (screen no. 2, Sino-Korean).",
+              "Ticket fields to recognize: 날짜 (date), 장소 (place), 자리 (seat), 값 (price)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "영화표",
+                "en": "movie ticket"
+              },
+              {
+                "ko": "극장",
+                "en": "theater"
+              },
+              {
+                "ko": "자리",
+                "en": "seat"
+              },
+              {
+                "ko": "값",
+                "en": "price"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "native hour + Sino minute",
+                "explanation": "Hours use native numbers (일곱 시) and minutes use Sino-Korean numbers (삼십 분).",
+                "example": "영화는 일곱 시 삼십 분에 시작합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Treating 7시 30분 as 'about seven' - TOPIK expects exact times.",
+              "Misconverting 9,000원 to 구만 원 (90,000); 천 = thousand, 만 = ten thousand.",
+              "이 관 in option 4 is the number two (2관), not the demonstrative 이 (this)."
+            ]
+          }
+        },
+        {
+          "question_id": "r-013",
+          "order": 43,
+          "skill": "reading",
+          "prompt": "다음을 읽고 내용이 같은 것을 고르십시오.",
+          "passage": "저는 어제 친구하고 명동에 갔습니다. 우리는 먼저 식당에서 비빔밥을 먹었습니다. 그다음에 옷 가게에서 구경을 했습니다. 저는 치마를 샀지만 친구는 아무것도 안 샀습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 어제 혼자 명동에 갔습니다."
+            },
+            {
+              "id": "2",
+              "text": "우리는 밥을 먹기 전에 옷 가게에 갔습니다."
+            },
+            {
+              "id": "3",
+              "text": "친구는 치마를 샀습니다."
+            },
+            {
+              "id": "4",
+              "text": "저는 명동에서 치마를 샀습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "4"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "narrative",
+            "shopping"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The writer bought a skirt (저는 치마를 샀지만) during the Myeongdong outing, so option 4 is correct. The trip was WITH a friend (not alone), they ate FIRST and shopped after, and the friend bought NOTHING.",
+            "teaching_points": [
+              "Track sequence words: 먼저 (first) → 그다음에 (after that); option 2 reverses this order.",
+              "-지만 contrasts the two buyers: I bought a skirt BUT my friend bought nothing.",
+              "아무것도 + negative = nothing at all: 아무것도 안 샀습니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "먼저",
+                "en": "first"
+              },
+              {
+                "ko": "그다음에",
+                "en": "after that"
+              },
+              {
+                "ko": "구경하다",
+                "en": "to look around, to browse"
+              },
+              {
+                "ko": "치마",
+                "en": "skirt"
+              },
+              {
+                "ko": "아무것도",
+                "en": "nothing (with negative)"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-기 전에",
+                "explanation": "Before doing something; used in option 2 to test the event order.",
+                "example": "밥을 먹기 전에 손을 씻습니다."
+              },
+              {
+                "pattern": "-지만",
+                "explanation": "Contrast between two clauses.",
+                "example": "저는 샀지만 친구는 안 샀습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 3 swaps WHO bought the skirt - particles 는/은 tell you the buyer is 저.",
+              "Option 2 flips the order: eating came before shopping (먼저... 그다음에).",
+              "Option 1 contradicts 친구하고 (with a friend); 혼자 means alone."
+            ]
+          }
+        },
+        {
+          "question_id": "r-014",
+          "order": 44,
+          "skill": "reading",
+          "prompt": "다음을 읽고 내용이 같은 것을 고르십시오.",
+          "passage": "우리 집 근처에 큰 공원이 있습니다. 저는 아침마다 공원에서 운동을 합니다. 공원에는 운동하는 사람이 많습니다. 주말에는 가족들도 많이 옵니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "공원은 우리 집에서 멉니다."
+            },
+            {
+              "id": "2",
+              "text": "저는 저녁마다 공원에 갑니다."
+            },
+            {
+              "id": "3",
+              "text": "저는 아침에 공원에서 운동을 합니다."
+            },
+            {
+              "id": "4",
+              "text": "주말에는 공원에 사람이 없습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 2,
+          "tags": [
+            "detail",
+            "daily_life"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "아침마다 공원에서 운동을 합니다 (I exercise in the park every morning) matches option 3. The park is NEAR the house (근처), the time is morning not evening, and on weekends MORE people come, not none.",
+            "teaching_points": [
+              "근처에 있다 = to be nearby; its opposite in option 1 is 멀다 (far).",
+              "N마다 = every N: 아침마다 = every morning.",
+              "들 pluralizes people nouns: 가족들 = families."
+            ],
+            "vocabulary": [
+              {
+                "ko": "근처",
+                "en": "vicinity, nearby"
+              },
+              {
+                "ko": "공원",
+                "en": "park"
+              },
+              {
+                "ko": "마다",
+                "en": "every (particle)"
+              },
+              {
+                "ko": "주말",
+                "en": "weekend"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N마다",
+                "explanation": "Attached to a time noun, means 'every': 아침마다, 주말마다.",
+                "example": "아침마다 운동을 합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 changes only one word (아침→저녁) - read time words carefully.",
+              "Option 4 inverts 많이 옵니다 (many come) into 없습니다 (none).",
+              "근처 means near; option 1 claims the opposite (멉니다)."
+            ]
+          }
+        },
+        {
+          "question_id": "r-015",
+          "order": 45,
+          "skill": "reading",
+          "prompt": "다음을 읽고 내용이 같은 것을 고르십시오.",
+          "passage": "저는 지난달부터 요리를 배웁니다. 매주 수요일 저녁에 요리 교실에 갑니다. 지난주에는 김치찌개를 만들었습니다. 조금 매웠지만 맛있었습니다. 이번 주에는 불고기를 만들 겁니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 일 년 전부터 요리를 배웠습니다."
+            },
+            {
+              "id": "2",
+              "text": "요리 교실은 주말에 합니다."
+            },
+            {
+              "id": "3",
+              "text": "지난주에 만든 김치찌개는 맛이 없었습니다."
+            },
+            {
+              "id": "4",
+              "text": "이번 주에는 불고기를 만들 겁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "4"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "cooking",
+            "schedule"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The final sentence states the plan: 이번 주에는 불고기를 만들 겁니다 (this week I will make bulgogi) - option 4 repeats it exactly. The class started LAST MONTH (not a year ago), meets on WEDNESDAY evenings (not weekends), and last week's stew was spicy but TASTY.",
+            "teaching_points": [
+              "Timeline practice: 지난달 (last month) → 지난주 (last week) → 이번 주 (this week).",
+              "맵다 → 매웠지만: ㅂ-irregular adjective in the past + contrast.",
+              "수요일 is a weekday; 주말 covers only Saturday and Sunday."
+            ],
+            "vocabulary": [
+              {
+                "ko": "요리",
+                "en": "cooking, dish"
+              },
+              {
+                "ko": "배우다",
+                "en": "to learn"
+              },
+              {
+                "ko": "맵다",
+                "en": "to be spicy"
+              },
+              {
+                "ko": "만들다",
+                "en": "to make"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N부터",
+                "explanation": "Marks the starting point: 지난달부터 = since last month.",
+                "example": "지난달부터 요리를 배웁니다."
+              },
+              {
+                "pattern": "-(으)ㄹ 겁니다",
+                "explanation": "Formal future: will do.",
+                "example": "불고기를 만들 겁니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 stretches 지난달 (last month) into 일 년 전 (a year ago).",
+              "Option 2 moves Wednesday class to the weekend - check the day word.",
+              "Option 3 contradicts 맛있었습니다; 매웠지만 concedes spiciness but the verdict is positive."
+            ]
+          }
+        },
+        {
+          "question_id": "r-016",
+          "order": 46,
+          "skill": "reading",
+          "prompt": "다음을 읽고 중심 생각을 고르십시오.",
+          "passage": "저는 운동을 안 좋아했습니다. 그런데 친구가 같이 운동하자고 해서 한 달 전부터 아침에 달리기를 합니다. 지금은 몸도 가볍고 기분도 좋습니다. 운동을 시작하기를 잘했습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "친구하고 달리기를 하면 힘듭니다."
+            },
+            {
+              "id": "2",
+              "text": "운동을 시작해서 정말 좋습니다."
+            },
+            {
+              "id": "3",
+              "text": "아침에는 시간이 없어서 바쁩니다."
+            },
+            {
+              "id": "4",
+              "text": "달리기보다 다른 운동이 좋습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "main_idea",
+            "exercise"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The closing line 운동을 시작하기를 잘했습니다 (it was a good decision to start exercising) carries the main idea, supported by 몸도 가볍고 기분도 좋습니다. Option 2 restates this: starting to exercise turned out to be really good.",
+            "teaching_points": [
+              "In short essays, the LAST sentence often states the writer's conclusion - read it first for 중심 생각 items.",
+              "-기를 잘했다 = it was a good thing that (I) did...: expresses satisfaction with a past decision.",
+              "도... 도 stacks benefits: 몸도 가볍고 기분도 좋습니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "달리기",
+                "en": "running"
+              },
+              {
+                "ko": "가볍다",
+                "en": "to be light"
+              },
+              {
+                "ko": "기분",
+                "en": "mood, feeling"
+              },
+              {
+                "ko": "시작하다",
+                "en": "to start"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-기를 잘했다",
+                "explanation": "States that doing something was the right choice.",
+                "example": "운동을 시작하기를 잘했습니다."
+              },
+              {
+                "pattern": "-자고 하다",
+                "explanation": "Reports a suggestion: (someone) suggested doing together.",
+                "example": "친구가 같이 운동하자고 했습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 invents a comparison - the writer never ranks exercises.",
+              "Option 1 contradicts the positive outcome (몸도 가볍고 기분도 좋습니다).",
+              "The opening 운동을 안 좋아했습니다 is the writer's PAST attitude; 그런데 signals the turn to the real point."
+            ]
+          }
+        },
+        {
+          "question_id": "r-017",
+          "order": 47,
+          "skill": "reading",
+          "prompt": "다음을 읽고 중심 생각을 고르십시오.",
+          "passage": "저는 영화관에서 영화 보는 것을 좋아합니다. 집에서도 영화를 볼 수 있지만 영화관은 화면이 크고 소리도 좋습니다. 그래서 좀 비싸도 영화는 영화관에서 봅니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "영화표가 너무 비쌉니다."
+            },
+            {
+              "id": "2",
+              "text": "집에서 영화를 보면 편합니다."
+            },
+            {
+              "id": "3",
+              "text": "영화는 영화관에서 보는 것이 좋습니다."
+            },
+            {
+              "id": "4",
+              "text": "주말에는 영화관에 사람이 많습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "main_idea",
+            "preference"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The writer prefers watching movies at the theater because of the big screen and good sound, and even accepts the higher price (좀 비싸도). The main idea: movies are best watched at the theater - option 3.",
+            "teaching_points": [
+              "-아/어도 concedes a downside while keeping the conclusion: 비싸도 영화관에서 봅니다 = even though it is pricey, I still go.",
+              "-는 것 turns a verb into a noun phrase: 영화 보는 것 = watching movies.",
+              "Reasons (screen, sound) support the preference; the preference itself is the main idea."
+            ],
+            "vocabulary": [
+              {
+                "ko": "영화관",
+                "en": "movie theater"
+              },
+              {
+                "ko": "화면",
+                "en": "screen"
+              },
+              {
+                "ko": "소리",
+                "en": "sound"
+              },
+              {
+                "ko": "비싸다",
+                "en": "to be expensive"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어도",
+                "explanation": "Even if/though - concedes a point without changing the conclusion.",
+                "example": "좀 비싸도 영화관에서 봅니다."
+              },
+              {
+                "pattern": "V-는 것",
+                "explanation": "Nominalizes a verb: V-ing.",
+                "example": "영화 보는 것을 좋아합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 turns the conceded drawback (비싸도) into the main point - it is only an aside.",
+              "Option 2 reverses the writer's preference; home viewing is mentioned just to be dismissed.",
+              "Option 4 is plausible background knowledge but appears nowhere in the text."
+            ]
+          }
+        },
+        {
+          "question_id": "r-018",
+          "order": 48,
+          "skill": "reading",
+          "prompt": "다음을 읽고 중심 생각을 고르십시오.",
+          "passage": "저는 시간이 있으면 손으로 편지를 씁니다. 문자 메시지는 빠르지만 편지에는 쓰는 사람의 마음이 더 잘 보입니다. 그래서 저는 고마운 사람에게 편지를 보냅니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "문자 메시지가 편지보다 빠릅니다."
+            },
+            {
+              "id": "2",
+              "text": "편지로 마음을 전하는 것이 좋습니다."
+            },
+            {
+              "id": "3",
+              "text": "편지를 쓰면 시간이 많이 걸립니다."
+            },
+            {
+              "id": "4",
+              "text": "고마운 사람이 많으면 좋습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "main_idea",
+            "letters"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The writer's point is that handwritten letters show the sender's feelings better (마음이 더 잘 보입니다), which is why they send letters to people they are grateful to. Option 2 captures this: conveying one's heart by letter is good. Option 1 is TRUE in the text but it is the conceded fact, not the main idea.",
+            "teaching_points": [
+              "A true statement is not automatically the MAIN idea - 빠르지만 concedes speed to messages before the real point.",
+              "N보다 marks the compared item: 문자 메시지는 빠르지만 implies (편지보다) 빠르다.",
+              "마음을 전하다 = to convey one's feelings; a useful set phrase."
+            ],
+            "vocabulary": [
+              {
+                "ko": "편지",
+                "en": "letter"
+              },
+              {
+                "ko": "문자 메시지",
+                "en": "text message"
+              },
+              {
+                "ko": "마음",
+                "en": "heart, mind, feelings"
+              },
+              {
+                "ko": "고맙다",
+                "en": "to be thankful"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N보다",
+                "explanation": "Comparison particle: than N.",
+                "example": "문자 메시지가 편지보다 빠릅니다."
+              },
+              {
+                "pattern": "N에게",
+                "explanation": "Marks the recipient: to a person.",
+                "example": "고마운 사람에게 편지를 보냅니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 is the classic 'true but not central' trap - it appears before 지만, which signals the writer's real point follows.",
+              "Option 3 is never stated; the writer mentions having time (시간이 있으면), not losing it.",
+              "Option 4 misuses 고마운 사람 - they are the letter recipients, not a wish."
+            ]
+          }
+        },
+        {
+          "question_id": "r-019",
+          "order": 49,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 매주 일요일에 수영장에 갑니다. 수영을 한 다음에 몸이 가볍습니다. 그런데 다음 주 일요일에는 수영장이 문을 (    ). 그래서 친구하고 등산을 하기로 했습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "엽니다"
+            },
+            {
+              "id": "2",
+              "text": "닫습니다"
+            },
+            {
+              "id": "3",
+              "text": "만듭니다"
+            },
+            {
+              "id": "4",
+              "text": "씻습니다"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "blank",
+            "logic",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The writer swims every Sunday but made a DIFFERENT plan (hiking) for next Sunday, introduced by 그런데 (however) and 그래서 (so). The only blank that explains the change is 문을 닫습니다 - the pool closes.",
+            "teaching_points": [
+              "Use discourse markers to predict the blank: 그런데 signals a problem; 그래서 + alternative plan tells you the problem blocked swimming.",
+              "문을 열다/닫다 = to open/close (for business) - a fixed pair worth memorizing.",
+              "-기로 하다 = to decide to do: 등산을 하기로 했습니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "수영장",
+                "en": "swimming pool"
+              },
+              {
+                "ko": "닫다",
+                "en": "to close"
+              },
+              {
+                "ko": "등산",
+                "en": "hiking"
+              },
+              {
+                "ko": "그런데",
+                "en": "but, however"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-기로 하다",
+                "explanation": "Expresses a decision made about a future action.",
+                "example": "친구하고 등산을 하기로 했습니다."
+              },
+              {
+                "pattern": "-(으)ㄴ 다음에",
+                "explanation": "After doing something.",
+                "example": "수영을 한 다음에 몸이 가볍습니다."
+              }
+            ],
+            "common_mistakes": [
+              "엽니다 (opens) would give no reason to switch to hiking - it breaks the 그래서 logic.",
+              "만듭니다/씻습니다 do not collocate with 문을 in the 'business hours' sense.",
+              "Read PAST the blank before answering - the hiking plan is the key clue."
+            ]
+          }
+        },
+        {
+          "question_id": "r-020",
+          "order": 50,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "저는 매주 일요일에 수영장에 갑니다. 수영을 한 다음에 몸이 가볍습니다. 그런데 다음 주 일요일에는 수영장이 문을 닫습니다. 그래서 친구하고 등산을 하기로 했습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 매일 수영장에 갑니다."
+            },
+            {
+              "id": "2",
+              "text": "다음 주에는 친구하고 등산을 할 겁니다."
+            },
+            {
+              "id": "3",
+              "text": "저는 수영을 하면 피곤합니다."
+            },
+            {
+              "id": "4",
+              "text": "다음 주 일요일에 수영을 할 겁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Because the pool closes next Sunday, the writer decided to go hiking with a friend instead - option 2. The writer swims WEEKLY (매주 일요일), not daily; swimming makes the body feel LIGHT, not tired; and next Sunday swimming is impossible.",
+            "teaching_points": [
+              "매주 (every week) vs. 매일 (every day) - one syllable changes the frequency.",
+              "몸이 가볍다 (body feels light) is a positive after-exercise feeling, the opposite of 피곤하다.",
+              "-기로 했습니다 reports a decision whose action is still in the future - hence 할 겁니다 in the option."
+            ],
+            "vocabulary": [
+              {
+                "ko": "매주",
+                "en": "every week"
+              },
+              {
+                "ko": "수영",
+                "en": "swimming"
+              },
+              {
+                "ko": "몸",
+                "en": "body"
+              },
+              {
+                "ko": "피곤하다",
+                "en": "to be tired"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "매주/매일 + N에",
+                "explanation": "Frequency expressions combine with time particles: 매주 일요일에 = every Sunday.",
+                "example": "매주 일요일에 수영장에 갑니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 ignores the pool closure - the swim is replaced by hiking.",
+              "Option 1 upgrades weekly to daily.",
+              "Option 3 inverts 몸이 가볍습니다 into feeling tired."
+            ]
+          }
+        },
+        {
+          "question_id": "r-021",
+          "order": 51,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "어제는 제 생일이었습니다. 반 친구들이 교실에서 생일 파티를 해 줬습니다. 친구들은 노래를 불러 주고 케이크와 선물도 준비했습니다. 저는 한국에 와서 처음 하는 생일 파티라서 정말 기뻤습니다. 친구들에게 너무 고마웠습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 친구들에게 케이크를 사 줬습니다."
+            },
+            {
+              "id": "2",
+              "text": "친구들이 제 생일 파티를 준비했습니다."
+            },
+            {
+              "id": "3",
+              "text": "저는 한국에서 생일 파티를 자주 했습니다."
+            },
+            {
+              "id": "4",
+              "text": "우리는 식당에서 파티를 했습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "birthday",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The classmates threw the party FOR the writer (파티를 해 줬습니다) and prepared the cake, gifts, and songs - option 2. The party was in the CLASSROOM, and it was the writer's FIRST birthday party in Korea, so 자주 (often) is wrong.",
+            "teaching_points": [
+              "-아/어 주다 shows who benefits: 해 줬습니다, 불러 주고 - the friends did these things FOR the writer.",
+              "처음 하는 생일 파티 = the first birthday party (I) have (here); 처음 rules out 자주.",
+              "N(이)라서 gives a reason from a noun: 처음 하는 파티라서 기뻤습니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "반 친구",
+                "en": "classmate"
+              },
+              {
+                "ko": "준비하다",
+                "en": "to prepare"
+              },
+              {
+                "ko": "선물",
+                "en": "present, gift"
+              },
+              {
+                "ko": "기쁘다",
+                "en": "to be glad, joyful"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어 주다",
+                "explanation": "Marks an action done for someone else's benefit.",
+                "example": "친구들이 노래를 불러 줬습니다."
+              },
+              {
+                "pattern": "N(이)라서",
+                "explanation": "Because it is N - reason built on a noun.",
+                "example": "처음 하는 파티라서 기뻤습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 reverses the giving direction - the friends prepared things for the writer.",
+              "Option 3 contradicts 처음 (first time).",
+              "Option 4 moves the party from 교실 (classroom) to a restaurant."
+            ]
+          }
+        },
+        {
+          "question_id": "r-022",
+          "order": 52,
+          "skill": "reading",
+          "prompt": "어제 제 기분으로 알맞은 것을 고르십시오.",
+          "passage": "어제는 제 생일이었습니다. 반 친구들이 교실에서 생일 파티를 해 줬습니다. 친구들은 노래를 불러 주고 케이크와 선물도 준비했습니다. 저는 한국에 와서 처음 하는 생일 파티라서 정말 기뻤습니다. 친구들에게 너무 고마웠습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "기뻤습니다"
+            },
+            {
+              "id": "2",
+              "text": "슬펐습니다"
+            },
+            {
+              "id": "3",
+              "text": "심심했습니다"
+            },
+            {
+              "id": "4",
+              "text": "부끄러웠습니다"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "emotion",
+            "paired_passage"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The writer says directly: 정말 기뻤습니다 (I was really happy) - because it was their first birthday party since coming to Korea. The grateful tone (고마웠습니다) supports the same feeling.",
+            "teaching_points": [
+              "Emotion vocabulary set: 기쁘다 (glad), 슬프다 (sad), 심심하다 (bored), 부끄럽다 (embarrassed/shy).",
+              "기쁘다 → 기뻤습니다: ㅡ drops before -었- (으 irregular).",
+              "Even when the feeling is stated outright, check the reason clause (-라서) to confirm it."
+            ],
+            "vocabulary": [
+              {
+                "ko": "기쁘다",
+                "en": "to be glad"
+              },
+              {
+                "ko": "슬프다",
+                "en": "to be sad"
+              },
+              {
+                "ko": "심심하다",
+                "en": "to be bored"
+              },
+              {
+                "ko": "부끄럽다",
+                "en": "to be embarrassed, shy"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "ㅡ-irregular past",
+                "explanation": "Adjectives ending in ㅡ drop it before 어/었: 기쁘다 → 기뻐요/기뻤습니다.",
+                "example": "선물을 받아서 기뻤습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Do not infer 부끄러웠습니다 from being the center of attention - the text states 기뻤습니다.",
+              "슬프다 and 기쁘다 are opposites; a quick skim of 생일 contexts can mislead if a story involves missing family.",
+              "심심하다 (bored) is unrelated to a lively party scene."
+            ]
+          }
+        },
+        {
+          "question_id": "r-023",
+          "order": 53,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 매일 버스를 타고 회사에 갑니다. 버스 안에서 보통 휴대폰으로 음악을 듣습니다. 그런데 오늘은 휴대폰을 집에 (    ) 왔습니다. 그래서 음악을 못 듣고 창밖을 봤습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "두고"
+            },
+            {
+              "id": "2",
+              "text": "사고"
+            },
+            {
+              "id": "3",
+              "text": "들고"
+            },
+            {
+              "id": "4",
+              "text": "가지고"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "blank",
+            "verbs",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The writer could NOT listen to music today (음악을 못 듣고), so the phone must have been LEFT at home: 두고 왔습니다 = came (here) having left it behind. 들고/가지고 왔습니다 would mean bringing it along - the opposite.",
+            "teaching_points": [
+              "두고 오다 = to leave something behind (and come); 가지고 오다/들고 오다 = to bring along.",
+              "-고 오다/가다 chains an action to movement: do X and then come/go.",
+              "못 + verb signals inability - the result clause tells you which blank fits."
+            ],
+            "vocabulary": [
+              {
+                "ko": "두다",
+                "en": "to put, to leave (something somewhere)"
+              },
+              {
+                "ko": "휴대폰",
+                "en": "mobile phone"
+              },
+              {
+                "ko": "창밖",
+                "en": "outside the window"
+              },
+              {
+                "ko": "보통",
+                "en": "usually"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "V-고 오다",
+                "explanation": "Do an action and then come: 두고 오다 = leave it (there) and come.",
+                "example": "휴대폰을 집에 두고 왔습니다."
+              },
+              {
+                "pattern": "못 + V",
+                "explanation": "Cannot / failed to do.",
+                "example": "음악을 못 들었습니다."
+              }
+            ],
+            "common_mistakes": [
+              "가지고/들고 왔습니다 mean the phone IS with the writer - then music would be possible, contradicting 못 듣고.",
+              "사고 왔습니다 (bought and came) clashes with 집에 - you do not buy your own phone at home.",
+              "Always check the sentence AFTER the blank; 그래서 introduces the consequence that decides the answer."
+            ]
+          }
+        },
+        {
+          "question_id": "r-024",
+          "order": 54,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "저는 매일 버스를 타고 회사에 갑니다. 버스 안에서 보통 휴대폰으로 음악을 듣습니다. 그런데 오늘은 휴대폰을 집에 두고 왔습니다. 그래서 음악을 못 듣고 창밖을 봤습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 지하철로 회사에 갑니다."
+            },
+            {
+              "id": "2",
+              "text": "저는 오늘 버스에서 음악을 들었습니다."
+            },
+            {
+              "id": "3",
+              "text": "저는 오늘 휴대폰을 안 가지고 나왔습니다."
+            },
+            {
+              "id": "4",
+              "text": "저는 버스에서 보통 책을 읽습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "commute",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "휴대폰을 집에 두고 왔습니다 (left the phone at home) is paraphrased in option 3 as 안 가지고 나왔습니다 (went out without taking it). The commute is by BUS, today's music did NOT happen, and the usual bus activity is listening to music, not reading.",
+            "teaching_points": [
+              "TOPIK detail items reward recognizing PARAPHRASES: 두고 오다 = 안 가지고 나오다.",
+              "보통 (usually) versus 오늘 (today) - keep habitual facts separate from today's exception.",
+              "N(으)로 marks both instrument (휴대폰으로) and transport means (지하철로) - same particle, different nouns."
+            ],
+            "vocabulary": [
+              {
+                "ko": "타다",
+                "en": "to ride, to take (transport)"
+              },
+              {
+                "ko": "나오다",
+                "en": "to come out, to leave (home)"
+              },
+              {
+                "ko": "안",
+                "en": "not (negative adverb)"
+              },
+              {
+                "ko": "회사",
+                "en": "company, office"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "안 + V",
+                "explanation": "Simple negation (did not / does not), here inside 안 가지고 나왔습니다.",
+                "example": "휴대폰을 안 가지고 나왔습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 says music happened today; the text says 못 듣고 (could not listen).",
+              "Option 1 changes the transport from bus to subway.",
+              "Option 4 substitutes reading for the stated habit of listening to music."
+            ]
+          }
+        },
+        {
+          "question_id": "r-025",
+          "order": 55,
+          "skill": "reading",
+          "prompt": "저는 도서관에서 무엇을 합니까? 알맞은 것을 고르십시오.",
+          "passage": "우리 동네에 작은 도서관이 새로 생겼습니다. 저는 일주일에 두 번 그 도서관에 갑니다. 도서관에서 책을 읽거나 한국어 숙제를 합니다. 도서관은 조용하고 시원해서 공부가 잘됩니다. 책은 한 번에 다섯 권까지 빌릴 수 있습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "책을 읽거나 숙제를 합니다."
+            },
+            {
+              "id": "2",
+              "text": "친구를 만나서 이야기합니다."
+            },
+            {
+              "id": "3",
+              "text": "한국어를 가르칩니다."
+            },
+            {
+              "id": "4",
+              "text": "책을 팝니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "detail",
+            "library",
+            "paired_passage"
+          ],
+          "difficulty": "beginner",
+          "explanation": {
+            "summary": "The text states the writer's library activities directly: 책을 읽거나 한국어 숙제를 합니다 (reads books or does Korean homework) - option 1 repeats both with -거나.",
+            "teaching_points": [
+              "일주일에 두 번 = twice a week; N에 + count expresses frequency per period.",
+              "-거나 joins alternative activities: 읽거나... 합니다.",
+              "새로 생기다 = to newly appear/open (a shop, building, facility)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "동네",
+                "en": "neighborhood"
+              },
+              {
+                "ko": "생기다",
+                "en": "to come into being, to open (newly)"
+              },
+              {
+                "ko": "숙제",
+                "en": "homework"
+              },
+              {
+                "ko": "조용하다",
+                "en": "to be quiet"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에 X 번",
+                "explanation": "Frequency: X times per N (period).",
+                "example": "일주일에 두 번 도서관에 갑니다."
+              },
+              {
+                "pattern": "-거나",
+                "explanation": "Or - alternatives between verbs.",
+                "example": "책을 읽거나 숙제를 합니다."
+              }
+            ],
+            "common_mistakes": [
+              "가르치다 (teach) vs. 배우다 (learn): the writer DOES Korean homework, teaching is not mentioned.",
+              "팔다 (sell) vs. 빌리다 (borrow) - the last sentence is about borrowing books.",
+              "Do not pick activities that are merely possible at libraries; answer only from the text."
+            ]
+          }
+        },
+        {
+          "question_id": "r-026",
+          "order": 56,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "우리 동네에 작은 도서관이 새로 생겼습니다. 저는 일주일에 두 번 그 도서관에 갑니다. 도서관에서 책을 읽거나 한국어 숙제를 합니다. 도서관은 조용하고 시원해서 공부가 잘됩니다. 책은 한 번에 다섯 권까지 빌릴 수 있습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "도서관은 시끄럽습니다."
+            },
+            {
+              "id": "2",
+              "text": "저는 매일 도서관에 갑니다."
+            },
+            {
+              "id": "3",
+              "text": "책을 한 번에 다섯 권까지 빌릴 수 있습니다."
+            },
+            {
+              "id": "4",
+              "text": "도서관은 오래된 건물입니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "library",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The last sentence states the borrowing limit: 한 번에 다섯 권까지 빌릴 수 있습니다 (up to five books at a time) - option 3. The library is QUIET (조용하고), visited TWICE A WEEK (not daily), and NEWLY opened (새로 생겼습니다), not old.",
+            "teaching_points": [
+              "까지 here marks an upper limit: 다섯 권까지 = up to five volumes.",
+              "한 번에 = at one time, per visit.",
+              "새로 생긴 건물 ↔ 오래된 건물: 오래되다 = to be old (of things)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "시끄럽다",
+                "en": "to be noisy"
+              },
+              {
+                "ko": "시원하다",
+                "en": "to be cool, refreshing"
+              },
+              {
+                "ko": "오래되다",
+                "en": "to be old (things)"
+              },
+              {
+                "ko": "빌리다",
+                "en": "to borrow"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N까지 (limit)",
+                "explanation": "Marks a maximum: up to N.",
+                "example": "다섯 권까지 빌릴 수 있습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 flips 조용하다 (quiet) into 시끄럽다 (noisy).",
+              "Option 2 upgrades 일주일에 두 번 to 매일.",
+              "Option 4 contradicts 새로 생겼습니다 - the library is new."
+            ]
+          }
+        },
+        {
+          "question_id": "r-027",
+          "order": 57,
+          "skill": "reading",
+          "prompt": "다음을 순서대로 맞게 나열한 것을 고르십시오.",
+          "passage": "(가) 그래서 약을 먹고 일찍 잤습니다.  (나) 어제 비를 많이 맞았습니다.  (다) 오늘 아침에는 많이 좋아졌습니다.  (라) 밤부터 열이 나고 목이 아팠습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "(나)-(라)-(가)-(다)"
+            },
+            {
+              "id": "2",
+              "text": "(나)-(가)-(라)-(다)"
+            },
+            {
+              "id": "3",
+              "text": "(라)-(나)-(다)-(가)"
+            },
+            {
+              "id": "4",
+              "text": "(라)-(가)-(나)-(다)"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "ordering",
+            "narrative"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The story flows by time and logic: got soaked in the rain yesterday (나) → from that night, fever and sore throat (라) → SO took medicine and slept early (가) → this morning, much better (다). 그래서 in (가) must follow the illness it responds to, which rules out option 2.",
+            "teaching_points": [
+              "Order by time markers first: 어제 → 밤부터 → (that night) → 오늘 아침.",
+              "그래서 never starts a story - it needs a preceding cause.",
+              "Symptoms come before the remedy: 열이 나고 목이 아팠습니다 → 약을 먹고."
+            ],
+            "vocabulary": [
+              {
+                "ko": "비를 맞다",
+                "en": "to get rained on"
+              },
+              {
+                "ko": "열이 나다",
+                "en": "to have a fever"
+              },
+              {
+                "ko": "목",
+                "en": "throat; neck"
+              },
+              {
+                "ko": "좋아지다",
+                "en": "to get better"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-아/어지다",
+                "explanation": "Change of state: become (adjective).",
+                "example": "오늘 아침에는 많이 좋아졌습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 puts the medicine (가) before the fever (라) - but 그래서 must answer the symptoms.",
+              "Starting with (라) fails because 밤부터 needs 어제 as its reference day.",
+              "Always anchor the first sentence with the broadest time word (어제)."
+            ]
+          }
+        },
+        {
+          "question_id": "r-028",
+          "order": 58,
+          "skill": "reading",
+          "prompt": "다음을 순서대로 맞게 나열한 것을 고르십시오.",
+          "passage": "(가) 주말에 부산으로 여행을 갔습니다.  (나) 바다를 본 후에 시장에서 생선구이를 먹었습니다.  (다) 다음에 또 가고 싶습니다.  (라) 먼저 유명한 바다에 갔습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "(가)-(나)-(라)-(다)"
+            },
+            {
+              "id": "2",
+              "text": "(가)-(라)-(나)-(다)"
+            },
+            {
+              "id": "3",
+              "text": "(라)-(가)-(다)-(나)"
+            },
+            {
+              "id": "4",
+              "text": "(라)-(나)-(가)-(다)"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "ordering",
+            "travel"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The trip frame opens the story: went to Busan on the weekend (가). 먼저 (first) marks the first activity - the famous beach (라). 바다를 본 후에 (after seeing the sea) chains (나) right after (라). The wish to go again (다) closes it.",
+            "teaching_points": [
+              "Sequence scaffolding words: 먼저 (first), -(으)ㄴ 후에 (after doing), 다음에 (next time).",
+              "(나) repeats 바다 from (라) - repeated nouns link consecutive sentences.",
+              "Travel narratives usually end with an evaluation or wish (또 가고 싶습니다)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "여행",
+                "en": "trip, travel"
+              },
+              {
+                "ko": "바다",
+                "en": "sea, beach"
+              },
+              {
+                "ko": "생선구이",
+                "en": "grilled fish"
+              },
+              {
+                "ko": "또",
+                "en": "again"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)ㄴ 후에",
+                "explanation": "After doing (a completed action).",
+                "example": "바다를 본 후에 시장에 갔습니다."
+              },
+              {
+                "pattern": "N(으)로 가다",
+                "explanation": "(으)로 marks direction of travel: toward Busan.",
+                "example": "부산으로 여행을 갔습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 places (나) before (라), but (나) explicitly happens AFTER seeing the sea.",
+              "Options starting with (라) ignore 먼저, which presupposes the trip has been introduced.",
+              "(다)'s 다음에 refers to a future trip - it cannot precede the trip's events."
+            ]
+          }
+        },
+        {
+          "question_id": "r-029",
+          "order": 59,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 한국 드라마를 좋아해서 한국어 공부를 시작했습니다. 처음에는 한글을 읽는 것도 어려웠습니다. 그렇지만 매일 조금씩 공부했습니다. 지금은 자막 (    ) 드라마를 볼 수 있습니다. 다음 목표는 한국 소설을 읽는 것입니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "없이"
+            },
+            {
+              "id": "2",
+              "text": "처럼"
+            },
+            {
+              "id": "3",
+              "text": "보다"
+            },
+            {
+              "id": "4",
+              "text": "마다"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "blank",
+            "particles",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The passage tracks progress: at first even reading Hangul was hard, but after daily study, NOW the writer can watch dramas WITHOUT subtitles - 자막 없이. Only 없이 expresses the achievement that contrasts with the difficult start.",
+            "teaching_points": [
+              "N 없이 = without N: 자막 없이 = without subtitles; opposite idea of needing help.",
+              "Progress structure: 처음에는 (at first) → 지금은 (now) → 다음 목표는 (next goal).",
+              "조금씩 = little by little; 씩 distributes the amount per occasion."
+            ],
+            "vocabulary": [
+              {
+                "ko": "자막",
+                "en": "subtitles"
+              },
+              {
+                "ko": "없이",
+                "en": "without"
+              },
+              {
+                "ko": "조금씩",
+                "en": "little by little"
+              },
+              {
+                "ko": "목표",
+                "en": "goal"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 없이",
+                "explanation": "Doing something without N.",
+                "example": "자막 없이 드라마를 봅니다."
+              },
+              {
+                "pattern": "V-는 것",
+                "explanation": "Nominalizer: 소설을 읽는 것 = reading novels (as a goal).",
+                "example": "다음 목표는 소설을 읽는 것입니다."
+              }
+            ],
+            "common_mistakes": [
+              "처럼 (like) would need a comparison target that makes sense - 자막처럼 (like subtitles) is meaningless here.",
+              "보다 (than) requires something being compared; nothing is.",
+              "마다 (every) attaches to time/units (날마다), not to 자막."
+            ]
+          }
+        },
+        {
+          "question_id": "r-030",
+          "order": 60,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "저는 한국 드라마를 좋아해서 한국어 공부를 시작했습니다. 처음에는 한글을 읽는 것도 어려웠습니다. 그렇지만 매일 조금씩 공부했습니다. 지금은 자막 없이 드라마를 볼 수 있습니다. 다음 목표는 한국 소설을 읽는 것입니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 드라마 때문에 한국어에 관심이 생겼습니다."
+            },
+            {
+              "id": "2",
+              "text": "저는 지금 한국 소설을 읽을 수 있습니다."
+            },
+            {
+              "id": "3",
+              "text": "한글 읽기는 처음부터 쉬웠습니다."
+            },
+            {
+              "id": "4",
+              "text": "저는 일주일에 한 번 공부했습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "learning",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "한국 드라마를 좋아해서 공부를 시작했습니다 means dramas were the reason for starting Korean - option 1 paraphrases this with N 때문에 (because of N). Novels are the NEXT GOAL, not a current ability; Hangul was hard at first; and study was daily, not weekly.",
+            "teaching_points": [
+              "-아/어서 (reason) can be paraphrased as N 때문에: 드라마를 좋아해서 = 드라마 때문에.",
+              "목표 (goal) signals something NOT yet achieved - watch for options that claim it already happened.",
+              "관심이 생기다 = to become interested (interest arises)."
+            ],
+            "vocabulary": [
+              {
+                "ko": "때문에",
+                "en": "because of"
+              },
+              {
+                "ko": "관심",
+                "en": "interest"
+              },
+              {
+                "ko": "소설",
+                "en": "novel"
+              },
+              {
+                "ko": "쉽다",
+                "en": "to be easy"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N 때문에",
+                "explanation": "Because of N - noun-based reason, common paraphrase of -아/어서.",
+                "example": "드라마 때문에 한국어를 배웁니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 converts the future goal (다음 목표) into a present ability.",
+              "Option 3 contradicts 처음에는 어려웠습니다.",
+              "Option 4 shrinks 매일 (daily) to once a week."
+            ]
+          }
+        },
+        {
+          "question_id": "r-031",
+          "order": 61,
+          "skill": "reading",
+          "prompt": "민수 씨는 왜 이 글을 썼습니까? 알맞은 것을 고르십시오.",
+          "passage": "수미 씨, 안녕하세요. 다음 주 금요일에 우리 반 모임이 있어요. 저녁 여섯 시에 학교 앞 '서울식당'에서 만나요. 올 수 있으면 수요일까지 답장을 주세요. 그럼 금요일에 봐요. - 민수",
+          "options": [
+            {
+              "id": "1",
+              "text": "반 모임을 알리려고"
+            },
+            {
+              "id": "2",
+              "text": "식당 위치를 물어보려고"
+            },
+            {
+              "id": "3",
+              "text": "모임 날짜를 바꾸려고"
+            },
+            {
+              "id": "4",
+              "text": "수미 씨를 축하하려고"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "purpose",
+            "message",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Minsu's message announces the class get-together: when (next Friday, 6 p.m.), where (Seoul Restaurant in front of the school), and asks for an RSVP. The purpose is to INFORM Sumi about the gathering - 알리다 (to announce/inform).",
+            "teaching_points": [
+              "Purpose questions about messages: look at what the writer DOES in the text - here, giving event details = announcing.",
+              "답장을 주세요 = please reply; RSVP requests support an announcement purpose.",
+              "-(으)려고 in the options expresses intention: 알리려고 = in order to inform."
+            ],
+            "vocabulary": [
+              {
+                "ko": "모임",
+                "en": "gathering, meeting"
+              },
+              {
+                "ko": "알리다",
+                "en": "to inform, to announce"
+              },
+              {
+                "ko": "답장",
+                "en": "reply (to a message)"
+              },
+              {
+                "ko": "축하하다",
+                "en": "to congratulate"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-(으)면",
+                "explanation": "Condition: if you can come, reply by Wednesday.",
+                "example": "올 수 있으면 답장을 주세요."
+              },
+              {
+                "pattern": "N까지 (deadline)",
+                "explanation": "By/until a deadline: 수요일까지 = by Wednesday.",
+                "example": "수요일까지 답장을 주세요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 reverses the information flow - Minsu TELLS the location; he does not ask for it.",
+              "Option 3 assumes a previous plan being changed; the text announces, it does not reschedule.",
+              "Option 4 has no congratulation language (축하해요) anywhere in the message."
+            ]
+          }
+        },
+        {
+          "question_id": "r-032",
+          "order": 62,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "수미 씨, 안녕하세요. 다음 주 금요일에 우리 반 모임이 있어요. 저녁 여섯 시에 학교 앞 '서울식당'에서 만나요. 올 수 있으면 수요일까지 답장을 주세요. 그럼 금요일에 봐요. - 민수",
+          "options": [
+            {
+              "id": "1",
+              "text": "모임은 다음 주 수요일에 있습니다."
+            },
+            {
+              "id": "2",
+              "text": "모임은 학교 앞 식당에서 합니다."
+            },
+            {
+              "id": "3",
+              "text": "모임은 점심시간에 합니다."
+            },
+            {
+              "id": "4",
+              "text": "답장은 금요일까지 하면 됩니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 2,
+          "tags": [
+            "detail",
+            "message",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The meeting place is 학교 앞 '서울식당' (Seoul Restaurant in front of the school) - option 2. The meeting itself is FRIDAY at 6 p.m. (evening, not lunchtime), and the REPLY deadline is Wednesday - the two dates are deliberately swappable traps.",
+            "teaching_points": [
+              "This message has TWO dates with different roles: event date (금요일) vs. reply deadline (수요일까지) - label them as you read.",
+              "저녁 여섯 시 = 6 p.m.; 점심시간 would be around noon.",
+              "앞 (front) in 학교 앞 locates the restaurant relative to the school."
+            ],
+            "vocabulary": [
+              {
+                "ko": "앞",
+                "en": "front, in front of"
+              },
+              {
+                "ko": "저녁",
+                "en": "evening; dinner"
+              },
+              {
+                "ko": "점심시간",
+                "en": "lunchtime"
+              },
+              {
+                "ko": "금요일",
+                "en": "Friday"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N에서 만나다",
+                "explanation": "에서 marks the meeting place.",
+                "example": "서울식당에서 만나요."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 confuses the RSVP deadline (Wednesday) with the meeting day (Friday).",
+              "Option 4 swaps the same two days in the other direction.",
+              "Option 3 changes 저녁 (evening) to lunchtime - check the time word before the hour."
+            ]
+          }
+        },
+        {
+          "question_id": "r-033",
+          "order": 63,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "우리 동네 시장은 매월 둘째 주 일요일에 '나눔 장터'를 엽니다. 사람들은 집에서 안 쓰는 물건을 가지고 와서 싸게 팝니다. 옷, 책, 장난감 같은 물건이 많습니다. 물건을 판 돈의 반으로는 어려운 이웃을 (    ). 그래서 장터에 오는 사람들은 물건도 사고 좋은 일도 할 수 있습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "돕습니다"
+            },
+            {
+              "id": "2",
+              "text": "만납니다"
+            },
+            {
+              "id": "3",
+              "text": "가르칩니다"
+            },
+            {
+              "id": "4",
+              "text": "기다립니다"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "blank",
+            "community",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "Half the sales money is used for needy neighbors, and the next sentence says visitors can also do A GOOD DEED (좋은 일도 할 수 있습니다). Helping - 돕습니다 - is the only verb that makes spending money on 어려운 이웃 a good deed.",
+            "teaching_points": [
+              "어려운 이웃 = neighbors in difficulty; 어렵다 here means 'in hardship', not 'difficult to do'.",
+              "돕다 is ㅂ-irregular: 돕다 → 도와요, but the formal style keeps 돕습니다.",
+              "N(으)로 in 돈의 반으로 marks the means: WITH half the money."
+            ],
+            "vocabulary": [
+              {
+                "ko": "나눔",
+                "en": "sharing"
+              },
+              {
+                "ko": "장터",
+                "en": "marketplace, fair"
+              },
+              {
+                "ko": "이웃",
+                "en": "neighbor"
+              },
+              {
+                "ko": "돕다",
+                "en": "to help"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(으)로 (means)",
+                "explanation": "Marks the resource or means used for an action.",
+                "example": "판 돈의 반으로 이웃을 돕습니다."
+              },
+              {
+                "pattern": "N 같은 N",
+                "explanation": "Such as / like - gives examples.",
+                "example": "옷, 책, 장난감 같은 물건이 많습니다."
+              }
+            ],
+            "common_mistakes": [
+              "만나다/기다리다 take a person object but money cannot be the MEANS of meeting or waiting - the (으)로 phrase must make sense.",
+              "가르치다 (teach) is unrelated to using sales money for neighbors.",
+              "Read one sentence further: 좋은 일 (good deed) confirms the charitable meaning."
+            ]
+          }
+        },
+        {
+          "question_id": "r-034",
+          "order": 64,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "우리 동네 시장은 매월 둘째 주 일요일에 '나눔 장터'를 엽니다. 사람들은 집에서 안 쓰는 물건을 가지고 와서 싸게 팝니다. 옷, 책, 장난감 같은 물건이 많습니다. 물건을 판 돈의 반으로는 어려운 이웃을 돕습니다. 그래서 장터에 오는 사람들은 물건도 사고 좋은 일도 할 수 있습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "나눔 장터는 매주 일요일에 열립니다."
+            },
+            {
+              "id": "2",
+              "text": "장터에서는 새 물건만 팝니다."
+            },
+            {
+              "id": "3",
+              "text": "판 돈의 반은 어려운 이웃을 위해 씁니다."
+            },
+            {
+              "id": "4",
+              "text": "장터에서는 음식만 팔 수 있습니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "community",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "물건을 판 돈의 반으로는 어려운 이웃을 돕습니다 is paraphrased in option 3: half the proceeds are SPENT FOR needy neighbors (이웃을 위해 씁니다). The fair is MONTHLY (매월 둘째 주 일요일), sells USED goods (안 쓰는 물건), and the examples are clothes, books, toys - not only food.",
+            "teaching_points": [
+              "매월 둘째 주 일요일 = the second Sunday of every month - monthly, not weekly (매주).",
+              "안 쓰는 물건 = things one does not use = secondhand goods; 새 물건 means new goods.",
+              "N을/를 위해 = for the sake of N - paraphrases helping with money."
+            ],
+            "vocabulary": [
+              {
+                "ko": "매월",
+                "en": "every month"
+              },
+              {
+                "ko": "둘째 주",
+                "en": "the second week"
+              },
+              {
+                "ko": "물건",
+                "en": "thing, goods"
+              },
+              {
+                "ko": "위해(서)",
+                "en": "for the sake of"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N을/를 위해",
+                "explanation": "Expresses beneficiary or purpose: for N.",
+                "example": "어려운 이웃을 위해 돈을 씁니다."
+              },
+              {
+                "pattern": "만 (only)",
+                "explanation": "Limits to only N - watch options that add 만 to facts that were examples, not limits.",
+                "example": "새 물건만 팝니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 turns 매월 (monthly) into 매주 (weekly).",
+              "Option 2 inverts 안 쓰는 물건 (used items) into 새 물건만 (only new items).",
+              "Option 4 invents a food-only rule; food is not even listed among the goods."
+            ]
+          }
+        },
+        {
+          "question_id": "r-035",
+          "order": 65,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "걷기는 누구나 쉽게 할 수 있는 운동입니다. 돈이 들지 않고 특별한 운동복도 필요 없습니다. 하루에 삼십 분씩 걸으면 건강에 좋습니다. (    ) 걷기 전에 가벼운 스트레칭을 하면 더 좋습니다. 스트레칭을 하면 다리를 다치지 않습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "그리고"
+            },
+            {
+              "id": "2",
+              "text": "그렇지만"
+            },
+            {
+              "id": "3",
+              "text": "그래서"
+            },
+            {
+              "id": "4",
+              "text": "그러면"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 2,
+          "tags": [
+            "blank",
+            "conjunction",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The sentence before the blank gives one health tip (walk 30 minutes a day) and the sentence after ADDS another tip (stretch before walking). Adding a parallel point takes 그리고 (and/in addition). There is no contrast (그렇지만) and stretching is not a RESULT of walking being healthy (그래서).",
+            "teaching_points": [
+              "When both sentences push in the same direction (two pieces of advice), use the additive connector 그리고.",
+              "씩 distributes: 삼십 분씩 = thirty minutes each (day).",
+              "-기 전에 = before doing: 걷기 전에 스트레칭을 합니다."
+            ],
+            "vocabulary": [
+              {
+                "ko": "걷기",
+                "en": "walking"
+              },
+              {
+                "ko": "돈이 들다",
+                "en": "to cost money"
+              },
+              {
+                "ko": "운동복",
+                "en": "exercise clothes"
+              },
+              {
+                "ko": "다치다",
+                "en": "to get hurt"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-기 전에",
+                "explanation": "Before V-ing.",
+                "example": "걷기 전에 스트레칭을 하세요."
+              },
+              {
+                "pattern": "누구나",
+                "explanation": "Anyone/everyone (without exception).",
+                "example": "걷기는 누구나 할 수 있습니다."
+              }
+            ],
+            "common_mistakes": [
+              "그래서 forces a cause-effect reading: walking being healthy does not CAUSE the stretching advice.",
+              "그렇지만 needs an opposing idea; the stretching tip supports, not contradicts, the walking tip.",
+              "그러면 (in that case) needs a preceding condition or suggestion to react to."
+            ]
+          }
+        },
+        {
+          "question_id": "r-036",
+          "order": 66,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "걷기는 누구나 쉽게 할 수 있는 운동입니다. 돈이 들지 않고 특별한 운동복도 필요 없습니다. 하루에 삼십 분씩 걸으면 건강에 좋습니다. 그리고 걷기 전에 가벼운 스트레칭을 하면 더 좋습니다. 스트레칭을 하면 다리를 다치지 않습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "걷기 운동은 돈이 많이 듭니다."
+            },
+            {
+              "id": "2",
+              "text": "걷기 전에 스트레칭을 하는 것이 좋습니다."
+            },
+            {
+              "id": "3",
+              "text": "걸을 때는 특별한 옷이 필요합니다."
+            },
+            {
+              "id": "4",
+              "text": "하루에 세 시간씩 걸어야 합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "health",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The passage recommends light stretching BEFORE walking to avoid leg injuries - option 2. Walking costs NOTHING (돈이 들지 않고), needs NO special clothes, and the suggested time is thirty MINUTES a day, not three hours.",
+            "teaching_points": [
+              "삼십 분 (30 minutes) vs. 세 시간 (3 hours) - numbers plus the right unit matter.",
+              "돈이 들지 않다 = costs no money; 들다 is the verb for costs/effort.",
+              "-지 않다 is the long negative form, interchangeable with 안 + verb."
+            ],
+            "vocabulary": [
+              {
+                "ko": "스트레칭",
+                "en": "stretching"
+              },
+              {
+                "ko": "가볍다",
+                "en": "to be light"
+              },
+              {
+                "ko": "필요하다",
+                "en": "to be necessary"
+              },
+              {
+                "ko": "건강",
+                "en": "health"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-지 않다",
+                "explanation": "Long-form negation of verbs and adjectives.",
+                "example": "돈이 들지 않습니다."
+              },
+              {
+                "pattern": "-아/어야 하다",
+                "explanation": "Must/have to - used in option 4 to overstate a recommendation as an obligation.",
+                "example": "하루에 세 시간씩 걸어야 합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 4 inflates both the number (30 min → 3 hours) and the strength (좋습니다 → 해야 합니다).",
+              "Options 1 and 3 negate the passage's two 'no cost, no gear' selling points.",
+              "더 좋습니다 (even better) marks stretching as a recommendation - enough to make option 2 'same as the text'."
+            ]
+          }
+        },
+        {
+          "question_id": "r-037",
+          "order": 67,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "저는 작년에 한국에 처음 왔습니다. 그때는 한국 친구가 없어서 많이 외로웠습니다. 그래서 학교의 '말하기 친구' 프로그램을 신청했습니다. 이 프로그램에서는 한국 학생과 외국 학생이 일주일에 한 번 만나서 이야기를 합니다. 저는 거기에서 지금의 제일 친한 친구를 만났습니다. 우리는 한국어와 영어로 이야기하면서 서로의 나라 문화도 배웁니다. 이제 한국 생활이 (    ) 않습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "외롭지"
+            },
+            {
+              "id": "2",
+              "text": "재미있지"
+            },
+            {
+              "id": "3",
+              "text": "바쁘지"
+            },
+            {
+              "id": "4",
+              "text": "어렵지"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "blank",
+            "inference",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The story opens with the problem 많이 외로웠습니다 (I was very lonely) and closes after finding a best friend with 이제... (    ) 않습니다 - the resolved problem must be loneliness: 이제 외롭지 않습니다 (now I am not lonely). The blank answers the FIRST paragraph's problem, not a generic difficulty.",
+            "teaching_points": [
+              "Long passages often form a problem → solution → result arc; the final blank usually resolves the OPENING problem word.",
+              "이제 = now (after a change) - signals the contrast with 그때 (back then).",
+              "서로의 나라 문화 = each other's countries' cultures; 서로 = each other."
+            ],
+            "vocabulary": [
+              {
+                "ko": "외롭다",
+                "en": "to be lonely"
+              },
+              {
+                "ko": "신청하다",
+                "en": "to apply for, to sign up"
+              },
+              {
+                "ko": "친하다",
+                "en": "to be close (friends)"
+              },
+              {
+                "ko": "서로",
+                "en": "each other"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-지 않다",
+                "explanation": "Long negation: 외롭지 않습니다 = is not lonely.",
+                "example": "이제 한국 생활이 외롭지 않습니다."
+              },
+              {
+                "pattern": "-(으)면서",
+                "explanation": "While doing - two simultaneous actions.",
+                "example": "이야기하면서 문화도 배웁니다."
+              }
+            ],
+            "common_mistakes": [
+              "어렵지 is the strong distractor: life MAY have been hard, but the stated problem was 외로웠습니다 - echo the text's own word.",
+              "재미있지 않습니다 (not fun) would reverse the happy ending.",
+              "바쁘지 was never an issue in the passage."
+            ]
+          }
+        },
+        {
+          "question_id": "r-038",
+          "order": 68,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "저는 작년에 한국에 처음 왔습니다. 그때는 한국 친구가 없어서 많이 외로웠습니다. 그래서 학교의 '말하기 친구' 프로그램을 신청했습니다. 이 프로그램에서는 한국 학생과 외국 학생이 일주일에 한 번 만나서 이야기를 합니다. 저는 거기에서 지금의 제일 친한 친구를 만났습니다. 우리는 한국어와 영어로 이야기하면서 서로의 나라 문화도 배웁니다. 이제 한국 생활이 외롭지 않습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "저는 한국에 오기 전부터 한국 친구가 있었습니다."
+            },
+            {
+              "id": "2",
+              "text": "'말하기 친구'는 한 달에 한 번 만납니다."
+            },
+            {
+              "id": "3",
+              "text": "저는 프로그램에서 제일 친한 친구를 만났습니다."
+            },
+            {
+              "id": "4",
+              "text": "우리는 영어로만 이야기합니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "3"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "school_life",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "저는 거기에서 지금의 제일 친한 친구를 만났습니다 - the writer met their current best friend through the program, matching option 3. The program meets WEEKLY (일주일에 한 번), they speak BOTH Korean and English, and the writer had NO Korean friends at first.",
+            "teaching_points": [
+              "일주일에 한 번 (once a week) vs. 한 달에 한 번 (once a month) - the period noun changes everything.",
+              "와/과 and (으)로 together: 한국어와 영어로 = in Korean and English (both languages as means).",
+              "만 (only) in options often falsifies an inclusive fact: 영어로만 contradicts 한국어와 영어로."
+            ],
+            "vocabulary": [
+              {
+                "ko": "외국",
+                "en": "foreign country"
+              },
+              {
+                "ko": "프로그램",
+                "en": "program"
+              },
+              {
+                "ko": "문화",
+                "en": "culture"
+              },
+              {
+                "ko": "생활",
+                "en": "life, living"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N(으)로 (language)",
+                "explanation": "Marks the language used: 한국어로 말하다 = speak in Korean.",
+                "example": "우리는 한국어와 영어로 이야기합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 2 swaps the frequency period (week → month).",
+              "Option 4 adds 만 (only), excluding Korean - but both languages are used.",
+              "Option 1 contradicts 한국 친구가 없어서 외로웠습니다."
+            ]
+          }
+        },
+        {
+          "question_id": "r-039",
+          "order": 69,
+          "skill": "reading",
+          "prompt": "(    )에 들어갈 말로 가장 알맞은 것을 고르십시오.",
+          "passage": "지난 주말에 가족과 함께 '시장 구경 버스'를 탔습니다. 이 버스는 토요일마다 우리 시의 유명한 시장 세 곳을 다닙니다. 버스에서 안내하는 분이 시장의 역사도 이야기해 줍니다. 표는 오천 원인데 시장에서 쓸 수 있는 삼천 원 쿠폰을 줍니다. 우리는 쿠폰으로 떡볶이를 사 먹었습니다. 아이들이 정말 좋아해서 다음 달에 (    ) 타기로 했습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "또"
+            },
+            {
+              "id": "2",
+              "text": "아직"
+            },
+            {
+              "id": "3",
+              "text": "별로"
+            },
+            {
+              "id": "4",
+              "text": "거의"
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "1"
+          },
+          "points": 3,
+          "tags": [
+            "blank",
+            "adverbs",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "The family already rode the bus once and, because the children loved it, decided to ride AGAIN next month: 또 타기로 했습니다. 또 marks repetition of a completed experience; the other adverbs (아직 yet, 별로 not really, 거의 almost) need negative or incomplete contexts.",
+            "teaching_points": [
+              "또 = again (repeat after a completed event); 다시 is similar, but 또 is the natural choice for 'one more time' plans.",
+              "별로 and 거의 normally pair with negatives: 별로 안 좋아해요, 거의 없어요.",
+              "아직 means 'still/yet' and clashes with a planned future repetition."
+            ],
+            "vocabulary": [
+              {
+                "ko": "또",
+                "en": "again"
+              },
+              {
+                "ko": "아직",
+                "en": "yet, still"
+              },
+              {
+                "ko": "별로",
+                "en": "not particularly (with negative)"
+              },
+              {
+                "ko": "거의",
+                "en": "almost"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "-기로 하다",
+                "explanation": "To decide to do - finalizes the family's plan.",
+                "example": "다음 달에 또 타기로 했습니다."
+              }
+            ],
+            "common_mistakes": [
+              "아직 타기로 했습니다 is ungrammatical in meaning - 아직 cannot modify a fresh decision to repeat.",
+              "별로/거의 without a negative verb are incomplete: 별로 타다 and 거의 타다 do not stand alone.",
+              "The reason clause 아이들이 정말 좋아해서 predicts a positive repetition word."
+            ]
+          }
+        },
+        {
+          "question_id": "r-040",
+          "order": 70,
+          "skill": "reading",
+          "prompt": "윗글의 내용과 같은 것을 고르십시오.",
+          "passage": "지난 주말에 가족과 함께 '시장 구경 버스'를 탔습니다. 이 버스는 토요일마다 우리 시의 유명한 시장 세 곳을 다닙니다. 버스에서 안내하는 분이 시장의 역사도 이야기해 줍니다. 표는 오천 원인데 시장에서 쓸 수 있는 삼천 원 쿠폰을 줍니다. 우리는 쿠폰으로 떡볶이를 사 먹었습니다. 아이들이 정말 좋아해서 다음 달에 또 타기로 했습니다.",
+          "options": [
+            {
+              "id": "1",
+              "text": "시장 구경 버스는 매일 다닙니다."
+            },
+            {
+              "id": "2",
+              "text": "버스표를 사면 쿠폰을 받습니다."
+            },
+            {
+              "id": "3",
+              "text": "버스는 시장 한 곳만 갑니다."
+            },
+            {
+              "id": "4",
+              "text": "우리 가족은 다시 안 탈 겁니다."
+            }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "2"
+          },
+          "points": 3,
+          "tags": [
+            "detail",
+            "tour",
+            "paired_passage"
+          ],
+          "difficulty": "intermediate",
+          "explanation": {
+            "summary": "표는 오천 원인데... 삼천 원 쿠폰을 줍니다: buying the 5,000-won ticket comes with a 3,000-won market coupon - option 2. The bus runs only on SATURDAYS, visits THREE markets, and the family decided to ride AGAIN.",
+            "teaching_points": [
+              "토요일마다 = every Saturday - a weekly schedule, not 매일 (daily).",
+              "곳 counts places: 세 곳 = three places/locations.",
+              "-(으)ㄴ데/는데 links the ticket price with the bonus coupon: costs 5,000 won, AND (notably) gives a coupon."
+            ],
+            "vocabulary": [
+              {
+                "ko": "구경",
+                "en": "sightseeing, looking around"
+              },
+              {
+                "ko": "곳",
+                "en": "place (counter)"
+              },
+              {
+                "ko": "역사",
+                "en": "history"
+              },
+              {
+                "ko": "쿠폰",
+                "en": "coupon"
+              }
+            ],
+            "grammar": [
+              {
+                "pattern": "N마다",
+                "explanation": "Every N: 토요일마다 = every Saturday.",
+                "example": "이 버스는 토요일마다 다닙니다."
+              },
+              {
+                "pattern": "-아/어 먹다",
+                "explanation": "Compound: buy and eat - 사 먹다 means to buy food and eat it.",
+                "example": "쿠폰으로 떡볶이를 사 먹었습니다."
+              }
+            ],
+            "common_mistakes": [
+              "Option 1 stretches 토요일마다 (Saturdays) into 매일 (every day).",
+              "Option 3 shrinks 세 곳 (three places) to one with 만.",
+              "Option 4 contradicts 또 타기로 했습니다 (decided to ride again)."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
