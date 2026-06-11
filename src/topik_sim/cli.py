@@ -408,7 +408,8 @@ def handle_resume_attempt(args: argparse.Namespace) -> int:
 
     attempt = complete_attempt(attempt, pack)
     save_attempt(attempt, attempt_path)
-    record_review_queue(attempt, args.attempt_dir)
+    # The queue lives next to the attempt being resumed, which may not be in --attempt-dir.
+    record_review_queue(attempt, attempt_path.parent)
     print_attempt_summary(attempt)
     return 0
 

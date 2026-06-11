@@ -19,12 +19,15 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 ## Architecture
 
 - `src/topik_sim/content.py` — pack loading + contract validation
-- `src/topik_sim/question_types.py` — pluggable answer formats (validate + grade); register a spec to add a format
+- `src/topik_sim/question_types.py` — pluggable answer formats (validate + grade, `manual` flag for essays); register a spec to add a format
 - `src/topik_sim/grading.py` — scoring + teaching feedback assembly
-- `src/topik_sim/attempts.py` / `session.py` — attempt persistence and the present→submit→advance→finalize state machine
-- `src/topik_sim/activities.py` — attempt builders (exam, drill)
+- `src/topik_sim/attempts.py` / `session.py` — attempt persistence, timing, and the present→submit→advance→finalize state machine
+- `src/topik_sim/activities.py` / `srs.py` — attempt builders (exam, drill) and the spaced-repetition review queue
+- `src/topik_sim/flashcards.py` / `dictation.py` — shell-side practice modes
+- `src/topik_sim/stats.py` / `report.py` — cross-attempt accuracy stats and Markdown study reports
 - `src/topik_sim/library.py` — versioned content library with checksums
-- `src/topik_sim/tts.py`, `audio_cache.py`, `prefetch.py` — providers, content-addressed WAV cache, background prefetch (`docs/AUDIO_DESIGN.md`)
+- `src/topik_sim/config.py` — `topik.config.json` workspace defaults (flags always win)
+- `src/topik_sim/tts.py`, `audio_cache.py`, `prefetch.py` — providers, content-addressed WAV cache with Opus cold storage, background prefetch (`docs/AUDIO_DESIGN.md`)
 - `src/topik_sim/ui/` — interactive shell (commands registry, renderer, prompt_toolkit frontend with plain fallback)
 - `src/topik_sim/cli.py` — argparse surface; documented in `docs/CLI_CONTRACT.md`
 

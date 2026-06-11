@@ -34,8 +34,8 @@ An activity is a strategy for building an attempt, not a new engine:
 3. Reuse `ExamSession` for the run loop. Only selection, ordering, and presentation hints should be new code.
 4. Add tests that drive `Shell.handle_line` with scripted input — no terminal needed.
 
-Shipped activities: `exam` (default), `drill` (re-practice the misses of a completed attempt). Anticipated: dictation sprints, vocabulary flashcards from explanation entries, timed mode, cross-attempt review queues (SRS).
+Shipped activities: `exam` (default, timed against section limits), `drill` (re-practice the misses of a completed attempt), `review` (spaced repetition over the Leitner queue in `srs.py`), plus two shell-side practice modes that run outside the attempt engine: `/flashcards` (`flashcards.py`) and `/dictation` (`dictation.py`). Modes that need no grading or persistence can live shell-side; anything scored and saved should build an attempt.
 
 ## Grading Extensions
 
-`QuestionTypeSpec.grade` is deterministic and offline. Rubric or AI-assisted grading (e.g. TOPIK II writing) should be introduced as a separate asynchronous review step over a saved attempt — never inline in the answer loop — so attempts stay reproducible and gradable without network access.
+`QuestionTypeSpec.grade` is deterministic and offline. Manual formats set `manual=True` on their spec (see `essay`): the answer loop records the response with `needs_review` and zero points, and a separate post-attempt step (`review-writing`) records rubric scores and recomputes the result. AI-assisted scoring should plug in at that same post-attempt step — never inline in the answer loop — so attempts stay reproducible and gradable without network access. Items pending manual review are excluded from drills and the spaced-repetition queue.

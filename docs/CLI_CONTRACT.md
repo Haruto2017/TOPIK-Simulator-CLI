@@ -6,6 +6,10 @@ If the package is not installed, set `PYTHONPATH=src` first.
 
 Running `python -m topik_sim` with no arguments opens the interactive shell (see `shell`).
 
+## Configuration
+
+Optional workspace defaults live in `topik.config.json` at the repo root (or a file pointed to by the `TOPIK_CONFIG` environment variable). CLI flags always override the config; the config overrides built-in defaults. Sections: `tts` (provider, voice, volume, speed, steps, onnx_provider, device, language, output_dir), `paths` (library, attempts), `shell` (audio, show_transcript). See `examples/topik.config.example.json`.
+
 ## `shell`
 
 Interactive session styled after modern agent CLIs: a persistent prompt with history, slash-command autocompletion (when `prompt_toolkit` is installed), and a status toolbar. Plain input answers the current question; input starting with `/` is always a command and is never submitted as an answer.
@@ -17,16 +21,22 @@ python -m topik_sim   # same as: shell
 
 Slash commands:
 
-- `/take <pack> [section] [limit]`: start a test from a library ref or pack file.
+- `/take <pack> [section] [limit]`: start a test from a library ref or pack file. Pack ids autocomplete; typos get close-match suggestions.
 - `/resume [n|path]`: resume an in-progress attempt (defaults to the most recent).
 - `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt (defaults to the most recent completed one).
+- `/review [pack]`: spaced-repetition session over due previously-missed questions (see `review`).
+- `/flashcards <pack>` (alias `/cards`): vocabulary card drill built from the pack's teaching notes; Enter flips, y/n grades.
+- `/dictation <pack> [limit]`: hear listening transcripts and type them; diff-based feedback with accuracy percentages.
 - `/attempts`, `/packs`: list saved attempts / imported packs.
-- `/say <text>` (alias `/speak`): pronounce any sentence aloud without affecting the current answer.
+- `/say <text>` (alias `/speak`): pronounce any sentence aloud without affecting the current answer. With no text during flashcards, speaks the current card.
+- `/hint`: reveal one vocabulary item for the current question per call.
 - `/replay` (alias `/r`): replay the current question audio.
 - `/transcript` (alias `/t`): reveal the active listening transcript.
 - `/skip`: submit a blank answer for the current question.
-- `/pause`: save and leave the current test; `/resume` continues it later.
+- `/pause`: save and leave the current test (or stop flashcards/dictation early).
 - `/status`: progress, running score, and TTS settings.
+- `/stats`: per-skill accuracy and trends across completed attempts.
+- `/report [n|path]`: write a Markdown study report for a completed attempt.
 - `/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]`: change speech settings mid-session.
 - `/help`, `/quit`.
 
@@ -35,6 +45,8 @@ Behavior:
 - Attempts are saved after every answer, exactly like `take`; quitting or crashing never loses progress.
 - Listening questions auto-play audio and hide transcripts until after the answer.
 - The next question's audio is prefetched on a background thread while the learner answers (see `docs/AUDIO_DESIGN.md`).
+- Full-pack attempts are timed against the sections' `time_limit_minutes`: the toolbar counts down and summaries report pace.
+- Completed attempts feed the spaced-repetition queue; the shell reports how many items are due.
 - Falls back to a plain `input()` prompt when `prompt_toolkit` is unavailable.
 
 ## `drill`
@@ -51,6 +63,39 @@ Behavior:
 - Creates a new attempt with `"activity": "drill"` restricted to the missed question ids.
 - Grades and saves like `take`.
 
+## `review`
+
+Spaced-repetition review across attempts. Misses enter a Leitner queue (box 1, due immediately); correct reviews promote with growing intervals (1/2/4/7/15 days); a top-box success retires the item. The queue lives at `<attempt_dir>/review_queue.json`.
+
+```powershell
+python -m topik_sim review                # list due counts per pack
+python -m topik_sim review <pack_id> [--limit <n>] [--attempt-dir <dir>] [--library <dir>] [TTS options]
+```
+
+## `review-writing`
+
+Scores essay answers in a completed attempt against their rubric (see the essay answer type in `docs/CONTENT_CONTRACT.md`). Prompts for each criterion, recomputes the attempt score, and saves in place. Half marks or better counts as correct.
+
+```powershell
+python -m topik_sim review-writing data/attempts/<attempt_id>.json [--library <dir>]
+```
+
+## `stats`
+
+Per-skill accuracy, average pace, recent attempt trend, and per-pack best/last scores across completed attempts.
+
+```powershell
+python -m topik_sim stats [--attempt-dir <dir>] [--library <dir>]
+```
+
+## `report`
+
+Markdown study report for a completed attempt: misses with correct answers, vocabulary, grammar, and common mistakes to review.
+
+```powershell
+python -m topik_sim report data/attempts/<attempt_id>.json [--output report.md] [--library <dir>]
+```
+
 ## `audio`
 
 Audio cache management. See `docs/AUDIO_DESIGN.md` for the design.
@@ -58,14 +103,18 @@ Audio cache management. See `docs/AUDIO_DESIGN.md` for the design.
 ```powershell
 python -m topik_sim audio stats [--audio-dir <dir>]
 python -m topik_sim audio prune [--max-mb <n>] [--older-than-days <n>] [--dry-run] [--audio-dir <dir>]
-python -m topik_sim audio warm <pack_ref> [--all-questions] [--teaching] [--library <dir>] [TTS options]
+python -m topik_sim audio warm <pack_ref> [--all-questions] [--teaching] [--voices F1,M1] [--library <dir>] [TTS options]
+python -m topik_sim audio compress [--older-than-days <n>] [--bitrate 24k] [--audio-dir <dir>]
+python -m topik_sim audio bundle <pack_ref> [--output <zip>] [--all-questions] [--teaching] [TTS options]
 ```
 
 Behavior:
 
-- `stats`: file count, total size, least-recently-used timestamp.
-- `prune`: deletes least-recently-used WAVs until the cache satisfies the constraints; requires at least one of `--max-mb` / `--older-than-days`.
-- `warm`: pre-generates listening audio for a pack (all passages with `--all-questions`, teaching audio with `--teaching`) so a session never waits on synthesis.
+- `stats`: file count (wav/opus split), total size, least-recently-used timestamp.
+- `prune`: deletes least-recently-used entries (wav and opus) until the cache satisfies the constraints; requires at least one of `--max-mb` / `--older-than-days`.
+- `warm`: pre-generates listening audio for a pack (all passages with `--all-questions`, teaching audio with `--teaching`, several voice presets with `--voices`).
+- `compress`: transcodes cold WAVs to Opus via ffmpeg; playback restores entries transparently on use.
+- `bundle`: warms a pack and exports its audio plus a text→file manifest as one zip (default under `exports/`).
 - Volume is applied at playback time and does not multiply cached files.
 
 ## `validate-content`

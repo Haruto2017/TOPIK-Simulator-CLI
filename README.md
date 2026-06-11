@@ -18,12 +18,17 @@ python -m topik_sim
 
 This opens a persistent prompt styled after modern agent CLIs: history, slash-command autocompletion (with `prompt_toolkit`), and a status toolbar. Plain input answers the current question; anything starting with `/` is a command and never counts as an answer:
 
-- `/take topik-i-level-1-full-sample` — start a test; `/resume`, `/pause`, `/attempts`
-- `/say 안녕하세요` — pronounce any sentence mid-question
+- `/take topik-i-level-1-full-sample` — start a test (pack ids autocomplete); `/resume`, `/pause`, `/attempts`
+- `/say 안녕하세요` — pronounce any sentence mid-question; `/hint` reveals one vocabulary item
 - `/replay`, `/transcript`, `/skip`
 - `/drill` — re-practice the questions you missed in your last completed attempt
+- `/review` — spaced-repetition session over everything you have missed before
+- `/flashcards <pack>`, `/dictation <pack>` — vocabulary cards and listen-and-type practice
+- `/stats`, `/report` — accuracy trends and a Markdown study sheet
 - `/tts volume 0.8`, `/tts off` — change speech settings live
 - `/help`, `/quit`
+
+Workspace defaults (TTS voice/volume, directories, shell behavior) can live in `topik.config.json`; see `examples/topik.config.example.json`.
 
 ## Classic CLI
 
@@ -40,9 +45,15 @@ python -m topik_sim list-attempts
 python -m topik_sim resume-attempt data/attempts/<attempt_id>.json
 python -m topik_sim resume-attempt
 python -m topik_sim drill data/attempts/<attempt_id>.json
+python -m topik_sim review
+python -m topik_sim review-writing data/attempts/<attempt_id>.json
+python -m topik_sim stats
+python -m topik_sim report data/attempts/<attempt_id>.json --output exports/report.md
 python -m topik_sim audio warm topik-i-level-1-full-sample@0.1.0
 python -m topik_sim audio stats
 python -m topik_sim audio prune --max-mb 500
+python -m topik_sim audio compress --older-than-days 14
+python -m topik_sim audio bundle topik-i-level-1-full-sample@0.1.0
 python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다."
 python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." --save
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json

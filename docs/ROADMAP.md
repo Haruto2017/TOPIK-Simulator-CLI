@@ -21,33 +21,39 @@
 - Add metadata for levels, skills, difficulty, and source rights.
 - Add import/export helpers.
 
-## Phase 4: Quality of Life
+## Phase 4: Quality of Life — done
 
 Shell and study flow:
 
-- `/hint` command revealing one vocabulary item without the full answer.
-- Timed mode with a countdown in the status toolbar and per-question timing stats.
-- `stats` command: per-skill accuracy (listening vs reading), trends across attempts.
-- Cross-attempt review queue with spaced repetition over missed questions.
-- Dictation activity: hear a sentence, type it, diff-based feedback.
-- Vocabulary flashcards generated from pack explanation entries.
-- Export an attempt as a Markdown study report (misses, vocab, grammar to review).
-- Fuzzy pack/attempt pickers and `/take` autocompletion of pack ids.
-- A `topik.toml` config file for default TTS provider, volume, voice, and directories.
+- `/hint` revealing one vocabulary item per call.
+- Per-question timing with a countdown toolbar against pack time limits and pace in summaries.
+- `stats` command and `/stats`: per-skill accuracy, pace, trends, per-pack best/last.
+- Cross-attempt spaced-repetition review queue (`review`, `/review`).
+- Dictation activity with diff-based feedback (`/dictation`).
+- Vocabulary flashcards from pack explanations (`/flashcards`).
+- Markdown study reports (`report`, `/report`).
+- Fuzzy pack suggestions and `/take` pack-id autocompletion.
+- `topik.config.json` workspace config for TTS, paths, and shell defaults (JSON instead of TOML: Python 3.10 has no tomllib and the core stays stdlib-only).
 
 Content and engine:
 
 - `multiple_select`, `ordering`, and `cloze` question types via the registry.
-- Rubric-based (optionally AI-assisted) review for TOPIK II writing as a post-attempt step.
-- Pack-level statistics in `inspect-content` (skill mix, difficulty spread).
+- `essay` type with rubric-based manual scoring via `review-writing`.
+- Pack-level statistics in `inspect-content` (skill mix, answer types, difficulty).
 
 Audio:
 
-- Opus/OGG transcoding when `ffmpeg` is available (~10x smaller cache).
-- Exportable per-pack audio bundles for offline devices.
-- Per-voice warming so two voices can be A/B compared.
+- Opus transcoding via ffmpeg with transparent restore on playback (`audio compress`).
+- Per-pack audio bundle export (`audio bundle`).
+- Multi-voice warming for A/B comparison (`audio warm --voices`).
 
 ## Phase 5: Interface
 
 - Local web UI reusing `ExamSession`, grading, and the audio cache.
 - Desktop-style packaging once the web UI stabilizes.
+
+## Later Ideas
+
+- AI-assisted essay scoring suggestions feeding `review-writing`.
+- Sample-rate normalization for even smaller cached audio.
+- Cross-pack review sessions once attempts can span packs.
