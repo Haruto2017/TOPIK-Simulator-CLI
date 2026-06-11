@@ -39,6 +39,16 @@ class ContentAndGradingTests(unittest.TestCase):
     def test_sample_pack_is_valid(self):
         self.assertEqual(validate_pack_file(SAMPLE_PACK), [])
 
+    def test_inspect_content_reports_pack_statistics(self):
+        output = StringIO()
+        with redirect_stdout(output):
+            exit_code = main(["inspect-content", str(SAMPLE_PACK)])
+        self.assertEqual(exit_code, 0)
+        text = output.getvalue()
+        self.assertIn("Questions: 2, total points: 2", text)
+        self.assertIn("Skills: reading (2)", text)
+        self.assertIn("Answer types: single_choice (2)", text)
+
     def test_batch_grading_scores_answers(self):
         pack = load_pack(SAMPLE_PACK)
         result = grade_answers(pack.data, {"r-001": "B", "r-002": "C"})

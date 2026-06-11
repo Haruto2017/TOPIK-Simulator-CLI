@@ -219,13 +219,39 @@ def handle_validate_content(args: argparse.Namespace) -> int:
 
 def handle_inspect_content(args: argparse.Namespace) -> int:
     pack = load_pack(args.pack)
+    questions = pack.questions()
     print(f"{pack.title} ({pack.pack_id})")
     print(f"Level: {pack.data['topik_level']}")
     print(f"Source: {pack.data['source_type']}")
     for section in pack.sections:
         question_count = len(section["questions"])
-        print(f"- {section['section_id']}: {question_count} question(s)")
+        limit = section.get("time_limit_minutes")
+        limit_note = f", {limit} min" if limit else ""
+        print(f"- {section['section_id']}: {question_count} question(s){limit_note}")
+
+    print(f"Questions: {len(questions)}, total points: {sum(int(q.get('points', 1)) for q in questions)}")
+    print(f"Skills: {format_counter(count_by(questions, 'skill'))}")
+    print(f"Answer types: {format_counter(count_by(questions, ('answer', 'type')))}")
+    difficulties = count_by(questions, "difficulty", missing="unrated")
+    if set(difficulties) != {"unrated"}:
+        print(f"Difficulty: {format_counter(difficulties)}")
     return 0
+
+
+def count_by(questions: list[dict[str, Any]], key: str | tuple[str, str], missing: str = "unknown") -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for question in questions:
+        if isinstance(key, tuple):
+            value = (question.get(key[0]) or {}).get(key[1])
+        else:
+            value = question.get(key)
+        label = str(value) if value is not None else missing
+        counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
+def format_counter(counts: dict[str, int]) -> str:
+    return ", ".join(f"{label} ({count})" for label, count in sorted(counts.items(), key=lambda item: (-item[1], item[0])))
 
 
 def handle_simulate(args: argparse.Namespace) -> int:
