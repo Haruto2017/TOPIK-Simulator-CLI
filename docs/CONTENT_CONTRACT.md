@@ -140,6 +140,56 @@ Requirements:
 
 The current grader accepts exact normalized matches. Later versions can add rubric-based grading.
 
+### Multiple Select
+
+```json
+{
+  "type": "multiple_select",
+  "correct_option_ids": ["A", "C"]
+}
+```
+
+Requirements:
+
+- `options` must be present.
+- Every entry in `correct_option_ids` must match an option `id`.
+- Learners answer with all correct ids in any order, e.g. `A,C` or `c a`.
+
+### Ordering
+
+```json
+{
+  "type": "ordering",
+  "correct_order": ["B", "C", "A"]
+}
+```
+
+Requirements:
+
+- At least two `options`.
+- `correct_order` lists option ids in the right sequence without repeats.
+- Learners answer with the sequence, e.g. `B,C,A`.
+
+### Cloze
+
+```json
+{
+  "type": "cloze",
+  "blanks": [
+    { "accepted_answers": ["에"] },
+    { "accepted_answers": ["에서"] }
+  ]
+}
+```
+
+Requirements:
+
+- One entry per blank, in passage order; each blank needs at least one accepted answer.
+- Learners separate multiple blanks with `/` (also `;` or `|`), e.g. `에 / 에서`.
+- Grading is all-or-nothing per question; use one blank per question for partial-credit granularity.
+
+`examples/content/topik_i_formats_pack.json` demonstrates every answer type.
+
 ## Authoring Rules
 
 - Every `question_id` must be unique within a pack.

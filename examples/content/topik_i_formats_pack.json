@@ -1,0 +1,113 @@
+{
+  "schema_version": "topik-sim.content.v1",
+  "pack_id": "topik-i-formats-pack",
+  "pack_version": "0.1.0",
+  "title": "TOPIK I Question Format Showcase",
+  "topik_level": "TOPIK_I",
+  "language_pair": "ko-en",
+  "source_type": "original",
+  "sections": [
+    {
+      "section_id": "formats",
+      "title": "Question Formats",
+      "instructions": "Demonstrates every supported answer type.",
+      "questions": [
+        {
+          "question_id": "f-001",
+          "order": 1,
+          "skill": "reading",
+          "prompt": "Which sentences are about food? Select all that apply.",
+          "options": [
+            { "id": "A", "text": "밥을 먹습니다." },
+            { "id": "B", "text": "학교에 갑니다." },
+            { "id": "C", "text": "김치가 맵습니다." },
+            { "id": "D", "text": "책을 읽습니다." }
+          ],
+          "answer": {
+            "type": "multiple_select",
+            "correct_option_ids": ["A", "C"]
+          },
+          "points": 1,
+          "explanation": {
+            "summary": "밥을 먹습니다 (I eat rice) and 김치가 맵습니다 (the kimchi is spicy) are about food.",
+            "vocabulary": [
+              { "ko": "밥", "en": "rice; meal" },
+              { "ko": "맵다", "en": "to be spicy" }
+            ]
+          }
+        },
+        {
+          "question_id": "f-002",
+          "order": 2,
+          "skill": "reading",
+          "prompt": "Put the sentences in natural order.",
+          "options": [
+            { "id": "A", "text": "그래서 우산을 샀습니다." },
+            { "id": "B", "text": "아침에 비가 왔습니다." },
+            { "id": "C", "text": "우산이 없었습니다." }
+          ],
+          "answer": {
+            "type": "ordering",
+            "correct_order": ["B", "C", "A"]
+          },
+          "points": 1,
+          "explanation": {
+            "summary": "It rained in the morning → there was no umbrella → so I bought one. 그래서 signals the result.",
+            "grammar": [
+              {
+                "pattern": "그래서",
+                "explanation": "Connects a cause to its result.",
+                "example": "비가 왔습니다. 그래서 우산을 샀습니다."
+              }
+            ]
+          }
+        },
+        {
+          "question_id": "f-003",
+          "order": 3,
+          "skill": "writing",
+          "prompt": "Fill in the blanks: 저는 학교(   ) 갑니다. 도서관(   ) 공부합니다.",
+          "answer": {
+            "type": "cloze",
+            "blanks": [
+              { "accepted_answers": ["에"] },
+              { "accepted_answers": ["에서"] }
+            ]
+          },
+          "points": 2,
+          "explanation": {
+            "summary": "에 marks a destination with 가다; 에서 marks where an action happens.",
+            "grammar": [
+              {
+                "pattern": "N에 가다 / N에서 V",
+                "explanation": "Destination particle versus location-of-action particle.",
+                "example": "학교에 갑니다. 도서관에서 공부합니다."
+              }
+            ],
+            "common_mistakes": [
+              "Using 에서 with 가다 for a destination."
+            ]
+          }
+        },
+        {
+          "question_id": "f-004",
+          "order": 4,
+          "skill": "reading",
+          "prompt": "What does 감사합니다 mean?",
+          "options": [
+            { "id": "A", "text": "Thank you." },
+            { "id": "B", "text": "Excuse me." }
+          ],
+          "answer": {
+            "type": "single_choice",
+            "correct_option_id": "A"
+          },
+          "points": 1,
+          "explanation": {
+            "summary": "감사합니다 is the standard polite way to say thank you."
+          }
+        }
+      ]
+    }
+  ]
+}

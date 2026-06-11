@@ -24,6 +24,7 @@ from .config import config_value, load_config
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
 from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
+from .question_types import response_format_hint
 from .tts import (
     DEFAULT_AUDIO_DIR,
     TTSConfig,
@@ -726,6 +727,9 @@ def print_question(index: int, question: dict[str, Any], show_transcript: bool =
     print(question["prompt"])
     for option in question.get("options", []):
         print(f"  {option['id']}. {option['text']}")
+    hint = response_format_hint(question)
+    if hint:
+        print(f"({hint})")
 
 
 def print_post_answer_transcript(question: dict[str, Any], was_shown_before_answer: bool) -> None:

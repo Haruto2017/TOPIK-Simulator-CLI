@@ -15,6 +15,7 @@ from topik_sim.question_types import (
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE_PACK = ROOT / "examples" / "content" / "topik_i_mini_pack.json"
+FORMATS_PACK = ROOT / "examples" / "content" / "topik_i_formats_pack.json"
 
 
 def _pack_with_question(question):
@@ -89,6 +90,74 @@ class QuestionTypeRegistryTests(unittest.TestCase):
     def test_sample_pack_still_validates_through_registry(self):
         data = json.loads(SAMPLE_PACK.read_text(encoding="utf-8"))
         self.assertEqual(validate_pack_data(data), [])
+
+
+class NewFormatTests(unittest.TestCase):
+    OPTIONS = [
+        {"id": "A", "text": "one"},
+        {"id": "B", "text": "two"},
+        {"id": "C", "text": "three"},
+    ]
+
+    def test_formats_showcase_pack_validates(self):
+        data = json.loads(FORMATS_PACK.read_text(encoding="utf-8"))
+        self.assertEqual(validate_pack_data(data), [])
+
+    def test_multiple_select_grades_order_insensitively(self):
+        question = _question({"type": "multiple_select", "correct_option_ids": ["A", "C"]})
+        question["options"] = self.OPTIONS
+        self.assertTrue(grade_question(question, "C, a")["correct"])
+        self.assertTrue(grade_question(question, "A C")["correct"])
+        self.assertFalse(grade_question(question, "A")["correct"])
+        self.assertFalse(grade_question(question, "A,B,C")["correct"])
+        self.assertFalse(grade_question(question, "")["correct"])
+
+    def test_multiple_select_validation_rejects_unknown_ids(self):
+        question = _question({"type": "multiple_select", "correct_option_ids": ["A", "Z"]})
+        question["options"] = self.OPTIONS
+        errors = validate_pack_data(_pack_with_question(question))
+        self.assertTrue(any("unknown option ids" in error for error in errors))
+
+    def test_ordering_grades_exact_sequence(self):
+        question = _question({"type": "ordering", "correct_order": ["B", "C", "A"]})
+        question["options"] = self.OPTIONS
+        self.assertTrue(grade_question(question, "b,c,a")["correct"])
+        self.assertTrue(grade_question(question, "B C A")["correct"])
+        self.assertFalse(grade_question(question, "A,B,C")["correct"])
+        self.assertFalse(grade_question(question, "B,C")["correct"])
+
+    def test_ordering_validation_rejects_repeats(self):
+        question = _question({"type": "ordering", "correct_order": ["A", "A", "B"]})
+        question["options"] = self.OPTIONS
+        errors = validate_pack_data(_pack_with_question(question))
+        self.assertTrue(any("repeat" in error for error in errors))
+
+    def test_cloze_grades_each_blank(self):
+        question = _question(
+            {
+                "type": "cloze",
+                "blanks": [
+                    {"accepted_answers": ["에"]},
+                    {"accepted_answers": ["에서", "서"]},
+                ],
+            }
+        )
+        self.assertTrue(grade_question(question, "에 / 에서")["correct"])
+        self.assertTrue(grade_question(question, "에/서")["correct"])
+        self.assertFalse(grade_question(question, "에서 / 에")["correct"])
+        self.assertFalse(grade_question(question, "에")["correct"])
+
+    def test_cloze_validation_requires_blanks(self):
+        question = _question({"type": "cloze", "blanks": []})
+        errors = validate_pack_data(_pack_with_question(question))
+        self.assertTrue(any("blanks" in error for error in errors))
+
+    def test_response_format_hints_exist_for_new_types(self):
+        from topik_sim.question_types import response_format_hint
+
+        question = _question({"type": "ordering", "correct_order": ["A", "B"]})
+        self.assertIn("order", response_format_hint(question))
+        self.assertIsNone(response_format_hint(_question({"type": "single_choice", "correct_option_id": "A"})))
 
 
 if __name__ == "__main__":

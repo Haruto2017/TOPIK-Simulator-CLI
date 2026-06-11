@@ -3,6 +3,7 @@ from __future__ import annotations
 import shutil
 from typing import Any
 
+from ..question_types import response_format_hint
 from ..tts import is_listening_question
 from . import ansi
 from .commands import Command
@@ -55,6 +56,9 @@ def question_card(number: int, total: int, question: dict[str, Any], show_transc
     lines.append(ansi.style(str(question.get("prompt", "")), ansi.BOLD))
     for option in question.get("options", []):
         lines.append(f"  {ansi.style(str(option.get('id', '?')), ansi.CYAN)}. {option.get('text', '')}")
+    hint = response_format_hint(question)
+    if hint:
+        lines.append(ansi.style(f"({hint})", ansi.DIM))
     return "\n".join(lines)
 
 

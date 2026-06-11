@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Callable
 
@@ -71,9 +72,110 @@ def _grade_short_answer(question: dict[str, Any], response: str) -> bool:
     return response in accepted
 
 
+def split_option_ids(response: str) -> list[str]:
+    """Parse learner input like "A,C", "a c", or "B/D" into option ids."""
+    return [token.upper() for token in re.split(r"[,;/\s]+", response) if token]
+
+
+def _option_ids(question: dict[str, Any]) -> set[str]:
+    return {
+        str(option.get("id"))
+        for option in question.get("options", [])
+        if isinstance(option, dict) and option.get("id") is not None
+    }
+
+
+def _validate_multiple_select(answer: dict[str, Any], question: dict[str, Any], path: str) -> list[str]:
+    options = question.get("options")
+    if not isinstance(options, list) or not options:
+        return [f"{path}.options must be a non-empty array for multiple_select."]
+    correct = answer.get("correct_option_ids")
+    if not isinstance(correct, list) or not correct:
+        return [f"{path}.answer.correct_option_ids must be a non-empty array for multiple_select."]
+    known = _option_ids(question)
+    missing = [str(item) for item in correct if str(item) not in known]
+    if missing:
+        return [f"{path}.answer.correct_option_ids contains unknown option ids: {missing}."]
+    return []
+
+
+def _grade_multiple_select(question: dict[str, Any], response: str) -> bool:
+    correct = {str(item).upper() for item in question["answer"]["correct_option_ids"]}
+    return set(split_option_ids(response)) == correct
+
+
+def _validate_ordering(answer: dict[str, Any], question: dict[str, Any], path: str) -> list[str]:
+    options = question.get("options")
+    if not isinstance(options, list) or len(options) < 2:
+        return [f"{path}.options must contain at least two entries for ordering."]
+    correct = answer.get("correct_order")
+    if not isinstance(correct, list) or len(correct) < 2:
+        return [f"{path}.answer.correct_order must be an array of at least two option ids."]
+    known = _option_ids(question)
+    missing = [str(item) for item in correct if str(item) not in known]
+    if missing:
+        return [f"{path}.answer.correct_order contains unknown option ids: {missing}."]
+    if len(set(correct)) != len(correct):
+        return [f"{path}.answer.correct_order must not repeat option ids."]
+    return []
+
+
+def _grade_ordering(question: dict[str, Any], response: str) -> bool:
+    correct = [str(item).upper() for item in question["answer"]["correct_order"]]
+    return split_option_ids(response) == correct
+
+
+def _validate_cloze(answer: dict[str, Any], question: dict[str, Any], path: str) -> list[str]:
+    blanks = answer.get("blanks")
+    if not isinstance(blanks, list) or not blanks:
+        return [f"{path}.answer.blanks must be a non-empty array for cloze."]
+    errors: list[str] = []
+    for index, blank in enumerate(blanks):
+        accepted = blank.get("accepted_answers") if isinstance(blank, dict) else None
+        if not isinstance(accepted, list) or not accepted:
+            errors.append(f"{path}.answer.blanks[{index}].accepted_answers must be a non-empty array.")
+    return errors
+
+
+def _grade_cloze(question: dict[str, Any], response: str) -> bool:
+    blanks = question["answer"]["blanks"]
+    parts = [part.strip() for part in re.split(r"[/;|]", response)]
+    parts = [part for part in parts if part]
+    if len(parts) != len(blanks):
+        return False
+    for part, blank in zip(parts, blanks):
+        accepted = {str(value or "").strip() for value in blank["accepted_answers"]}
+        if part not in accepted:
+            return False
+    return True
+
+
 register_question_type(
     QuestionTypeSpec(name="single_choice", validate=_validate_single_choice, grade=_grade_single_choice)
 )
 register_question_type(
     QuestionTypeSpec(name="short_answer", validate=_validate_short_answer, grade=_grade_short_answer)
 )
+register_question_type(
+    QuestionTypeSpec(name="multiple_select", validate=_validate_multiple_select, grade=_grade_multiple_select)
+)
+register_question_type(
+    QuestionTypeSpec(name="ordering", validate=_validate_ordering, grade=_grade_ordering)
+)
+register_question_type(
+    QuestionTypeSpec(name="cloze", validate=_validate_cloze, grade=_grade_cloze)
+)
+
+
+RESPONSE_FORMAT_HINTS = {
+    "multiple_select": "Select all that apply, e.g. A,C",
+    "ordering": "Answer with the order, e.g. C,A,B",
+    "cloze": "Fill the blank(s); separate multiple blanks with /",
+}
+
+
+def response_format_hint(question: dict[str, Any]) -> str | None:
+    answer = question.get("answer")
+    if not isinstance(answer, dict):
+        return None
+    return RESPONSE_FORMAT_HINTS.get(str(answer.get("type")))
