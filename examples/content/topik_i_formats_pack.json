@@ -1,7 +1,7 @@
 {
   "schema_version": "topik-sim.content.v1",
   "pack_id": "topik-i-formats-pack",
-  "pack_version": "0.1.0",
+  "pack_version": "0.2.0",
   "title": "TOPIK I Question Format Showcase",
   "topik_level": "TOPIK_I",
   "language_pair": "ko-en",
@@ -105,6 +105,32 @@
           "points": 1,
           "explanation": {
             "summary": "감사합니다 is the standard polite way to say thank you."
+          }
+        },
+        {
+          "question_id": "f-005",
+          "order": 5,
+          "skill": "writing",
+          "prompt": "주말에 무엇을 했습니까? 두 문장으로 쓰십시오.",
+          "answer": {
+            "type": "essay",
+            "rubric": {
+              "criteria": [
+                { "name": "content", "max_points": 2 },
+                { "name": "grammar", "max_points": 2 }
+              ]
+            }
+          },
+          "points": 4,
+          "explanation": {
+            "summary": "Write two complete sentences about your weekend, e.g. 주말에 친구를 만났습니다. 같이 영화를 봤습니다.",
+            "grammar": [
+              {
+                "pattern": "-았/었습니다",
+                "explanation": "Formal polite past tense.",
+                "example": "친구를 만났습니다."
+              }
+            ]
           }
         }
       ]

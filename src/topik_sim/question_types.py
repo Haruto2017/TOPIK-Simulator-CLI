@@ -18,6 +18,9 @@ class QuestionTypeSpec:
     name: str
     validate: Callable[[dict[str, Any], dict[str, Any], str], list[str]]
     grade: Callable[[dict[str, Any], str], bool]
+    # Manual types (essays) cannot be auto-graded: responses score 0 with
+    # needs_review=True until `review-writing` records rubric scores.
+    manual: bool = False
 
 
 _REGISTRY: dict[str, QuestionTypeSpec] = {}
@@ -167,10 +170,43 @@ register_question_type(
 )
 
 
+def _validate_essay(answer: dict[str, Any], question: dict[str, Any], path: str) -> list[str]:
+    rubric = answer.get("rubric")
+    criteria = rubric.get("criteria") if isinstance(rubric, dict) else None
+    if not isinstance(criteria, list) or not criteria:
+        return [f"{path}.answer.rubric.criteria must be a non-empty array for essay."]
+    errors: list[str] = []
+    total = 0
+    for index, criterion in enumerate(criteria):
+        criterion_path = f"{path}.answer.rubric.criteria[{index}]"
+        if not isinstance(criterion, dict) or not str(criterion.get("name", "")).strip():
+            errors.append(f"{criterion_path}.name is required.")
+            continue
+        max_points = criterion.get("max_points")
+        if not isinstance(max_points, int) or max_points <= 0:
+            errors.append(f"{criterion_path}.max_points must be a positive integer.")
+            continue
+        total += max_points
+    points = question.get("points")
+    if not errors and points is not None and int(points) != total:
+        errors.append(f"{path}.points ({points}) must equal the rubric total ({total}).")
+    return errors
+
+
+def _grade_essay(question: dict[str, Any], response: str) -> bool:
+    return False
+
+
+register_question_type(
+    QuestionTypeSpec(name="essay", validate=_validate_essay, grade=_grade_essay, manual=True)
+)
+
+
 RESPONSE_FORMAT_HINTS = {
     "multiple_select": "Select all that apply, e.g. A,C",
     "ordering": "Answer with the order, e.g. C,A,B",
     "cloze": "Fill the blank(s); separate multiple blanks with /",
+    "essay": "Write freely; scored later with review-writing",
 }
 
 

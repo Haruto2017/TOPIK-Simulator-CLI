@@ -7,18 +7,22 @@ from .question_types import get_question_type
 
 def grade_question(question: dict[str, Any], response: str | None) -> dict[str, Any]:
     answer = question["answer"]
+    spec = get_question_type(answer["type"])
     points = int(question.get("points", 1))
     normalized_response = normalize_answer(response)
-    correct = get_question_type(answer["type"]).grade(question, normalized_response)
+    correct = spec.grade(question, normalized_response)
 
-    return {
+    result = {
         "question_id": question["question_id"],
         "correct": correct,
         "points_awarded": points if correct else 0,
         "max_points": points,
         "response": response or "",
-        "feedback": build_feedback(question, correct),
+        "feedback": build_feedback(question, correct, needs_review=spec.manual),
     }
+    if spec.manual:
+        result["needs_review"] = True
+    return result
 
 
 def grade_answers(pack_data: dict[str, Any], responses: dict[str, str]) -> dict[str, Any]:
@@ -36,9 +40,12 @@ def grade_answers(pack_data: dict[str, Any], responses: dict[str, str]) -> dict[
     }
 
 
-def build_feedback(question: dict[str, Any], correct: bool) -> dict[str, Any]:
+def build_feedback(question: dict[str, Any], correct: bool, needs_review: bool = False) -> dict[str, Any]:
     explanation = question.get("explanation", {})
-    prefix = "Correct." if correct else "Review this item."
+    if needs_review:
+        prefix = "Submitted for manual review (run review-writing to score it)."
+    else:
+        prefix = "Correct." if correct else "Review this item."
     return {
         "summary": f"{prefix} {explanation.get('summary', '')}".strip(),
         "teaching_points": explanation.get("teaching_points", []),

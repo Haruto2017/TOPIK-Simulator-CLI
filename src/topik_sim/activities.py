@@ -7,11 +7,12 @@ from .content import ExamPack
 
 
 def missed_question_ids(attempt: dict[str, Any]) -> list[str]:
+    """Auto-gradable misses; essays pending manual review are not drillable."""
     result = attempt.get("result") or {}
     return [
         item["question_id"]
         for item in result.get("results", [])
-        if not item.get("correct")
+        if not item.get("correct") and not item.get("needs_review")
     ]
 
 

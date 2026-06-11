@@ -141,6 +141,11 @@ def build_parser() -> argparse.ArgumentParser:
     add_tts_arguments(review_parser)
     review_parser.set_defaults(handler=handle_review)
 
+    review_writing = subparsers.add_parser("review-writing", help="Score essay answers in a completed attempt against their rubric.")
+    review_writing.add_argument("attempt", help="Path to a completed attempt JSON file.")
+    review_writing.add_argument("--library", default=library_default, help="Content library directory.")
+    review_writing.set_defaults(handler=handle_review_writing)
+
     review = subparsers.add_parser("review-attempt", help="Review a saved attempt JSON file.")
     review.add_argument("attempt")
     review.set_defaults(handler=handle_review_attempt)
@@ -503,6 +508,70 @@ def handle_review(args: argparse.Namespace) -> int:
     record_review_queue(attempt, args.attempt_dir)
     print_attempt_summary(attempt)
     return 0
+
+
+def handle_review_writing(args: argparse.Namespace) -> int:
+    from .stats import resolve_attempt_pack
+
+    attempt_path = Path(args.attempt)
+    attempt = load_attempt(attempt_path)
+    if attempt.get("status") != "completed":
+        print("review-writing needs a completed attempt. Resume and finish it first.", file=sys.stderr)
+        return 1
+    pack = resolve_attempt_pack(attempt, args.library)
+    if pack is None:
+        print("The attempt's pack could not be loaded from the library or its source path.", file=sys.stderr)
+        return 1
+
+    result = attempt.get("result") or {}
+    pending = [item for item in result.get("results", []) if item.get("needs_review")]
+    if not pending:
+        print("Nothing is awaiting manual review in this attempt.")
+        return 0
+
+    for item in pending:
+        question = find_question(pack, item["question_id"])
+        print(f"\n{question['question_id']}: {question.get('prompt', '')}")
+        passage = str(question.get("passage", "")).strip()
+        if passage:
+            print(passage)
+        print(f"Learner answer: {item.get('response') or '(blank)'}")
+        criteria = question["answer"]["rubric"]["criteria"]
+        scores: dict[str, int] = {}
+        for criterion in criteria:
+            name = str(criterion["name"])
+            max_points = int(criterion["max_points"])
+            scores[name] = prompt_for_score(name, max_points)
+        awarded = min(sum(scores.values()), int(item.get("max_points", 0)))
+        item["manual_scores"] = scores
+        item["points_awarded"] = awarded
+        # Correct means at least half marks; full rigor would demand a perfect essay every time.
+        item["correct"] = awarded * 2 >= int(item.get("max_points", 0))
+        item["needs_review"] = False
+        item["feedback"]["summary"] = f"Scored {awarded}/{item.get('max_points', 0)} by manual review."
+        print(f"Recorded {awarded}/{item.get('max_points', 0)}.")
+
+    result["score"] = sum(int(entry.get("points_awarded", 0)) for entry in result.get("results", []))
+    attempt["result"] = result
+    attempt["updated_at"] = utc_now_iso()
+    save_attempt(attempt, attempt_path)
+    print(f"\nUpdated score: {result['score']}/{result.get('max_score', 0)}")
+    print(f"Saved to: {attempt_path}")
+    return 0
+
+
+def prompt_for_score(name: str, max_points: int) -> int:
+    while True:
+        value = input(f"  {name} (0-{max_points}): ").strip()
+        if value.isdigit() and 0 <= int(value) <= max_points:
+            return int(value)
+        print(f"  Enter a whole number from 0 to {max_points}.")
+
+
+def utc_now_iso() -> str:
+    from datetime import timezone
+
+    return datetime.now(timezone.utc).isoformat()
 
 
 def record_review_queue(attempt: dict[str, Any], attempt_dir: str | Path) -> None:

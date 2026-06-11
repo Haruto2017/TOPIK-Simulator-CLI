@@ -188,6 +188,27 @@ Requirements:
 - Learners separate multiple blanks with `/` (also `;` or `|`), e.g. `에 / 에서`.
 - Grading is all-or-nothing per question; use one blank per question for partial-credit granularity.
 
+### Essay (manual review)
+
+```json
+{
+  "type": "essay",
+  "rubric": {
+    "criteria": [
+      { "name": "content", "max_points": 2 },
+      { "name": "grammar", "max_points": 2 }
+    ]
+  }
+}
+```
+
+Requirements:
+
+- `rubric.criteria` is non-empty; each criterion has a `name` and a positive integer `max_points`.
+- When the question sets `points`, it must equal the rubric total.
+- Essays cannot be auto-graded: the attempt records the response with `needs_review`, awards 0 points, and `python -m topik_sim review-writing <attempt.json>` records per-criterion scores afterwards. An essay counts as correct at half marks or better.
+- Essays are excluded from drills and the spaced-repetition queue.
+
 `examples/content/topik_i_formats_pack.json` demonstrates every answer type.
 
 ## Authoring Rules

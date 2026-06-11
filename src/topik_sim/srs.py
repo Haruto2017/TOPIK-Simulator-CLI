@@ -62,6 +62,8 @@ def record_attempt(queue: dict[str, Any], attempt: dict[str, Any], now: datetime
     changes = 0
 
     for item_result in result.get("results", []):
+        if item_result.get("needs_review"):
+            continue  # essays are scored by humans, not drilled by the queue
         question_id = str(item_result["question_id"])
         key = f"{pack_id}|{question_id}"
         existing = items.get(key)

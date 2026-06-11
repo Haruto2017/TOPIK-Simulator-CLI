@@ -51,7 +51,7 @@ class QuestionTypeRegistryTests(unittest.TestCase):
 
     def test_unknown_type_raises_with_known_types_listed(self):
         with self.assertRaisesRegex(ValueError, "single_choice"):
-            get_question_type("essay")
+            get_question_type("true_false")
 
     def test_duplicate_registration_requires_replace(self):
         spec = get_question_type("single_choice")
@@ -60,7 +60,7 @@ class QuestionTypeRegistryTests(unittest.TestCase):
         register_question_type(spec, replace=True)
 
     def test_unsupported_answer_type_fails_validation(self):
-        pack = _pack_with_question(_question({"type": "essay"}))
+        pack = _pack_with_question(_question({"type": "true_false"}))
         errors = validate_pack_data(pack)
         self.assertTrue(any("answer.type" in error for error in errors))
 
