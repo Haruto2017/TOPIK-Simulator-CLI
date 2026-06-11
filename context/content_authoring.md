@@ -1,6 +1,6 @@
 # Content-Authoring Context
 
-Content authors should load `skills/topik-content-authoring/SKILL.md`, then create JSON exam packs that follow `docs/CONTENT_CONTRACT.md`.
+Content authors should load `skills/topik-content-authoring/SKILL.md`, then create JSON exam packs that follow `docs/CONTENT_CONTRACT.md`. In Claude Code, delegate whole-exam authoring to the `topik-test-author` agent (`.claude/agents/topik-test-author.md`).
 
 Expected workflow:
 
@@ -9,6 +9,7 @@ Expected workflow:
 3. Import it with `python -m topik_sim import-pack <pack.json>`.
 4. Run `python -m topik_sim inspect-content <pack.json>` to review section and question counts.
 5. Optionally run `python -m topik_sim take <pack_id>` to experience the pack.
+6. For listening content, run `python -m topik_sim audio warm <pack_id>@<version>` so first playback is instant (skip if no TTS runtime).
 
 Content pack expectations:
 

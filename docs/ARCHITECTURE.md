@@ -1,14 +1,16 @@
 # Architecture
 
-The simulator is organized around a stable content contract and a small core runtime.
+The simulator is organized around a stable content contract and a small core runtime. `docs/FRAMEWORK.md` describes the extension points in detail.
 
 ## Layers
 
-- CLI: command parsing and user interaction.
+- Frontends: classic CLI flows (`cli.py`) and the interactive shell (`ui/`), both driving the same engine.
+- Session engine: `session.ExamSession` runs present → submit → advance → finalize and saves after every answer.
+- Activities: attempt builders (`exam`, `drill`) that select and order questions.
+- Question types: pluggable validate/grade specs in `question_types.py`.
 - Content loading: JSON parsing and contract validation.
-- Grading: answer normalization, scoring, and correctness.
-- Feedback: teaching-oriented response summaries.
-- TTS: optional local Korean speech synthesis with cached WAV outputs.
+- Grading and feedback: scoring plus teaching-oriented summaries.
+- TTS and audio cache: local Korean synthesis with a content-addressed WAV cache, LRU pruning, warming, and background prefetch (`docs/AUDIO_DESIGN.md`).
 
 ## Data Flow
 
@@ -16,20 +18,15 @@ The simulator is organized around a stable content contract and a small core run
 flowchart LR
     A["Content pack JSON"] --> B["Contract validator"]
     B --> C["Exam pack model"]
-    C --> D["CLI simulation"]
+    C --> G["Activity builder (exam, drill)"]
+    G --> H["ExamSession engine"]
+    H --> D["Shell / CLI frontend"]
     C --> E["Batch grading"]
-    D --> F["Score and teaching feedback"]
+    H --> F["Score and teaching feedback"]
     E --> F
+    H --> I["TTS cache + prefetch"]
 ```
 
 ## Design Choice
 
-The first version uses Python standard-library modules only. This makes the project easy to run in a clean workspace and keeps the content-authoring contract visible.
-
-Future changes can add:
-
-- Rich terminal UI.
-- Local web UI.
-- Listening-section audio playback.
-- Spaced repetition and learner history.
-- Optional AI-assisted feedback for written responses.
+The core uses Python standard-library modules only, so the project runs in a clean workspace and the content contract stays visible. `prompt_toolkit` is an optional enhancement for the shell input line; every frontend degrades to plain `input()` when it is missing.
