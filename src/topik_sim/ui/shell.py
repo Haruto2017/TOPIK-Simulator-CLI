@@ -25,6 +25,8 @@ from .commands import COMMANDS, CommandRegistry
 IDLE = "idle"
 ANSWERING = "answering"
 CONTINUE = "continue"
+FLASH_FRONT = "flash_front"
+FLASH_BACK = "flash_back"
 
 TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
@@ -47,6 +49,7 @@ class Shell:
         audio_enabled: bool = True,
         show_transcript: bool = False,
         prefetcher: AudioPrefetcher | None = None,
+        flashcard_seed: int | None = None,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -64,6 +67,11 @@ class Shell:
         self._hint_index = 0
         self._quit = False
         self._tts_warned = False
+        self._flashcard_seed = flashcard_seed
+        self._flash_deck: list[dict[str, str]] = []
+        self._flash_index = 0
+        self._flash_known = 0
+        self._flash_missed: list[str] = []
 
     # ------------------------------------------------------------- plumbing
 
@@ -107,6 +115,18 @@ class Shell:
                 self.emit("Press Enter for the next question, or /replay to hear it again.")
             else:
                 self._advance()
+        elif self.state == FLASH_FRONT:
+            if text:
+                self.emit("Press Enter to flip the card, or /pause to stop.")
+            else:
+                self._flip_card()
+        elif self.state == FLASH_BACK:
+            if text.lower() in {"y", "yes"}:
+                self._grade_card(True)
+            elif text.lower() in {"n", "no"}:
+                self._grade_card(False)
+            else:
+                self.emit("y if you knew it, n if not.")
         elif text:
             self.emit("No test is running. /take <pack> to start, /help for commands.")
         return not self._quit
@@ -159,6 +179,8 @@ class Shell:
         self.emit("Use /resume <n> or /drill <n>.")
 
     def cmd_take(self, argument: str) -> None:
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
         if not argument:
             self.emit("Usage: /take <pack_id[@version]|path> [section] [limit]")
             return
@@ -227,10 +249,82 @@ class Shell:
         self._present()
 
     def cmd_say(self, argument: str) -> None:
+        if not argument and self.state in {FLASH_FRONT, FLASH_BACK} and self._flash_deck:
+            self._speak([self._flash_deck[self._flash_index]["ko"]], playback=True)
+            return
         if not argument:
             self.emit("Usage: /say <text> — pronounces the sentence without touching your answer.")
             return
         self._speak([argument], playback=True)
+
+    def cmd_flashcards(self, argument: str) -> None:
+        from ..flashcards import build_deck
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        if not argument:
+            self.emit("Usage: /flashcards <pack_id[@version]|path>")
+            return
+        try:
+            pack = self._resolve_pack(argument)
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            suggestions = self._suggest_packs(argument)
+            if suggestions:
+                self.emit(f"Did you mean: {', '.join(suggestions)}?")
+            return
+        deck = build_deck(pack, seed=self._flashcard_seed)
+        if not deck:
+            self.emit("This pack has no vocabulary entries to drill.")
+            return
+        self._flash_deck = deck
+        self._flash_index = 0
+        self._flash_known = 0
+        self._flash_missed = []
+        self.emit(ansi.style(f"Flashcards: {pack.title}", ansi.BOLD))
+        self.emit(f"{len(deck)} card(s) · Enter flips · y/n grades · /say hears it · /pause stops")
+        self._present_card()
+
+    def _present_card(self) -> None:
+        card = self._flash_deck[self._flash_index]
+        self.emit("")
+        self.emit(render.rule(f"Card {self._flash_index + 1}/{len(self._flash_deck)}"))
+        self.emit(ansi.style(card["ko"], ansi.BOLD, ansi.CYAN))
+        self.state = FLASH_FRONT
+
+    def _flip_card(self) -> None:
+        card = self._flash_deck[self._flash_index]
+        note = f" ({card['note']})" if card.get("note") else ""
+        self.emit(f"{card['en']}{note}")
+        self.emit(ansi.style("Knew it? y / n", ansi.GREY))
+        self.state = FLASH_BACK
+
+    def _grade_card(self, known: bool) -> None:
+        card = self._flash_deck[self._flash_index]
+        if known:
+            self._flash_known += 1
+        else:
+            self._flash_missed.append(card["ko"])
+        self._flash_index += 1
+        if self._flash_index >= len(self._flash_deck):
+            self._end_flashcards()
+        else:
+            self._present_card()
+
+    def _end_flashcards(self, early: bool = False) -> None:
+        seen = self._flash_index
+        if early:
+            self.emit(f"Flashcards stopped after {seen}/{len(self._flash_deck)} card(s).")
+        if seen:
+            self.emit(f"Knew {self._flash_known}/{seen}.")
+        if self._flash_missed:
+            self.emit(f"Review again: {', '.join(self._flash_missed)}")
+        self._flash_deck = []
+        self._flash_index = 0
+        self._flash_known = 0
+        self._flash_missed = []
+        self.state = IDLE
 
     def cmd_hint(self, argument: str) -> None:
         if self._active_question is None or self.state != ANSWERING:
@@ -269,6 +363,9 @@ class Shell:
         self._submit("")
 
     def cmd_pause(self, argument: str) -> None:
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
+            return
         if self.session is None:
             self.emit("No test is running.")
             return

@@ -227,6 +227,50 @@ class ShellTests(unittest.TestCase):
             self.feed(shell, [f"/take {pack_path}", "/transcript"])
         self.assertIn("Transcript: 안녕하세요.", "\n".join(output))
 
+    def test_flashcards_flip_grade_and_summarize(self):
+        shell, output, _ = self.make_shell(flashcard_seed=0)
+        self.feed(shell, [f"/flashcards {SAMPLE_PACK}"])
+        text = "\n".join(output)
+        self.assertIn("6 card(s)", text)
+        self.assertIn("Card 1/6", text)
+
+        # Flip and grade every card: know the first three, miss the rest.
+        lines = []
+        for index in range(6):
+            lines.extend(["", "y" if index < 3 else "n"])
+        output.clear()
+        self.feed(shell, lines)
+        text = "\n".join(output)
+        self.assertIn("Card 6/6", text)
+        self.assertIn("Knew 3/6.", text)
+        self.assertIn("Review again:", text)
+        self.assertEqual(shell.state, IDLE)
+
+    def test_flashcards_pause_stops_early(self):
+        shell, output, _ = self.make_shell(flashcard_seed=0)
+        self.feed(shell, [f"/flashcards {SAMPLE_PACK}", "", "y", "/pause"])
+        text = "\n".join(output)
+        self.assertIn("Flashcards stopped after 1/6", text)
+        self.assertEqual(shell.state, IDLE)
+
+    def test_flashcards_say_without_text_speaks_current_card(self):
+        shell, output, _ = self.make_shell(flashcard_seed=0)
+        calls = []
+
+        def fake_synthesize(texts, config):
+            calls.append(list(texts))
+            return []
+
+        with patch("topik_sim.ui.shell.synthesize_many", side_effect=fake_synthesize):
+            self.feed(shell, [f"/flashcards {SAMPLE_PACK}", "/say"])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][0], shell._flash_deck[0]["ko"])
+
+    def test_flashcards_blocked_during_test(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, [f"/take {SAMPLE_PACK}", f"/flashcards {SAMPLE_PACK}"])
+        self.assertIn("Finish or /pause the current test first.", "\n".join(output))
+
     def test_quit_returns_false_to_stop_loop(self):
         shell, output, _ = self.make_shell()
         self.assertTrue(shell.handle_line("/status"))
