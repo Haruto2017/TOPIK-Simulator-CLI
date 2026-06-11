@@ -159,6 +159,30 @@ class ShellTests(unittest.TestCase):
         self.assertEqual(len(drills), 1)
         self.assertEqual(drills[0]["question_ids"], ["r-002"])
 
+    def test_hint_reveals_vocabulary_one_item_at_a_time(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/hint"])
+        self.assertIn("Hints are available while a question", "\n".join(output))
+
+        output.clear()
+        self.feed(shell, [f"/take {SAMPLE_PACK}", "/hint", "/hint", "/hint", "/hint"])
+        text = "\n".join(output)
+        self.assertIn("Hint 1/3: 오늘: today", text)
+        self.assertIn("Hint 3/3", text)
+        self.assertIn("No more hints", text)
+        self.assertEqual(shell.state, ANSWERING)
+
+    def test_take_suggests_close_pack_ids(self):
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/take topik-i-mini-pak"])
+        text = "\n".join(output)
+        self.assertIn("was not found", text)
+        self.assertIn("Did you mean: topik-i-mini-pack?", text)
+        self.assertIn("topik-i-mini-pack@0.1.0", shell.pack_completions())
+
     def test_unknown_command_and_help(self):
         shell, output, _ = self.make_shell()
         self.feed(shell, ["/nope", "/help"])

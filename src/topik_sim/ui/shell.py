@@ -61,6 +61,7 @@ class Shell:
         self._output = output
         self._active_question: dict[str, Any] | None = None
         self._recent_attempts: list[tuple[Path, dict[str, Any]]] = []
+        self._hint_index = 0
         self._quit = False
         self._tts_warned = False
 
@@ -173,6 +174,9 @@ class Shell:
             self.session = ExamSession.start(pack, self.attempt_dir, section_id=section, limit=limit)
         except (ValueError, ContentValidationError, OSError) as exc:
             self.emit(str(exc))
+            suggestions = self._suggest_packs(ref)
+            if suggestions:
+                self.emit(f"Did you mean: {', '.join(suggestions)}?")
             return
         _, total = self.session.progress()
         self.emit(ansi.style(pack.title, ansi.BOLD))
@@ -220,6 +224,22 @@ class Shell:
             self.emit("Usage: /say <text> — pronounces the sentence without touching your answer.")
             return
         self._speak([argument], playback=True)
+
+    def cmd_hint(self, argument: str) -> None:
+        if self._active_question is None or self.state != ANSWERING:
+            self.emit("Hints are available while a question is waiting for an answer.")
+            return
+        vocabulary = (self._active_question.get("explanation") or {}).get("vocabulary", [])
+        if not vocabulary:
+            self.emit("No hints are available for this question.")
+            return
+        if self._hint_index >= len(vocabulary):
+            self.emit("No more hints — you have seen them all.")
+            return
+        item = vocabulary[self._hint_index]
+        self._hint_index += 1
+        note = f" ({item['note']})" if item.get("note") else ""
+        self.emit(f"Hint {self._hint_index}/{len(vocabulary)}: {item.get('ko', '?')}: {item.get('en', '?')}{note}")
 
     def cmd_replay(self, argument: str) -> None:
         if not self.current_audio:
@@ -317,6 +337,7 @@ class Shell:
             self._finish()
             return
         self._active_question = question
+        self._hint_index = 0
         _, total = self.session.progress()
         self.emit("")
         self.emit(render.question_card(self.session.question_number(), total, question, self.show_transcript))
@@ -369,6 +390,31 @@ class Shell:
         if path.exists():
             return load_pack(path)
         return load_pack_ref(ref, self.library_dir)
+
+    def _suggest_packs(self, ref: str) -> list[str]:
+        from difflib import get_close_matches
+
+        try:
+            packs = list_packs(self.library_dir)
+        except (OSError, ValueError, KeyError):
+            return []
+        wanted = ref.split("@", 1)[0]
+        pack_ids = sorted({str(pack["pack_id"]) for pack in packs})
+        return get_close_matches(wanted, pack_ids, n=3, cutoff=0.5)
+
+    def pack_completions(self) -> list[str]:
+        """Pack ids (plus pinned refs) offered by /take autocompletion."""
+        try:
+            packs = list_packs(self.library_dir)
+        except (OSError, ValueError, KeyError):
+            return []
+        refs: list[str] = []
+        for pack in packs:
+            pack_id = str(pack.get("pack_id", ""))
+            if pack_id and pack_id not in refs:
+                refs.append(pack_id)
+            refs.append(f"{pack_id}@{pack.get('pack_version', '')}")
+        return refs
 
     def _resolve_pack_for_attempt(self, attempt: dict[str, Any]) -> ExamPack:
         """Prefer the library, but fall back to the source file the attempt was started from."""
@@ -453,7 +499,7 @@ class PromptToolkitFrontend:
         history_path.parent.mkdir(parents=True, exist_ok=True)
         self._session = PromptSession(
             history=FileHistory(str(history_path)),
-            completer=_make_completer(shell.registry),
+            completer=_make_completer(shell),
             complete_while_typing=True,
             bottom_toolbar=shell.status_line,
         )
@@ -462,24 +508,31 @@ class PromptToolkitFrontend:
         return self._session.prompt("❯ ")
 
 
-def _make_completer(registry: CommandRegistry):
+def _make_completer(shell: Shell):
     from prompt_toolkit.completion import Completer, Completion
 
     class SlashCompleter(Completer):
         def get_completions(self, document, complete_event):
             text = document.text_before_cursor
-            if not text.startswith("/") or " " in text:
+            if not text.startswith("/"):
                 return
-            for command in registry.all():
-                for token in command.tokens():
-                    if token.startswith(text.lower()):
-                        yield Completion(
-                            token,
-                            start_position=-len(text),
-                            display=token,
-                            display_meta=command.description,
-                        )
-                        break
+            if " " not in text:
+                for command in shell.registry.all():
+                    for token in command.tokens():
+                        if token.startswith(text.lower()):
+                            yield Completion(
+                                token,
+                                start_position=-len(text),
+                                display=token,
+                                display_meta=command.description,
+                            )
+                            break
+                return
+            command_token, _, argument = text.partition(" ")
+            if command_token.lower() == "/take" and " " not in argument:
+                for ref in shell.pack_completions():
+                    if ref.startswith(argument):
+                        yield Completion(ref, start_position=-len(argument), display=ref)
 
     return SlashCompleter()
 

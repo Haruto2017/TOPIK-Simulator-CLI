@@ -26,6 +26,7 @@ COMMANDS: list[Command] = [
     Command("attempts", "cmd_attempts", "/attempts", "List recent attempts."),
     Command("packs", "cmd_packs", "/packs", "List imported content packs."),
     Command("say", "cmd_say", "/say <korean text>", "Pronounce any sentence aloud; does not touch your answer.", ("speak",)),
+    Command("hint", "cmd_hint", "/hint", "Reveal one vocabulary hint for the current question."),
     Command("replay", "cmd_replay", "/replay", "Play the current question audio again.", ("r",)),
     Command("transcript", "cmd_transcript", "/transcript", "Reveal the transcript of the current listening question.", ("t",)),
     Command("skip", "cmd_skip", "/skip", "Submit a blank answer for the current question."),
