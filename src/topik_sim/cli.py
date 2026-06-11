@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -449,8 +450,10 @@ def run_attempt_questions(
                 playback=listening_audio or tts_play,
             )
         print_question(index, question, show_transcript=show_transcript)
+        question_started = time.monotonic()
         response = prompt_for_answer(question_audio_paths, volume=tts_config.volume)
-        attempt = answer_question(attempt, pack, response)
+        duration = time.monotonic() - question_started
+        attempt = answer_question(attempt, pack, response, duration_seconds=duration)
         save_attempt(attempt, save_path)
         result = grade_question(question, response)
         print("Correct.\n" if result["correct"] else "Not quite.\n")
@@ -804,6 +807,10 @@ def print_attempt_summary(attempt: dict[str, Any]) -> None:
     print(f"Final score: {score}/{max_score}")
     print(f"Status: {attempt['status']}")
     print(f"Progress: {answered_count}/{total_count} answered")
+    elapsed = float(attempt.get("elapsed_seconds") or 0.0)
+    if elapsed and answered_count:
+        minutes, seconds = divmod(int(elapsed), 60)
+        print(f"Time: {minutes:02d}:{seconds:02d} ({elapsed / answered_count:.0f}s/question)")
     print(f"Attempt ID: {attempt['attempt_id']}")
 
 

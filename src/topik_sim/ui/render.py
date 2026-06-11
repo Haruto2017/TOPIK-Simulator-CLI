@@ -101,6 +101,11 @@ def continue_hint() -> str:
     return ansi.style("Enter → next · /replay hear again · /transcript · /pause save & leave", ansi.GREY)
 
 
+def format_clock(seconds: float) -> str:
+    total = max(0, int(seconds))
+    return f"{total // 60:02d}:{total % 60:02d}"
+
+
 def summary_panel(attempt: dict[str, Any]) -> str:
     result = attempt.get("result") or {}
     answered = len(attempt.get("answers", []))
@@ -112,8 +117,15 @@ def summary_panel(attempt: dict[str, Any]) -> str:
         f"Score: {ansi.style(f'{score}/{max_score}', ansi.BOLD, ansi.CYAN)}",
         f"Progress: {answered}/{total} answered",
         f"Activity: {attempt.get('activity', 'exam')}",
-        f"Attempt: {attempt.get('attempt_id', '?')}",
     ]
+    elapsed = float(attempt.get("elapsed_seconds") or 0.0)
+    if elapsed and answered:
+        pace = f"Time: {format_clock(elapsed)} · {elapsed / answered:.0f}s/question"
+        limit = attempt.get("time_limit_minutes")
+        if limit:
+            pace += f" · limit {format_clock(float(limit) * 60)}"
+        lines.append(pace)
+    lines.append(f"Attempt: {attempt.get('attempt_id', '?')}")
     return "\n".join(lines)
 
 

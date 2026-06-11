@@ -21,11 +21,14 @@ def create_attempt(
     question_ids: list[str] | None = None,
     activity: str = "exam",
 ) -> dict[str, Any]:
+    time_limit_minutes = None
     if question_ids is None:
         questions = pack.questions(section_id=section_id)
         if limit is not None:
             questions = questions[:limit]
         question_ids = [question["question_id"] for question in questions]
+        if limit is None:
+            time_limit_minutes = pack_time_limit_minutes(pack, section_id)
     else:
         for question_id in question_ids:
             find_question(pack, question_id)
@@ -42,13 +45,33 @@ def create_attempt(
         "started_at": now,
         "updated_at": now,
         "completed_at": None,
+        "time_limit_minutes": time_limit_minutes,
+        "elapsed_seconds": 0,
         "question_ids": question_ids,
         "answers": [],
         "result": None,
     }
 
 
-def answer_question(attempt: dict[str, Any], pack: ExamPack, response: str) -> dict[str, Any]:
+def pack_time_limit_minutes(pack: ExamPack, section_id: str | None = None) -> float | None:
+    total = 0.0
+    found = False
+    for section in pack.sections:
+        if section_id and section["section_id"] != section_id:
+            continue
+        limit = section.get("time_limit_minutes")
+        if isinstance(limit, (int, float)):
+            total += float(limit)
+            found = True
+    return total if found else None
+
+
+def answer_question(
+    attempt: dict[str, Any],
+    pack: ExamPack,
+    response: str,
+    duration_seconds: float | None = None,
+) -> dict[str, Any]:
     if attempt["status"] == "completed":
         raise ValueError("Cannot answer a completed attempt.")
 
@@ -63,13 +86,15 @@ def answer_question(attempt: dict[str, Any], pack: ExamPack, response: str) -> d
 
     question = find_question(pack, next_question_id)
     attempt = clone_attempt(attempt)
-    attempt["answers"].append(
-        {
-            "question_id": question["question_id"],
-            "response": response,
-            "answered_at": utc_now(),
-        }
-    )
+    answer: dict[str, Any] = {
+        "question_id": question["question_id"],
+        "response": response,
+        "answered_at": utc_now(),
+    }
+    if duration_seconds is not None:
+        answer["duration_seconds"] = round(duration_seconds, 1)
+        attempt["elapsed_seconds"] = round(float(attempt.get("elapsed_seconds") or 0.0) + duration_seconds, 1)
+    attempt["answers"].append(answer)
     attempt["updated_at"] = utc_now()
     return attempt
 

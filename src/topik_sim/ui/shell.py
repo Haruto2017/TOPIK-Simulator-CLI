@@ -79,9 +79,16 @@ class Shell:
             return f" idle · /take <pack> to start · TTS {tts_state} · /help "
         answered, total = self.session.progress()
         earned, available = self.session.running_score()
+        timer = ""
+        remaining = self.session.remaining_seconds()
+        if remaining is not None:
+            if remaining >= 0:
+                timer = f" · {render.format_clock(remaining)} left"
+            else:
+                timer = f" · over by {render.format_clock(-remaining)}"
         return (
             f" {self.session.pack.pack_id} · Q{min(answered + 1, total)}/{total}"
-            f" · score {earned}/{available} · TTS {tts_state} · /help "
+            f" · score {earned}/{available}{timer} · TTS {tts_state} · /help "
         )
 
     def handle_line(self, line: str) -> bool:
@@ -346,6 +353,7 @@ class Shell:
             texts = collect_question_speech_texts(question, include_prompt=False)
             self.current_audio = self._speak(texts, playback=True)
         self._prefetch_next()
+        self.session.mark_presented()
         self.state = ANSWERING
 
     def _submit(self, response: str) -> None:

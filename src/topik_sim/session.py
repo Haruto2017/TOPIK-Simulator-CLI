@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +31,7 @@ class ExamSession:
         self.pack = pack
         self.attempt = attempt
         self.attempt_path = Path(attempt_path)
+        self._presented_at: float | None = None
 
     @classmethod
     def start(
@@ -91,11 +93,38 @@ class ExamSession:
     def has_remaining(self) -> bool:
         return bool(remaining_question_ids(self.attempt))
 
+    def mark_presented(self) -> None:
+        """Start the per-question timer; called when the question is shown."""
+        self._presented_at = time.monotonic()
+
+    def current_question_seconds(self) -> float:
+        if self._presented_at is None:
+            return 0.0
+        return max(0.0, time.monotonic() - self._presented_at)
+
+    def time_limit_seconds(self) -> float | None:
+        limit = self.attempt.get("time_limit_minutes")
+        if not limit:
+            return None
+        return float(limit) * 60
+
+    def remaining_seconds(self) -> float | None:
+        """Seconds left against the pack time limit; negative when overtime."""
+        limit = self.time_limit_seconds()
+        if limit is None:
+            return None
+        elapsed = float(self.attempt.get("elapsed_seconds") or 0.0) + self.current_question_seconds()
+        return limit - elapsed
+
     def submit(self, response: str) -> dict[str, Any]:
         question = self.current_question()
         if question is None:
             raise ValueError("No question is awaiting an answer.")
-        self.attempt = answer_question(self.attempt, self.pack, response)
+        duration = None
+        if self._presented_at is not None:
+            duration = max(0.0, time.monotonic() - self._presented_at)
+            self._presented_at = None
+        self.attempt = answer_question(self.attempt, self.pack, response, duration_seconds=duration)
         save_attempt(self.attempt, self.attempt_path)
         return grade_question(question, response)
 
