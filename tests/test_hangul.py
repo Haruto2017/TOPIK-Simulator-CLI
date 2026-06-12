@@ -80,6 +80,28 @@ class TypingDrillTests(unittest.TestCase):
         vocab = {"오늘", "날씨", "좋다", "도서관", "책", "읽다"}
         self.assertTrue(vocab & set(items))
 
+    def test_library_vocabulary_feeds_word_stage_without_pack(self):
+        from topik_sim.library import import_pack
+        from topik_sim.typing_drill import library_vocabulary
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            library_dir = Path(temp_dir) / "library"
+            import_pack(SAMPLE_PACK, library_dir)
+
+            words = library_vocabulary(library_dir)
+            vocab = {"오늘", "날씨", "좋다", "도서관", "책", "읽다"}
+            self.assertEqual(set(words), vocab)
+
+            items = build_typing_items(seed=0, count=12, library_dir=library_dir)
+            self.assertTrue(vocab & set(items))
+            first = build_typing_items(seed=0, count=12, library_dir=library_dir)
+            self.assertEqual(items, first)
+
+    def test_empty_library_falls_back_to_syllables(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            items = build_typing_items(seed=0, count=9, library_dir=Path(temp_dir) / "nope")
+            self.assertEqual(len(items), 9)  # no crash, random-syllable words instead
+
     def test_normalize_typed_handles_nfd_input(self):
         composed = "한"
         decomposed = "한"  # NFD jamo sequence
@@ -125,6 +147,16 @@ class TypingShellTests(unittest.TestCase):
         self.assertIn("Typed 2/3 correctly.", text)
         self.assertIn("Practice again:", text)
         self.assertEqual(shell.state, IDLE)
+
+    def test_typing_without_pack_uses_library_words(self):
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output = self.make_shell()
+        shell.handle_line("/typing 12")
+        vocab = {"오늘", "날씨", "좋다", "도서관", "책", "읽다"}
+        self.assertTrue(vocab & set(shell._typing_items))
+        shell.handle_line("/pause")
 
     def test_typing_pause_stops_early(self):
         shell, output = self.make_shell()

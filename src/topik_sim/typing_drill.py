@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import random
 import unicodedata
+from pathlib import Path
 
 from .content import ExamPack
 from .flashcards import build_deck
@@ -26,16 +27,35 @@ def _is_pure_hangul(word: str) -> bool:
     return bool(word) and all(decompose_syllable(char) is not None for char in word)
 
 
+def library_vocabulary(library_dir: str | Path) -> list[str]:
+    """Every vocabulary word taught by any imported pack, deduplicated."""
+    from .library import list_packs, load_pack_ref
+
+    try:
+        entries = list_packs(library_dir)
+    except (OSError, ValueError, KeyError):
+        return []
+    words: list[str] = []
+    for entry in entries:
+        try:
+            pack = load_pack_ref(f"{entry['pack_id']}@{entry['pack_version']}", library_dir)
+        except (OSError, ValueError, KeyError):
+            continue
+        words.extend(card["ko"] for card in build_deck(pack, seed=0))
+    return [word for word in dict.fromkeys(words) if _is_pure_hangul(word)]
+
+
 def build_typing_items(
     seed: int | None = None,
     pack: ExamPack | None = None,
     count: int = 12,
+    library_dir: str | Path | None = None,
 ) -> list[str]:
     """Drill items ramping jamo → syllables → words.
 
-    Words come from the pack's vocabulary when one is given; without a pack
-    the word stage uses random two-syllable combinations (typing practice,
-    not vocabulary).
+    The word stage uses real vocabulary: from the given pack, or from every
+    imported pack when only a library is given. Random two-syllable
+    combinations are the last resort when no vocabulary exists.
     """
     count = max(3, count)
     rng = random.Random(seed)
@@ -52,6 +72,10 @@ def build_typing_items(
     words: list[str] = []
     if pack is not None:
         words = [card["ko"] for card in build_deck(pack, seed=seed) if _is_pure_hangul(card["ko"])]
+    elif library_dir is not None:
+        vocabulary = library_vocabulary(library_dir)
+        if vocabulary:
+            words = rng.sample(vocabulary, min(word_count, len(vocabulary)))
     while len(words) < word_count:
         words.append(_random_syllable(rng) + _random_syllable(rng))
     items.extend(words[:word_count])

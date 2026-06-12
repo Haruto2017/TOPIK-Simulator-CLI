@@ -27,7 +27,7 @@ Slash commands:
 - `/review [pack]`: spaced-repetition session over due previously-missed questions (see `review`).
 - `/flashcards <pack>` (alias `/cards`): vocabulary card drill built from the pack's teaching notes; Enter flips, y/n grades.
 - `/dictation <pack> [limit]`: hear listening transcripts and type them; diff-based feedback with accuracy percentages.
-- `/typing [pack] [count]`: Korean keyboard trainer ramping jamo → syllables → words (pack vocabulary when a pack is given). A miss reveals the 두벌식 keystrokes.
+- `/typing [pack] [count]`: Korean keyboard trainer ramping jamo → syllables → real words. The word stage uses the given pack's vocabulary, or the union of every imported pack's vocabulary when no pack is named; random syllables are only the empty-library fallback. A miss reveals the 두벌식 keystrokes.
 - `/keyboard [on|off|pin|unpin]` (alias `/kb`): print the 두벌식 layout chart. `on` enables keyboard mode: a compact chart is pinned to the bottom toolbar — hovering above the input line, never scrolled away — and keystroke hints (`Keys: skf·Tl`, uppercase = Shift) render consistently in dictation feedback, flashcard backs, and `/typing` misses. `pin`/`unpin` control just the docked chart. The hovering chart needs the prompt_toolkit frontend; the plain fallback prints the chart inline only. Defaults from `shell.keyboard_hints` / `shell.keyboard_pinned` in the config.
 - `/attempts`, `/packs`: list saved attempts / imported packs.
 - `/say <text>` (alias `/speak`): pronounce any sentence aloud without affecting the current answer. With no text during flashcards, speaks the current card.

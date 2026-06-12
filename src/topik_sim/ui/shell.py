@@ -378,7 +378,12 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
-        self._typing_items = build_typing_items(seed=self._flashcard_seed, pack=pack, count=count)
+        self._typing_items = build_typing_items(
+            seed=self._flashcard_seed,
+            pack=pack,
+            count=count,
+            library_dir=None if pack else self.library_dir,
+        )
         self._typing_index = 0
         self._typing_hits = 0
         self._typing_missed = []
