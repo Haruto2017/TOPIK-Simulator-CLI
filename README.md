@@ -16,7 +16,7 @@ $env:PYTHONPATH = "src"
 python -m topik_sim
 ```
 
-This opens a persistent prompt styled after modern agent CLIs: history, slash-command autocompletion (with `prompt_toolkit`), and a status toolbar. Plain input answers the current question; anything starting with `/` is a command and never counts as an answer:
+This opens a persistent prompt styled after modern agent CLIs: history, slash-command autocompletion (with `prompt_toolkit`), and a status toolbar. **New here? Just press Enter** — a numbered menu walks you through everything by area (Take a test / Practice / Progress / Settings). Plain input answers the current question; anything starting with `/` is a command and never counts as an answer:
 
 - `/take topik-i-level-1-full-sample` — start a test (pack ids autocomplete); `/resume`, `/pause`, `/attempts`
 - `/say 안녕하세요` — pronounce any sentence mid-question; `/hint` reveals one vocabulary item

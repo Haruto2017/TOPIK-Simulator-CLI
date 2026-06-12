@@ -18,8 +18,8 @@ def banner() -> str:
     inner = width - 4
     rows = [
         "TOPIK Simulator",
-        "/take <pack> start a test   /say <text> pronounce a sentence",
-        "/help all commands          slash input is never your answer",
+        "Press Enter to open the menu and explore everything",
+        "/take starts a test · /help lists commands · / is never an answer",
     ]
     lines = ["╭" + "─" * (width - 2) + "╮"]
     for index, row in enumerate(rows):
@@ -183,14 +183,38 @@ def summary_panel(attempt: dict[str, Any]) -> str:
 
 
 def help_table(commands: list[Command]) -> str:
+    from .commands import commands_by_category
+
     usage_width = max(len(command.usage) for command in commands)
-    lines = [rule("Commands")]
-    for command in commands:
-        aliases = f" (also {', '.join('/' + alias for alias in command.aliases)})" if command.aliases else ""
-        lines.append(f"  {ansi.style(command.usage.ljust(usage_width), ansi.CYAN)}  {command.description}{aliases}")
+    lines = []
+    for category, group in commands_by_category(commands):
+        lines.append(rule(category))
+        for command in group:
+            aliases = f" (also {', '.join('/' + alias for alias in command.aliases)})" if command.aliases else ""
+            lines.append(f"  {ansi.style(command.usage.ljust(usage_width), ansi.CYAN)}  {command.description}{aliases}")
     lines.append("")
     lines.append(ansi.style("/help <command> explains its arguments with examples, e.g. /help typing.", ansi.BOLD))
     lines.append("Anything not starting with / is treated as your answer to the current question.")
+    return "\n".join(lines)
+
+
+def menu_panel(categories: list[tuple[str, list[Command]]]) -> str:
+    lines = [rule("Menu — what would you like to do?")]
+    for index, (category, group) in enumerate(categories, start=1):
+        preview = " · ".join(f"/{command.name}" for command in group[:4])
+        if len(group) > 4:
+            preview += " · …"
+        lines.append(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {category}  {ansi.style(preview, ansi.GREY)}")
+    lines.append("Type a number, or press Enter to close. Slash commands always work.")
+    return "\n".join(lines)
+
+
+def menu_category_panel(category: str, group: list[Command]) -> str:
+    lines = [rule(category)]
+    for index, command in enumerate(group, start=1):
+        lines.append(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {ansi.style(command.usage, ansi.CYAN)}")
+        lines.append(f"     {command.description}")
+    lines.append("Type a number to run it, or press Enter to go back.")
     return "\n".join(lines)
 
 

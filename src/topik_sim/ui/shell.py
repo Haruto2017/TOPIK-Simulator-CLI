@@ -30,6 +30,9 @@ FLASH_BACK = "flash_back"
 DICTATION = "dictation"
 TYPING = "typing"
 PICK = "pick"
+PICK_PACK = "pick_pack"
+MENU = "menu"
+MENU_CATEGORY = "menu_category"
 
 TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
@@ -83,6 +86,10 @@ class Shell:
         self._dictation_perfect = 0
         self._pick_entries: list[tuple[Path, dict[str, Any]]] = []
         self._pick_action: str | None = None
+        self._pack_pick_refs: list[str] = []
+        self._pack_pick_action: str | None = None
+        self._menu_categories: list[tuple[str, list[Any]]] = []
+        self._menu_group: list[Any] = []
         self.keyboard_hints = keyboard_hints
         self.keyboard_pinned = keyboard_pinned
         self._typing_items: list[str] = []
@@ -109,7 +116,7 @@ class Shell:
     def _status_text(self) -> str:
         tts_state = self.tts_config.provider if self.audio_enabled else "off"
         if self.session is None:
-            return f" idle · /take <pack> to start · TTS {tts_state} · /help "
+            return f" idle · Enter = menu · /take starts a test · TTS {tts_state} · /help "
         answered, total = self.session.progress()
         earned, available = self.session.running_score()
         timer = ""
@@ -164,8 +171,16 @@ class Shell:
                 self.emit("Type the shown text, or /pause to stop.")
         elif self.state == PICK:
             self._handle_pick(text)
+        elif self.state == PICK_PACK:
+            self._handle_pack_pick(text)
+        elif self.state == MENU:
+            self._handle_menu(text)
+        elif self.state == MENU_CATEGORY:
+            self._handle_menu_category(text)
         elif text:
-            self.emit("No test is running. /take <pack> to start, /help for commands.")
+            self.emit("No test is running. Press Enter for the menu, or /help for commands.")
+        else:
+            self.cmd_menu("")
         return not self._quit
 
     def _dispatch(self, text: str) -> None:
@@ -181,6 +196,43 @@ class Shell:
         getattr(self, command.handler_name)(argument.strip())
 
     # ------------------------------------------------------------- commands
+
+    def cmd_menu(self, argument: str) -> None:
+        from .commands import commands_by_category
+
+        if self.state not in {IDLE, MENU, MENU_CATEGORY}:
+            self.emit("Finish the current activity first — /pause leaves it safely.")
+            return
+        self._menu_categories = commands_by_category(self.registry.all())
+        self._menu_group = []
+        self.emit(render.menu_panel(self._menu_categories))
+        self.state = MENU
+
+    def _handle_menu(self, text: str) -> None:
+        if not text:
+            self.emit("Menu closed.")
+            self.state = IDLE
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._menu_categories):
+            category, group = self._menu_categories[int(text) - 1]
+            self._menu_group = group
+            self.emit(render.menu_category_panel(category, group))
+            self.state = MENU_CATEGORY
+            return
+        self.emit(f"Type a number from 1 to {len(self._menu_categories)}, or press Enter to close.")
+
+    def _handle_menu_category(self, text: str) -> None:
+        if not text:
+            self.cmd_menu("")
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._menu_group):
+            command = self._menu_group[int(text) - 1]
+            self.state = IDLE
+            self._menu_group = []
+            self.emit(ansi.style(f"→ /{command.name}", ansi.GREY))
+            getattr(self, command.handler_name)("")
+            return
+        self.emit(f"Type a number from 1 to {len(self._menu_group)}, or press Enter to go back.")
 
     def cmd_help(self, argument: str) -> None:
         if argument:
@@ -222,7 +274,9 @@ class Shell:
     def cmd_take(self, argument: str) -> None:
         self._end_minigames()
         if not argument:
-            self.emit("Usage: /take <pack_id[@version]|path> [section] [limit]")
+            if not self._open_pack_picker("take"):
+                self.emit("Usage: /take <pack_id[@version]|path> [section] [limit]")
+                self.emit("No packs are imported yet: python -m topik_sim import-pack <pack.json>")
             return
         try:
             # posix=False keeps Windows path backslashes intact; quotes still group.
@@ -457,7 +511,8 @@ class Shell:
             return
         self._end_minigames()
         if not argument:
-            self.emit("Usage: /flashcards <pack_id[@version]|path>")
+            if not self._open_pack_picker("flashcards"):
+                self.emit("Usage: /flashcards <pack_id[@version]|path> (no packs imported yet)")
             return
         try:
             pack = self._resolve_pack(argument)
@@ -487,7 +542,8 @@ class Shell:
             return
         self._end_minigames()
         if not argument:
-            self.emit("Usage: /dictation <pack_id[@version]|path> [limit]")
+            if not self._open_pack_picker("dictation"):
+                self.emit("Usage: /dictation <pack_id[@version]|path> [limit] (no packs imported yet)")
             return
         parts = argument.split()
         ref = parts[0]
@@ -884,6 +940,46 @@ class Shell:
         self.emit("Type the number, or press Enter to cancel.")
         self.state = PICK
         return None
+
+    def _open_pack_picker(self, action: str) -> bool:
+        """Numbered pack chooser for no-argument /take, /flashcards, /dictation."""
+        if self.session is not None:
+            return False
+        try:
+            packs = list_packs(self.library_dir)
+        except (OSError, ValueError, KeyError):
+            packs = []
+        if not packs:
+            return False
+        self._pack_pick_refs = [f"{pack['pack_id']}@{pack['pack_version']}" for pack in packs]
+        self._pack_pick_action = action
+        self.emit(render.rule(f"Pick a pack to {action}"))
+        for index, pack in enumerate(packs, start=1):
+            meta = f"{self._pack_pick_refs[index - 1]} · {pack.get('question_count', '?')} question(s)"
+            self.emit(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {pack['title']}  {ansi.style(meta, ansi.GREY)}")
+        self.emit("Type the number, or press Enter to cancel.")
+        self.state = PICK_PACK
+        return True
+
+    def _handle_pack_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._clear_pack_pick()
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._pack_pick_refs):
+            ref = self._pack_pick_refs[int(text) - 1]
+            action = self._pack_pick_action
+            self._clear_pack_pick()
+            handler = {"take": self.cmd_take, "flashcards": self.cmd_flashcards, "dictation": self.cmd_dictation}[action]
+            handler(ref)
+            return
+        self.emit(f"Type a number from 1 to {len(self._pack_pick_refs)}, or press Enter to cancel.")
+
+    def _clear_pack_pick(self) -> None:
+        self._pack_pick_refs = []
+        self._pack_pick_action = None
+        if self.state == PICK_PACK:
+            self.state = IDLE
 
     def _handle_pick(self, text: str) -> None:
         if not text:

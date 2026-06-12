@@ -19,9 +19,15 @@ python -m topik_sim shell [--library <dir>] [--attempt-dir <dir>] [--show-transc
 python -m topik_sim   # same as: shell
 ```
 
+First-time navigation:
+
+- Pressing Enter at an idle prompt (or `/menu`, alias `/m`) opens a numbered menu of functional areas — Take a test, Practice, Progress, Library & settings, While answering, Shell. Picking a number drills into that area's commands; picking again runs one. Enter goes back, then closes. Slash commands keep working at every level.
+- `/help` lists commands grouped by the same categories.
+- `/take`, `/flashcards`, and `/dictation` with no argument open a numbered pack picker instead of demanding a pack id.
+
 Slash commands:
 
-- `/take <pack> [section] [limit]`: start a test from a library ref or pack file. Pack ids autocomplete; typos get close-match suggestions.
+- `/take [pack] [section] [limit]`: start a test from a library ref or pack file; with no argument a pack picker opens. Pack ids autocomplete; typos get close-match suggestions.
 - `/resume [n|path]`: resume an in-progress attempt. With no argument and several candidates, an interactive numbered picker opens (type the number, Enter cancels); a single candidate resumes directly. Tab after `/resume ` completes attempt numbers with status and progress.
 - `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt. Same picker and completion behavior as `/resume`, over completed attempts.
 - `/review [pack]`: spaced-repetition session over due previously-missed questions (see `review`).

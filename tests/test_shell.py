@@ -378,6 +378,100 @@ class ShellTests(unittest.TestCase):
         self.feed(shell, [f"/take {SAMPLE_PACK}", f"/flashcards {SAMPLE_PACK}"])
         self.assertIn("Finish or /pause the current test first.", "\n".join(output))
 
+    def test_enter_at_idle_opens_menu_and_navigates_to_a_command(self):
+        from topik_sim.ui.shell import MENU, MENU_CATEGORY
+
+        shell, output, _ = self.make_shell()
+        self.feed(shell, [""])
+        text = "\n".join(output)
+        self.assertEqual(shell.state, MENU)
+        self.assertIn("Take a test", text)
+        self.assertIn("Practice", text)
+        self.assertIn("/take", text)
+
+        output.clear()
+        self.feed(shell, ["3"])  # Progress
+        text = "\n".join(output)
+        self.assertEqual(shell.state, MENU_CATEGORY)
+        self.assertIn("/stats", text)
+
+        output.clear()
+        self.feed(shell, ["3"])  # /stats inside Progress
+        text = "\n".join(output)
+        self.assertIn("→ /stats", text)
+        self.assertIn("No completed attempts yet", text)
+        self.assertEqual(shell.state, IDLE)
+
+    def test_menu_enter_goes_back_then_closes(self):
+        from topik_sim.ui.shell import MENU
+
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["", "1", ""])  # open, into category, back
+        self.assertEqual(shell.state, MENU)
+        self.feed(shell, [""])
+        self.assertIn("Menu closed.", "\n".join(output))
+        self.assertEqual(shell.state, IDLE)
+
+    def test_menu_blocked_during_question(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, [f"/take {SAMPLE_PACK}", "/menu"])
+        self.assertIn("Finish the current activity first", "\n".join(output))
+        self.assertEqual(shell.state, ANSWERING)
+
+    def test_take_without_argument_opens_pack_picker(self):
+        from topik_sim.library import import_pack
+        from topik_sim.ui.shell import PICK_PACK
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/take"])
+        text = "\n".join(output)
+        self.assertEqual(shell.state, PICK_PACK)
+        self.assertIn("Pick a pack to take", text)
+        self.assertIn("topik-i-mini-pack@0.1.0", text)
+
+        output.clear()
+        self.feed(shell, ["1"])
+        text = "\n".join(output)
+        self.assertIn("Question 1/2", text)
+        self.assertEqual(shell.state, ANSWERING)
+
+    def test_pack_picker_cancel_and_empty_library(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/take"])  # empty library: no picker, usage instead
+        self.assertIn("No packs are imported yet", "\n".join(output))
+        self.assertEqual(shell.state, IDLE)
+
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        output.clear()
+        self.feed(shell, ["/flashcards", ""])
+        text = "\n".join(output)
+        self.assertIn("Pick a pack to flashcards", text)
+        self.assertIn("Cancelled.", text)
+        self.assertEqual(shell.state, IDLE)
+
+    def test_dictation_without_argument_uses_picker(self):
+        from topik_sim.library import import_pack
+        from topik_sim.ui.shell import PICK_PACK
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/dictation"])
+        self.assertEqual(shell.state, PICK_PACK)
+        self.feed(shell, ["1"])
+        # The mini pack has no listening transcripts, so dictation reports that.
+        self.assertIn("no listening transcripts", "\n".join(output))
+
+    def test_help_is_grouped_by_category(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/help"])
+        text = "\n".join(output)
+        for category in ("Take a test", "Practice", "Progress", "Library & settings", "While answering", "Shell"):
+            self.assertIn(category, text)
+        self.assertIn("/menu", text)
+
     def test_quit_returns_false_to_stop_loop(self):
         shell, output, _ = self.make_shell()
         self.assertTrue(shell.handle_line("/status"))
