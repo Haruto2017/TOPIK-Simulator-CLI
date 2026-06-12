@@ -189,5 +189,18 @@ def help_table(commands: list[Command]) -> str:
         aliases = f" (also {', '.join('/' + alias for alias in command.aliases)})" if command.aliases else ""
         lines.append(f"  {ansi.style(command.usage.ljust(usage_width), ansi.CYAN)}  {command.description}{aliases}")
     lines.append("")
+    lines.append(ansi.style("/help <command> explains its arguments with examples, e.g. /help typing.", ansi.BOLD))
     lines.append("Anything not starting with / is treated as your answer to the current question.")
+    return "\n".join(lines)
+
+
+def command_help(command: Command) -> str:
+    lines = [rule(f"/{command.name}")]
+    lines.append(f"Usage: {ansi.style(command.usage, ansi.CYAN)}")
+    if command.aliases:
+        lines.append(f"Aliases: {', '.join('/' + alias for alias in command.aliases)}")
+    lines.append(command.description)
+    if command.details:
+        lines.append("")
+        lines.extend(ansi.style(line, ansi.GREY) if line.startswith("Example") else line for line in command.details.splitlines())
     return "\n".join(lines)

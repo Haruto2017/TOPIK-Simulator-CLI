@@ -13,34 +13,129 @@ class Command:
     usage: str
     description: str
     aliases: tuple[str, ...] = ()
+    details: str = ""
 
     def tokens(self) -> list[str]:
         return [f"/{self.name}"] + [f"/{alias}" for alias in self.aliases]
 
 
 COMMANDS: list[Command] = [
-    Command("help", "cmd_help", "/help", "Show available commands.", ("h", "?")),
-    Command("take", "cmd_take", "/take <pack> [section] [limit]", "Start a test from the library or a pack file."),
-    Command("resume", "cmd_resume", "/resume [n|path]", "Resume a recent in-progress attempt."),
-    Command("drill", "cmd_drill", "/drill [n|path]", "Re-practice the questions missed in a completed attempt."),
-    Command("review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before."),
-    Command("attempts", "cmd_attempts", "/attempts", "List recent attempts."),
-    Command("packs", "cmd_packs", "/packs", "List imported content packs."),
-    Command("say", "cmd_say", "/say <korean text>", "Pronounce any sentence aloud; does not touch your answer.", ("speak",)),
-    Command("flashcards", "cmd_flashcards", "/flashcards <pack>", "Drill vocabulary cards built from a pack's teaching notes.", ("cards",)),
-    Command("dictation", "cmd_dictation", "/dictation <pack> [limit]", "Hear listening transcripts and type what you hear."),
-    Command("typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words."),
-    Command("keyboard", "cmd_keyboard", "/keyboard [on|off|pin|unpin]", "Show the 두벌식 layout; on pins it to the toolbar and adds typing hints.", ("kb",)),
-    Command("hint", "cmd_hint", "/hint", "Reveal one vocabulary hint for the current question."),
-    Command("replay", "cmd_replay", "/replay", "Play the current question audio again.", ("r",)),
-    Command("transcript", "cmd_transcript", "/transcript", "Reveal the transcript of the current listening question.", ("t",)),
-    Command("skip", "cmd_skip", "/skip", "Submit a blank answer for the current question."),
-    Command("pause", "cmd_pause", "/pause", "Save the current test and return to idle; resume later."),
-    Command("status", "cmd_status", "/status", "Show session progress and speech settings."),
-    Command("stats", "cmd_stats", "/stats", "Per-skill accuracy and trends across completed attempts."),
-    Command("report", "cmd_report", "/report [n|path]", "Write a Markdown study report for a completed attempt."),
-    Command("tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]", "Show or change speech settings."),
-    Command("quit", "cmd_quit", "/quit", "Exit the shell. Progress is already saved.", ("exit", "q")),
+    Command(
+        "help", "cmd_help", "/help [command]", "Show all commands, or one command's arguments and examples.", ("h", "?"),
+        details="With a command name, shows what its arguments mean and example calls.\n"
+        "Examples: /help typing · /help tts",
+    ),
+    Command(
+        "take", "cmd_take", "/take <pack> [section] [limit]", "Start a test from the library or a pack file.",
+        details="pack: a library id (Tab completes), a pinned id@version, or a JSON file path.\n"
+        "section: run a single section id such as listening or reading.\n"
+        "limit: cap the number of questions (untimed when limited).\n"
+        "Examples: /take topik-i-authentic-mock-01 · /take topik-i-mini-pack reading 5",
+    ),
+    Command(
+        "resume", "cmd_resume", "/resume [n|path]", "Resume a recent in-progress attempt.",
+        details="No argument: resumes the only in-progress attempt, or opens a numbered picker.\n"
+        "n: an index from /attempts (Tab completes with status). path: an attempt JSON file.\n"
+        "Examples: /resume · /resume 2",
+    ),
+    Command(
+        "drill", "cmd_drill", "/drill [n|path]", "Re-practice the questions missed in a completed attempt.",
+        details="No argument: drills the most recent completed attempt, or opens a picker when several exist.\n"
+        "n: an index from /attempts. path: an attempt JSON file.\n"
+        "Examples: /drill · /drill 3",
+    ),
+    Command(
+        "review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before.",
+        details="No argument: starts the one pack with items due, or lists due counts per pack.\n"
+        "pack: review that pack's due items (misses re-enter the queue, successes wait longer).\n"
+        "Examples: /review · /review topik-i-authentic-mock-01",
+    ),
+    Command(
+        "attempts", "cmd_attempts", "/attempts", "List recent attempts.",
+        details="The numbers shown are what /resume <n>, /drill <n>, and /report <n> accept.",
+    ),
+    Command(
+        "packs", "cmd_packs", "/packs", "List imported content packs.",
+        details="Shows the pack ids used by /take, /flashcards, /dictation, and /typing.",
+    ),
+    Command(
+        "say", "cmd_say", "/say [text]", "Pronounce any sentence aloud; does not touch your answer.", ("speak",),
+        details="Speaks the text with the current TTS settings, mid-question or idle.\n"
+        "During /flashcards or /typing, bare /say speaks the current card or item.\n"
+        "Examples: /say 안녕하세요 · /say",
+    ),
+    Command(
+        "hint", "cmd_hint", "/hint", "Reveal one vocabulary hint for the current question.",
+        details="Each call reveals the next vocabulary item from the open question's teaching notes\n"
+        "without giving the answer away. Stops when all items are shown.",
+    ),
+    Command(
+        "flashcards", "cmd_flashcards", "/flashcards <pack>", "Drill vocabulary cards built from a pack's teaching notes.", ("cards",),
+        details="pack: required; the deck is that pack's explanation vocabulary, shuffled.\n"
+        "Enter flips the card · y/n grades yourself · /say speaks it · /pause stops with a summary.\n"
+        "Example: /flashcards topik-i-authentic-mock-01",
+    ),
+    Command(
+        "dictation", "cmd_dictation", "/dictation <pack> [limit]", "Hear listening transcripts and type what you hear.",
+        details="pack: required; sentences are the pack's listening transcripts in order.\n"
+        "limit: practice only the first n sentences. /replay repeats the audio · /pause stops.\n"
+        "Examples: /dictation topik-i-authentic-mock-01 · /dictation topik-i-authentic-mock-01 5",
+    ),
+    Command(
+        "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
+        details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"
+        "from every imported pack. count: number of items (default 12).\n"
+        "A miss reveals the 두벌식 keystrokes. Examples: /typing · /typing 20 · /typing topik-i-mini-pack 15",
+    ),
+    Command(
+        "keyboard", "cmd_keyboard", "/keyboard [on|off|pin|unpin]", "Show the 두벌식 layout; on pins it to the toolbar and adds typing hints.", ("kb",),
+        details="Bare /keyboard prints the full chart once. on: pin a compact chart to the toolbar\n"
+        "(it hovers above the input line) AND show keystroke hints in dictation, flashcards, and /typing.\n"
+        "off: disable both. pin/unpin: dock or free the chart without touching hints.\n"
+        "Examples: /keyboard · /keyboard on · /keyboard unpin",
+    ),
+    Command(
+        "replay", "cmd_replay", "/replay", "Play the current question audio again.", ("r",),
+        details="Replays the active question or dictation audio at the current /tts volume.",
+    ),
+    Command(
+        "transcript", "cmd_transcript", "/transcript", "Reveal the transcript of the current listening question.", ("t",),
+        details="Shows what the audio says, before or after answering. Useful when studying rather than testing.",
+    ),
+    Command(
+        "skip", "cmd_skip", "/skip", "Submit a blank answer for the current question.",
+        details="Recorded as unanswered (wrong); the question lands in /drill and /review afterwards.",
+    ),
+    Command(
+        "pause", "cmd_pause", "/pause", "Save the current test and return to idle; resume later.",
+        details="Attempts save after every answer, so nothing is lost. Also stops flashcards,\n"
+        "dictation, or typing practice early with a summary.",
+    ),
+    Command(
+        "status", "cmd_status", "/status", "Show session progress and speech settings.",
+        details="Pack, activity, progress, running score, and the TTS provider/voice/speed/volume.",
+    ),
+    Command(
+        "stats", "cmd_stats", "/stats", "Per-skill accuracy and trends across completed attempts.",
+        details="Aggregates every completed attempt: listening vs reading accuracy, average pace,\n"
+        "recent results, and per-pack best/last scores.",
+    ),
+    Command(
+        "report", "cmd_report", "/report [n|path]", "Write a Markdown study report for a completed attempt.",
+        details="Saves misses with correct answers, vocabulary, and grammar to review under the\n"
+        "attempts directory. n/path pick the attempt like /resume; a picker opens when ambiguous.\n"
+        "Examples: /report · /report 2",
+    ),
+    Command(
+        "tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]", "Show or change speech settings.",
+        details="Bare /tts shows current settings. on/off toggles speech · volume and speed take a\n"
+        "number (1.0 = unchanged) · provider: supertonic, melo, xtts-v2 · voice: a preset like F1 or M1.\n"
+        "Examples: /tts volume 0.8 · /tts voice M1 · /tts off",
+    ),
+    Command(
+        "quit", "cmd_quit", "/quit", "Exit the shell. Progress is already saved.", ("exit", "q"),
+        details="Attempts save after every answer; /resume continues where you left off next time.",
+    ),
 ]
 
 

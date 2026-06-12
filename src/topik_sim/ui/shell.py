@@ -183,6 +183,14 @@ class Shell:
     # ------------------------------------------------------------- commands
 
     def cmd_help(self, argument: str) -> None:
+        if argument:
+            token = argument.split()[0].lstrip("/").lower()
+            command = self.registry.find(token)
+            if command is None:
+                self.emit(f"Unknown command: /{token}. Bare /help lists everything.")
+                return
+            self.emit(render.command_help(command))
+            return
         self.emit(render.help_table(self.registry.all()))
 
     def cmd_quit(self, argument: str) -> None:
@@ -1017,6 +1025,15 @@ def _make_completer(shell: Shell):
                             start_position=-len(argument),
                             display=value,
                             display_meta=meta,
+                        )
+            elif name in {"help", "h", "?"}:
+                for command in shell.registry.all():
+                    if command.name.startswith(argument.lstrip("/").lower()):
+                        yield Completion(
+                            command.name,
+                            start_position=-len(argument),
+                            display=command.name,
+                            display_meta=command.description,
                         )
 
     return SlashCompleter()

@@ -272,7 +272,30 @@ class ShellTests(unittest.TestCase):
         self.feed(shell, ["/nope", "/help"])
         text = "\n".join(output)
         self.assertIn("Unknown command: /nope", text)
-        self.assertIn("/say <korean text>", text)
+        self.assertIn("/say [text]", text)
+        self.assertIn("/help <command> explains its arguments", text)
+
+    def test_help_for_one_command_explains_arguments(self):
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/help typing"])
+        text = "\n".join(output)
+        self.assertIn("Usage: /typing [pack] [count]", text)
+        self.assertIn("from every imported pack", text)
+        self.assertIn("/typing topik-i-mini-pack 15", text)
+
+        output.clear()
+        self.feed(shell, ["/help kb"])  # aliases resolve too
+        self.assertIn("Usage: /keyboard", "\n".join(output))
+
+        output.clear()
+        self.feed(shell, ["/help nonsense"])
+        self.assertIn("Unknown command: /nonsense", "\n".join(output))
+
+    def test_every_command_documents_its_arguments(self):
+        from topik_sim.ui.commands import COMMANDS
+
+        missing = [command.name for command in COMMANDS if not command.details.strip()]
+        self.assertEqual(missing, [])
 
     def test_tts_settings_change_at_runtime(self):
         shell, output, _ = self.make_shell()
