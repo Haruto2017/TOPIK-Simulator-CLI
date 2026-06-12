@@ -263,12 +263,16 @@ def play_audio(path: Path, volume: float = 1.0) -> None:
 
 def _play_audio_file(path: Path) -> None:
     if sys.platform.startswith("win"):
+        # The path lands inside a PowerShell command string; doubling single
+        # quotes is PowerShell's escape, so quote characters in a (possibly
+        # user-supplied) path cannot break out into command position.
+        safe_path = str(path).replace("'", "''")
         subprocess.run(
             [
                 "powershell",
                 "-NoProfile",
                 "-Command",
-                f"(New-Object Media.SoundPlayer '{path}').PlaySync();",
+                f"(New-Object Media.SoundPlayer '{safe_path}').PlaySync();",
             ],
             check=False,
         )

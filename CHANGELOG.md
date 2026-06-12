@@ -52,3 +52,7 @@ single launcher, fully offline.
 - **Self-diagnosis**: `doctor` checks Python, the shell extras, audio, the
   config file, and the content library, printing PASS/WARN/FAIL with a
   one-line remedy for each; `setup` prepares a fresh workspace in one command.
+- **License and hardening**: MIT licensed, with a documented threat model
+  (`SECURITY.md`). Pack ids/versions are validated as filesystem-safe slugs
+  and imports refuse to write outside the library; audio playback paths are
+  escaped against command injection.

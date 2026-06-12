@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
@@ -12,6 +13,10 @@ from .question_types import get_question_type, supported_answer_types
 SCHEMA_VERSION = "topik-sim.content.v1"
 SUPPORTED_LEVELS = {"TOPIK_I", "TOPIK_II"}
 SUPPORTED_SOURCE_TYPES = {"original", "licensed", "public_domain", "user_provided"}
+# Both become path components under the library (packs/<id>/<version>.json),
+# so they must be plain slugs: no separators, no dots-only names, no traversal.
+PACK_ID_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
+PACK_VERSION_PATTERN = re.compile(r"^[0-9A-Za-z][0-9A-Za-z.-]*$")
 
 
 class ContentValidationError(ValueError):
@@ -103,8 +108,13 @@ def validate_pack_data(data: Any) -> list[str]:
         errors.append("pack.source_type must be original, licensed, public_domain, or user_provided.")
     if "difficulty" in data and not isinstance(data.get("difficulty"), str):
         errors.append("pack.difficulty must be a string label when present.")
-    if not str(data.get("pack_version", "")).strip():
+    if "pack_id" in data and not PACK_ID_PATTERN.fullmatch(str(data.get("pack_id", ""))):
+        errors.append("pack.pack_id must be a slug of lowercase letters, digits, hyphens, or underscores.")
+    pack_version = str(data.get("pack_version", "")).strip()
+    if not pack_version:
         errors.append("pack.pack_version is required.")
+    elif not PACK_VERSION_PATTERN.fullmatch(pack_version) or ".." in pack_version:
+        errors.append("pack.pack_version must contain only letters, digits, dots, and hyphens.")
     if not isinstance(data.get("sections"), list) or not data.get("sections"):
         errors.append("pack.sections must be a non-empty array.")
         return errors

@@ -23,6 +23,11 @@ def import_pack(pack_path: str | Path, library_dir: str | Path = DEFAULT_LIBRARY
     pack_version = str(pack.data["pack_version"])
     rel_path = Path("packs") / pack_id / f"{pack_version}.json"
     destination = library_path / rel_path
+    # Defense in depth behind the contract's slug validation: never write
+    # outside the library even if a hostile pack slips past validation.
+    library_root = library_path.resolve()
+    if not destination.resolve().is_relative_to(library_root):
+        raise ValueError(f"Pack id/version {pack_id!r}@{pack_version!r} escapes the library directory.")
 
     existing = find_manifest_entry(manifest, pack_id, pack_version)
     if existing and not replace:

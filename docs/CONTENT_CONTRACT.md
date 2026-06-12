@@ -24,8 +24,8 @@ Content packs are JSON files. The current schema version is:
 Required pack fields:
 
 - `schema_version`
-- `pack_id`
-- `pack_version`: semantic content version for import and reproducibility
+- `pack_id`: a slug of lowercase letters, digits, hyphens, or underscores (it becomes a directory name in the library)
+- `pack_version`: semantic content version for import and reproducibility; letters, digits, dots, and hyphens only
 - `title`
 - `topik_level`: `TOPIK_I` or `TOPIK_II`
 - `language_pair`

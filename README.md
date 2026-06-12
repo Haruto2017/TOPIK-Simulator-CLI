@@ -14,6 +14,8 @@ No programming knowledge needed:
 
 If something does not work, run `.\topik.cmd doctor` — it checks your Python, audio, and content setup line by line and tells you how to fix each problem. The full learner manual is `docs/USER_GUIDE.md`.
 
+Prefer a proper install? `pip install -e .[shell]` from this folder gives you the `topik-sim` command (with the nicer prompt included); the launchers keep working either way.
+
 ## Interactive Shell (recommended)
 
 The launchers above are shorthand for:
@@ -104,3 +106,7 @@ The handoff between those workstreams is the content contract in `docs/CONTENT_C
 Runtime data is written under `data/` and ignored by Git. Content authors should keep source packs in `examples/content/` or a future `content/source/` folder, then import them into the local library with `import-pack`.
 
 Optional Korean TTS uses local model dependencies. See `docs/TTS_SETUP.md`.
+
+## License & Security
+
+MIT — see [LICENSE](LICENSE). The simulator is a local, offline tool; [SECURITY.md](SECURITY.md) describes the threat model, what the optional components may download, and where your data lives.
