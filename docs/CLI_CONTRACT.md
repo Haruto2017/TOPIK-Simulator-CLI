@@ -6,9 +6,46 @@ If the package is not installed, set `PYTHONPATH=src` first.
 
 Running `python -m topik_sim` with no arguments opens the interactive shell (see `shell`).
 
+`python -m topik_sim --version` prints the version (`topik-sim 1.0.0`, matching `topik_sim.__version__`) and exits 0.
+
 ## Configuration
 
 Optional workspace defaults live in `topik.config.json` at the repo root (or a file pointed to by the `TOPIK_CONFIG` environment variable). CLI flags always override the config; the config overrides built-in defaults. Sections: `tts` (provider, voice, volume, speed, steps, onnx_provider, device, language, output_dir), `paths` (library, attempts), `shell` (audio, show_transcript). See `examples/topik.config.example.json`.
+
+## `setup`
+
+Imports every bundled exam pack under `content/source/` into the library, idempotently. The shell offers the same import on first run (see `shell`).
+
+```powershell
+python -m topik_sim setup [--library <dir>] [--source-dir <dir>]
+```
+
+Behavior:
+
+- Each `*.json` under the source directory (sorted) is imported via the normal library import, never with replace semantics: an already-imported `pack_id@pack_version` is reported as skipped, not clobbered.
+- Invalid packs are reported as failed with their validation errors; they do not abort the rest of the setup.
+- Prints one line per pack (`Imported`/`Skipped`/`Failed`) and a final `Setup: N imported, N skipped, N failed` summary.
+- Exit code is 1 only when every bundled pack failed; an empty source directory exits 0 with a notice.
+
+## `doctor`
+
+Diagnoses the environment in one command: each check prints one aligned `PASS`/`WARN`/`FAIL` line with a one-line detail or remedy, followed by a summary count.
+
+```powershell
+python -m topik_sim doctor [--library <dir>] [--data-dir <dir>]
+```
+
+Checks, in order:
+
+- Python version (`PASS` on 3.9+, showing the running version).
+- `prompt_toolkit` importable (`WARN` when missing: the plain prompt fallback is used).
+- TTS runtime: the Supertonic Python runtime resolves and `tools/supertonic_synth.py` exists (`WARN` when not: exams run soundless with transcripts shown). No audio is synthesized.
+- `ffmpeg` on `PATH` (`WARN` when absent: `audio compress`/restore unavailable).
+- Config file parses (`PASS` when there is no config file; `FAIL` with the error when malformed).
+- Library validity (`FAIL` listing the first errors; `WARN` when valid but empty, pointing at `topik-sim setup`; `PASS` with the pack count).
+- Data directory writability (creates and deletes a probe file; `FAIL` when not writable).
+
+Exit code is 1 only when at least one check is `FAIL`; warnings alone exit 0. Every check is safe on a machine with none of the optional pieces installed.
 
 ## `shell`
 
@@ -52,8 +89,10 @@ Slash commands:
 
 Behavior:
 
+- First run: when the library has zero packs and bundled sources exist under `content/source/`, the shell asks once — `No exams are imported yet. Import N bundled exam pack(s) now? [Y/n]`. Enter or `y` imports them (same as `setup`) and points at the Enter-menu; `n` skips with a pointer to `topik-sim setup`. The prompt never appears once packs are imported.
 - Attempts are saved after every answer, exactly like `take`; quitting or crashing never loses progress.
 - Listening questions auto-play audio and hide transcripts until after the answer.
+- When a listening question produces no playable audio (`/tts off`, TTS runtime unavailable, or synthesis failure), the shell prints `(audio unavailable — transcript shown)` and reveals the transcript before the answer, so listening sections stay fully answerable soundless. The post-answer transcript reveal still happens whenever the transcript was not already shown.
 - The next question's audio is prefetched on a background thread while the learner answers (see `docs/AUDIO_DESIGN.md`).
 - Full-pack attempts are timed against the sections' `time_limit_minutes`: the toolbar counts down and summaries report pace.
 - Completed attempts feed the spaced-repetition queue; the shell reports how many items are due.

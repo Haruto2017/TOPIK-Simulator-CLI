@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from . import __version__
 from .attempts import (
     answer_question,
     attempt_progress,
@@ -86,7 +87,18 @@ def build_parser() -> argparse.ArgumentParser:
     audio_default = str(config_value(config, "tts", "output_dir", DEFAULT_AUDIO_DIR))
 
     parser = argparse.ArgumentParser(prog="topik-sim", description="TOPIK simulation CLI")
+    parser.add_argument("--version", action="version", version=f"topik-sim {__version__}")
     subparsers = parser.add_subparsers(required=True)
+
+    setup = subparsers.add_parser("setup", help="Import the bundled exam packs into the library (idempotent).")
+    setup.add_argument("--library", default=library_default, help="Content library directory.")
+    setup.add_argument("--source-dir", default=str(Path("content") / "source"), help="Directory of bundled pack JSON files.")
+    setup.set_defaults(handler=handle_setup)
+
+    doctor = subparsers.add_parser("doctor", help="Diagnose the environment: Python, TTS, ffmpeg, config, library, data dir.")
+    doctor.add_argument("--library", default=library_default, help="Content library directory.")
+    doctor.add_argument("--data-dir", default="data", help="Writable data directory to probe.")
+    doctor.set_defaults(handler=handle_doctor)
 
     validate = subparsers.add_parser("validate-content", help="Validate a content pack JSON file.")
     validate.add_argument("pack")
@@ -245,6 +257,30 @@ def build_parser() -> argparse.ArgumentParser:
     list_speakers.set_defaults(handler=handle_list_tts_speakers)
 
     return parser
+
+
+def handle_setup(args: argparse.Namespace) -> int:
+    from .workspace import format_setup_summary, setup_workspace
+
+    result = setup_workspace(args.library, source_dir=args.source_dir)
+    for line in format_setup_summary(result):
+        print(line)
+    counts = result["counts"]
+    if counts["total"] == 0:
+        return 0
+    if counts["failed"] == counts["total"]:
+        return 1
+    print("Start studying: python -m topik_sim (press Enter for the menu).")
+    return 0
+
+
+def handle_doctor(args: argparse.Namespace) -> int:
+    from .doctor import format_checks, has_failure, run_checks
+
+    checks = run_checks(library_dir=args.library, data_dir=args.data_dir)
+    for line in format_checks(checks):
+        print(line)
+    return 1 if has_failure(checks) else 0
 
 
 def handle_validate_content(args: argparse.Namespace) -> int:

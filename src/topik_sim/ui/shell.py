@@ -72,6 +72,7 @@ class Shell:
         self.prefetcher = prefetcher or AudioPrefetcher()
         self._output = output
         self._active_question: dict[str, Any] | None = None
+        self._transcript_pre_shown = False
         self._recent_attempts: list[tuple[Path, dict[str, Any]]] = []
         self._hint_index = 0
         self._quit = False
@@ -899,11 +900,25 @@ class Shell:
         self._hint_index = 0
         _, total = self.session.progress()
         self.emit("")
-        self.emit(render.question_card(self.session.question_number(), total, question, self.show_transcript))
+        self.emit(
+            render.question_card(
+                self.session.question_number(),
+                total,
+                question,
+                self.show_transcript,
+                audio_expected=self.audio_enabled,
+            )
+        )
         self.current_audio = []
+        self._transcript_pre_shown = self.show_transcript
         if self.audio_enabled and is_listening_question(question):
             texts = collect_question_speech_texts(question, include_prompt=False)
             self.current_audio = self._speak(texts, playback=True)
+        if is_listening_question(question) and not self._transcript_pre_shown and not self.current_audio:
+            # TTS off, unavailable, or failed: the question must stay answerable.
+            self.emit(ansi.style("(audio unavailable — transcript shown)", ansi.DIM))
+            self.emit(render.transcript_block(question))
+            self._transcript_pre_shown = True
         self._prefetch_next()
         self.session.mark_presented()
         self.state = ANSWERING
@@ -912,7 +927,7 @@ class Shell:
         if self.session is None:
             return
         result = self.session.submit(response)
-        self.emit(render.feedback_block(result, self._active_question or {}, self.show_transcript))
+        self.emit(render.feedback_block(result, self._active_question or {}, self._transcript_pre_shown))
         self.emit(render.continue_hint())
         self.state = CONTINUE
 
@@ -954,6 +969,7 @@ class Shell:
         self.state = IDLE
         self.current_audio = []
         self._active_question = None
+        self._transcript_pre_shown = False
 
     # ------------------------------------------------------------- helpers
 
@@ -1297,6 +1313,33 @@ def _build_frontend(shell: Shell, input_fn: Callable[[str], str] | None):
         return PlainFrontend(shell)
 
 
+def _offer_first_run_import(shell: Shell, frontend, source_dir: str | Path) -> None:
+    """One-keystroke onboarding: with an empty library and bundled sources
+    present, offer to import everything. Never prompts when packs exist."""
+    from ..workspace import bundled_pack_paths, format_setup_summary, setup_workspace
+
+    try:
+        if list_packs(shell.library_dir):
+            return
+    except (OSError, ValueError, KeyError):
+        return
+    bundled = bundled_pack_paths(source_dir)
+    if not bundled:
+        return
+    shell.emit(f"No exams are imported yet. Import {len(bundled)} bundled exam pack(s) now? [Y/n]")
+    try:
+        answer = frontend.readline()
+    except (EOFError, KeyboardInterrupt):
+        return
+    if answer.strip().lower() in {"", "y", "yes"}:
+        result = setup_workspace(shell.library_dir, source_dir=source_dir)
+        for line in format_setup_summary(result):
+            shell.emit(line)
+        shell.emit("Press Enter to open the menu.")
+    else:
+        shell.emit("Skipped. Import the bundled packs anytime with: topik-sim setup")
+
+
 def run_shell(
     library_dir: str | Path = DEFAULT_LIBRARY_DIR,
     attempt_dir: str | Path = DEFAULT_ATTEMPT_DIR,
@@ -1306,7 +1349,10 @@ def run_shell(
     keyboard_hints: bool = False,
     keyboard_pinned: bool = False,
     input_fn: Callable[[str], str] | None = None,
+    source_dir: str | Path | None = None,
 ) -> int:
+    from ..workspace import DEFAULT_SOURCE_DIR
+
     shell = Shell(
         library_dir=library_dir,
         attempt_dir=attempt_dir,
@@ -1318,6 +1364,7 @@ def run_shell(
     )
     shell.emit(render.banner())
     frontend = _build_frontend(shell, input_fn)
+    _offer_first_run_import(shell, frontend, DEFAULT_SOURCE_DIR if source_dir is None else source_dir)
     try:
         while True:
             try:

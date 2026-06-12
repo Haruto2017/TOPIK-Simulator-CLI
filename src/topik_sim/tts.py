@@ -340,10 +340,15 @@ class XTTSV2Provider:
         return self._model
 
 
+def supertonic_helper_path() -> Path:
+    """The subprocess helper that runs Supertonic synthesis (see tools/)."""
+    return Path(__file__).resolve().parents[2] / "tools" / "supertonic_synth.py"
+
+
 class SupertonicProvider:
     def synthesize_to_file(self, text: str, output_path: Path, config: TTSConfig) -> None:
         python_path = resolve_supertonic_python(config)
-        helper_path = Path(__file__).resolve().parents[2] / "tools" / "supertonic_synth.py"
+        helper_path = supertonic_helper_path()
         if not helper_path.exists():
             raise RuntimeError(f"Supertonic helper is missing: {helper_path}")
 

@@ -39,13 +39,22 @@ def rule(label: str = "") -> str:
     return ansi.style(body + "─" * max(0, width - len(body)), ansi.GREY)
 
 
-def question_card(number: int, total: int, question: dict[str, Any], show_transcript: bool) -> str:
+def question_card(
+    number: int,
+    total: int,
+    question: dict[str, Any],
+    show_transcript: bool,
+    audio_expected: bool = True,
+) -> str:
     lines = [rule(f"Question {number}/{total} · {question.get('question_id', '?')} · {question.get('skill', '?')}")]
 
     listening = is_listening_question(question)
     passage = str(question.get("passage", "")).strip()
     if listening and not show_transcript:
-        lines.append(ansi.style("[listening] audio plays automatically · /replay to repeat · /transcript to peek", ansi.DIM))
+        if audio_expected:
+            lines.append(ansi.style("[listening] audio plays automatically · /replay to repeat · /transcript to peek", ansi.DIM))
+        # With TTS off the transcript fallback follows immediately; saying
+        # "audio plays automatically" here would contradict it.
     elif passage:
         lines.append(passage)
 

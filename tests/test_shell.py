@@ -365,8 +365,62 @@ class ShellTests(unittest.TestCase):
 
         self.assertTrue(shell.current_audio)
         self.assertEqual(prefetcher.scheduled, [["감사합니다."]])
-        self.assertIn("transcript hidden", "\n".join(output).lower() + " transcript hidden")
-        self.assertIn("[listening]", "\n".join(output))
+        text = "\n".join(output)
+        self.assertIn("[listening]", text)
+        # With playable audio the transcript stays hidden until after the answer.
+        self.assertNotIn("audio unavailable", text)
+        self.assertNotIn("Transcript: 안녕하세요.", text)
+
+    def test_listening_with_audio_reveals_transcript_after_answer_only(self):
+        pack_path = self.temp_dir / "listen_pack.json"
+        pack_path.write_text(json.dumps(listening_pack_data(), ensure_ascii=False), encoding="utf-8")
+        shell, output, _ = self.make_shell()
+
+        def fake_synthesize(texts, config):
+            return [self.temp_dir / "audio" / f"{index}.wav" for index, _ in enumerate(texts)]
+
+        with patch("topik_sim.ui.shell.synthesize_many", side_effect=fake_synthesize):
+            self.feed(shell, [f"/take {pack_path}", "A"])
+        text = "\n".join(output)
+        self.assertIn("Transcript: 안녕하세요.", text)
+        self.assertEqual(text.count("Transcript: 안녕하세요."), 1)
+        self.assertEqual(shell.state, CONTINUE)
+
+    def test_listening_without_audio_shows_transcript_before_answer(self):
+        pack_path = self.temp_dir / "listen_pack.json"
+        pack_path.write_text(json.dumps(listening_pack_data(), ensure_ascii=False), encoding="utf-8")
+        shell, output, _ = self.make_shell()
+        with patch("topik_sim.ui.shell.synthesize_many", return_value=[]):
+            self.feed(shell, [f"/take {pack_path}"])
+        text = "\n".join(output)
+        self.assertIn("(audio unavailable — transcript shown)", text)
+        self.assertIn("Transcript: 안녕하세요.", text)
+        self.assertEqual(shell.state, ANSWERING)
+
+    def test_tts_off_listening_exam_is_fully_usable(self):
+        pack_path = self.temp_dir / "listen_pack.json"
+        pack_path.write_text(json.dumps(listening_pack_data(), ensure_ascii=False), encoding="utf-8")
+        shell, output, _ = self.make_shell()
+        self.feed(shell, ["/tts off", f"/take {pack_path}", "A", "", "A", ""])
+        text = "\n".join(output)
+        self.assertIn("(audio unavailable — transcript shown)", text)
+        self.assertIn("Transcript: 안녕하세요.", text)
+        self.assertIn("Transcript: 감사합니다.", text)
+        # Shown before the answer, and not repeated in the feedback block.
+        self.assertEqual(text.count("Transcript: 안녕하세요."), 1)
+        self.assertIn("Score: 2/2", text)
+        self.assertEqual(shell.state, IDLE)
+        self.assertIsNone(shell.session)
+
+    def test_show_transcript_mode_skips_unavailable_audio_notice(self):
+        pack_path = self.temp_dir / "listen_pack.json"
+        pack_path.write_text(json.dumps(listening_pack_data(), ensure_ascii=False), encoding="utf-8")
+        shell, output, _ = self.make_shell(show_transcript=True)
+        self.feed(shell, ["/tts off", f"/take {pack_path}"])
+        text = "\n".join(output)
+        # The transcript is already on the question card; no duplicate reveal.
+        self.assertNotIn("audio unavailable", text)
+        self.assertIn("Transcript: 안녕하세요.", text)
 
     def test_transcript_command_reveals_listening_passage(self):
         pack_path = self.temp_dir / "listen_pack.json"
