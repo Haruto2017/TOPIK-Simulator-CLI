@@ -1,9 +1,10 @@
 {
   "schema_version": "topik-sim.content.v1",
   "pack_id": "topik-i-level-1-full-sample",
-  "pack_version": "0.1.0",
+  "pack_version": "0.1.1",
   "title": "TOPIK I Level 1 Full Sample Exam",
   "topik_level": "TOPIK_I",
+  "difficulty": "starter (English options)",
   "language_pair": "ko-en",
   "source_type": "original",
   "sections": [

@@ -1,9 +1,10 @@
 {
   "schema_version": "topik-sim.content.v1",
   "pack_id": "topik-i-authentic-mock-04",
-  "pack_version": "0.1.0",
+  "pack_version": "0.1.1",
   "title": "TOPIK I Authentic Mock Exam 04 (실전 모의고사)",
   "topik_level": "TOPIK_I",
+  "difficulty": "authentic",
   "language_pair": "ko-ko",
   "source_type": "original",
   "sections": [
