@@ -4,11 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "topik-sim"
-version = "0.1.0"
+version = "1.0.0"
 description = "TOPIK exam simulation CLI with grading and teaching feedback"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [{ name = "TOPIK Simulator Contributors" }]
+
+[project.optional-dependencies]
+shell = ["prompt_toolkit>=3.0"]
 
 [project.scripts]
 topik-sim = "topik_sim.cli:main"

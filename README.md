@@ -1,15 +1,22 @@
 # TOPIK Simulation Software
 
-This workspace is for building a TOPIK exam simulator that can run practice exams, grade answers, and return teaching-focused feedback.
+Sit authentic TOPIK I mock exams on your own computer: timed sections with listening audio, grading with teaching feedback on every question, and practice tools (drills, spaced review, flashcards, dictation, typing) to close the gaps — all offline.
 
-The project is intentionally split into two workstreams:
+## Quickstart
 
-1. Software building: CLI, validation, grading, feedback flow, storage, and later UI.
-2. Content authoring: TOPIK question packs, answers, explanations, vocabulary, grammar notes, and teaching guidance.
+No programming knowledge needed:
 
-The handoff between those workstreams is the content contract in `docs/CONTENT_CONTRACT.md` and the CLI contract in `docs/CLI_CONTRACT.md`.
+1. **Install Python 3.9 or newer** — from [python.org/downloads](https://www.python.org/downloads/) (tick *"Add python.exe to PATH"* during setup) or from the Microsoft Store.
+2. **Optional, recommended:** open a terminal and run `pip install prompt_toolkit` for the nicer shell (autocompletion, status toolbar). Everything also works without it.
+3. **Launch:** double-click `topik.cmd` in this folder, or run `.\topik.cmd` from a terminal (PowerShell users can also run `.\topik.ps1`). The launcher works from any directory — no `PYTHONPATH`, no module syntax.
+4. **First run:** say yes when the shell offers to import the bundled mock exams.
+5. **Press Enter** at the prompt to open the guided menu (Take a test / Practice / Progress / Settings).
+
+If something does not work, run `.\topik.cmd doctor` — it checks your Python, audio, and content setup line by line and tells you how to fix each problem. The full learner manual is `docs/USER_GUIDE.md`.
 
 ## Interactive Shell (recommended)
+
+The launchers above are shorthand for:
 
 ```powershell
 $env:PYTHONPATH = "src"
@@ -68,6 +75,17 @@ python -m topik_sim take topik-i-level-1-full-sample@0.1.0
 ```
 
 During a listening question, type `/replay` at the answer prompt to hear the audio again. After answering, the app pauses on the explanation; press Enter for the next question or type `/replay` to hear the previous question audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.
+
+## Project Overview
+
+This workspace is for building a TOPIK exam simulator that can run practice exams, grade answers, and return teaching-focused feedback.
+
+The project is intentionally split into two workstreams:
+
+1. Software building: CLI, validation, grading, feedback flow, storage, and later UI.
+2. Content authoring: TOPIK question packs, answers, explanations, vocabulary, grammar notes, and teaching guidance.
+
+The handoff between those workstreams is the content contract in `docs/CONTENT_CONTRACT.md` and the CLI contract in `docs/CLI_CONTRACT.md`.
 
 ## Workspace Map
 
