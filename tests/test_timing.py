@@ -60,6 +60,33 @@ class TimingTests(unittest.TestCase):
                 remaining = session.remaining_seconds()
             self.assertEqual(remaining, 5 * 60 - 30)
 
+    def test_pack_question_index_matches_linear_lookup(self):
+        from topik_sim.attempts import find_question
+
+        pack = load_pack(SAMPLE_PACK)
+        self.assertEqual(pack.question("r-002")["question_id"], "r-002")
+        self.assertIs(find_question(pack, "r-001"), pack.questions()[0])
+        with self.assertRaisesRegex(ValueError, "not in pack"):
+            pack.question("missing-id")
+        # questions() hands out copies of the cached list, not the cache itself.
+        listing = pack.questions()
+        listing.pop()
+        self.assertEqual(len(pack.questions()), 2)
+
+    def test_running_score_cache_matches_fresh_computation(self):
+        pack = load_pack(SAMPLE_PACK)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            session = ExamSession.start(pack, temp_dir)
+            self.assertEqual(session.running_score(), (0, 0))
+            session.submit("B")   # correct
+            self.assertEqual(session.running_score(), (1, 1))
+            session.submit("C")   # wrong
+            self.assertEqual(session.running_score(), (1, 2))
+
+            # A fresh session over the same attempt recomputes from scratch.
+            fresh = ExamSession(pack, session.attempt, session.attempt_path)
+            self.assertEqual(fresh.running_score(), session.running_score())
+
     def test_format_clock_and_summary_show_pace(self):
         self.assertEqual(format_clock(0), "00:00")
         self.assertEqual(format_clock(75), "01:15")

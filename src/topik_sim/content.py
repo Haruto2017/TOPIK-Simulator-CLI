@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from functools import cached_property
 from pathlib import Path
 from typing import Any
 
@@ -36,13 +37,32 @@ class ExamPack:
     def sections(self) -> list[dict[str, Any]]:
         return list(self.data["sections"])
 
+    # cached_property writes straight into __dict__, so it works on a frozen
+    # dataclass; pack data is immutable after load.
+    @cached_property
+    def _questions_sorted(self) -> list[dict[str, Any]]:
+        questions = [question for section in self.sections for question in section["questions"]]
+        return sorted(questions, key=lambda item: int(item.get("order", 0)))
+
+    @cached_property
+    def _questions_by_id(self) -> dict[str, dict[str, Any]]:
+        return {str(question["question_id"]): question for question in self._questions_sorted}
+
     def questions(self, section_id: str | None = None) -> list[dict[str, Any]]:
+        if section_id is None:
+            return list(self._questions_sorted)
         questions: list[dict[str, Any]] = []
         for section in self.sections:
-            if section_id and section["section_id"] != section_id:
+            if section["section_id"] != section_id:
                 continue
             questions.extend(section["questions"])
         return sorted(questions, key=lambda item: int(item.get("order", 0)))
+
+    def question(self, question_id: str) -> dict[str, Any]:
+        try:
+            return self._questions_by_id[str(question_id)]
+        except KeyError:
+            raise ValueError(f"Question {question_id!r} is not in pack {self.pack_id}.") from None
 
 
 def load_pack(path: str | Path) -> ExamPack:

@@ -142,10 +142,7 @@ def load_attempt(path: str | Path) -> dict[str, Any]:
 
 
 def find_question(pack: ExamPack, question_id: str) -> dict[str, Any]:
-    for question in pack.questions():
-        if question["question_id"] == question_id:
-            return question
-    raise ValueError(f"Question {question_id!r} is not in pack {pack.pack_id}.")
+    return pack.question(question_id)
 
 
 def subset_pack_data(pack: ExamPack, question_ids: list[str]) -> dict[str, Any]:

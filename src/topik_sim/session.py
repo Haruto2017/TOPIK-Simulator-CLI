@@ -32,6 +32,9 @@ class ExamSession:
         self.attempt = attempt
         self.attempt_path = Path(attempt_path)
         self._presented_at: float | None = None
+        # Running score is cached and updated incrementally on submit, because
+        # the shell toolbar reads it on every refresh.
+        self._score: tuple[int, int] | None = None
 
     @classmethod
     def start(
@@ -124,12 +127,17 @@ class ExamSession:
         if self._presented_at is not None:
             duration = max(0.0, time.monotonic() - self._presented_at)
             self._presented_at = None
+        earned, available = self.running_score()  # before the answer is appended
         self.attempt = answer_question(self.attempt, self.pack, response, duration_seconds=duration)
         save_attempt(self.attempt, self.attempt_path)
-        return grade_question(question, response)
+        result = grade_question(question, response)
+        self._score = (earned + result["points_awarded"], available + result["max_points"])
+        return result
 
     def running_score(self) -> tuple[int, int]:
         """Points earned and points available over the questions answered so far."""
+        if self._score is not None:
+            return self._score
         earned = 0
         available = 0
         for answer in self.attempt.get("answers", []):
@@ -137,7 +145,8 @@ class ExamSession:
             result = grade_question(question, answer.get("response", ""))
             earned += result["points_awarded"]
             available += result["max_points"]
-        return earned, available
+        self._score = (earned, available)
+        return self._score
 
     def finalize(self) -> dict[str, Any]:
         self.attempt = complete_attempt(self.attempt, self.pack)

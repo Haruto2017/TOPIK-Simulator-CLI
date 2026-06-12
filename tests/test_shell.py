@@ -213,6 +213,17 @@ class ShellTests(unittest.TestCase):
         self.assertIn("r-001", text)
         self.assertEqual(shell.state, ANSWERING)
 
+    def test_completion_results_are_briefly_cached(self):
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, _, _ = self.make_shell()
+        with patch("topik_sim.ui.shell.list_packs", wraps=__import__("topik_sim.library", fromlist=["list_packs"]).list_packs) as spy:
+            first = shell.pack_completions()
+            second = shell.pack_completions()
+        self.assertEqual(first, second)
+        self.assertEqual(spy.call_count, 1)
+
     def test_attempt_completion_items_match_recent_indices(self):
         self._save_attempt(["B"], "2026-06-09T10:00:00+00:00")
         self._save_attempt(["B", "C"], "2026-06-08T10:00:00+00:00", completed=True)

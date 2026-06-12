@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shlex
+import time
 from dataclasses import replace
 from pathlib import Path
 from typing import Any, Callable
@@ -75,6 +76,8 @@ class Shell:
         self._hint_index = 0
         self._quit = False
         self._tts_warned = False
+        # Completion runs on every keystroke; cache its disk reads briefly.
+        self._completion_cache: dict[str, tuple[float, list]] = {}
         self._flashcard_seed = flashcard_seed
         self._flash_deck: list[dict[str, str]] = []
         self._flash_index = 0
@@ -925,8 +928,20 @@ class Shell:
         pack_ids = sorted({str(pack["pack_id"]) for pack in packs})
         return get_close_matches(wanted, pack_ids, n=3, cutoff=0.5)
 
+    def _cached_completions(self, key: str, builder: Callable[[], list], ttl: float = 2.0) -> list:
+        now = time.monotonic()
+        hit = self._completion_cache.get(key)
+        if hit is not None and now - hit[0] < ttl:
+            return hit[1]
+        value = builder()
+        self._completion_cache[key] = (now, value)
+        return value
+
     def pack_completions(self) -> list[str]:
         """Pack ids (plus pinned refs) offered by /take autocompletion."""
+        return self._cached_completions("packs", self._build_pack_completions)
+
+    def _build_pack_completions(self) -> list[str]:
         try:
             packs = list_packs(self.library_dir)
         except (OSError, ValueError, KeyError):
@@ -1074,6 +1089,9 @@ class Shell:
         wanted = {"resume": "in_progress", "drill": "completed", "report": "completed"}.get(command)
         if wanted is None:
             return []
+        return self._cached_completions(f"attempts:{wanted}", lambda: self._build_attempt_completions(wanted))
+
+    def _build_attempt_completions(self, wanted: str) -> list[tuple[str, str]]:
         items: list[tuple[str, str]] = []
         for index, (path, attempt) in enumerate(self._refresh_recent(), start=1):
             if attempt.get("status") != wanted:
@@ -1133,6 +1151,7 @@ class PromptToolkitFrontend:
             completer=_make_completer(shell),
             complete_while_typing=True,
             bottom_toolbar=shell.status_line,
+            refresh_interval=1.0,  # the toolbar countdown ticks without keystrokes
         )
 
     def readline(self) -> str:
