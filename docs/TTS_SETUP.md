@@ -1,77 +1,37 @@
 # Local Korean TTS Setup
 
-The simulator supports optional local GPU text-to-speech for Korean vocabulary and sentences during CLI usage.
+The simulator speaks listening questions, vocabulary, and example sentences through a local text-to-speech engine. TTS is optional: without it, exams stay fully usable and transcripts are shown in place of audio.
 
-## Default Provider
-
-Default provider: `supertonic`
-
-Why:
-
-- The Anki workspace at `H:\software\anki` already has a working Supertonic TTS environment and cached model files.
-- Supertonic can run locally through DirectML on Windows with `--tts-onnx-provider dml`.
-- The TOPIK CLI can call that environment automatically when `H:\software\anki\.tts-venv\Scripts\python.exe` exists.
-
-MeloTTS remains available as an explicit CUDA provider:
-
-- MeloTTS supports Korean and provides a simple Python API with `language='KR'` and `device='cuda:0'`.
-- It has a built-in Korean speaker, so the simulator can pronounce vocabulary and sentences without a reference voice file.
-- It can also run on CPU if GPU setup is unavailable, although GPU is preferred here.
-
-Alternate provider: `xtts-v2`
-
-Use XTTS-v2 when voice cloning or cross-language voice transfer is needed. XTTS-v2 supports Korean, but it requires a reference speaker WAV file.
-
-## GPU Check
-
-This machine already exposes an NVIDIA GPU through `nvidia-smi`. For MeloTTS CUDA, use:
+## Standard setup (recommended)
 
 ```powershell
---tts-provider melo --tts-device cuda:0
+.\setup-tts.ps1
 ```
 
-## Recommended Install
+That is the whole setup. The script creates a private environment at `.venv-tts`, installs the default `supertonic` engine from `requirements-tts.txt` (with `onnxruntime-directml`, which runs on any DirectX 12 GPU on Windows — CUDA is not required), and the simulator finds `.venv-tts` automatically. The Korean voice model downloads once, the first time audio plays (internet needed for that one download).
 
-Use a standard Windows CPython installation from python.org, the official NuGet CPython package, or a Conda environment. The MSYS/MINGW Python build does not receive the normal Windows PyTorch CUDA wheels, so GPU PyTorch installation can fail with "No matching distribution found for torch".
-
-This workspace has been verified with a project-local full CPython runtime at:
+Verify with:
 
 ```powershell
-.\tools\runtime\python311-full\tools\python.exe
+.\topik.cmd doctor          # the "TTS runtime" line should be PASS
+.\topik.cmd                 # then type: /say 안녕하세요
 ```
 
-The `tools/runtime/` folder is ignored by Git because it contains the local Python runtime and large installed packages.
+CPU-only machines: pass `--tts-onnx-provider cpu` (or set `"onnx_provider": "cpu"` under `tts` in `topik.config.json`).
 
-Create an isolated environment before installing model dependencies:
+## How the runtime is found
 
-```powershell
-py -3.9 -m venv .venv-tts
-.\.venv-tts\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-```
+The Supertonic provider runs in a separate Python environment, located in this order:
 
-Install a CUDA-enabled PyTorch build using the current command from the official PyTorch selector:
+1. `--tts-python <python.exe>` on any command.
+2. The `TOPIK_SUPERTONIC_PYTHON` environment variable — point this at an existing Supertonic environment if you already have one from another project.
+3. The workspace `.venv-tts` created by `setup-tts.ps1`.
+4. The Python running the simulator itself (works if you installed `requirements-tts.txt` straight into it).
 
-[PyTorch Get Started](https://pytorch.org/get-started/)
+## Alternative providers
 
-Then install MeloTTS:
-
-```powershell
-python -m pip install -r requirements-tts.txt
-python -m pip install eunjeon
-```
-
-The first synthesis run may download model weights.
-
-## Verify
-
-```powershell
-$env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe tools/check_tts_setup.py
-.\tools\runtime\python311-full\tools\python.exe tools/check_tts_setup.py --synthesize
-```
-
-The synthesis check writes a WAV file under `data/audio_cache/`.
+- `melo` (MeloTTS, CUDA): `pip install git+https://github.com/myshell-ai/MeloTTS.git` plus a CUDA PyTorch build from [pytorch.org](https://pytorch.org/get-started/) into the environment of your choice; use `--tts-provider melo --tts-device cuda:0`. Use a standard python.org CPython — MSYS/MINGW builds do not receive Windows PyTorch wheels.
+- `xtts-v2` (Coqui, voice cloning): see the section at the end; requires a reference speaker WAV.
 
 ## CLI Usage
 
@@ -84,24 +44,11 @@ $env:PYTHONPATH = "src"
 python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider supertonic
 ```
 
-The default Supertonic provider will try to use:
-
-```powershell
-H:\software\anki\.tts-venv\Scripts\python.exe
-```
-
-Override that runtime when needed:
+Override the runtime explicitly when needed:
 
 ```powershell
 $env:PYTHONPATH = "src"
-python -m topik_sim.tts_cli speak "안녕하세요." --tts-provider supertonic --tts-python H:\software\anki\.tts-venv\Scripts\python.exe
-```
-
-With the project-local full CPython runtime and MeloTTS CUDA:
-
-```powershell
-$env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습니다." --tts-provider melo
+python -m topik_sim.tts_cli speak "안녕하세요." --tts-provider supertonic --tts-python .\.venv-tts\Scripts\python.exe
 ```
 
 Speak question passages while taking a test:
@@ -137,7 +84,7 @@ python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-volume 0.8
 python -m topik_sim.tts_cli speak "안녕하세요." --tts-volume 1.2
 ```
 
-Volume is part of the audio cache key, so different volume settings create separate cached WAV files.
+Volume is applied at playback time, so changing it never regenerates or duplicates cached audio (see `docs/AUDIO_DESIGN.md`).
 
 List built-in provider speakers:
 

@@ -74,9 +74,22 @@ class CheckFunctionTests(DoctorTestCase):
         self.assertIn("helper missing", detail)
         self.assertIn("soundless", detail)
 
-    def test_tts_runtime_passes_in_this_workspace(self):
-        # sys.executable always exists and tools/supertonic_synth.py ships with the repo.
-        status, _, detail = doctor.check_tts_runtime()
+    def test_tts_runtime_warns_when_engine_not_importable(self):
+        # The resolver can fall back to a Python that exists but has no
+        # supertonic installed; doctor must not call that a PASS.
+        with patch("topik_sim.doctor.resolve_supertonic_python", return_value=Path(sys.executable)), patch(
+            "topik_sim.doctor._tts_engine_importable", return_value=False
+        ):
+            status, _, detail = doctor.check_tts_runtime()
+        self.assertEqual(status, doctor.WARN)
+        self.assertIn("setup-tts.ps1", detail)
+        self.assertIn("soundless", detail)
+
+    def test_tts_runtime_passes_when_engine_imports(self):
+        with patch("topik_sim.doctor.resolve_supertonic_python", return_value=Path(sys.executable)), patch(
+            "topik_sim.doctor._tts_engine_importable", return_value=True
+        ):
+            status, _, detail = doctor.check_tts_runtime()
         self.assertEqual(status, doctor.PASS)
         self.assertIn("supertonic_synth.py", detail)
 

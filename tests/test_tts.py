@@ -171,6 +171,24 @@ class TTSTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "volume"):
             build_tts_config(Args())
 
+    def test_supertonic_resolver_prefers_workspace_venv(self):
+        import sys
+
+        from topik_sim import tts as tts_module
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            venv_python = Path(temp_dir) / ".venv-tts" / "Scripts" / "python.exe"
+            venv_python.parent.mkdir(parents=True)
+            venv_python.write_bytes(b"")
+            with patch.object(tts_module, "DEFAULT_WORKSPACE_TTS_PYTHONS", (venv_python,)):
+                resolved = tts_module.resolve_supertonic_python(TTSConfig())
+            self.assertEqual(resolved, venv_python)
+
+        # An explicit --tts-python always wins over the workspace venv.
+        with patch.object(tts_module, "DEFAULT_WORKSPACE_TTS_PYTHONS", (Path(sys.executable),)):
+            resolved = tts_module.resolve_supertonic_python(TTSConfig(tts_python=Path(sys.executable)))
+        self.assertEqual(resolved, Path(sys.executable))
+
     def test_supertonic_provider_is_available_without_loading_model(self):
         provider = build_provider("supertonic")
         self.assertIn("F1", provider.list_speakers(TTSConfig(provider="supertonic")))

@@ -237,7 +237,7 @@ TTS behavior:
 - `--speak-question`: generate Korean audio for non-listening question passages too.
 - `--speak-teaching`: generate Korean audio for vocabulary and grammar examples in feedback.
 - `--tts-play`: play generated audio immediately.
-- `--tts-provider supertonic`: default provider; reuses the Anki Supertonic runtime when available.
+- `--tts-provider supertonic`: default provider; uses the `.venv-tts` environment created by `setup-tts.ps1` (see `docs/TTS_SETUP.md` for the full runtime search order).
 - `--tts-provider melo --tts-device cuda:0`: run MeloTTS on the first CUDA GPU.
 - `--tts-volume <gain>`: set generated WAV volume, where `1.0` is unchanged.
 - `--tts-speaker-id <id-or-name>`: choose a provider speaker or voice preset when supported.
@@ -246,18 +246,11 @@ TTS behavior:
 - `--tts-python <python.exe>`: choose the Python runtime used for subprocess-based TTS.
 - Generated audio is cached under `data/audio_cache` by default.
 
-For the local CUDA TTS runtime in this workspace, prefer:
+With speech set up via `setup-tts.ps1`, the default provider works with no extra flags:
 
 ```powershell
 $env:PYTHONPATH = "src"
-.\tools\runtime\python311-full\tools\python.exe -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-provider melo
-```
-
-For the Anki-proven Supertonic runtime, plain Python can now call the same engine automatically when `H:\software\anki\.tts-venv` exists:
-
-```powershell
-$env:PYTHONPATH = "src"
-python -m topik_sim take topik-i-level-1-full-sample@0.1.0 --tts-provider supertonic
+python -m topik_sim take topik-i-authentic-mock-01 --tts-provider supertonic
 ```
 
 To hear teaching notes read aloud after answers:
@@ -390,7 +383,7 @@ python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습�
 
 Default provider:
 
-- `supertonic`, using the same Supertonic setup as `H:\software\anki` when available.
+- `supertonic`, running in the `.venv-tts` environment created by `setup-tts.ps1` (overridable via `TOPIK_SUPERTONIC_PYTHON` or `--tts-python`).
 
 CUDA provider:
 

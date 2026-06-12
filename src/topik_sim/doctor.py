@@ -47,6 +47,7 @@ def check_prompt_toolkit() -> Check:
 
 def check_tts_runtime() -> Check:
     soundless = "exams run soundless, transcripts are shown instead"
+    remedy = "run setup-tts.ps1 to install speech"
     try:
         python_path = resolve_supertonic_python(TTSConfig())
     except RuntimeError as exc:
@@ -54,7 +55,27 @@ def check_tts_runtime() -> Check:
     helper = supertonic_helper_path()
     if not helper.exists():
         return (WARN, "TTS runtime", f"helper missing: {helper} — {soundless}")
+    # The resolver can fall back to the running Python, which exists but may
+    # not have the engine installed — probe the import, never synthesize.
+    if not _tts_engine_importable(python_path):
+        return (WARN, "TTS runtime", f"{python_path} lacks the speech engine — {remedy}; {soundless}")
     return (PASS, "TTS runtime", f"{python_path} + {helper.name}")
+
+
+def _tts_engine_importable(python_path: Path) -> bool:
+    import subprocess
+
+    try:
+        probe = subprocess.run(
+            [str(python_path), "-c", "import supertonic, onnxruntime"],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return probe.returncode == 0
 
 
 def check_ffmpeg() -> Check:

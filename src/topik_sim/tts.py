@@ -22,6 +22,13 @@ DEFAULT_MODEL_CACHE_DIR = Path("data") / "model_cache"
 DEFAULT_SUPERTONIC_VOICE = "F1"
 DEFAULT_SUPERTONIC_ONNX_PROVIDER = "dml"
 DEFAULT_SUPERTONIC_STEPS = 10
+# The standard learner setup: .\setup-tts.ps1 creates this workspace venv.
+DEFAULT_WORKSPACE_TTS_PYTHONS = (
+    Path(".venv-tts") / "Scripts" / "python.exe",  # Windows
+    Path(".venv-tts") / "bin" / "python",  # POSIX
+)
+# Legacy fallback: a pre-existing Supertonic environment from a sibling
+# project; harmless on machines where the path does not exist.
 DEFAULT_ANKI_TTS_PYTHON = Path("H:/software/anki/.tts-venv/Scripts/python.exe")
 DEFAULT_ANKI_HF_CACHE = Path("H:/software/anki/.hf-cache")
 DEFAULT_ANKI_SUPERTONIC_CACHE = Path("H:/software/anki/.supertonic-cache")
@@ -443,6 +450,7 @@ def resolve_supertonic_python(config: TTSConfig) -> Path:
     candidates = [
         config.tts_python,
         Path(os.environ["TOPIK_SUPERTONIC_PYTHON"]) if os.environ.get("TOPIK_SUPERTONIC_PYTHON") else None,
+        *DEFAULT_WORKSPACE_TTS_PYTHONS,
         DEFAULT_ANKI_TTS_PYTHON,
         Path(sys.executable),
     ]
@@ -450,7 +458,7 @@ def resolve_supertonic_python(config: TTSConfig) -> Path:
         if candidate and candidate.exists():
             return candidate
     raise RuntimeError(
-        "Supertonic Python runtime was not found. Set TOPIK_SUPERTONIC_PYTHON or pass --tts-python."
+        "Supertonic Python runtime was not found. Run setup-tts.ps1, or set TOPIK_SUPERTONIC_PYTHON / --tts-python."
     )
 
 

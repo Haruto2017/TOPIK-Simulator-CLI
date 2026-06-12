@@ -1,4 +1,12 @@
-# Optional local Korean TTS dependencies.
-# Install CUDA-enabled torch separately from https://pytorch.org/get-started/
-git+https://github.com/myshell-ai/MeloTTS.git
+# Korean speech (TTS) for listening questions — the default Supertonic provider.
+# Install with .\setup-tts.ps1 (creates .venv-tts and points the simulator at it),
+# or: python -m pip install -r requirements-tts.txt
+#
+# onnxruntime-directml runs on any DirectX 12 GPU on Windows (no CUDA needed);
+# the simulator falls back to CPU with --tts-onnx-provider cpu.
+supertonic>=1.3
+onnxruntime-directml; sys_platform == "win32"
+onnxruntime; sys_platform != "win32"
 
+# Alternative providers (MeloTTS, XTTS-v2) are heavier and optional — see
+# docs/TTS_SETUP.md for their install commands.

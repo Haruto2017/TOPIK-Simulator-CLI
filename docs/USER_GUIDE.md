@@ -13,7 +13,7 @@ You need:
 1. **Windows** with **Python 3.9 or newer**. Get it from python.org and tick "Add python.exe to PATH" in the installer.
 2. **This folder** — the one containing `topik.cmd`.
 3. Optional but recommended: run `pip install prompt_toolkit` once. It enables slash-command autocompletion, the countdown toolbar, and the pinned keyboard chart. Everything still works without it, just with plainer prompts.
-4. Optional: a local Korean speech (TTS) runtime, so listening questions play real audio. Without one, exams remain fully usable — transcripts appear automatically (see the FAQ).
+4. Optional: Korean speech, so listening questions play real audio — run `.\setup-tts.ps1` once. Without it, exams remain fully usable — transcripts appear automatically (see the FAQ).
 
 Open PowerShell in this folder and run:
 
@@ -151,7 +151,7 @@ To make settings stick between sessions — voice, volume, speed, always-visible
 ## FAQ
 
 **No sound, or no speech runtime installed?**
-Exams stay fully usable. When a listening question has no playable audio, the simulator says so and shows the transcript before you answer, so nothing blocks you. If you have audio but want silence, `/tts off`. To find out what the speech system is missing, run `.\topik.cmd doctor`.
+To get audio, run `.\setup-tts.ps1` once — it installs the speech engine into a private environment that the simulator finds by itself (the voice model downloads the first time audio plays). Until then exams stay fully usable: when a listening question has no playable audio, the simulator says so and shows the transcript before you answer, so nothing blocks you. If you have audio but want silence, `/tts off`. To find out what the speech system is missing, run `.\topik.cmd doctor`.
 
 **How do I type Korean on Windows?**
 Settings → Time & language → Language & region → Add a language → 한국어. That installs the Microsoft Korean IME. Switch between English and Korean with the 한/영 key — on most non-Korean keyboards that is the **right Alt** key (Win+Space also cycles input methods). Inside the simulator, `/keyboard on` pins the 두벌식 layout chart so you can see where every letter lives, and `/typing` trains you from single letters up to full words.

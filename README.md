@@ -11,6 +11,7 @@ No programming knowledge needed:
 3. **Launch:** double-click `topik.cmd` in this folder, or run `.\topik.cmd` from a terminal (PowerShell users can also run `.\topik.ps1`). The launcher works from any directory — no `PYTHONPATH`, no module syntax.
 4. **First run:** say yes when the shell offers to import the bundled mock exams.
 5. **Press Enter** at the prompt to open the guided menu (Take a test / Practice / Progress / Settings).
+6. **Optional — spoken listening audio:** run `.\setup-tts.ps1` once (see *Korean speech* below). Exams work without it; transcripts are shown instead of audio.
 
 If something does not work, run `.\topik.cmd doctor` — it checks your Python, audio, and content setup line by line and tells you how to fix each problem. The full learner manual is `docs/USER_GUIDE.md`.
 
@@ -69,14 +70,17 @@ python -m topik_sim.tts_cli speak "안녕하세요. 오늘은 날씨가 좋습�
 python -m topik_sim grade examples/content/topik_i_mini_pack.json examples/answers/sample_answers.json
 ```
 
-For the Anki-proven local Korean TTS path, the default provider now uses Supertonic and automatically reuses `H:\software\anki\.tts-venv` when it exists:
+## Korean speech (listening audio)
+
+Listening questions are spoken by a local TTS engine. One-time setup:
 
 ```powershell
-$env:PYTHONPATH = "src"
-python -m topik_sim take topik-i-level-1-full-sample@0.1.0
+.\setup-tts.ps1
 ```
 
-During a listening question, type `/replay` at the answer prompt to hear the audio again. After answering, the app pauses on the explanation; press Enter for the next question or type `/replay` to hear the previous question audio again. Use `--tts-volume 0.8` or another gain value to adjust generated audio volume.
+This creates a private `.venv-tts` environment and installs the default Supertonic engine (DirectML — works on any DirectX 12 GPU, CUDA not required; `--tts-onnx-provider cpu` for CPU-only machines). The simulator finds it automatically; the voice model downloads once the first time audio plays. Verify anytime with `.\topik.cmd doctor`.
+
+Without TTS everything still works — listening questions show their transcripts instead. During a listening question, `/replay` plays the audio again, and `/tts volume 0.8` adjusts loudness live. Advanced options (other providers, an existing Supertonic environment via `TOPIK_SUPERTONIC_PYTHON`): see `docs/TTS_SETUP.md`.
 
 ## Project Overview
 
