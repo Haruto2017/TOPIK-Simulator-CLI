@@ -524,7 +524,9 @@ class ShellTests(unittest.TestCase):
         text = "\n".join(output)
         self.assertEqual(shell.state, PICK_PACK)
         self.assertIn("Pick a pack to take", text)
-        self.assertIn("topik-i-mini-pack@0.1.0", text)
+        self.assertIn("TOPIK I", text)
+        self.assertIn("topik-i-mini-pack", text)
+        self.assertIn("untaken", text)
 
         output.clear()
         self.feed(shell, ["1"])

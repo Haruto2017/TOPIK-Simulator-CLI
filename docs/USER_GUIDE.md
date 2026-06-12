@@ -171,6 +171,8 @@ Every question carries a point value (3 or 4 points in the bundled mocks), and e
 **The exam pauses to generate audio?**
 The first time a sentence is spoken it is synthesized and cached; after that it plays instantly. To do all of that ahead of time, warm the pack before sitting it: `.\topik.cmd audio warm topik-i-authentic-mock-01`.
 
+**Which exam should I take?** Run `/packs` (or just `/take` and read the picker): exams are grouped by TOPIK level, and each row shows its difficulty label — `starter (English options)` packs are gentle warm-ups with English answer choices, `authentic` packs match the real exam (everything in Korean) — plus your best score so far or `untaken`. Start on a starter pack if you are brand new; move to the authentic mocks as soon as you can. Typing text in the picker (for example `authentic` or `ii`) narrows the list, and you can hide packs you have outgrown with `.\topik.cmd hide-pack <pack-id>`.
+
 ## Glossary
 
 - **Pack** — one importable exam or practice set: a JSON file of sections, questions, answers, and teaching notes.

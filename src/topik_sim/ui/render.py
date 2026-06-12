@@ -16,8 +16,10 @@ def _width() -> int:
 def banner() -> str:
     width = _width()
     inner = width - 4
+    from .. import __version__
+
     rows = [
-        "TOPIK Simulator",
+        f"TOPIK Simulator {__version__}",
         "Press Enter to open the menu and explore everything",
         "/take starts a test · /help lists commands · / is never an answer",
     ]

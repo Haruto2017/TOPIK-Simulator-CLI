@@ -82,7 +82,10 @@ def collect_stats(
 
         score = int(result.get("score", 0))
         max_score = int(result.get("max_score", 0))
-        pack_entry = packs.setdefault(ref, {"attempts": 0, "best": (0, 0), "last": (0, 0)})
+        # Keyed by pack_id, not the pinned ref: version bumps must not split
+        # one pack's history into separate rows.
+        pack_key = str(attempt.get("pack_id", "?"))
+        pack_entry = packs.setdefault(pack_key, {"attempts": 0, "best": (0, 0), "last": (0, 0)})
         pack_entry["attempts"] += 1
         pack_entry["last"] = (score, max_score)
         best_score, best_max = pack_entry["best"]
@@ -105,6 +108,27 @@ def collect_stats(
         "trend": trend[-trend_limit:],
         "skipped": skipped,
     }
+
+
+def pack_progress(attempt_dir: str | Path) -> dict[str, dict[str, Any]]:
+    """Per-pack_id attempt history for pickers: count, best, and last score.
+
+    Reads only attempt files (no pack loading), so it is cheap enough to run
+    every time a picker opens.
+    """
+    progress: dict[str, dict[str, Any]] = {}
+    for attempt in load_completed_attempts(attempt_dir):
+        result = attempt.get("result") or {}
+        score = int(result.get("score", 0))
+        max_score = int(result.get("max_score", 0))
+        entry = progress.setdefault(str(attempt.get("pack_id", "?")), {"attempts": 0, "best": (0, 0), "last": (0, 0)})
+        entry["attempts"] += 1
+        entry["last"] = (score, max_score)
+        best_score, best_max = entry["best"]
+        best_ratio = best_score / best_max if best_max else -1.0
+        if max_score and score / max_score > best_ratio:
+            entry["best"] = (score, max_score)
+    return progress
 
 
 def format_stats(stats: dict[str, Any]) -> list[str]:

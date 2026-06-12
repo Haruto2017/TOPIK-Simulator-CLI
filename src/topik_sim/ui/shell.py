@@ -9,7 +9,7 @@ from typing import Any, Callable
 from ..activities import create_drill_attempt, missed_question_ids
 from ..attempts import load_attempt, save_attempt_to_dir
 from ..content import ContentValidationError, ExamPack, load_pack
-from ..library import DEFAULT_LIBRARY_DIR, list_packs, load_pack_ref
+from ..library import DEFAULT_LIBRARY_DIR, latest_packs, list_packs, load_pack_ref
 from ..prefetch import AudioPrefetcher
 from ..session import ExamSession
 from ..tts import (
@@ -258,15 +258,45 @@ class Shell:
         self._quit = True
 
     def cmd_packs(self, argument: str) -> None:
-        packs = list_packs(self.library_dir)
-        if not packs:
-            self.emit("No packs imported. Use: python -m topik_sim import-pack <pack.json>")
+        from ..stats import pack_progress
+
+        argument = argument.strip()
+        include_hidden = argument.lower() == "all"
+        filter_text = "" if include_hidden else argument
+        entries = latest_packs(self.library_dir, include_hidden=include_hidden)
+        if not entries:
+            self.emit("No packs imported. Run: topik-sim setup (or import-pack <pack.json>)")
             return
-        self.emit(render.rule("Packs"))
-        for pack in packs:
-            ref = f"{pack['pack_id']}@{pack['pack_version']}"
-            self.emit(f"  {ansi.style(ref, ansi.CYAN)}  {pack['title']} ({pack['question_count']} question(s))")
-        self.emit("Start one with /take <pack_id>")
+        matched = self._filter_pack_entries(entries, filter_text)
+        if filter_text and not matched:
+            self.emit(f"No pack matches {filter_text!r} — showing everything.")
+            matched = entries
+        progress = pack_progress(self.attempt_dir)
+
+        self.emit(render.rule("Packs" + (f" · filter: {filter_text}" if filter_text and matched is not entries else "")))
+        by_level: dict[str, list[dict[str, Any]]] = {}
+        for entry in matched:
+            by_level.setdefault(str(entry.get("topik_level", "OTHER")), []).append(entry)
+        for level in sorted(by_level):
+            self.emit(ansi.style(level.replace("_", " "), ansi.BOLD))
+            for entry in by_level[level]:
+                pack_id = str(entry.get("pack_id", ""))
+                meta_parts = [f"v{entry.get('pack_version', '?')}"]
+                if entry.get("difficulty"):
+                    meta_parts.append(str(entry["difficulty"]))
+                meta_parts.append(f"{entry.get('question_count', '?')} q")
+                meta_parts.append(self._pack_progress_note(progress, pack_id))
+                if entry.get("hidden"):
+                    meta_parts.append("[hidden]")
+                self.emit(
+                    f"  {ansi.style(pack_id, ansi.CYAN)}  {entry.get('title', '')}"
+                    f"  {ansi.style(' · '.join(meta_parts), ansi.GREY)}"
+                )
+        if not include_hidden:
+            hidden_count = len(latest_packs(self.library_dir, include_hidden=True)) - len(entries)
+            if hidden_count:
+                self.emit(ansi.style(f"({hidden_count} hidden — /packs all shows them)", ansi.GREY))
+        self.emit("Start one with /take <pack_id> · filter like /packs ii or /packs authentic")
 
     def cmd_attempts(self, argument: str) -> None:
         entries = self._refresh_recent()
@@ -1016,7 +1046,8 @@ class Shell:
         items: list[tuple[str, str]] = []
         for pack_id, versions in by_id.items():
             latest = versions[-1]
-            meta = f"{latest.get('title', '')} · {latest.get('question_count', '?')} q"
+            difficulty = f" · {latest['difficulty']}" if latest.get("difficulty") else ""
+            meta = f"{latest.get('title', '')}{difficulty} · {latest.get('question_count', '?')} q"
             items.append((pack_id, meta))
             # A bare id always means the latest version; pinned refs only
             # earn a place in the menu when there is actually a choice.
@@ -1082,23 +1113,75 @@ class Shell:
         self.state = PICK
         return None
 
-    def _open_pack_picker(self, action: str) -> bool:
-        """Numbered pack chooser for no-argument /take, /flashcards, /dictation."""
+    LEVEL_FILTERS = {"i": "TOPIK_I", "1": "TOPIK_I", "topik-i": "TOPIK_I", "ii": "TOPIK_II", "2": "TOPIK_II", "topik-ii": "TOPIK_II"}
+
+    def _filter_pack_entries(self, entries: list[dict[str, Any]], filter_text: str) -> list[dict[str, Any]]:
+        wanted = filter_text.strip().lower()
+        if not wanted:
+            return entries
+        level = self.LEVEL_FILTERS.get(wanted)
+        if level:
+            return [entry for entry in entries if str(entry.get("topik_level", "")) == level]
+        return [
+            entry
+            for entry in entries
+            if wanted in " ".join(
+                str(entry.get(field, "")) for field in ("pack_id", "title", "difficulty", "topik_level")
+            ).lower()
+        ]
+
+    def _pack_progress_note(self, progress: dict[str, dict[str, Any]], pack_id: str) -> str:
+        entry = progress.get(pack_id)
+        if not entry:
+            return "untaken"
+        best_score, best_max = entry["best"]
+        return f"best {best_score}/{best_max} · {entry['attempts']} attempt(s)"
+
+    def _open_pack_picker(self, action: str, filter_text: str = "") -> bool:
+        """Pack chooser for no-argument /take, /flashcards, /dictation:
+        grouped by level, with difficulty and your progress per pack.
+        Typing text instead of a number narrows the list."""
         if self.session is not None:
             return False
+        from ..stats import pack_progress
+
         try:
-            packs = list_packs(self.library_dir)
+            entries = latest_packs(self.library_dir)
         except (OSError, ValueError, KeyError):
-            packs = []
-        if not packs:
+            entries = []
+        if not entries:
             return False
-        self._pack_pick_refs = [f"{pack['pack_id']}@{pack['pack_version']}" for pack in packs]
+        matched = self._filter_pack_entries(entries, filter_text)
+        if filter_text and not matched:
+            self.emit(f"No pack matches {filter_text!r} — showing everything.")
+            matched = entries
+            filter_text = ""
+        progress = pack_progress(self.attempt_dir)
+
+        self._pack_pick_refs = []
         self._pack_pick_action = action
-        self.emit(render.rule(f"Pick a pack to {action}"))
-        for index, pack in enumerate(packs, start=1):
-            meta = f"{self._pack_pick_refs[index - 1]} · {pack.get('question_count', '?')} question(s)"
-            self.emit(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {pack['title']}  {ansi.style(meta, ansi.GREY)}")
-        self.emit("Type the number, or press Enter to cancel.")
+        label = f"Pick a pack to {action}" + (f" · filter: {filter_text}" if filter_text else "")
+        self.emit(render.rule(label))
+        by_level: dict[str, list[dict[str, Any]]] = {}
+        for entry in matched:
+            by_level.setdefault(str(entry.get("topik_level", "OTHER")), []).append(entry)
+        index = 0
+        for level in sorted(by_level):
+            self.emit(ansi.style(level.replace("_", " "), ansi.BOLD))
+            for entry in by_level[level]:
+                index += 1
+                pack_id = str(entry.get("pack_id", ""))
+                self._pack_pick_refs.append(pack_id)
+                meta_parts = [pack_id]
+                if entry.get("difficulty"):
+                    meta_parts.append(str(entry["difficulty"]))
+                meta_parts.append(f"{entry.get('question_count', '?')} q")
+                meta_parts.append(self._pack_progress_note(progress, pack_id))
+                self.emit(
+                    f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {entry.get('title', pack_id)}"
+                    f"  {ansi.style(' · '.join(meta_parts), ansi.GREY)}"
+                )
+        self.emit("Type a number · type text (e.g. ii, authentic) to filter · Enter cancels.")
         self.state = PICK_PACK
         return True
 
@@ -1113,6 +1196,10 @@ class Shell:
             self._clear_pack_pick()
             handler = {"take": self.cmd_take, "flashcards": self.cmd_flashcards, "dictation": self.cmd_dictation}[action]
             handler(ref)
+            return
+        if not text.isdigit():
+            # Anything non-numeric narrows the list instead of erroring.
+            self._open_pack_picker(self._pack_pick_action, filter_text=text)
             return
         self.emit(f"Type a number from 1 to {len(self._pack_pick_refs)}, or press Enter to cancel.")
 

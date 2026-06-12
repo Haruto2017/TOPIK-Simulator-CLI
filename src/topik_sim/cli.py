@@ -25,7 +25,14 @@ from .audio_cache import cache_stats, prune_cache, warm_pack
 from .config import config_value, load_config
 from .content import ContentValidationError, load_pack, validate_pack_file
 from .grading import grade_answers, grade_question
-from .library import DEFAULT_LIBRARY_DIR, import_pack, list_packs, load_pack_ref, validate_library
+from .library import (
+    DEFAULT_LIBRARY_DIR,
+    import_pack,
+    list_packs,
+    load_pack_ref,
+    set_pack_hidden,
+    validate_library,
+)
 from .question_types import response_format_hint
 from .tts import (
     DEFAULT_AUDIO_DIR,
@@ -190,9 +197,20 @@ def build_parser() -> argparse.ArgumentParser:
     import_content.add_argument("--replace", action="store_true", help="Replace an existing pack with the same id and version.")
     import_content.set_defaults(handler=handle_import_pack)
 
-    list_content = subparsers.add_parser("list-packs", help="List packs in the content library.")
+    list_content = subparsers.add_parser("list-packs", help="List packs in the content library, grouped by level.")
     list_content.add_argument("--library", default=library_default, help="Content library directory.")
+    list_content.add_argument("--all", action="store_true", help="Include hidden packs (marked [hidden]).")
     list_content.set_defaults(handler=handle_list_packs)
+
+    hide_pack = subparsers.add_parser("hide-pack", help="Hide a pack from pickers and practice pools (still loadable by ref).")
+    hide_pack.add_argument("pack_id", help="Pack id; every imported version is hidden.")
+    hide_pack.add_argument("--library", default=library_default, help="Content library directory.")
+    hide_pack.set_defaults(handler=handle_hide_pack)
+
+    show_pack = subparsers.add_parser("show-pack", help="Unhide a previously hidden pack.")
+    show_pack.add_argument("pack_id", help="Pack id; every imported version is unhidden.")
+    show_pack.add_argument("--library", default=library_default, help="Content library directory.")
+    show_pack.set_defaults(handler=handle_show_pack)
 
     validate_library_parser = subparsers.add_parser("validate-library", help="Validate the content library manifest and pack files.")
     validate_library_parser.add_argument("--library", default=library_default, help="Content library directory.")
@@ -772,12 +790,38 @@ def handle_import_pack(args: argparse.Namespace) -> int:
 
 
 def handle_list_packs(args: argparse.Namespace) -> int:
-    packs = list_packs(args.library)
+    packs = list_packs(args.library, include_hidden=args.all)
     if not packs:
         print("No packs imported.")
         return 0
+    by_level: dict[str, list[dict[str, Any]]] = {}
     for pack in packs:
-        print(f"{pack['pack_id']}@{pack['pack_version']} - {pack['title']} ({pack['question_count']} question(s))")
+        by_level.setdefault(str(pack.get("topik_level", "OTHER")), []).append(pack)
+    for level in sorted(by_level):
+        print(f"{level}:")
+        for pack in by_level[level]:
+            difficulty = f" · {pack['difficulty']}" if pack.get("difficulty") else ""
+            hidden = " [hidden]" if pack.get("hidden") else ""
+            print(
+                f"  {pack['pack_id']}@{pack['pack_version']} - {pack['title']}"
+                f"{difficulty} ({pack['question_count']} question(s)){hidden}"
+            )
+    if not args.all:
+        hidden_count = len(list_packs(args.library, include_hidden=True)) - len(packs)
+        if hidden_count:
+            print(f"({hidden_count} hidden pack version(s) — list-packs --all shows them)")
+    return 0
+
+
+def handle_hide_pack(args: argparse.Namespace) -> int:
+    changed = set_pack_hidden(args.pack_id, True, args.library)
+    print(f"Hidden {changed} version(s) of {args.pack_id}. show-pack restores it.")
+    return 0
+
+
+def handle_show_pack(args: argparse.Namespace) -> int:
+    changed = set_pack_hidden(args.pack_id, False, args.library)
+    print(f"Unhidden {changed} version(s) of {args.pack_id}.")
     return 0
 
 

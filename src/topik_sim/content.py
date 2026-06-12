@@ -101,6 +101,8 @@ def validate_pack_data(data: Any) -> list[str]:
         errors.append("pack.topik_level must be TOPIK_I or TOPIK_II.")
     if data.get("source_type") not in SUPPORTED_SOURCE_TYPES:
         errors.append("pack.source_type must be original, licensed, public_domain, or user_provided.")
+    if "difficulty" in data and not isinstance(data.get("difficulty"), str):
+        errors.append("pack.difficulty must be a string label when present.")
     if not str(data.get("pack_version", "")).strip():
         errors.append("pack.pack_version is required.")
     if not isinstance(data.get("sections"), list) or not data.get("sections"):

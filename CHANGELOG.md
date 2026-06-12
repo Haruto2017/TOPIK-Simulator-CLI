@@ -42,6 +42,11 @@ single launcher, fully offline.
   shown instead).
 - **Progress tracking**: cross-attempt accuracy statistics and exportable
   Markdown study reports.
+- **Pack management at scale**: pack lists and pickers group by TOPIK level
+  and show each pack's difficulty label, size, and your best score; typing
+  text in a picker filters it (`ii`, `authentic`, any title fragment). Packs
+  can carry a `difficulty` label, and `hide-pack`/`show-pack` retire packs
+  from view without breaking old attempts.
 - **Workspace configuration**: an optional `topik.config.json` holds defaults
   such as voice, volume, and directories; command-line flags always win.
 - **Self-diagnosis**: `doctor` checks Python, the shell extras, audio, the

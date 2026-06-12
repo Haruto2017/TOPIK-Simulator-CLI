@@ -60,7 +60,8 @@ First-time navigation:
 
 - Pressing Enter at an idle prompt (or `/menu`, alias `/m`) opens a numbered menu of functional areas — Take a test, Practice, Progress, Library & settings, While answering, Shell. Picking a number drills into that area's commands; picking again runs one. Enter goes back, then closes. Slash commands keep working at every level.
 - `/help` lists commands grouped by the same categories.
-- `/take`, `/flashcards`, and `/dictation` with no argument open a numbered pack picker instead of demanding a pack id.
+- `/take`, `/flashcards`, and `/dictation` with no argument open a numbered pack picker instead of demanding a pack id. The picker shows one row per pack (latest version), grouped by TOPIK level, with the difficulty label, size, and your progress (`best 152/200 · 3 attempt(s)` or `untaken`). Typing text instead of a number narrows the list — `i`/`ii` filter by level, anything else matches ids, titles, and difficulty labels.
+- `/packs [filter|all]` uses the same grouping, filters, and progress; `all` includes hidden packs.
 
 Slash commands:
 
@@ -351,10 +352,21 @@ Behavior:
 
 ## `list-packs`
 
-Lists packs currently imported into the content library.
+Lists packs currently imported into the content library, grouped by TOPIK level, one line per imported version, with the difficulty label when the pack carries one.
 
 ```powershell
-python -m topik_sim list-packs [--library <library_dir>]
+python -m topik_sim list-packs [--library <library_dir>] [--all]
+```
+
+Hidden packs are omitted unless `--all` is passed (then marked `[hidden]`); a footer reports how many are hidden.
+
+## `hide-pack` / `show-pack`
+
+Retire a pack from pickers, completion, library-wide practice pools, and default listings without deleting it. Every imported version of the pack id is affected. Hidden packs still resolve by bare or pinned ref, so old attempts keep working. The hidden flag lives in the local library manifest (runtime state, not tracked content).
+
+```powershell
+python -m topik_sim hide-pack <pack_id> [--library <dir>]
+python -m topik_sim show-pack <pack_id> [--library <dir>]
 ```
 
 ## `validate-library`

@@ -51,7 +51,7 @@ class StatsTests(unittest.TestCase):
         self.assertEqual(reading["correct"], 3)
         self.assertAlmostEqual(reading["seconds"], 22.0)
 
-        pack_entry = stats["packs"]["topik-i-mini-pack@0.1.0"]
+        pack_entry = stats["packs"]["topik-i-mini-pack"]
         self.assertEqual(pack_entry["attempts"], 2)
         self.assertEqual(pack_entry["best"], (2, 2))
         self.assertEqual(pack_entry["last"], (2, 2))
@@ -64,7 +64,7 @@ class StatsTests(unittest.TestCase):
         text = "\n".join(lines)
         self.assertIn("Completed attempts: 1", text)
         self.assertIn("reading: 50% (1/2) · avg 6s/question", text)
-        self.assertIn("topik-i-mini-pack@0.1.0: 1 attempt(s) · best 1/2 · last 1/2", text)
+        self.assertIn("topik-i-mini-pack: 1 attempt(s) · best 1/2 · last 1/2", text)
 
     def test_stats_cli_reports_empty_state(self):
         output = StringIO()

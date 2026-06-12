@@ -32,6 +32,10 @@ Required pack fields:
 - `source_type`: `original`, `licensed`, `public_domain`, or `user_provided`
 - `sections`
 
+Optional pack fields:
+
+- `difficulty`: a free-text label shown wherever packs are listed or picked, e.g. `"authentic"`, `"starter (English options)"`, `"level 3-4"`. Use it so learners can tell exam tiers apart at a glance; it is recorded in the library manifest at import.
+
 ## Section Shape
 
 ```json

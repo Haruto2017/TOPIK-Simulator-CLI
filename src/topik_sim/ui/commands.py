@@ -133,9 +133,12 @@ COMMANDS: list[Command] = [
         "Examples: /report · /report 2",
     ),
     Command(
-        "packs", "cmd_packs", "/packs", "List imported content packs.",
+        "packs", "cmd_packs", "/packs [filter|all]", "List imported packs grouped by level, with your progress.",
         category="Library & settings",
-        details="Shows the pack ids used by /take, /flashcards, /dictation, and /typing.",
+        details="Grouped by TOPIK level; each row shows version, difficulty label, size, and your\n"
+        "best score. filter narrows by level (i, ii) or any text (e.g. authentic); all includes\n"
+        "hidden packs. Hide retired packs with: topik-sim hide-pack <pack_id>.\n"
+        "Examples: /packs · /packs i · /packs authentic · /packs all",
     ),
     Command(
         "tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]", "Show or change speech settings.",
