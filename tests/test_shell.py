@@ -276,7 +276,38 @@ class ShellTests(unittest.TestCase):
         text = "\n".join(output)
         self.assertIn("was not found", text)
         self.assertIn("Did you mean: topik-i-mini-pack?", text)
-        self.assertIn("topik-i-mini-pack@0.1.0", shell.pack_completions())
+
+    def test_pack_completions_dedupe_versions_and_carry_meta(self):
+        import json as json_module
+
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, _, _ = self.make_shell()
+        completions = shell.pack_completions()
+        refs = [ref for ref, _ in completions]
+        # One imported version: the bare id only — no redundant pinned twin.
+        self.assertEqual(refs, ["topik-i-mini-pack"])
+        self.assertEqual(completions[0][1], "TOPIK I Mini Pack · 2 q")
+
+        # A second version earns pinned refs for both.
+        data = json_module.loads(SAMPLE_PACK.read_text(encoding="utf-8"))
+        data["pack_version"] = "0.2.0"
+        newer = self.temp_dir / "mini_v2.json"
+        newer.write_text(json_module.dumps(data, ensure_ascii=False), encoding="utf-8")
+        import_pack(newer, self.temp_dir / "library")
+        shell._completion_cache.clear()
+        refs = [ref for ref, _ in shell.pack_completions()]
+        self.assertEqual(
+            refs,
+            ["topik-i-mini-pack", "topik-i-mini-pack@0.1.0", "topik-i-mini-pack@0.2.0"],
+        )
+
+    def test_prompt_style_constructs(self):
+        from topik_sim.ui.shell import _make_style
+
+        style = _make_style()
+        self.assertTrue(style.style_rules)
 
     def test_unknown_command_and_help(self):
         shell, output, _ = self.make_shell()

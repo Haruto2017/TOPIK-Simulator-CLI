@@ -983,22 +983,32 @@ class Shell:
         self._completion_cache[key] = (now, value)
         return value
 
-    def pack_completions(self) -> list[str]:
-        """Pack ids (plus pinned refs) offered by /take autocompletion."""
+    def pack_completions(self) -> list[tuple[str, str]]:
+        """(ref, description) pairs for pack autocompletion."""
         return self._cached_completions("packs", self._build_pack_completions)
 
-    def _build_pack_completions(self) -> list[str]:
+    def _build_pack_completions(self) -> list[tuple[str, str]]:
         try:
             packs = list_packs(self.library_dir)
         except (OSError, ValueError, KeyError):
             return []
-        refs: list[str] = []
+        by_id: dict[str, list[dict[str, Any]]] = {}
         for pack in packs:
             pack_id = str(pack.get("pack_id", ""))
-            if pack_id and pack_id not in refs:
-                refs.append(pack_id)
-            refs.append(f"{pack_id}@{pack.get('pack_version', '')}")
-        return refs
+            if pack_id:
+                by_id.setdefault(pack_id, []).append(pack)
+        items: list[tuple[str, str]] = []
+        for pack_id, versions in by_id.items():
+            latest = versions[-1]
+            meta = f"{latest.get('title', '')} · {latest.get('question_count', '?')} q"
+            items.append((pack_id, meta))
+            # A bare id always means the latest version; pinned refs only
+            # earn a place in the menu when there is actually a choice.
+            if len(versions) > 1:
+                for version in versions:
+                    ref = f"{pack_id}@{version.get('pack_version', '')}"
+                    items.append((ref, f"{version.get('title', '')} · version {version.get('pack_version', '?')}"))
+        return items
 
     def _resolve_pack_for_attempt(self, attempt: dict[str, Any]) -> ExamPack:
         """Prefer the library, but fall back to the source file the attempt was started from."""
@@ -1198,10 +1208,28 @@ class PromptToolkitFrontend:
             complete_while_typing=True,
             bottom_toolbar=shell.status_line,
             refresh_interval=1.0,  # the toolbar countdown ticks without keystrokes
+            style=_make_style(),
         )
 
     def readline(self) -> str:
         return self._session.prompt("❯ ")
+
+
+def _make_style():
+    """Calm dark menu with a cyan selection bar and a dimmer meta column."""
+    from prompt_toolkit.styles import Style
+
+    return Style.from_dict(
+        {
+            "completion-menu": "bg:#20242e #d4dae3",
+            "completion-menu.completion.current": "bg:#3fa7c4 #10151c bold",
+            "completion-menu.meta.completion": "bg:#181c24 #8a94a3",
+            "completion-menu.meta.completion.current": "bg:#3fa7c4 #10151c",
+            "scrollbar.background": "bg:#20242e",
+            "scrollbar.button": "bg:#3fa7c4",
+            "bottom-toolbar": "bg:#181c24 #9aa5b5",
+        }
+    )
 
 
 def _make_completer(shell: Shell):
@@ -1229,9 +1257,14 @@ def _make_completer(shell: Shell):
             if " " in argument:
                 return
             if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate"}:
-                for ref in shell.pack_completions():
+                for ref, meta in shell.pack_completions():
                     if ref.startswith(argument):
-                        yield Completion(ref, start_position=-len(argument), display=ref)
+                        yield Completion(
+                            ref,
+                            start_position=-len(argument),
+                            display=ref,
+                            display_meta=meta,
+                        )
             elif name in {"resume", "drill", "report"}:
                 for value, meta in shell.attempt_completion_items(name):
                     if value.startswith(argument):

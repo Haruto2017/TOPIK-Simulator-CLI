@@ -27,7 +27,7 @@ First-time navigation:
 
 Slash commands:
 
-- `/take [pack] [section] [limit]`: start a test from a library ref or pack file; with no argument a pack picker opens. Pack ids autocomplete; typos get close-match suggestions.
+- `/take [pack] [section] [limit]`: start a test from a library ref or pack file; with no argument a pack picker opens. Pack ids autocomplete with the pack title and size shown alongside; a bare id always means the latest version, and pinned `id@version` entries appear in the menu only when several versions of that pack are imported. Typos get close-match suggestions.
 - `/resume [n|path]`: resume an in-progress attempt. With no argument and several candidates, an interactive numbered picker opens (type the number, Enter cancels); a single candidate resumes directly. Tab after `/resume ` completes attempt numbers with status and progress.
 - `/drill [n|path]`: build and run a drill over the questions missed in a completed attempt. Same picker and completion behavior as `/resume`, over completed attempts.
 - `/review [pack]`: spaced-repetition session over due previously-missed questions (see `review`).
