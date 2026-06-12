@@ -135,14 +135,14 @@ class TypingShellTests(unittest.TestCase):
         shell, output = self.make_shell()
         shell.handle_line("/typing 3")
         self.assertEqual(shell.state, TYPING)
-        items = list(shell._typing_items)
+        answers = [item["answer"] for item in shell._typing_items]
 
-        shell.handle_line(items[0])          # correct
+        shell.handle_line(answers[0])        # correct
         shell.handle_line("틀림")             # wrong on purpose
-        shell.handle_line(items[2])          # correct
+        shell.handle_line(answers[2])        # correct
         text = "\n".join(output)
         self.assertIn("✓", text)
-        self.assertIn(f"✗ {items[1]}", text)
+        self.assertIn(f"✗ {answers[1]}", text)
         self.assertIn("Keys:", text)
         self.assertIn("Typed 2/3 correctly.", text)
         self.assertIn("Practice again:", text)
@@ -155,7 +155,7 @@ class TypingShellTests(unittest.TestCase):
         shell, output = self.make_shell()
         shell.handle_line("/typing 12")
         vocab = {"오늘", "날씨", "좋다", "도서관", "책", "읽다"}
-        self.assertTrue(vocab & set(shell._typing_items))
+        self.assertTrue(vocab & {item["answer"] for item in shell._typing_items})
         shell.handle_line("/pause")
 
     def test_typing_pause_stops_early(self):

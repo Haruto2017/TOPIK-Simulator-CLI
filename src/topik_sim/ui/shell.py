@@ -96,10 +96,12 @@ class Shell:
         self._menu_group: list[Any] = []
         self.keyboard_hints = keyboard_hints
         self.keyboard_pinned = keyboard_pinned
-        self._typing_items: list[str] = []
+        self._typing_items: list[dict[str, Any]] = []
         self._typing_index = 0
         self._typing_hits = 0
         self._typing_missed: list[str] = []
+        self._typing_label = "Typing practice"
+        self._typing_verb = "Typed"
 
     # ------------------------------------------------------------- plumbing
 
@@ -392,7 +394,7 @@ class Shell:
                 self.emit("This card has nothing to speak.")
             return
         if not argument and self.state == TYPING and self._typing_items:
-            self._speak([self._typing_items[self._typing_index]], playback=True)
+            self._speak([self._typing_items[self._typing_index]["speech"]], playback=True)
             return
         if not argument:
             self.emit("Usage: /say <text> — pronounces the sentence without touching your answer.")
@@ -448,38 +450,82 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
-        self._typing_items = build_typing_items(
+        targets = build_typing_items(
             seed=self._flashcard_seed,
             pack=pack,
             count=count,
             library_dir=None if pack else self.library_dir,
         )
+        items = [{"show": target, "accept": [target], "answer": target, "speech": target} for target in targets]
+        title = f"Typing practice: {pack.title}" if pack else "Typing practice"
+        self._start_typing(items, label="Typing practice", verb="Typed", title=title,
+                           hint="type what you see · /keyboard shows the layout · /pause stops")
+
+    def cmd_recall(self, argument: str) -> None:
+        from ..flashcards import build_recall_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        pack = None
+        count = 10
+        for part in argument.split():
+            if part.isdigit():
+                count = int(part)
+            else:
+                try:
+                    pack = self._resolve_pack(part)
+                except (ValueError, ContentValidationError, OSError) as exc:
+                    self.emit(str(exc))
+                    suggestions = self._suggest_packs(part)
+                    if suggestions:
+                        self.emit(f"Did you mean: {', '.join(suggestions)}?")
+                    return
+        items = build_recall_items(
+            pack=pack,
+            library_dir=None if pack else self.library_dir,
+            seed=self._flashcard_seed,
+            count=count,
+        )
+        if not items:
+            self.emit("No vocabulary found. Import a pack first, or name one: /recall <pack>")
+            return
+        title = f"Vocab recall: {pack.title}" if pack else "Vocab recall: every imported pack"
+        self._start_typing(items, label="Vocab recall", verb="Recalled", title=title,
+                           hint="type the Korean for each English word · /pause stops")
+
+    def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str) -> None:
+        self._typing_items = items
         self._typing_index = 0
         self._typing_hits = 0
         self._typing_missed = []
-        title = f"Typing practice: {pack.title}" if pack else "Typing practice"
+        self._typing_label = label
+        self._typing_verb = verb
         self.emit(ansi.style(title, ansi.BOLD))
-        self.emit(f"{len(self._typing_items)} item(s) · type what you see · /keyboard shows the layout · /pause stops")
+        self.emit(f"{len(items)} item(s) · {hint}")
         self._present_typing()
 
     def _present_typing(self) -> None:
         item = self._typing_items[self._typing_index]
         self.emit("")
-        self.emit(render.rule(f"Typing {self._typing_index + 1}/{len(self._typing_items)}"))
-        self.emit(ansi.style(item, ansi.BOLD, ansi.CYAN))
+        self.emit(render.rule(f"{self._typing_label} {self._typing_index + 1}/{len(self._typing_items)}"))
+        self.emit(ansi.style(item["show"], ansi.BOLD, ansi.CYAN))
         self.state = TYPING
 
     def _grade_typing(self, typed: str) -> None:
         from ..hangul import keystroke_hint
         from ..typing_drill import normalize_typed
 
-        target = self._typing_items[self._typing_index]
-        if normalize_typed(typed) == normalize_typed(target):
+        item = self._typing_items[self._typing_index]
+        accepted = {normalize_typed(answer) for answer in item["accept"]}
+        if normalize_typed(typed) in accepted:
             self._typing_hits += 1
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
-            self._typing_missed.append(target)
-            self.emit(ansi.style(f"✗ {target}", ansi.BOLD, ansi.RED) + f" — {keystroke_hint(target)}")
+            self._typing_missed.append(item["answer"])
+            expected = " / ".join(item["accept"])
+            self.emit(ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED) + f" — {keystroke_hint(item['answer'])}")
         self._typing_index += 1
         if self._typing_index >= len(self._typing_items):
             self._end_typing()
@@ -491,9 +537,9 @@ class Shell:
 
         done = self._typing_index
         if early:
-            self.emit(f"Typing practice stopped after {done}/{len(self._typing_items)} item(s).")
+            self.emit(f"{self._typing_label} stopped after {done}/{len(self._typing_items)} item(s).")
         if done:
-            self.emit(f"Typed {self._typing_hits}/{done} correctly.")
+            self.emit(f"{self._typing_verb} {self._typing_hits}/{done} correctly.")
         if self._typing_missed:
             review = " · ".join(f"{item} ({keystrokes(item)})" for item in dict.fromkeys(self._typing_missed))
             self.emit(f"Practice again: {review}")
@@ -1182,7 +1228,7 @@ def _make_completer(shell: Shell):
             name = command_token[1:].lower()
             if " " in argument:
                 return
-            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram"}:
+            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate"}:
                 for ref in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(ref, start_position=-len(argument), display=ref)

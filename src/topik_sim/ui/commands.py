@@ -95,6 +95,14 @@ COMMANDS: list[Command] = [
         "count: deck size. /say speaks the example. Examples: /grammar · /grammar topik-i-authentic-mock-01 · /grammar 40",
     ),
     Command(
+        "recall", "cmd_recall", "/recall [pack] [count]", "See an English word, type its Korean translation.", ("translate",),
+        category="Practice",
+        details="Active production practice: the English gloss is shown and you type the Korean.\n"
+        "Synonyms are fair — any Korean word taught with that gloss counts. A miss shows the\n"
+        "answer with its 두벌식 keys. pack: scope to one pack; bare uses every imported pack.\n"
+        "count: number of words (default 10). Examples: /recall · /recall topik-i-authentic-mock-02 15",
+    ),
+    Command(
         "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
         category="Practice",
         details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"
