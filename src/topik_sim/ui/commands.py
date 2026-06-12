@@ -87,6 +87,14 @@ COMMANDS: list[Command] = [
         "Examples: /dictation topik-i-authentic-mock-01 · /dictation topik-i-authentic-mock-01 5",
     ),
     Command(
+        "grammar", "cmd_grammar", "/grammar [pack] [count]", "Drill grammar patterns with their explanations and examples.", ("gram",),
+        category="Practice",
+        details="Cards built from the grammar notes in teaching explanations: front shows the\n"
+        "pattern (e.g. -(으)러 가다), the flip shows what it does plus an example sentence.\n"
+        "pack: drill one pack; without it, patterns come from every imported pack (default 20 cards).\n"
+        "count: deck size. /say speaks the example. Examples: /grammar · /grammar topik-i-authentic-mock-01 · /grammar 40",
+    ),
+    Command(
         "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
         category="Practice",
         details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"

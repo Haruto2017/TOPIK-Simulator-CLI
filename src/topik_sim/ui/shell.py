@@ -80,6 +80,7 @@ class Shell:
         self._flash_index = 0
         self._flash_known = 0
         self._flash_missed: list[str] = []
+        self._flash_label = "Flashcards"
         self._dictation_texts: list[str] = []
         self._dictation_index = 0
         self._dictation_total_accuracy = 0.0
@@ -381,7 +382,11 @@ class Shell:
 
     def cmd_say(self, argument: str) -> None:
         if not argument and self.state in {FLASH_FRONT, FLASH_BACK} and self._flash_deck:
-            self._speak([self._flash_deck[self._flash_index]["ko"]], playback=True)
+            speech = self._flash_deck[self._flash_index].get("speech", "")
+            if speech:
+                self._speak([speech], playback=True)
+            else:
+                self.emit("This card has nothing to speak.")
             return
         if not argument and self.state == TYPING and self._typing_items:
             self._speak([self._typing_items[self._typing_index]], playback=True)
@@ -522,15 +527,63 @@ class Shell:
             if suggestions:
                 self.emit(f"Did you mean: {', '.join(suggestions)}?")
             return
-        deck = build_deck(pack, seed=self._flashcard_seed)
+        deck = [
+            {
+                "front": card["ko"],
+                "back": f"{card['en']} ({card['note']})" if card.get("note") else card["en"],
+                "example": "",
+                "speech": card["ko"],
+                "keys": card["ko"],
+            }
+            for card in build_deck(pack, seed=self._flashcard_seed)
+        ]
         if not deck:
             self.emit("This pack has no vocabulary entries to drill.")
             return
+        self._start_cards(deck, "Flashcards", f"Flashcards: {pack.title}")
+
+    def cmd_grammar(self, argument: str) -> None:
+        from ..grammar import build_grammar_cards
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        pack = None
+        limit = None
+        for part in argument.split():
+            if part.isdigit():
+                limit = int(part)
+            else:
+                try:
+                    pack = self._resolve_pack(part)
+                except (ValueError, ContentValidationError, OSError) as exc:
+                    self.emit(str(exc))
+                    suggestions = self._suggest_packs(part)
+                    if suggestions:
+                        self.emit(f"Did you mean: {', '.join(suggestions)}?")
+                    return
+        if pack is None and limit is None:
+            limit = 20  # a library-wide deck can be large; cap the default session
+        deck = build_grammar_cards(
+            pack=pack,
+            library_dir=None if pack else self.library_dir,
+            seed=self._flashcard_seed,
+            limit=limit,
+        )
+        if not deck:
+            self.emit("No grammar notes found. Import a pack first, or name one: /grammar <pack>")
+            return
+        title = f"Grammar practice: {pack.title}" if pack else "Grammar practice: every imported pack"
+        self._start_cards(deck, "Grammar practice", title)
+
+    def _start_cards(self, deck: list[dict[str, str]], label: str, title: str) -> None:
         self._flash_deck = deck
         self._flash_index = 0
         self._flash_known = 0
         self._flash_missed = []
-        self.emit(ansi.style(f"Flashcards: {pack.title}", ansi.BOLD))
+        self._flash_label = label
+        self.emit(ansi.style(title, ansi.BOLD))
         self.emit(f"{len(deck)} card(s) · Enter flips · y/n grades · /say hears it · /pause stops")
         self._present_card()
 
@@ -611,17 +664,18 @@ class Shell:
         card = self._flash_deck[self._flash_index]
         self.emit("")
         self.emit(render.rule(f"Card {self._flash_index + 1}/{len(self._flash_deck)}"))
-        self.emit(ansi.style(card["ko"], ansi.BOLD, ansi.CYAN))
+        self.emit(ansi.style(card["front"], ansi.BOLD, ansi.CYAN))
         self.state = FLASH_FRONT
 
     def _flip_card(self) -> None:
         card = self._flash_deck[self._flash_index]
-        note = f" ({card['note']})" if card.get("note") else ""
-        self.emit(f"{card['en']}{note}")
-        if self.keyboard_hints:
+        self.emit(card["back"])
+        if card.get("example"):
+            self.emit(ansi.style(f"예: {card['example']}", ansi.CYAN))
+        if self.keyboard_hints and card.get("keys"):
             from ..hangul import keystroke_hint
 
-            self.emit(ansi.style(keystroke_hint(card["ko"]), ansi.DIM))
+            self.emit(ansi.style(keystroke_hint(card["keys"]), ansi.DIM))
         self.emit(ansi.style("Knew it? y / n", ansi.GREY))
         self.state = FLASH_BACK
 
@@ -630,7 +684,7 @@ class Shell:
         if known:
             self._flash_known += 1
         else:
-            self._flash_missed.append(card["ko"])
+            self._flash_missed.append(card["front"])
         self._flash_index += 1
         if self._flash_index >= len(self._flash_deck):
             self._end_flashcards()
@@ -640,7 +694,7 @@ class Shell:
     def _end_flashcards(self, early: bool = False) -> None:
         seen = self._flash_index
         if early:
-            self.emit(f"Flashcards stopped after {seen}/{len(self._flash_deck)} card(s).")
+            self.emit(f"{self._flash_label} stopped after {seen}/{len(self._flash_deck)} card(s).")
         if seen:
             self.emit(f"Knew {self._flash_known}/{seen}.")
         if self._flash_missed:
@@ -1109,7 +1163,7 @@ def _make_completer(shell: Shell):
             name = command_token[1:].lower()
             if " " in argument:
                 return
-            if name == "take":
+            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram"}:
                 for ref in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(ref, start_position=-len(argument), display=ref)

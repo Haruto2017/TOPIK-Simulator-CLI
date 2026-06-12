@@ -371,7 +371,7 @@ class ShellTests(unittest.TestCase):
         with patch("topik_sim.ui.shell.synthesize_many", side_effect=fake_synthesize):
             self.feed(shell, [f"/flashcards {SAMPLE_PACK}", "/say"])
         self.assertEqual(len(calls), 1)
-        self.assertEqual(calls[0][0], shell._flash_deck[0]["ko"])
+        self.assertEqual(calls[0][0], shell._flash_deck[0]["speech"])
 
     def test_flashcards_blocked_during_test(self):
         shell, output, _ = self.make_shell()
