@@ -1,0 +1,121 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "geography",
+  "facts": [
+    {
+      "id": "geo-mountains",
+      "category": "geography",
+      "title": "A mountainous country",
+      "fact": "About 70% of South Korea is mountainous, so cities cluster in valleys and along the coast. Hiking is one of the most popular weekend activities.",
+      "korean": "한국에는 산이 많습니다.",
+      "korean_en": "There are many mountains in Korea.",
+      "vocabulary": [
+        {
+          "ko": "산",
+          "en": "mountain"
+        },
+        {
+          "ko": "많다",
+          "en": "to be many"
+        },
+        {
+          "ko": "등산",
+          "en": "hiking, mountain climbing"
+        }
+      ],
+      "note": "주말에 등산을 해요 = \"I hike on the weekend.\" 등산 literally means \"climb-mountain.\"",
+      "tags": [
+        "mountains",
+        "hiking",
+        "nature"
+      ]
+    },
+    {
+      "id": "geo-jeju",
+      "category": "geography",
+      "title": "Jeju, the volcanic island",
+      "fact": "Jeju Island off the south coast is volcanic and home to Hallasan, South Korea's highest peak at 1,947 m. It is a favorite honeymoon and holiday destination.",
+      "korean": "제주도는 아름다운 섬입니다.",
+      "korean_en": "Jeju Island is a beautiful island.",
+      "vocabulary": [
+        {
+          "ko": "섬",
+          "en": "island"
+        },
+        {
+          "ko": "아름답다",
+          "en": "to be beautiful"
+        },
+        {
+          "ko": "화산",
+          "en": "volcano"
+        }
+      ],
+      "note": "In **제주도**, the 도 means \"island/province.\"",
+      "tags": [
+        "jeju",
+        "island",
+        "hallasan"
+      ]
+    },
+    {
+      "id": "geo-han-river",
+      "category": "geography",
+      "title": "The Han River through Seoul",
+      "fact": "The Han River runs through the middle of Seoul. Its riverside parks are popular for picnics, bike rides, and ordering fried chicken by delivery.",
+      "korean": "한강에서 자전거를 탑니다.",
+      "korean_en": "I ride a bicycle at the Han River.",
+      "vocabulary": [
+        {
+          "ko": "강",
+          "en": "river"
+        },
+        {
+          "ko": "자전거",
+          "en": "bicycle"
+        },
+        {
+          "ko": "타다",
+          "en": "to ride"
+        }
+      ],
+      "note": "**치맥** (치킨 + 맥주, \"chicken + beer\") by the river is a beloved tradition.",
+      "tags": [
+        "han-river",
+        "seoul",
+        "chimaek"
+      ]
+    },
+    {
+      "id": "geo-four-seasons",
+      "category": "geography",
+      "title": "Four distinct seasons",
+      "fact": "Korea has four clear seasons: spring with cherry blossoms, hot humid summer, crisp colorful autumn, and a cold dry winter with snow.",
+      "korean": "한국은 사계절이 있습니다.",
+      "korean_en": "Korea has four seasons.",
+      "vocabulary": [
+        {
+          "ko": "봄",
+          "en": "spring"
+        },
+        {
+          "ko": "여름",
+          "en": "summer"
+        },
+        {
+          "ko": "가을",
+          "en": "autumn"
+        },
+        {
+          "ko": "겨울",
+          "en": "winter"
+        }
+      ],
+      "note": "**사계절** = \"four seasons.\" 벚꽃 (cherry blossom) season in spring is a big event.",
+      "tags": [
+        "seasons",
+        "weather"
+      ]
+    }
+  ]
+}

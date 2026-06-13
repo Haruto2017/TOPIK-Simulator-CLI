@@ -1,0 +1,62 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "holidays",
+  "facts": [
+    {
+      "id": "holiday-seollal",
+      "category": "holidays",
+      "title": "Seollal, Lunar New Year",
+      "fact": "Seollal, the Lunar New Year, is one of Korea's biggest holidays. Families gather, hold ancestral rites, and children bow to elders to receive money and blessings.",
+      "korean": "설날에 가족을 만납니다.",
+      "korean_en": "I meet my family on Lunar New Year.",
+      "vocabulary": [
+        {
+          "ko": "설날",
+          "en": "Lunar New Year"
+        },
+        {
+          "ko": "가족",
+          "en": "family"
+        },
+        {
+          "ko": "만나다",
+          "en": "to meet"
+        }
+      ],
+      "note": "On 설날 people eat **떡국** (rice-cake soup); eating it is playfully said to add a year to your age.",
+      "tags": [
+        "seollal",
+        "new-year",
+        "tradition"
+      ]
+    },
+    {
+      "id": "holiday-chuseok",
+      "category": "holidays",
+      "title": "Chuseok, the harvest festival",
+      "fact": "Chuseok, the autumn harvest festival, is often called \"Korean Thanksgiving.\" People travel to their hometowns and share songpyeon, half-moon rice cakes.",
+      "korean": "추석은 가을 명절입니다.",
+      "korean_en": "Chuseok is an autumn holiday.",
+      "vocabulary": [
+        {
+          "ko": "가을",
+          "en": "autumn"
+        },
+        {
+          "ko": "명절",
+          "en": "traditional holiday"
+        },
+        {
+          "ko": "보름달",
+          "en": "full moon"
+        }
+      ],
+      "note": "**명절** is a traditional holiday, as opposed to 휴일, an ordinary day off.",
+      "tags": [
+        "chuseok",
+        "harvest",
+        "songpyeon"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "etiquette",
+  "facts": [
+    {
+      "id": "etiquette-shoes",
+      "category": "etiquette",
+      "title": "Shoes off indoors",
+      "fact": "You remove your shoes before entering a Korean home, and often at traditional restaurants with floor seating. Because floors are heated, sitting on the floor is comfortable.",
+      "korean": "집에서 신발을 벗습니다.",
+      "korean_en": "I take off my shoes in the house.",
+      "vocabulary": [
+        {
+          "ko": "신발",
+          "en": "shoes"
+        },
+        {
+          "ko": "벗다",
+          "en": "to take off"
+        },
+        {
+          "ko": "집",
+          "en": "house, home"
+        }
+      ],
+      "note": "**온돌** (ondol) is the traditional under-floor heating system.",
+      "tags": [
+        "etiquette",
+        "home",
+        "ondol"
+      ]
+    },
+    {
+      "id": "etiquette-age",
+      "category": "etiquette",
+      "title": "Age shapes everything",
+      "fact": "Age shapes language and relationships, so people often ask your age early on. In 2023 Korea officially switched to international age counting for legal use, retiring the older \"Korean age.\"",
+      "korean": "나이가 어떻게 되세요?",
+      "korean_en": "How old are you? (polite)",
+      "vocabulary": [
+        {
+          "ko": "나이",
+          "en": "age"
+        },
+        {
+          "ko": "살",
+          "en": "years old (counter)"
+        },
+        {
+          "ko": "몇",
+          "en": "how many"
+        }
+      ],
+      "note": "A more casual version is **몇 살이에요?** Use the polite form with people you have just met.",
+      "tags": [
+        "age",
+        "etiquette",
+        "modern"
+      ]
+    }
+  ]
+}

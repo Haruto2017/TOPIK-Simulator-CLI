@@ -19,7 +19,7 @@ except ImportError:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BUNDLED_FACTS = ROOT / "content" / "korea_facts.json"
+BUNDLED_FACTS = ROOT / "content" / "facts"
 
 
 def _facts_file(directory, facts):
@@ -80,8 +80,26 @@ class BundledFactsTests(unittest.TestCase):
         self.assertTrue(movie_matches)
         self.assertTrue({f["id"] for f in movie_matches} & {f["id"] for f in film_facts})
 
-    def test_default_path_points_at_bundled_file(self):
-        self.assertEqual(Path(DEFAULT_FACTS_PATH), Path("content") / "korea_facts.json")
+    def test_default_path_points_at_genre_directory(self):
+        self.assertEqual(Path(DEFAULT_FACTS_PATH), Path("content") / "facts")
+
+    def test_each_genre_file_holds_only_its_genre(self):
+        # Architecture invariant: content/facts/<category>.json contains only
+        # facts of that category, so a genre can be owned by one editor/agent.
+        for genre_file in sorted(BUNDLED_FACTS.glob("*.json")):
+            facts = load_facts(genre_file)
+            self.assertTrue(facts, f"{genre_file.name} is empty")
+            cats = {f.get("category") for f in facts}
+            self.assertEqual(cats, {genre_file.stem}, f"{genre_file.name} mixes categories: {cats}")
+
+    def test_load_accepts_directory_or_single_file(self):
+        directory = load_facts(BUNDLED_FACTS)
+        one_file = load_facts(BUNDLED_FACTS / "music.json")
+        self.assertGreater(len(directory), len(one_file))
+        self.assertTrue(all(f["category"] == "music" for f in one_file))
+        # the directory total equals the sum of its files
+        per_file = sum(len(load_facts(p)) for p in BUNDLED_FACTS.glob("*.json"))
+        self.assertEqual(len(directory), per_file)
 
 
 class FactRenderTests(unittest.TestCase):
@@ -216,21 +234,21 @@ class FactCliTests(unittest.TestCase):
     def test_facts_cli_prints_a_card(self):
         output = StringIO()
         with redirect_stdout(output):
-            exit_code = main(["facts", "--facts-file", str(BUNDLED_FACTS)])
+            exit_code = main(["facts", "--facts-path", str(BUNDLED_FACTS)])
         self.assertEqual(exit_code, 0)
         self.assertIn("Korea fact ·", output.getvalue())
 
     def test_facts_cli_list(self):
         output = StringIO()
         with redirect_stdout(output):
-            exit_code = main(["facts", "--list", "--facts-file", str(BUNDLED_FACTS)])
+            exit_code = main(["facts", "--list", "--facts-path", str(BUNDLED_FACTS)])
         self.assertEqual(exit_code, 0)
         self.assertIn("history", output.getvalue())
 
     def test_facts_cli_missing_file(self):
         err = StringIO()
         with redirect_stdout(StringIO()), patch("sys.stderr", err):
-            exit_code = main(["facts", "--facts-file", "nope.json"])
+            exit_code = main(["facts", "--facts-path", "nope.json"])
         self.assertEqual(exit_code, 1)
         self.assertIn("No facts", err.getvalue())
 

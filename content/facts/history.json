@@ -1,0 +1,90 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "history",
+  "facts": [
+    {
+      "id": "history-hangul",
+      "category": "history",
+      "title": "Hangul was invented, not evolved",
+      "fact": "Korea's alphabet, Hangul, was created in 1443 under King Sejong the Great. It is one of the few writing systems with a known inventor and creation date, and its letter shapes mirror the mouth and tongue positions used to make each sound.",
+      "korean": "세종대왕이 한글을 만들었습니다.",
+      "korean_en": "King Sejong created Hangul.",
+      "vocabulary": [
+        {
+          "ko": "한글",
+          "en": "Hangul (the Korean alphabet)"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make, to create"
+        },
+        {
+          "ko": "임금",
+          "en": "king (old word)"
+        }
+      ],
+      "note": "**한글날** (Hangul Day) is a national holiday on **October 9** that celebrates the alphabet.",
+      "tags": [
+        "sejong",
+        "alphabet",
+        "language"
+      ]
+    },
+    {
+      "id": "history-three-kingdoms",
+      "category": "history",
+      "title": "The Three Kingdoms",
+      "fact": "For centuries the peninsula was divided among three kingdoms — Goguryeo, Baekje, and Silla — until Silla unified most of it in 668.",
+      "korean": "옛날 한국에는 세 나라가 있었습니다.",
+      "korean_en": "Long ago there were three kingdoms in Korea.",
+      "vocabulary": [
+        {
+          "ko": "옛날",
+          "en": "old days, long ago"
+        },
+        {
+          "ko": "나라",
+          "en": "country, kingdom"
+        },
+        {
+          "ko": "있다",
+          "en": "to exist, to have"
+        }
+      ],
+      "note": "고구려, 백제, 신라 are the **삼국** (Three Kingdoms).",
+      "tags": [
+        "goguryeo",
+        "baekje",
+        "silla"
+      ]
+    },
+    {
+      "id": "history-joseon-seoul",
+      "category": "history",
+      "title": "Seoul, a 600-year capital",
+      "fact": "When the Joseon dynasty made Seoul its capital in 1394, it began a run of more than 600 years as Korea's center of power that continues today.",
+      "korean": "서울은 한국의 수도입니다.",
+      "korean_en": "Seoul is the capital of Korea.",
+      "vocabulary": [
+        {
+          "ko": "수도",
+          "en": "capital city"
+        },
+        {
+          "ko": "옛날",
+          "en": "long ago"
+        },
+        {
+          "ko": "역사",
+          "en": "history"
+        }
+      ],
+      "note": "한국의 means \"Korea's\" — the particle **의** marks possession.",
+      "tags": [
+        "joseon",
+        "seoul",
+        "capital"
+      ]
+    }
+  ]
+}

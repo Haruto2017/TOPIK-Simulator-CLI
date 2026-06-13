@@ -1,0 +1,62 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "science",
+  "facts": [
+    {
+      "id": "tech-internet",
+      "category": "science",
+      "title": "Wired and fast",
+      "fact": "South Korea has some of the world's fastest average internet speeds and near-universal smartphone use. Transit, payments, and even restaurant orders are heavily app-based.",
+      "korean": "한국은 인터넷이 빠릅니다.",
+      "korean_en": "Korea's internet is fast.",
+      "vocabulary": [
+        {
+          "ko": "인터넷",
+          "en": "internet"
+        },
+        {
+          "ko": "빠르다",
+          "en": "to be fast"
+        },
+        {
+          "ko": "휴대폰",
+          "en": "cell phone"
+        }
+      ],
+      "note": "**와이파이** (wifi) is widely available in cafés, subways, and buses.",
+      "tags": [
+        "internet",
+        "technology",
+        "modern"
+      ]
+    },
+    {
+      "id": "tech-ktx",
+      "category": "science",
+      "title": "High-speed rail",
+      "fact": "The KTX high-speed train links major cities at up to 300 km/h, putting most of the country within a few hours of Seoul.",
+      "korean": "기차로 부산에 갑니다.",
+      "korean_en": "I go to Busan by train.",
+      "vocabulary": [
+        {
+          "ko": "기차",
+          "en": "train"
+        },
+        {
+          "ko": "가다",
+          "en": "to go"
+        },
+        {
+          "ko": "표",
+          "en": "ticket"
+        }
+      ],
+      "note": "In 기차로, the particle **(으)로** marks the means: \"by train.\"",
+      "tags": [
+        "ktx",
+        "train",
+        "transport"
+      ]
+    }
+  ]
+}

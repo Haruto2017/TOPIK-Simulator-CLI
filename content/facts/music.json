@@ -1,0 +1,209 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "music",
+  "facts": [
+    {
+      "id": "music-kpop-billboard",
+      "category": "music",
+      "title": "K-pop tops the world charts",
+      "fact": "K-pop has become a global force. In 2020 the group **BTS** (방탄소년단) reached **number one on the US Billboard Hot 100** with their first all-English single, a first for a Korean act.",
+      "korean": "저는 케이팝 노래를 좋아해요.",
+      "korean_en": "I like K-pop songs.",
+      "vocabulary": [
+        {
+          "ko": "노래",
+          "en": "song"
+        },
+        {
+          "ko": "좋아하다",
+          "en": "to like"
+        },
+        {
+          "ko": "가수",
+          "en": "singer"
+        }
+      ],
+      "note": "**방탄소년단** means \"Bulletproof Boy Scouts\"; fans worldwide call the group by its English name, BTS.",
+      "tags": [
+        "music",
+        "kpop",
+        "bts",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-idol-trainee",
+      "category": "music",
+      "title": "The idol trainee system",
+      "fact": "Most K-pop idols spend years as **trainees** at an entertainment company, studying singing and dancing before they debut. Groups like **BLACKPINK** trained for years before their first release.",
+      "korean": "그 가수는 춤을 잘 춰요.",
+      "korean_en": "That singer dances well.",
+      "vocabulary": [
+        {
+          "ko": "춤",
+          "en": "dance"
+        },
+        {
+          "ko": "추다",
+          "en": "to dance"
+        },
+        {
+          "ko": "잘",
+          "en": "well"
+        }
+      ],
+      "note": "춤을 추다 = \"to dance\" (literally \"to dance a dance\"). Many idols are valued as much for dancing as for singing.",
+      "tags": [
+        "music",
+        "kpop",
+        "idol",
+        "trainee"
+      ]
+    },
+    {
+      "id": "music-trot",
+      "category": "music",
+      "title": "Trot, an old genre made new",
+      "fact": "**Trot** (트로트) is one of Korea's oldest popular music styles, with a sentimental sound. TV audition shows in recent years sparked a huge revival, making it popular again with both old and young fans.",
+      "korean": "할머니는 트로트를 자주 들어요.",
+      "korean_en": "Grandmother listens to trot often.",
+      "vocabulary": [
+        {
+          "ko": "할머니",
+          "en": "grandmother"
+        },
+        {
+          "ko": "듣다",
+          "en": "to listen"
+        },
+        {
+          "ko": "자주",
+          "en": "often"
+        }
+      ],
+      "note": "**트로트** is loved across generations; TV singing contests gave it a big new audience.",
+      "tags": [
+        "music",
+        "trot",
+        "tv",
+        "revival"
+      ]
+    },
+    {
+      "id": "music-pansori",
+      "category": "music",
+      "title": "Pansori, a one-singer epic",
+      "fact": "**Pansori** (판소리) is a traditional form of musical storytelling in which a single singer performs a long tale, accompanied by one drummer. UNESCO recognized it as intangible cultural heritage in 2003.",
+      "korean": "판소리는 한국의 전통 음악입니다.",
+      "korean_en": "Pansori is traditional Korean music.",
+      "vocabulary": [
+        {
+          "ko": "음악",
+          "en": "music"
+        },
+        {
+          "ko": "전통",
+          "en": "tradition"
+        },
+        {
+          "ko": "소리",
+          "en": "sound, voice"
+        }
+      ],
+      "note": "In **판소리**, the 소리 means \"sound\" or \"voice\"; the singer performs for hours with just a drum.",
+      "tags": [
+        "music",
+        "pansori",
+        "unesco",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-noraebang",
+      "category": "music",
+      "title": "Noraebang, the song room",
+      "fact": "A **noraebang** (노래방) is a private karaoke room rented by the hour. Singing together is a core social activity, often the last stop on a night out with friends or coworkers.",
+      "korean": "친구하고 노래방에 가요.",
+      "korean_en": "I go to a noraebang with friends.",
+      "vocabulary": [
+        {
+          "ko": "노래방",
+          "en": "karaoke room"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        },
+        {
+          "ko": "가다",
+          "en": "to go"
+        }
+      ],
+      "note": "**노래방** literally means \"song room\" (노래 \"song\" + 방 \"room\").",
+      "tags": [
+        "music",
+        "noraebang",
+        "karaoke",
+        "social"
+      ]
+    },
+    {
+      "id": "music-gayageum",
+      "category": "music",
+      "title": "The gayageum, a string instrument",
+      "fact": "The **gayageum** (가야금) is a traditional Korean zither with twelve strings, plucked with the fingers. Its gentle sound has been played for well over a thousand years and still features in music today.",
+      "korean": "저는 가야금을 배워요.",
+      "korean_en": "I am learning the gayageum.",
+      "vocabulary": [
+        {
+          "ko": "배우다",
+          "en": "to learn"
+        },
+        {
+          "ko": "악기",
+          "en": "musical instrument"
+        },
+        {
+          "ko": "손",
+          "en": "hand"
+        }
+      ],
+      "note": "**가야금** is one of the best-known 국악기 (traditional Korean instruments).",
+      "tags": [
+        "music",
+        "gayageum",
+        "instrument",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-hiphop",
+      "category": "music",
+      "title": "Korean hip-hop goes mainstream",
+      "fact": "Korean **hip-hop** grew from an underground scene into a mainstream genre, helped by long-running TV rap competitions. Many rappers now top the charts and shape Korean pop music.",
+      "korean": "저는 한국 힙합을 들어요.",
+      "korean_en": "I listen to Korean hip-hop.",
+      "vocabulary": [
+        {
+          "ko": "힙합",
+          "en": "hip-hop"
+        },
+        {
+          "ko": "듣다",
+          "en": "to listen"
+        },
+        {
+          "ko": "음악",
+          "en": "music"
+        }
+      ],
+      "note": "**힙합** is borrowed from the English \"hip-hop\"; rap is often called **랩**.",
+      "tags": [
+        "music",
+        "hiphop",
+        "rap",
+        "modern"
+      ]
+    }
+  ]
+}

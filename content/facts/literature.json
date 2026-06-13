@@ -1,0 +1,61 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "literature",
+  "facts": [
+    {
+      "id": "literature-han-kang",
+      "category": "literature",
+      "title": "A Nobel for Korean literature",
+      "fact": "In 2024, novelist Han Kang became the first Korean to win the Nobel Prize in Literature, recognized for prose that confronts historical trauma.",
+      "korean": "한강 작가가 노벨 문학상을 받았습니다.",
+      "korean_en": "The author Han Kang won the Nobel Prize in Literature.",
+      "vocabulary": [
+        {
+          "ko": "작가",
+          "en": "author, writer"
+        },
+        {
+          "ko": "받다",
+          "en": "to receive, to win"
+        },
+        {
+          "ko": "문학",
+          "en": "literature"
+        }
+      ],
+      "note": "A nice coincidence: the author **한강** is written exactly like the **한강** (Han River).",
+      "tags": [
+        "han-kang",
+        "nobel",
+        "modern"
+      ]
+    },
+    {
+      "id": "literature-sijo",
+      "category": "literature",
+      "title": "The sijo, a three-line poem",
+      "fact": "The sijo is a traditional three-line Korean poem dating back to the Goryeo dynasty — short and structured, comparable in spirit to the Japanese haiku.",
+      "korean": "시조는 한국의 전통 시입니다.",
+      "korean_en": "Sijo is a traditional Korean poem.",
+      "vocabulary": [
+        {
+          "ko": "시",
+          "en": "poem"
+        },
+        {
+          "ko": "전통",
+          "en": "tradition"
+        },
+        {
+          "ko": "짧다",
+          "en": "to be short"
+        }
+      ],
+      "note": "A **시조** has three lines of about 14–16 syllables each.",
+      "tags": [
+        "sijo",
+        "poetry"
+      ]
+    }
+  ]
+}

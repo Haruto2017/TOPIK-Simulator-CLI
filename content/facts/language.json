@@ -1,0 +1,60 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "language",
+  "facts": [
+    {
+      "id": "language-honorifics",
+      "category": "language",
+      "title": "Speech changes with respect",
+      "fact": "Korean has several speech levels. The same idea changes form depending on who you address — the verb 먹다 (to eat) becomes polite 먹어요 or honorific 드세요.",
+      "korean": "천천히 드세요.",
+      "korean_en": "Please eat slowly. (said warmly to a guest)",
+      "vocabulary": [
+        {
+          "ko": "천천히",
+          "en": "slowly"
+        },
+        {
+          "ko": "드시다",
+          "en": "to eat (honorific)"
+        },
+        {
+          "ko": "말",
+          "en": "speech, words"
+        }
+      ],
+      "note": "**존댓말** is polite/honorific speech; **반말** is casual speech used with close friends.",
+      "tags": [
+        "honorifics",
+        "jondaetmal"
+      ]
+    },
+    {
+      "id": "language-numbers",
+      "category": "language",
+      "title": "Two number systems",
+      "fact": "Korean uses two sets of numbers: native Korean (하나, 둘, 셋…) for counting things and ages, and Sino-Korean (일, 이, 삼…) for dates, money, and minutes.",
+      "korean": "사과 세 개를 샀습니다.",
+      "korean_en": "I bought three apples.",
+      "vocabulary": [
+        {
+          "ko": "개",
+          "en": "counter for objects"
+        },
+        {
+          "ko": "사다",
+          "en": "to buy"
+        },
+        {
+          "ko": "사과",
+          "en": "apple"
+        }
+      ],
+      "note": "세 개 uses native 셋 → 세 with the counter **개**. Money uses Sino-Korean: 삼천 원 = 3,000 won.",
+      "tags": [
+        "numbers",
+        "counters"
+      ]
+    }
+  ]
+}

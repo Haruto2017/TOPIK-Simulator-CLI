@@ -1,0 +1,62 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "politics",
+  "facts": [
+    {
+      "id": "politics-division",
+      "category": "politics",
+      "title": "A divided peninsula",
+      "fact": "Since 1948 the peninsula has been divided into the Republic of Korea (South) and the DPRK (North), separated by the DMZ near the 38th parallel.",
+      "korean": "한국은 남쪽과 북쪽으로 나누어져 있습니다.",
+      "korean_en": "Korea is divided into south and north.",
+      "vocabulary": [
+        {
+          "ko": "남쪽",
+          "en": "south"
+        },
+        {
+          "ko": "북쪽",
+          "en": "north"
+        },
+        {
+          "ko": "나누다",
+          "en": "to divide"
+        }
+      ],
+      "note": "South Korea's official name is **대한민국**; the DMZ truce line is the 휴전선.",
+      "tags": [
+        "division",
+        "dmz",
+        "north-south"
+      ]
+    },
+    {
+      "id": "politics-democracy",
+      "category": "politics",
+      "title": "A young, lively democracy",
+      "fact": "South Korea is a democratic republic with a directly elected president. Its democracy is young — direct presidential elections returned only in 1987 — and turnout is famously high.",
+      "korean": "한국 사람들은 투표를 합니다.",
+      "korean_en": "Korean people vote.",
+      "vocabulary": [
+        {
+          "ko": "대통령",
+          "en": "president"
+        },
+        {
+          "ko": "선거",
+          "en": "election"
+        },
+        {
+          "ko": "투표",
+          "en": "vote, voting"
+        }
+      ],
+      "note": "투표를 하다 = \"to vote\" (literally \"to do a vote\"). Many nouns pair with **하다** to form verbs.",
+      "tags": [
+        "democracy",
+        "president",
+        "election"
+      ]
+    }
+  ]
+}

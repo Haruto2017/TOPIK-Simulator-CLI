@@ -231,7 +231,7 @@ def build_parser() -> argparse.ArgumentParser:
     facts_parser = subparsers.add_parser("facts", help="Show an interesting fact about Korea with Korean and learning notes.")
     facts_parser.add_argument("category", nargs="?", help="Filter to a category (see --list).")
     facts_parser.add_argument("--list", action="store_true", help="List the available fact categories.")
-    facts_parser.add_argument("--facts-file", default=str(DEFAULT_FACTS_PATH), help="Facts JSON data file.")
+    facts_parser.add_argument("--facts-path", default=str(DEFAULT_FACTS_PATH), help="Facts directory (one file per genre) or a single JSON file.")
     facts_parser.set_defaults(handler=handle_facts)
 
     audio = subparsers.add_parser("audio", help="Manage the generated audio cache.")
@@ -880,9 +880,9 @@ def handle_facts(args: argparse.Namespace) -> int:
     from .facts import categories, filter_facts, load_facts
     from .ui import render
 
-    facts = load_facts(args.facts_file)
+    facts = load_facts(args.facts_path)
     if not facts:
-        print(f"No facts are available (looked for {args.facts_file}).", file=sys.stderr)
+        print(f"No facts are available (looked in {args.facts_path}).", file=sys.stderr)
         return 1
     if args.list:
         for category in categories(facts):

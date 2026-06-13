@@ -226,11 +226,14 @@ Requirements:
 
 ## Korea Facts (`topik-sim.facts.v1`)
 
-`content/korea_facts.json` backs the `/facts` command. It is plain reference content — add or edit freely; no import step is needed (the file is read directly).
+The `/facts` command is backed by the `content/facts/` directory — **one file per genre**, named `<category>.json` (e.g. `music.json`, `film.json`, `history.json`). The loader reads every `*.json` in the directory (sorted) and concatenates them, so adding a genre is just dropping in a new file. It is plain reference content: add or edit freely, no import step (files are read directly). A single `.json` file is also accepted (handy for `--facts-path` and tests).
+
+Each genre file:
 
 ```json
 {
   "schema_version": "topik-sim.facts.v1",
+  "category": "geography",
   "facts": [
     {
       "id": "geo-jeju",
@@ -247,7 +250,8 @@ Requirements:
 }
 ```
 
-- `id` (unique) and `category` are required in practice; `fact` carries the English text.
+- `id` (unique across the whole directory) and `category` are required in practice; `fact` carries the English text. By convention a file holds only its own category and `id`s are prefixed by genre (`geo-`, `music-`, `film-`, …) to keep them unique.
 - `korean` / `korean_en`, `vocabulary` (`ko`/`en` pairs), `note`, and `tags` are optional and shown when present.
-- Categories are free-text; group facts by area (history, geography, politics, literature, food, shopping, sightseeing, language, holidays, pop_culture, science, etiquette, …).
-- A malformed or missing file disables `/facts` gracefully rather than breaking the app.
+- Categories are free-text; current genres include history, geography, politics, literature, food, shopping, sightseeing, language, holidays, science, etiquette, music, film, and pop_culture.
+- **One file per genre** means a genre can be expanded in isolation — well-suited to a focused authoring agent owning a single file with no merge conflicts.
+- A malformed or missing file is skipped; `/facts` degrades gracefully rather than breaking the app.

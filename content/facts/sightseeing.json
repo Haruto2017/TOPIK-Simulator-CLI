@@ -1,0 +1,90 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "sightseeing",
+  "facts": [
+    {
+      "id": "sights-gyeongbokgung",
+      "category": "sightseeing",
+      "title": "Gyeongbokgung Palace",
+      "fact": "Gyeongbokgung, built in 1395, is Seoul's grand main palace. Visitors who wear hanbok, traditional dress, get in free.",
+      "korean": "경복궁은 아주 큽니다.",
+      "korean_en": "Gyeongbokgung is very big.",
+      "vocabulary": [
+        {
+          "ko": "궁궐",
+          "en": "palace"
+        },
+        {
+          "ko": "크다",
+          "en": "to be big"
+        },
+        {
+          "ko": "한복",
+          "en": "traditional Korean clothing"
+        }
+      ],
+      "note": "Catch the changing-of-the-guard ceremony (**수문장 교대식**) at the main gate.",
+      "tags": [
+        "palace",
+        "hanbok",
+        "seoul"
+      ]
+    },
+    {
+      "id": "sights-bukchon",
+      "category": "sightseeing",
+      "title": "Bukchon Hanok Village",
+      "fact": "Bukchon Hanok Village preserves hundreds of traditional tile-roof houses on hilly lanes between two palaces — a favorite spot for photos in hanbok.",
+      "korean": "한옥은 한국의 전통 집입니다.",
+      "korean_en": "A hanok is a traditional Korean house.",
+      "vocabulary": [
+        {
+          "ko": "집",
+          "en": "house, home"
+        },
+        {
+          "ko": "전통",
+          "en": "tradition"
+        },
+        {
+          "ko": "마을",
+          "en": "village"
+        }
+      ],
+      "note": "A **한옥** uses under-floor heating called 온돌 to stay warm in winter.",
+      "tags": [
+        "hanok",
+        "bukchon",
+        "architecture"
+      ]
+    },
+    {
+      "id": "sights-busan",
+      "category": "sightseeing",
+      "title": "Busan by the sea",
+      "fact": "Busan, the second-largest city, is a coastal hub famous for Haeundae Beach, the huge Jagalchi fish market, and a major international film festival.",
+      "korean": "부산은 바다가 아름답습니다.",
+      "korean_en": "Busan has a beautiful sea.",
+      "vocabulary": [
+        {
+          "ko": "바다",
+          "en": "sea"
+        },
+        {
+          "ko": "도시",
+          "en": "city"
+        },
+        {
+          "ko": "해변",
+          "en": "beach"
+        }
+      ],
+      "note": "The KTX train from Seoul to **부산** takes about two and a half hours.",
+      "tags": [
+        "busan",
+        "beach",
+        "coast"
+      ]
+    }
+  ]
+}

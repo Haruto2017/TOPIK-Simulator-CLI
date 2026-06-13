@@ -6,20 +6,37 @@ from typing import Any
 
 FACTS_SCHEMA_VERSION = "topik-sim.facts.v1"
 # Bundled, tracked content (not the gitignored library) — ships with the tool.
-DEFAULT_FACTS_PATH = Path("content") / "korea_facts.json"
+# One file per genre lives in this directory, so a genre can be edited in
+# isolation (see docs/CONTENT_CONTRACT.md). A single .json file also works.
+DEFAULT_FACTS_PATH = Path("content") / "facts"
 
 
 def load_facts(path: str | Path = DEFAULT_FACTS_PATH) -> list[dict[str, Any]]:
-    """Load the Korea facts data file. Returns [] on any problem so a missing
-    or malformed file degrades gracefully rather than breaking the shell."""
+    """Load Korea facts from a directory of per-genre files (sorted, then
+    concatenated) or from a single JSON file. Returns [] on any problem so a
+    missing or malformed source degrades gracefully rather than breaking."""
     facts_path = Path(path)
-    if not facts_path.exists():
+    if facts_path.is_dir():
+        facts: list[dict[str, Any]] = []
+        for genre_file in sorted(facts_path.glob("*.json")):
+            facts.extend(_load_file(genre_file))
+        return facts
+    return _load_file(facts_path)
+
+
+def _load_file(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
         return []
     try:
-        data = json.loads(facts_path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return []
-    facts = data.get("facts") if isinstance(data, dict) else None
+    if isinstance(data, list):
+        facts = data
+    elif isinstance(data, dict):
+        facts = data.get("facts")
+    else:
+        facts = None
     if not isinstance(facts, list):
         return []
     return [fact for fact in facts if isinstance(fact, dict)]

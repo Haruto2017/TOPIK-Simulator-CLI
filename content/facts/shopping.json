@@ -1,0 +1,89 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "shopping",
+  "facts": [
+    {
+      "id": "shopping-markets",
+      "category": "shopping",
+      "title": "Traditional markets",
+      "fact": "Traditional markets such as Seoul's Namdaemun and Gwangjang sell everything from clothes to street food. Friendly haggling is common at market stalls, though not in shops.",
+      "korean": "시장에서 과일을 삽니다.",
+      "korean_en": "I buy fruit at the market.",
+      "vocabulary": [
+        {
+          "ko": "시장",
+          "en": "market"
+        },
+        {
+          "ko": "과일",
+          "en": "fruit"
+        },
+        {
+          "ko": "가격",
+          "en": "price"
+        }
+      ],
+      "note": "**깎아 주세요** = \"Please give me a discount\" (literally \"please cut [the price]\").",
+      "tags": [
+        "market",
+        "haggling",
+        "street-food"
+      ]
+    },
+    {
+      "id": "shopping-convenience",
+      "category": "shopping",
+      "title": "Convenience stores do everything",
+      "fact": "Convenience stores are everywhere and offer far more than snacks — hot meals, package pickup, even simple banking. Online orders often arrive the very next morning.",
+      "korean": "편의점에서 김밥을 삽니다.",
+      "korean_en": "I buy gimbap at the convenience store.",
+      "vocabulary": [
+        {
+          "ko": "편의점",
+          "en": "convenience store"
+        },
+        {
+          "ko": "사다",
+          "en": "to buy"
+        },
+        {
+          "ko": "빠르다",
+          "en": "to be fast"
+        }
+      ],
+      "note": "**배달** (delivery) culture is huge — almost anything can be delivered to your door.",
+      "tags": [
+        "convenience-store",
+        "delivery"
+      ]
+    },
+    {
+      "id": "shopping-won",
+      "category": "shopping",
+      "title": "The won, and a familiar face",
+      "fact": "The currency is the won. Coins run from 10 to 500 won and bills from 1,000 to 50,000 won. The 10,000-won note features King Sejong, who created Hangul.",
+      "korean": "이것은 얼마예요?",
+      "korean_en": "How much is this?",
+      "vocabulary": [
+        {
+          "ko": "돈",
+          "en": "money"
+        },
+        {
+          "ko": "얼마",
+          "en": "how much"
+        },
+        {
+          "ko": "원",
+          "en": "won (currency)"
+        }
+      ],
+      "note": "**얼마예요?** is the essential shopping question.",
+      "tags": [
+        "money",
+        "won",
+        "shopping"
+      ]
+    }
+  ]
+}

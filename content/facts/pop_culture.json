@@ -1,0 +1,265 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "pop_culture",
+  "facts": [
+    {
+      "id": "pop-hallyu",
+      "category": "pop_culture",
+      "title": "The Korean Wave",
+      "fact": "The \"Korean Wave\" (Hallyu) has carried K-pop, dramas, and film to a massive global audience since the late 1990s.",
+      "korean": "저는 케이팝을 자주 들어요.",
+      "korean_en": "I listen to K-pop often.",
+      "vocabulary": [
+        {
+          "ko": "노래",
+          "en": "song"
+        },
+        {
+          "ko": "듣다",
+          "en": "to listen"
+        },
+        {
+          "ko": "자주",
+          "en": "often"
+        }
+      ],
+      "note": "**한류** (Hallyu) literally means \"Korean flow/wave.\"",
+      "tags": [
+        "kpop",
+        "hallyu",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-webtoon",
+      "category": "pop_culture",
+      "title": "Korea invented the webtoon",
+      "fact": "Korea pioneered the webtoon — vertical-scroll digital comics made for phones. Many hit dramas and films are now adapted from popular webtoons.",
+      "korean": "저는 매일 웹툰을 봐요.",
+      "korean_en": "I read webtoons every day.",
+      "vocabulary": [
+        {
+          "ko": "매일",
+          "en": "every day"
+        },
+        {
+          "ko": "보다",
+          "en": "to see, to read"
+        },
+        {
+          "ko": "그림",
+          "en": "picture, drawing"
+        }
+      ],
+      "note": "**웹툰** = \"web\" + 툰 (from \"cartoon\").",
+      "tags": [
+        "webtoon",
+        "comics",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-squid-game",
+      "category": "pop_culture",
+      "title": "Squid Game, a global phenomenon",
+      "fact": "Korean dramas (K-dramas) reach huge audiences worldwide. The survival series **\"Squid Game\"** (오징어 게임) became **Netflix's biggest series launch ever** in 2021 and won several Emmy Awards.",
+      "korean": "저는 한국 드라마를 자주 봅니다.",
+      "korean_en": "I watch Korean dramas often.",
+      "vocabulary": [
+        {
+          "ko": "드라마",
+          "en": "drama, TV series"
+        },
+        {
+          "ko": "보다",
+          "en": "to watch, to see"
+        },
+        {
+          "ko": "자주",
+          "en": "often"
+        }
+      ],
+      "note": "**오징어 게임** means \"squid game,\" named after a children's playground game shown in the series.",
+      "tags": [
+        "drama",
+        "squid-game",
+        "netflix",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-yeneung",
+      "category": "pop_culture",
+      "title": "Yeneung, Korean variety shows",
+      "fact": "**Yeneung** (예능), Korea's variety and entertainment shows, are a huge part of TV. They mix games, travel, and comedy, and often pair celebrities with on-screen captions and sound effects for laughs.",
+      "korean": "예능 프로그램은 정말 재미있어요.",
+      "korean_en": "Variety shows are really fun.",
+      "vocabulary": [
+        {
+          "ko": "예능",
+          "en": "variety/entertainment show"
+        },
+        {
+          "ko": "재미있다",
+          "en": "to be fun, interesting"
+        },
+        {
+          "ko": "정말",
+          "en": "really, truly"
+        }
+      ],
+      "note": "**예능** programs are famous for funny on-screen captions called 자막.",
+      "tags": [
+        "variety",
+        "yeneung",
+        "tv",
+        "entertainment"
+      ]
+    },
+    {
+      "id": "pop-fandom",
+      "category": "pop_culture",
+      "title": "K-pop fandom culture",
+      "fact": "K-pop fandoms are highly organized, and most groups have an **official fan name** — BTS fans are called **ARMY**. Fans learn synchronized chants (**응원**) and even buy subway ads to celebrate idols' birthdays.",
+      "korean": "우리는 콘서트에서 응원을 합니다.",
+      "korean_en": "We cheer at the concert.",
+      "vocabulary": [
+        {
+          "ko": "콘서트",
+          "en": "concert"
+        },
+        {
+          "ko": "응원",
+          "en": "cheering, support"
+        },
+        {
+          "ko": "하다",
+          "en": "to do"
+        }
+      ],
+      "note": "**응원을 하다** means \"to cheer\" — fans chant members' names in time with the song.",
+      "tags": [
+        "fandom",
+        "kpop",
+        "army",
+        "concert"
+      ]
+    },
+    {
+      "id": "pop-esports",
+      "category": "pop_culture",
+      "title": "Korea, an esports powerhouse",
+      "fact": "Korea is a global leader in **esports** (competitive video gaming), with pro players treated like sports stars. Much of the scene grew out of **PC방** (PC bang), internet cafés where people play games by the hour.",
+      "korean": "친구들이 피시방에서 게임을 합니다.",
+      "korean_en": "My friends play games at the PC café.",
+      "vocabulary": [
+        {
+          "ko": "피시방",
+          "en": "PC café (internet café)"
+        },
+        {
+          "ko": "게임",
+          "en": "game"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        }
+      ],
+      "note": "**방** means \"room,\" so a 피시방 is literally a \"PC room.\" The same 방 appears in 노래방 (karaoke room).",
+      "tags": [
+        "esports",
+        "gaming",
+        "pc-bang",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-kbeauty",
+      "category": "pop_culture",
+      "title": "K-beauty and skincare",
+      "fact": "**K-beauty** — Korean cosmetics and skincare — is popular around the world. Korea is especially known for elaborate **multi-step skincare routines** and innovative products like sheet masks and cushion compacts.",
+      "korean": "한국 화장품은 아주 유명합니다.",
+      "korean_en": "Korean cosmetics are very famous.",
+      "vocabulary": [
+        {
+          "ko": "화장품",
+          "en": "cosmetics"
+        },
+        {
+          "ko": "유명하다",
+          "en": "to be famous"
+        },
+        {
+          "ko": "아주",
+          "en": "very"
+        }
+      ],
+      "note": "**화장품** combines 화장 (\"makeup\") and 품 (\"goods, product\").",
+      "tags": [
+        "kbeauty",
+        "skincare",
+        "cosmetics",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-cafe",
+      "category": "pop_culture",
+      "title": "Korea's café culture",
+      "fact": "Korea has an enormous **café culture**, with a remarkably high number of coffee shops per person. Cafés are popular spots to meet friends, study, or work, and many have elaborate themes or desserts.",
+      "korean": "우리는 카페에서 커피를 마십니다.",
+      "korean_en": "We drink coffee at the café.",
+      "vocabulary": [
+        {
+          "ko": "카페",
+          "en": "café"
+        },
+        {
+          "ko": "커피",
+          "en": "coffee"
+        },
+        {
+          "ko": "마시다",
+          "en": "to drink"
+        }
+      ],
+      "note": "Many students study at a café or a **스터디 카페** (study café) rented by the hour.",
+      "tags": [
+        "cafe",
+        "coffee",
+        "dessert",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-kakaotalk",
+      "category": "pop_culture",
+      "title": "KakaoTalk runs daily life",
+      "fact": "Almost everyone in Korea uses **KakaoTalk** (카카오톡), the dominant messaging app. Its cartoon characters, the **Kakao Friends**, are so popular that they appear on everything from plush toys to bank cards.",
+      "korean": "저는 친구에게 카카오톡을 보냅니다.",
+      "korean_en": "I send a KakaoTalk message to my friend.",
+      "vocabulary": [
+        {
+          "ko": "카카오톡",
+          "en": "KakaoTalk (messaging app)"
+        },
+        {
+          "ko": "보내다",
+          "en": "to send"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        }
+      ],
+      "note": "People shorten it to **카톡** and use it as a verb: 카톡 해요 = \"text me on KakaoTalk.\" The particle **에게** marks the person receiving something.",
+      "tags": [
+        "kakaotalk",
+        "messaging",
+        "app",
+        "modern"
+      ]
+    }
+  ]
+}

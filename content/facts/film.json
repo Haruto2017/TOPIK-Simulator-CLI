@@ -1,0 +1,188 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "film",
+  "facts": [
+    {
+      "id": "film-parasite",
+      "category": "film",
+      "title": "Parasite made Oscar history",
+      "fact": "Bong Joon-ho's **Parasite** (기생충) won Best Picture at the 2020 Academy Awards, becoming the **first non-English-language film** ever to take the top prize. It also won Best Director, Best Original Screenplay, and Best International Feature.",
+      "korean": "기생충이 오스카상을 받았습니다.",
+      "korean_en": "Parasite won an Oscar.",
+      "vocabulary": [
+        {
+          "ko": "영화",
+          "en": "movie, film"
+        },
+        {
+          "ko": "상",
+          "en": "prize, award"
+        },
+        {
+          "ko": "받다",
+          "en": "to receive, to win"
+        }
+      ],
+      "note": "**기생충** literally means \"parasite.\" The director's name, 봉준호, is written family-name-first as in Korean order.",
+      "tags": [
+        "film",
+        "movie",
+        "parasite",
+        "bong-joon-ho",
+        "oscar",
+        "modern"
+      ]
+    },
+    {
+      "id": "film-park-chan-wook",
+      "category": "film",
+      "title": "Park Chan-wook and the Korean thriller",
+      "fact": "Director **Park Chan-wook** (박찬욱) is known worldwide for stylish, intense thrillers, especially **Oldboy** (올드보이), which won the Grand Prix at the 2004 Cannes Film Festival. Korean cinema has earned a global reputation for its bold thrillers.",
+      "korean": "박찬욱은 유명한 감독입니다.",
+      "korean_en": "Park Chan-wook is a famous director.",
+      "vocabulary": [
+        {
+          "ko": "감독",
+          "en": "director"
+        },
+        {
+          "ko": "유명하다",
+          "en": "to be famous"
+        },
+        {
+          "ko": "영화",
+          "en": "movie, film"
+        }
+      ],
+      "note": "**감독** means \"director\" and is also the word for a sports team's coach or manager.",
+      "tags": [
+        "film",
+        "movie",
+        "park-chan-wook",
+        "oldboy",
+        "thriller",
+        "director"
+      ]
+    },
+    {
+      "id": "film-busan-festival",
+      "category": "film",
+      "title": "The Busan International Film Festival",
+      "fact": "The **Busan International Film Festival** (부산국제영화제) is one of Asia's largest film festivals. Held each autumn, it showcases new Asian and international cinema and draws filmmakers and fans from around the world.",
+      "korean": "부산에서 영화제가 열립니다.",
+      "korean_en": "A film festival is held in Busan.",
+      "vocabulary": [
+        {
+          "ko": "영화제",
+          "en": "film festival"
+        },
+        {
+          "ko": "열리다",
+          "en": "to be held, to open"
+        },
+        {
+          "ko": "가을",
+          "en": "autumn"
+        }
+      ],
+      "note": "**영화제** combines 영화 (film) with 제 (festival); the festival is often shortened to **BIFF**.",
+      "tags": [
+        "film",
+        "movie",
+        "busan",
+        "festival",
+        "biff"
+      ]
+    },
+    {
+      "id": "film-cinema-culture",
+      "category": "film",
+      "title": "A nation of moviegoers",
+      "fact": "South Korea has one of the **highest cinema-attendance rates per person** in the world. Large multiplex theaters (영화관) fill city centers, and going to the movies is a popular outing for friends, couples, and families.",
+      "korean": "저는 영화관에서 영화를 봐요.",
+      "korean_en": "I watch a movie at the cinema.",
+      "vocabulary": [
+        {
+          "ko": "영화관",
+          "en": "cinema, movie theater"
+        },
+        {
+          "ko": "보다",
+          "en": "to see, to watch"
+        },
+        {
+          "ko": "표",
+          "en": "ticket"
+        }
+      ],
+      "note": "**영화관** literally means \"film hall\"; you may also hear the loanword **극장** for theater.",
+      "tags": [
+        "film",
+        "movie",
+        "cinema",
+        "theater",
+        "culture"
+      ]
+    },
+    {
+      "id": "film-train-to-busan",
+      "category": "film",
+      "title": "Train to Busan and the zombie boom",
+      "fact": "The 2016 hit **Train to Busan** (부산행) is a zombie film set on a speeding train and became a worldwide success. It helped show that Korean horror and action could win huge international audiences.",
+      "korean": "저는 무서운 영화를 좋아해요.",
+      "korean_en": "I like scary movies.",
+      "vocabulary": [
+        {
+          "ko": "무섭다",
+          "en": "to be scary"
+        },
+        {
+          "ko": "영화",
+          "en": "movie, film"
+        },
+        {
+          "ko": "기차",
+          "en": "train"
+        }
+      ],
+      "note": "**부산행** means \"bound for Busan\" — 행 attached to a place name marks a train or flight's destination.",
+      "tags": [
+        "film",
+        "movie",
+        "train-to-busan",
+        "horror",
+        "zombie"
+      ]
+    },
+    {
+      "id": "film-history-growth",
+      "category": "film",
+      "title": "From a small industry to a global force",
+      "fact": "Korean cinema dates back to the silent era of the early **1900s**, but it grew dramatically after the 1990s. Today Korean films and the directors behind them are celebrated at major festivals around the world.",
+      "korean": "한국 영화는 아주 재미있습니다.",
+      "korean_en": "Korean films are very interesting.",
+      "vocabulary": [
+        {
+          "ko": "한국",
+          "en": "Korea"
+        },
+        {
+          "ko": "재미있다",
+          "en": "to be fun, to be interesting"
+        },
+        {
+          "ko": "아주",
+          "en": "very"
+        }
+      ],
+      "note": "**한국 영화** means \"Korean film\"; the boom since the late 1990s is sometimes called the Korean cinema renaissance.",
+      "tags": [
+        "film",
+        "movie",
+        "history",
+        "cinema",
+        "classic"
+      ]
+    }
+  ]
+}

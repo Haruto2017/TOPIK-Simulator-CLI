@@ -1,0 +1,90 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "category": "food",
+  "facts": [
+    {
+      "id": "food-kimchi",
+      "category": "food",
+      "title": "Kimchi at every meal",
+      "fact": "Kimchi — fermented vegetables seasoned with chili and garlic — accompanies almost every Korean meal. Families traditionally make big batches in late autumn in an event called gimjang.",
+      "korean": "저는 김치를 좋아합니다.",
+      "korean_en": "I like kimchi.",
+      "vocabulary": [
+        {
+          "ko": "김치",
+          "en": "kimchi"
+        },
+        {
+          "ko": "맵다",
+          "en": "to be spicy"
+        },
+        {
+          "ko": "좋아하다",
+          "en": "to like"
+        }
+      ],
+      "note": "**김장** (gimjang), the communal kimchi-making, is on UNESCO's intangible heritage list.",
+      "tags": [
+        "kimchi",
+        "gimjang",
+        "fermentation"
+      ]
+    },
+    {
+      "id": "food-banchan",
+      "category": "food",
+      "title": "Rice, soup, and many side dishes",
+      "fact": "A Korean meal centers on rice and soup with many small shared side dishes called banchan, which are refilled for free at most restaurants.",
+      "korean": "밥하고 반찬을 먹습니다.",
+      "korean_en": "I eat rice and side dishes.",
+      "vocabulary": [
+        {
+          "ko": "밥",
+          "en": "cooked rice; a meal"
+        },
+        {
+          "ko": "반찬",
+          "en": "side dish"
+        },
+        {
+          "ko": "먹다",
+          "en": "to eat"
+        }
+      ],
+      "note": "**하고** means \"and\" when joining nouns, and is very common in speech.",
+      "tags": [
+        "banchan",
+        "rice",
+        "dining"
+      ]
+    },
+    {
+      "id": "food-bbq",
+      "category": "food",
+      "title": "Grill-it-yourself barbecue",
+      "fact": "At a Korean barbecue you grill meat at your own table and wrap it in lettuce with garlic, ssamjang, and rice. Meals are social and shared.",
+      "korean": "친구하고 고기를 먹어요.",
+      "korean_en": "I eat meat with friends.",
+      "vocabulary": [
+        {
+          "ko": "고기",
+          "en": "meat"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        },
+        {
+          "ko": "같이",
+          "en": "together"
+        }
+      ],
+      "note": "**삼겹살** (samgyeopsal, pork belly) is the most popular cut.",
+      "tags": [
+        "bbq",
+        "samgyeopsal",
+        "dining"
+      ]
+    }
+  ]
+}
