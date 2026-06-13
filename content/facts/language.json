@@ -55,6 +55,454 @@
         "numbers",
         "counters"
       ]
+    },
+    {
+      "id": "language-syllable-blocks",
+      "category": "language",
+      "title": "Letters stack into syllable blocks",
+      "fact": "Hangul letters are not written in a straight line. They are **grouped into square blocks**, one block per syllable, combining a starting consonant, a vowel, and sometimes a final consonant.",
+      "korean": "한글은 모아써요.",
+      "korean_en": "Hangul is written in grouped blocks.",
+      "vocabulary": [
+        {
+          "ko": "한글",
+          "en": "Hangul (the Korean alphabet)"
+        },
+        {
+          "ko": "글자",
+          "en": "letter, character"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to write"
+        }
+      ],
+      "note": "For example **한** packs ㅎ + ㅏ + ㄴ into a single block, read as one syllable.",
+      "tags": [
+        "hangul",
+        "writing",
+        "syllables"
+      ]
+    },
+    {
+      "id": "language-word-order",
+      "category": "language",
+      "title": "The verb comes last",
+      "fact": "Korean word order is **subject–object–verb**, so the verb almost always lands at the end of the sentence. You often have to wait until the last word to learn what someone did.",
+      "korean": "저는 빵을 먹어요.",
+      "korean_en": "I eat bread.",
+      "vocabulary": [
+        {
+          "ko": "저",
+          "en": "I (humble)"
+        },
+        {
+          "ko": "빵",
+          "en": "bread"
+        },
+        {
+          "ko": "먹다",
+          "en": "to eat"
+        }
+      ],
+      "note": "Literally the order is \"I bread eat.\" The verb **먹어요** sits at the end.",
+      "tags": [
+        "word-order",
+        "grammar",
+        "syntax"
+      ]
+    },
+    {
+      "id": "language-no-articles-gender",
+      "category": "language",
+      "title": "No 'a', 'the', or gender",
+      "fact": "Korean has **no articles** like \"a\" or \"the\" and **no grammatical gender** for nouns. One word like 사과 can mean \"apple,\" \"an apple,\" or \"the apple\" depending on context.",
+      "korean": "고양이가 자요.",
+      "korean_en": "The cat is sleeping. / A cat is sleeping.",
+      "vocabulary": [
+        {
+          "ko": "고양이",
+          "en": "cat"
+        },
+        {
+          "ko": "자다",
+          "en": "to sleep"
+        },
+        {
+          "ko": "있다",
+          "en": "to exist, to have"
+        }
+      ],
+      "note": "Listeners rely on **context** to decide whether something is specific or general.",
+      "tags": [
+        "grammar",
+        "nouns",
+        "articles"
+      ]
+    },
+    {
+      "id": "language-honorific-titles",
+      "category": "language",
+      "title": "Titles 씨 and 님 show respect",
+      "fact": "Korean attaches respectful titles after names instead of using \"Mr.\" or \"Ms.\" before them. **씨** is polite for peers, and **님** is more formal, used with teachers, customers, and online.",
+      "korean": "민수 씨, 안녕하세요?",
+      "korean_en": "Hello, Minsu. (politely)",
+      "vocabulary": [
+        {
+          "ko": "씨",
+          "en": "polite name suffix"
+        },
+        {
+          "ko": "님",
+          "en": "formal/honorific suffix"
+        },
+        {
+          "ko": "선생님",
+          "en": "teacher"
+        }
+      ],
+      "note": "Never add **씨** to a full Korean surname alone — it can sound rude. Use it with the given name or full name.",
+      "tags": [
+        "honorifics",
+        "titles",
+        "etiquette"
+      ]
+    },
+    {
+      "id": "language-konglish",
+      "category": "language",
+      "title": "Konglish: borrowed English words",
+      "fact": "Many everyday Korean words are **Konglish** — English loanwords adapted to Korean sounds. Some keep the English meaning, while others have shifted, like 핸드폰 (\"hand phone\") for a mobile phone.",
+      "korean": "커피 한 잔 주세요.",
+      "korean_en": "One cup of coffee, please.",
+      "vocabulary": [
+        {
+          "ko": "커피",
+          "en": "coffee"
+        },
+        {
+          "ko": "컴퓨터",
+          "en": "computer"
+        },
+        {
+          "ko": "잔",
+          "en": "counter for cups/glasses"
+        }
+      ],
+      "note": "Loanwords are written in **Hangul** and follow Korean sound rules, so 커피 is said \"keo-pi,\" not \"coffee.\"",
+      "tags": [
+        "loanwords",
+        "konglish",
+        "vocabulary"
+      ]
+    },
+    {
+      "id": "language-dialects",
+      "category": "language",
+      "title": "Regional dialects (사투리)",
+      "fact": "Beyond the Seoul standard, Korea has regional dialects called **사투리**, with different intonation and vocabulary. The Busan and Gyeongsang region is especially known for its strong, distinctive accent.",
+      "korean": "부산 사투리는 정말 재미있어요.",
+      "korean_en": "The Busan dialect is really fun.",
+      "vocabulary": [
+        {
+          "ko": "사투리",
+          "en": "regional dialect"
+        },
+        {
+          "ko": "부산",
+          "en": "Busan (a city)"
+        },
+        {
+          "ko": "재미있다",
+          "en": "to be fun, interesting"
+        }
+      ],
+      "note": "TOPIK uses **표준어** (standard speech), but you may hear 사투리 in dramas and travel.",
+      "tags": [
+        "dialects",
+        "satoori",
+        "regional"
+      ]
+    },
+    {
+      "id": "language-jeju",
+      "category": "language",
+      "title": "Jeju Island's unique speech",
+      "fact": "**Jeju** Island has a variety so distinct that many mainland Koreans cannot fully understand it. It preserves old words and sounds, and UNESCO lists traditional Jeju speech as endangered.",
+      "korean": "제주도에 가고 싶어요.",
+      "korean_en": "I want to go to Jeju Island.",
+      "vocabulary": [
+        {
+          "ko": "제주도",
+          "en": "Jeju Island"
+        },
+        {
+          "ko": "섬",
+          "en": "island"
+        },
+        {
+          "ko": "가다",
+          "en": "to go"
+        }
+      ],
+      "note": "Some linguists treat **Jeju speech** as a separate language rather than just a dialect.",
+      "tags": [
+        "dialects",
+        "jeju",
+        "regional"
+      ]
+    },
+    {
+      "id": "language-counters",
+      "category": "language",
+      "title": "Counting needs counter words",
+      "fact": "To count things, Korean adds a **counter word** after the number, much like \"two *sheets* of paper\" in English. Different counters fit different objects: 명 for people, 마리 for animals, 권 for books.",
+      "korean": "학생 두 명이 있어요.",
+      "korean_en": "There are two students.",
+      "vocabulary": [
+        {
+          "ko": "명",
+          "en": "counter for people"
+        },
+        {
+          "ko": "마리",
+          "en": "counter for animals"
+        },
+        {
+          "ko": "권",
+          "en": "counter for books"
+        }
+      ],
+      "note": "Choosing the right counter is key on TOPIK: **두 명** (two people), 책 한 권 (one book), 개 세 마리 (three dogs).",
+      "tags": [
+        "counters",
+        "numbers",
+        "grammar"
+      ]
+    },
+    {
+      "id": "language-hanja",
+      "category": "language",
+      "title": "Hanja: Chinese characters in Korean",
+      "fact": "A large part of Korean vocabulary comes from Chinese roots, written historically with **한자 (Hanja)**. Today most text uses only Hangul, but Hanja still appears in names, newspapers, and academic terms.",
+      "korean": "한국어에는 한자어가 많아요.",
+      "korean_en": "Korean has many Sino-Korean words.",
+      "vocabulary": [
+        {
+          "ko": "한자",
+          "en": "Chinese characters"
+        },
+        {
+          "ko": "한자어",
+          "en": "Sino-Korean vocabulary"
+        },
+        {
+          "ko": "많다",
+          "en": "to be many"
+        }
+      ],
+      "note": "Knowing Hanja roots helps you guess word meanings, since one root like 學 (학, study) appears in 학교, 학생, and 학습.",
+      "tags": [
+        "hanja",
+        "vocabulary",
+        "sino-korean"
+      ]
+    },
+    {
+      "id": "language-batchim",
+      "category": "language",
+      "title": "Final consonants (받침)",
+      "fact": "A consonant at the bottom of a syllable block is called a **받침**. It can change how the next syllable sounds, linking smoothly into the following vowel.",
+      "korean": "한국어 발음이 어려워요.",
+      "korean_en": "Korean pronunciation is difficult.",
+      "vocabulary": [
+        {
+          "ko": "받침",
+          "en": "final consonant"
+        },
+        {
+          "ko": "발음",
+          "en": "pronunciation"
+        },
+        {
+          "ko": "어렵다",
+          "en": "to be difficult"
+        }
+      ],
+      "note": "For example, **꽃이** is pronounced \"꼬치\" because the 받침 ㅊ links onto the following vowel.",
+      "tags": [
+        "pronunciation",
+        "batchim",
+        "phonology"
+      ]
+    },
+    {
+      "id": "language-formality-endings",
+      "category": "language",
+      "title": "Formal vs. polite sentence endings",
+      "fact": "Korean sentence endings signal formality. **-습니다/-ㅂ니다** is formal and used in news, presentations, and the military, while **-아요/-어요** is the everyday polite ending.",
+      "korean": "감사합니다.",
+      "korean_en": "Thank you. (formal)",
+      "vocabulary": [
+        {
+          "ko": "감사하다",
+          "en": "to be thankful"
+        },
+        {
+          "ko": "고맙다",
+          "en": "to be thankful (softer)"
+        },
+        {
+          "ko": "인사",
+          "en": "greeting"
+        }
+      ],
+      "note": "On TOPIK writing, the formal **-습니다** style is often expected; spoken practice usually uses **-어요**.",
+      "tags": [
+        "formality",
+        "endings",
+        "grammar"
+      ]
+    },
+    {
+      "id": "language-topic-subject-particle",
+      "category": "language",
+      "title": "Topic 은/는 vs. subject 이/가",
+      "fact": "Korean marks nouns with particles. **은/는** sets the topic or contrast, while **이/가** marks the grammatical subject. Choosing between them shifts the nuance of a sentence.",
+      "korean": "저는 학생이에요.",
+      "korean_en": "As for me, I'm a student.",
+      "vocabulary": [
+        {
+          "ko": "은/는",
+          "en": "topic particle"
+        },
+        {
+          "ko": "이/가",
+          "en": "subject particle"
+        },
+        {
+          "ko": "학생",
+          "en": "student"
+        }
+      ],
+      "note": "Use **는** after a vowel (저는) and **은** after a consonant (책은); likewise 가 after a vowel and 이 after a consonant.",
+      "tags": [
+        "particles",
+        "grammar",
+        "topic-subject"
+      ]
+    },
+    {
+      "id": "language-object-particle",
+      "category": "language",
+      "title": "Marking the object with 을/를",
+      "fact": "The thing receiving an action takes the **object particle 을/를**. It tells the listener which noun the verb acts on, which matters because Korean word order is flexible.",
+      "korean": "물을 마셔요.",
+      "korean_en": "I drink water.",
+      "vocabulary": [
+        {
+          "ko": "을/를",
+          "en": "object particle"
+        },
+        {
+          "ko": "물",
+          "en": "water"
+        },
+        {
+          "ko": "마시다",
+          "en": "to drink"
+        }
+      ],
+      "note": "Use **을** after a consonant (물을) and **를** after a vowel (사과를). In casual speech the particle is often dropped.",
+      "tags": [
+        "particles",
+        "object",
+        "grammar"
+      ]
+    },
+    {
+      "id": "language-greetings",
+      "category": "language",
+      "title": "One greeting for any time of day",
+      "fact": "Korean does not split greetings into morning, afternoon, and evening. **안녕하세요** works at any hour, and it literally asks whether you are at peace.",
+      "korean": "안녕하세요, 만나서 반가워요.",
+      "korean_en": "Hello, nice to meet you.",
+      "vocabulary": [
+        {
+          "ko": "안녕하세요",
+          "en": "hello (polite)"
+        },
+        {
+          "ko": "만나다",
+          "en": "to meet"
+        },
+        {
+          "ko": "반갑다",
+          "en": "to be glad (to meet)"
+        }
+      ],
+      "note": "Casual friends shorten it to **안녕**, which also means \"goodbye.\"",
+      "tags": [
+        "greetings",
+        "phrases",
+        "etiquette"
+      ]
+    },
+    {
+      "id": "language-subject-honorific-si",
+      "category": "language",
+      "title": "The honorific verb infix -(으)시-",
+      "fact": "To respect the *person doing the action*, Korean inserts **-(으)시-** into the verb. So 가다 (to go) becomes 가세요 when the subject is someone you honor, like a grandparent.",
+      "korean": "할머니께서 주무세요.",
+      "korean_en": "Grandmother is sleeping. (respectfully)",
+      "vocabulary": [
+        {
+          "ko": "할머니",
+          "en": "grandmother"
+        },
+        {
+          "ko": "께서",
+          "en": "honorific subject particle"
+        },
+        {
+          "ko": "주무시다",
+          "en": "to sleep (honorific)"
+        }
+      ],
+      "note": "Some verbs have special honorific forms instead of just adding **-시-**: 자다 → 주무시다, 먹다 → 드시다.",
+      "tags": [
+        "honorifics",
+        "verbs",
+        "grammar"
+      ]
+    },
+    {
+      "id": "language-sound-changes",
+      "category": "language",
+      "title": "Spelling and sound can differ",
+      "fact": "Korean has regular **sound-change rules**, so a word is not always pronounced the way it is spelled. A final ㄱ before ㄴ, for example, softens into an ㅇ sound.",
+      "korean": "국물이 맛있어요.",
+      "korean_en": "The broth is delicious.",
+      "vocabulary": [
+        {
+          "ko": "국물",
+          "en": "broth, soup"
+        },
+        {
+          "ko": "맛있다",
+          "en": "to be delicious"
+        },
+        {
+          "ko": "소리",
+          "en": "sound"
+        }
+      ],
+      "note": "**국물** is read \"궁물\" because ㄱ assimilates to the following ㅁ — a change called nasalization.",
+      "tags": [
+        "pronunciation",
+        "sound-change",
+        "phonology"
+      ]
     }
   ]
 }

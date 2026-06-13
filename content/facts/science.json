@@ -57,6 +57,454 @@
         "train",
         "transport"
       ]
+    },
+    {
+      "id": "tech-semiconductor",
+      "category": "science",
+      "title": "Memory chip leader",
+      "fact": "South Korea is the world's top maker of **memory semiconductors**, the chips that store data in phones and computers. Samsung and SK hynix together make most of the global supply.",
+      "korean": "한국은 반도체를 많이 만듭니다.",
+      "korean_en": "Korea makes a lot of semiconductors.",
+      "vocabulary": [
+        {
+          "ko": "반도체",
+          "en": "semiconductor"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make"
+        },
+        {
+          "ko": "많이",
+          "en": "a lot"
+        }
+      ],
+      "note": "**반도체** literally means \"half (반) + conductor (도체).\"",
+      "tags": [
+        "semiconductor",
+        "industry",
+        "export"
+      ]
+    },
+    {
+      "id": "tech-smartphone",
+      "category": "science",
+      "title": "Smartphone giant",
+      "fact": "Samsung is one of the world's largest smartphone makers, and many people in Korea use a Korean-made phone. New models often launch in Seoul first.",
+      "korean": "많은 사람이 한국 휴대폰을 씁니다.",
+      "korean_en": "Many people use Korean phones.",
+      "vocabulary": [
+        {
+          "ko": "휴대폰",
+          "en": "cell phone"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to use"
+        },
+        {
+          "ko": "사람",
+          "en": "person"
+        }
+      ],
+      "note": "**쓰다** has several meanings (use, write, wear); here it means \"to use.\"",
+      "tags": [
+        "smartphone",
+        "samsung",
+        "technology"
+      ]
+    },
+    {
+      "id": "tech-shipbuilding",
+      "category": "science",
+      "title": "Building the world's ships",
+      "fact": "Korean shipyards are among the largest on Earth, building giant cargo ships and tankers. The southern port city of Ulsan is a famous shipbuilding center.",
+      "korean": "한국은 큰 배를 만듭니다.",
+      "korean_en": "Korea makes big ships.",
+      "vocabulary": [
+        {
+          "ko": "배",
+          "en": "ship, boat"
+        },
+        {
+          "ko": "크다",
+          "en": "to be big"
+        },
+        {
+          "ko": "바다",
+          "en": "sea"
+        }
+      ],
+      "note": "**배** can mean ship, but also \"pear\" or \"stomach\" depending on context.",
+      "tags": [
+        "shipbuilding",
+        "industry",
+        "ulsan"
+      ]
+    },
+    {
+      "id": "tech-nuri",
+      "category": "science",
+      "title": "The Nuri rocket",
+      "fact": "**Nuri (누리호)** is South Korea's home-built space rocket. In 2022 it successfully carried satellites into orbit, making Korea one of the few countries with its own launch vehicle.",
+      "korean": "한국은 로켓을 우주로 보냅니다.",
+      "korean_en": "Korea sends a rocket into space.",
+      "vocabulary": [
+        {
+          "ko": "로켓",
+          "en": "rocket"
+        },
+        {
+          "ko": "우주",
+          "en": "space, universe"
+        },
+        {
+          "ko": "보내다",
+          "en": "to send"
+        }
+      ],
+      "note": "**누리** is a pure-Korean word meaning \"world,\" and **호** is a suffix for named vehicles.",
+      "tags": [
+        "space",
+        "rocket",
+        "nuri"
+      ]
+    },
+    {
+      "id": "tech-danuri",
+      "category": "science",
+      "title": "Danuri at the Moon",
+      "fact": "**Danuri (다누리)** is Korea's first lunar orbiter. Launched in 2022, it travels around the Moon and sends back photos and science data.",
+      "korean": "다누리는 달 주위를 돕니다.",
+      "korean_en": "Danuri circles around the Moon.",
+      "vocabulary": [
+        {
+          "ko": "달",
+          "en": "moon"
+        },
+        {
+          "ko": "돌다",
+          "en": "to turn, to circle"
+        },
+        {
+          "ko": "사진",
+          "en": "photo"
+        }
+      ],
+      "note": "The name **다누리** blends 달 (moon) with 누리다 (to enjoy): \"enjoy the moon.\"",
+      "tags": [
+        "space",
+        "moon",
+        "danuri"
+      ]
+    },
+    {
+      "id": "tech-ev-battery",
+      "category": "science",
+      "title": "Powering electric cars",
+      "fact": "Korean companies like LG, Samsung SDI, and SK On are major makers of **EV batteries** used in electric cars worldwide. Batteries are now one of Korea's biggest exports.",
+      "korean": "이 자동차는 전기로 갑니다.",
+      "korean_en": "This car runs on electricity.",
+      "vocabulary": [
+        {
+          "ko": "전기",
+          "en": "electricity"
+        },
+        {
+          "ko": "자동차",
+          "en": "car"
+        },
+        {
+          "ko": "배터리",
+          "en": "battery"
+        }
+      ],
+      "note": "**전기** (electricity) combines with 자동차 to form 전기차, \"electric car.\"",
+      "tags": [
+        "battery",
+        "electric",
+        "export"
+      ]
+    },
+    {
+      "id": "tech-robot",
+      "category": "science",
+      "title": "Robots at work",
+      "fact": "South Korea uses more industrial **robots** per worker than almost any other country. Robots are common in factories, and you may even see them serving food in cafés.",
+      "korean": "공장에서 로봇이 일합니다.",
+      "korean_en": "Robots work in the factory.",
+      "vocabulary": [
+        {
+          "ko": "로봇",
+          "en": "robot"
+        },
+        {
+          "ko": "공장",
+          "en": "factory"
+        },
+        {
+          "ko": "일하다",
+          "en": "to work"
+        }
+      ],
+      "note": "The particle **에서** marks where an action happens: 공장에서 = \"at the factory.\"",
+      "tags": [
+        "robot",
+        "automation",
+        "industry"
+      ]
+    },
+    {
+      "id": "tech-hyundai",
+      "category": "science",
+      "title": "Hyundai and Kia cars",
+      "fact": "Hyundai and Kia are Korean carmakers sold all over the world. Together they form one of the largest car groups on the planet.",
+      "korean": "이 자동차는 한국에서 만듭니다.",
+      "korean_en": "This car is made in Korea.",
+      "vocabulary": [
+        {
+          "ko": "자동차",
+          "en": "car"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make"
+        },
+        {
+          "ko": "회사",
+          "en": "company"
+        }
+      ],
+      "note": "**현대 (Hyundai)** means \"modern times,\" and **기아 (Kia)** suggests \"rising from Asia.\"",
+      "tags": [
+        "car",
+        "hyundai",
+        "industry"
+      ]
+    },
+    {
+      "id": "tech-5g",
+      "category": "science",
+      "title": "First with 5G",
+      "fact": "In 2019 South Korea became one of the first countries to launch nationwide **5G** mobile networks. Fast mobile data made video and gaming on phones very popular.",
+      "korean": "한국은 인터넷이 아주 빠릅니다.",
+      "korean_en": "Korea's internet is very fast.",
+      "vocabulary": [
+        {
+          "ko": "아주",
+          "en": "very"
+        },
+        {
+          "ko": "빠르다",
+          "en": "to be fast"
+        },
+        {
+          "ko": "전화",
+          "en": "phone, call"
+        }
+      ],
+      "note": "**아주** means \"very\" and goes before adjectives: 아주 빠르다 = \"very fast.\"",
+      "tags": [
+        "5g",
+        "network",
+        "mobile"
+      ]
+    },
+    {
+      "id": "tech-broadband",
+      "category": "science",
+      "title": "Early broadband nation",
+      "fact": "Korea built fast home **broadband** very early, in the late 1990s and 2000s. This helped online gaming, streaming, and internet cafés grow quickly.",
+      "korean": "집에서 인터넷을 합니다.",
+      "korean_en": "I use the internet at home.",
+      "vocabulary": [
+        {
+          "ko": "집",
+          "en": "home, house"
+        },
+        {
+          "ko": "인터넷",
+          "en": "internet"
+        },
+        {
+          "ko": "하다",
+          "en": "to do"
+        }
+      ],
+      "note": "Koreans often say 인터넷을 하다, literally \"to do the internet,\" for going online.",
+      "tags": [
+        "broadband",
+        "internet",
+        "history"
+      ]
+    },
+    {
+      "id": "tech-electronics-export",
+      "category": "science",
+      "title": "Electronics for the world",
+      "fact": "Electronics such as chips, screens, and phones are among Korea's top exports. Companies like Samsung and LG sell their products in nearly every country.",
+      "korean": "한국은 전자 제품을 많이 팝니다.",
+      "korean_en": "Korea sells a lot of electronics.",
+      "vocabulary": [
+        {
+          "ko": "제품",
+          "en": "product"
+        },
+        {
+          "ko": "팔다",
+          "en": "to sell"
+        },
+        {
+          "ko": "나라",
+          "en": "country"
+        }
+      ],
+      "note": "**전자 제품** means \"electronic products\"; 전자 is \"electronic.\"",
+      "tags": [
+        "electronics",
+        "export",
+        "industry"
+      ]
+    },
+    {
+      "id": "tech-display",
+      "category": "science",
+      "title": "Screens everywhere",
+      "fact": "Korean companies lead the world in **OLED display** screens used in TVs and phones. These thin screens show bright colors and deep blacks.",
+      "korean": "텔레비전 화면이 아주 큽니다.",
+      "korean_en": "The TV screen is very big.",
+      "vocabulary": [
+        {
+          "ko": "화면",
+          "en": "screen"
+        },
+        {
+          "ko": "텔레비전",
+          "en": "television"
+        },
+        {
+          "ko": "크다",
+          "en": "to be big"
+        }
+      ],
+      "note": "**화면** (screen) appears in 큰 화면 \"big screen\" and 화면을 보다 \"to look at the screen.\"",
+      "tags": [
+        "display",
+        "oled",
+        "technology"
+      ]
+    },
+    {
+      "id": "tech-nuclear",
+      "category": "science",
+      "title": "Nuclear power and exports",
+      "fact": "South Korea gets a large share of its electricity from **nuclear power plants**. It also builds reactors abroad, including a major project in the United Arab Emirates.",
+      "korean": "한국은 전기를 많이 만듭니다.",
+      "korean_en": "Korea makes a lot of electricity.",
+      "vocabulary": [
+        {
+          "ko": "전기",
+          "en": "electricity"
+        },
+        {
+          "ko": "힘",
+          "en": "power, strength"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to use"
+        }
+      ],
+      "note": "**원자력** is \"nuclear power\"; 원자 means \"atom\" and 력 means \"power.\"",
+      "tags": [
+        "nuclear",
+        "energy",
+        "export"
+      ]
+    },
+    {
+      "id": "tech-renewable",
+      "category": "science",
+      "title": "Sun and wind energy",
+      "fact": "Korea is building more **solar and wind power** to make cleaner electricity. Large offshore wind farms are planned along the southern and western coasts.",
+      "korean": "햇빛으로 전기를 만듭니다.",
+      "korean_en": "We make electricity from sunlight.",
+      "vocabulary": [
+        {
+          "ko": "햇빛",
+          "en": "sunlight"
+        },
+        {
+          "ko": "바람",
+          "en": "wind"
+        },
+        {
+          "ko": "전기",
+          "en": "electricity"
+        }
+      ],
+      "note": "**햇빛** (sunlight) combines 해 (sun) and 빛 (light), with a linking ㅅ sound.",
+      "tags": [
+        "renewable",
+        "solar",
+        "energy"
+      ]
+    },
+    {
+      "id": "tech-biotech",
+      "category": "science",
+      "title": "Medicine and biotech",
+      "fact": "Korea has a growing **biotech** industry that makes medicines and vaccines. Some Korean companies produce drugs for hospitals around the world.",
+      "korean": "이 회사는 약을 만듭니다.",
+      "korean_en": "This company makes medicine.",
+      "vocabulary": [
+        {
+          "ko": "약",
+          "en": "medicine"
+        },
+        {
+          "ko": "병원",
+          "en": "hospital"
+        },
+        {
+          "ko": "건강",
+          "en": "health"
+        }
+      ],
+      "note": "**약** means \"medicine\"; 약국 is a \"pharmacy\" (medicine + place).",
+      "tags": [
+        "biotech",
+        "medicine",
+        "industry"
+      ]
+    },
+    {
+      "id": "tech-internet-cafe",
+      "category": "science",
+      "title": "PC bang gaming culture",
+      "fact": "Internet cafés called **PC방 (PC bang)** are popular places to play games together. Cheap, fast computers helped make Korea a center of competitive e-sports.",
+      "korean": "친구와 게임을 합니다.",
+      "korean_en": "I play games with a friend.",
+      "vocabulary": [
+        {
+          "ko": "게임",
+          "en": "game"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        },
+        {
+          "ko": "컴퓨터",
+          "en": "computer"
+        }
+      ],
+      "note": "**방** means \"room\"; PC방 is literally a \"PC room.\"",
+      "tags": [
+        "gaming",
+        "esports",
+        "culture"
+      ]
     }
   ]
 }

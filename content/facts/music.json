@@ -204,6 +204,441 @@
         "rap",
         "modern"
       ]
+    },
+    {
+      "id": "music-ballad",
+      "category": "music",
+      "title": "The ballad, Korea's love song",
+      "fact": "The **ballad** (발라드) is one of Korea's most beloved pop genres, built on slow, emotional songs about love and heartbreak. Many of the country's biggest solo singers are known above all as ballad singers.",
+      "korean": "이 발라드는 정말 슬퍼요.",
+      "korean_en": "This ballad is really sad.",
+      "vocabulary": [
+        {
+          "ko": "발라드",
+          "en": "ballad"
+        },
+        {
+          "ko": "슬프다",
+          "en": "to be sad"
+        },
+        {
+          "ko": "정말",
+          "en": "really"
+        }
+      ],
+      "note": "**발라드** songs are famous for big, emotional choruses; 슬프다 (\"to be sad\") is a key word for describing them.",
+      "tags": [
+        "music",
+        "ballad",
+        "pop",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-indie-hongdae",
+      "category": "music",
+      "title": "K-indie and the Hongdae scene",
+      "fact": "Away from the big idol companies, Korea has a lively **indie** music scene. The **Hongdae** (홍대) area of Seoul, near a major art university, is famous for small live clubs and young indie bands.",
+      "korean": "홍대에서 인디 음악을 들었어요.",
+      "korean_en": "I listened to indie music in Hongdae.",
+      "vocabulary": [
+        {
+          "ko": "음악",
+          "en": "music"
+        },
+        {
+          "ko": "듣다",
+          "en": "to listen"
+        },
+        {
+          "ko": "밴드",
+          "en": "band"
+        }
+      ],
+      "note": "**홍대** is short for 홍익대학교 (Hongik University); the neighborhood around it is a hub for clubs and street culture.",
+      "tags": [
+        "music",
+        "indie",
+        "hongdae",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-busking",
+      "category": "music",
+      "title": "Street busking on the weekend",
+      "fact": "Street performance, known by the borrowed word **busking** (버스킹), is common in lively areas of Seoul on weekend evenings. Singers and bands play for crowds on the sidewalk, and some later become well-known artists.",
+      "korean": "주말에 거리에서 노래를 들었어요.",
+      "korean_en": "On the weekend I listened to singing on the street.",
+      "vocabulary": [
+        {
+          "ko": "거리",
+          "en": "street"
+        },
+        {
+          "ko": "주말",
+          "en": "weekend"
+        },
+        {
+          "ko": "노래",
+          "en": "song"
+        }
+      ],
+      "note": "**버스킹** comes from the English \"busking\"; you will often see it in 홍대 and other busy areas.",
+      "tags": [
+        "music",
+        "busking",
+        "street",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-music-shows",
+      "category": "music",
+      "title": "Weekly TV music shows",
+      "fact": "Korean TV broadcasts several weekly **music shows** (음악방송) where idol groups perform their latest songs. Each show crowns a weekly winner, and winning is a proud moment for a group and its fans.",
+      "korean": "토요일에 음악 방송을 봐요.",
+      "korean_en": "On Saturday I watch a music show.",
+      "vocabulary": [
+        {
+          "ko": "방송",
+          "en": "broadcast, show"
+        },
+        {
+          "ko": "보다",
+          "en": "to watch"
+        },
+        {
+          "ko": "토요일",
+          "en": "Saturday"
+        }
+      ],
+      "note": "**음악방송** (음악 \"music\" + 방송 \"broadcast\") is where many groups promote a new release each week.",
+      "tags": [
+        "music",
+        "tv",
+        "broadcast",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-fan-chant",
+      "category": "music",
+      "title": "Fan chants and lightsticks",
+      "fact": "K-pop fans show support with **fan chants**, shouting members' names at set points in a song, and with official **lightsticks** (응원봉). At a concert, thousands of lightsticks light up the dark arena together.",
+      "korean": "콘서트에서 응원봉을 흔들어요.",
+      "korean_en": "At the concert I wave a lightstick.",
+      "vocabulary": [
+        {
+          "ko": "응원",
+          "en": "cheering, support"
+        },
+        {
+          "ko": "콘서트",
+          "en": "concert"
+        },
+        {
+          "ko": "흔들다",
+          "en": "to wave, shake"
+        }
+      ],
+      "note": "**응원봉** = 응원 (\"cheering\") + 봉 (\"stick\"); each group often has its own uniquely shaped lightstick.",
+      "tags": [
+        "music",
+        "kpop",
+        "fans",
+        "concert"
+      ]
+    },
+    {
+      "id": "music-ost",
+      "category": "music",
+      "title": "OST, the drama soundtrack",
+      "fact": "Songs written for TV dramas, called **OST** (오에스티) from \"original soundtrack,\" are hugely popular in Korea. A hit drama's love song can climb the charts just like a regular pop release.",
+      "korean": "이 드라마 오에스티가 좋아요.",
+      "korean_en": "I like this drama's soundtrack.",
+      "vocabulary": [
+        {
+          "ko": "드라마",
+          "en": "TV drama"
+        },
+        {
+          "ko": "좋다",
+          "en": "to be good, nice"
+        },
+        {
+          "ko": "노래",
+          "en": "song"
+        }
+      ],
+      "note": "Koreans usually say the English letters **OST** (오에스티); the songs are tied closely to popular dramas.",
+      "tags": [
+        "music",
+        "ost",
+        "drama",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-aegukga",
+      "category": "music",
+      "title": "Aegukga, the national anthem",
+      "fact": "**Aegukga** (애국가) is the national anthem of South Korea. Its title means \"the song of love for one's country,\" and it is sung at school events and national ceremonies.",
+      "korean": "행사에서 애국가를 불러요.",
+      "korean_en": "At the ceremony we sing the national anthem.",
+      "vocabulary": [
+        {
+          "ko": "나라",
+          "en": "country"
+        },
+        {
+          "ko": "부르다",
+          "en": "to sing, to call"
+        },
+        {
+          "ko": "행사",
+          "en": "event, ceremony"
+        }
+      ],
+      "note": "**애국가** = 애국 (\"patriotism, love of country\") + 가 (\"song\"); 노래를 부르다 means \"to sing a song.\"",
+      "tags": [
+        "music",
+        "anthem",
+        "national",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-arirang",
+      "category": "music",
+      "title": "Arirang, a beloved folk song",
+      "fact": "**Arirang** (아리랑) is Korea's best-known folk song, with many regional versions sung for generations. UNESCO added it to its list of intangible cultural heritage in 2012.",
+      "korean": "아리랑은 유명한 민요예요.",
+      "korean_en": "Arirang is a famous folk song.",
+      "vocabulary": [
+        {
+          "ko": "민요",
+          "en": "folk song"
+        },
+        {
+          "ko": "유명하다",
+          "en": "to be famous"
+        },
+        {
+          "ko": "노래",
+          "en": "song"
+        }
+      ],
+      "note": "**민요** means \"folk song\"; almost every Korean knows the melody of 아리랑.",
+      "tags": [
+        "music",
+        "arirang",
+        "folk",
+        "unesco"
+      ]
+    },
+    {
+      "id": "music-samulnori",
+      "category": "music",
+      "title": "Samul nori, four percussion instruments",
+      "fact": "**Samul nori** (사물놀이) is an energetic percussion music played on **four instruments**: two drums and two gongs. It grew out of older farmers' band music and is now performed on stages worldwide.",
+      "korean": "사물놀이 공연은 아주 신나요.",
+      "korean_en": "The samul nori performance is very exciting.",
+      "vocabulary": [
+        {
+          "ko": "공연",
+          "en": "performance"
+        },
+        {
+          "ko": "신나다",
+          "en": "to be exciting, thrilling"
+        },
+        {
+          "ko": "북",
+          "en": "drum"
+        }
+      ],
+      "note": "**사물놀이** means \"playing of four things\" — 사물 (\"four objects\") refers to the four instruments.",
+      "tags": [
+        "music",
+        "samulnori",
+        "percussion",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-janggu",
+      "category": "music",
+      "title": "The janggu, an hourglass drum",
+      "fact": "The **janggu** (장구) is a traditional drum with a narrow waist, shaped like an hourglass and played with a stick and the hand. It keeps the rhythm in many kinds of Korean folk and percussion music.",
+      "korean": "그 사람은 장구를 잘 쳐요.",
+      "korean_en": "That person plays the janggu well.",
+      "vocabulary": [
+        {
+          "ko": "장구",
+          "en": "hourglass drum"
+        },
+        {
+          "ko": "치다",
+          "en": "to hit, to play (percussion)"
+        },
+        {
+          "ko": "악기",
+          "en": "musical instrument"
+        }
+      ],
+      "note": "북을 치다 / 장구를 치다 = \"to play a drum\"; 치다 is the verb used for striking instruments.",
+      "tags": [
+        "music",
+        "janggu",
+        "instrument",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-daegeum",
+      "category": "music",
+      "title": "The daegeum, a large bamboo flute",
+      "fact": "The **daegeum** (대금) is a large traditional flute made of bamboo, played sideways. A special membrane gives it a slightly buzzing tone, and it has long been important in Korean court and folk music.",
+      "korean": "대금은 대나무로 만들어요.",
+      "korean_en": "The daegeum is made of bamboo.",
+      "vocabulary": [
+        {
+          "ko": "대나무",
+          "en": "bamboo"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make"
+        },
+        {
+          "ko": "소리",
+          "en": "sound"
+        }
+      ],
+      "note": "**대금** is a transverse (side-blown) flute; the 금 here means a wind or string instrument in many traditional names.",
+      "tags": [
+        "music",
+        "daegeum",
+        "flute",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-haegeum",
+      "category": "music",
+      "title": "The haegeum, a two-string fiddle",
+      "fact": "The **haegeum** (해금) is a traditional bowed string instrument with only **two strings**, held upright on the player's knee. Its expressive, voice-like sound appears in both traditional and modern Korean music.",
+      "korean": "해금 소리는 정말 아름다워요.",
+      "korean_en": "The sound of the haegeum is really beautiful.",
+      "vocabulary": [
+        {
+          "ko": "소리",
+          "en": "sound"
+        },
+        {
+          "ko": "아름답다",
+          "en": "to be beautiful"
+        },
+        {
+          "ko": "악기",
+          "en": "musical instrument"
+        }
+      ],
+      "note": "The **해금** has just two strings, yet it can bend pitches smoothly like a human voice.",
+      "tags": [
+        "music",
+        "haegeum",
+        "instrument",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-dongyo",
+      "category": "music",
+      "title": "Children's songs, dongyo",
+      "fact": "**Dongyo** (동요) are children's songs, taught at home and in school. Simple, cheerful songs about animals, seasons, and family help young children learn, and many adults still remember them fondly.",
+      "korean": "아이들이 동요를 불러요.",
+      "korean_en": "The children sing children's songs.",
+      "vocabulary": [
+        {
+          "ko": "아이",
+          "en": "child"
+        },
+        {
+          "ko": "부르다",
+          "en": "to sing"
+        },
+        {
+          "ko": "노래",
+          "en": "song"
+        }
+      ],
+      "note": "**동요** = 동 (\"child\") + 요 (\"song\"); these are often the first Korean songs learners pick up.",
+      "tags": [
+        "music",
+        "dongyo",
+        "children",
+        "traditional"
+      ]
+    },
+    {
+      "id": "music-festival",
+      "category": "music",
+      "title": "Summer music festivals",
+      "fact": "Korea hosts many outdoor **music festivals**, especially in summer. Rock and pop festivals draw big crowds, and some take place at the beach or in the mountains over a long weekend.",
+      "korean": "여름에 음악 축제에 갔어요.",
+      "korean_en": "In summer I went to a music festival.",
+      "vocabulary": [
+        {
+          "ko": "축제",
+          "en": "festival"
+        },
+        {
+          "ko": "여름",
+          "en": "summer"
+        },
+        {
+          "ko": "음악",
+          "en": "music"
+        }
+      ],
+      "note": "**축제** means \"festival\"; 음악 축제 is a music festival, a popular summer outing.",
+      "tags": [
+        "music",
+        "festival",
+        "summer",
+        "modern"
+      ]
+    },
+    {
+      "id": "music-digital-chart",
+      "category": "music",
+      "title": "The digital music chart",
+      "fact": "In Korea, song popularity is tracked mostly through **streaming and downloads** on music apps. Hitting number one on a major real-time digital chart is a key goal for artists and their fans.",
+      "korean": "그 노래가 1위를 했어요.",
+      "korean_en": "That song reached number one.",
+      "vocabulary": [
+        {
+          "ko": "노래",
+          "en": "song"
+        },
+        {
+          "ko": "1위",
+          "en": "first place, number one"
+        },
+        {
+          "ko": "인기",
+          "en": "popularity"
+        }
+      ],
+      "note": "**1위** is read \"일 위\" and means \"first place\"; 위 marks rank. Fans work hard to push a song to 1위.",
+      "tags": [
+        "music",
+        "chart",
+        "streaming",
+        "modern"
+      ]
     }
   ]
 }

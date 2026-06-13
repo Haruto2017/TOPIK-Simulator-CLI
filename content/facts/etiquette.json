@@ -57,6 +57,454 @@
         "etiquette",
         "modern"
       ]
+    },
+    {
+      "id": "etiquette-bow-greeting",
+      "category": "etiquette",
+      "title": "Bowing as a greeting",
+      "fact": "A small bow of the head is the everyday way to greet, thank, and say goodbye in Korea. The deeper the bow, the more respect it shows, so you bow lower to elders and superiors.",
+      "korean": "어른에게 고개를 숙여 인사해요.",
+      "korean_en": "I bow my head to greet an elder.",
+      "vocabulary": [
+        {
+          "ko": "인사하다",
+          "en": "to greet, to bow"
+        },
+        {
+          "ko": "고개",
+          "en": "head (when bowing)"
+        },
+        {
+          "ko": "어른",
+          "en": "adult, elder"
+        }
+      ],
+      "note": "A light nod works among peers; **숙이다** means to lower or bend (the head).",
+      "tags": [
+        "etiquette",
+        "greeting",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-two-hands",
+      "category": "etiquette",
+      "title": "Give and receive with two hands",
+      "fact": "Handing or receiving something with **both hands** shows respect, especially toward elders. You can also support your right forearm with your left hand as a polite alternative.",
+      "korean": "두 손으로 물건을 받아요.",
+      "korean_en": "I receive the object with both hands.",
+      "vocabulary": [
+        {
+          "ko": "손",
+          "en": "hand"
+        },
+        {
+          "ko": "받다",
+          "en": "to receive"
+        },
+        {
+          "ko": "주다",
+          "en": "to give"
+        }
+      ],
+      "note": "**두 손** literally means \"two hands.\" Using one hand can seem careless with people older than you.",
+      "tags": [
+        "etiquette",
+        "respect",
+        "hands"
+      ]
+    },
+    {
+      "id": "etiquette-pouring-drinks",
+      "category": "etiquette",
+      "title": "Pouring drinks for elders",
+      "fact": "At the table you pour drinks for others rather than yourself, and you hold the bottle with **two hands** when serving an elder. It is polite to keep an eye on others' glasses and refill them.",
+      "korean": "할아버지께 술을 따라 드려요.",
+      "korean_en": "I pour a drink for my grandfather. (humble)",
+      "vocabulary": [
+        {
+          "ko": "따르다",
+          "en": "to pour"
+        },
+        {
+          "ko": "술",
+          "en": "alcohol, liquor"
+        },
+        {
+          "ko": "잔",
+          "en": "glass, cup"
+        }
+      ],
+      "note": "**드리다** is the humble form of \"to give,\" used when serving someone older.",
+      "tags": [
+        "etiquette",
+        "drinking",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-turn-to-drink",
+      "category": "etiquette",
+      "title": "Turn away to drink",
+      "fact": "When drinking alcohol in front of an elder, you turn your head slightly to the side and cover the glass with your hand. This small gesture is a sign of modesty and respect.",
+      "korean": "고개를 옆으로 돌리고 술을 마셔요.",
+      "korean_en": "I turn my head to the side and drink.",
+      "vocabulary": [
+        {
+          "ko": "돌리다",
+          "en": "to turn (something)"
+        },
+        {
+          "ko": "옆",
+          "en": "side"
+        },
+        {
+          "ko": "마시다",
+          "en": "to drink"
+        }
+      ],
+      "note": "You usually wait for the eldest person to take the first sip before you drink.",
+      "tags": [
+        "etiquette",
+        "drinking",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-family-name-first",
+      "category": "etiquette",
+      "title": "Family name comes first",
+      "fact": "Korean names put the **family name first**, followed by the given name, which is usually two syllables. The surname Kim alone is shared by roughly one in five Koreans.",
+      "korean": "제 성은 김이고 이름은 민준이에요.",
+      "korean_en": "My family name is Kim and my given name is Minjun.",
+      "vocabulary": [
+        {
+          "ko": "성",
+          "en": "family name, surname"
+        },
+        {
+          "ko": "이름",
+          "en": "given name"
+        },
+        {
+          "ko": "성함",
+          "en": "name (honorific)"
+        }
+      ],
+      "note": "To ask an elder's name politely, use **성함이 어떻게 되세요?**",
+      "tags": [
+        "etiquette",
+        "names",
+        "introductions"
+      ]
+    },
+    {
+      "id": "etiquette-business-cards",
+      "category": "etiquette",
+      "title": "Exchanging business cards",
+      "fact": "Business cards are exchanged with **both hands** at the start of a meeting. You take a moment to read the card and place it on the table rather than stuffing it away immediately.",
+      "korean": "두 손으로 명함을 주고받아요.",
+      "korean_en": "We exchange business cards with both hands.",
+      "vocabulary": [
+        {
+          "ko": "명함",
+          "en": "business card"
+        },
+        {
+          "ko": "주고받다",
+          "en": "to exchange"
+        },
+        {
+          "ko": "회사",
+          "en": "company"
+        }
+      ],
+      "note": "Reading the card shows interest; writing on it in front of the giver is considered rude.",
+      "tags": [
+        "etiquette",
+        "business",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-spoon-rice-soup",
+      "category": "etiquette",
+      "title": "Spoon for rice and soup",
+      "fact": "At the table the **spoon** is used for rice and soup, while chopsticks pick up side dishes. Unlike in some neighboring countries, you generally hold one utensil at a time.",
+      "korean": "숟가락으로 밥과 국을 먹어요.",
+      "korean_en": "I eat rice and soup with a spoon.",
+      "vocabulary": [
+        {
+          "ko": "숟가락",
+          "en": "spoon"
+        },
+        {
+          "ko": "젓가락",
+          "en": "chopsticks"
+        },
+        {
+          "ko": "국",
+          "en": "soup"
+        }
+      ],
+      "note": "Sticking chopsticks upright in rice resembles a funeral offering, so it is avoided.",
+      "tags": [
+        "etiquette",
+        "table",
+        "food"
+      ]
+    },
+    {
+      "id": "etiquette-bowl-on-table",
+      "category": "etiquette",
+      "title": "Leave the bowl on the table",
+      "fact": "Korean table manners say you should **not lift your rice or soup bowl** to your mouth. The bowl stays on the table and you bring the spoon up to you.",
+      "korean": "밥그릇을 들지 않아요.",
+      "korean_en": "I do not lift the rice bowl.",
+      "vocabulary": [
+        {
+          "ko": "그릇",
+          "en": "bowl, dish"
+        },
+        {
+          "ko": "들다",
+          "en": "to lift, to hold up"
+        },
+        {
+          "ko": "밥",
+          "en": "rice, meal"
+        }
+      ],
+      "note": "This is the opposite of Japanese custom, where lifting the rice bowl is normal.",
+      "tags": [
+        "etiquette",
+        "table",
+        "food"
+      ]
+    },
+    {
+      "id": "etiquette-wait-for-elders",
+      "category": "etiquette",
+      "title": "Let elders eat first",
+      "fact": "At a shared meal you wait for the **oldest person to pick up their spoon** before you start eating. Younger people also tend to match the elders' pace and finish around the same time.",
+      "korean": "어른이 먼저 식사를 시작하세요.",
+      "korean_en": "The elder starts the meal first. (polite)",
+      "vocabulary": [
+        {
+          "ko": "먼저",
+          "en": "first"
+        },
+        {
+          "ko": "식사",
+          "en": "meal"
+        },
+        {
+          "ko": "시작하다",
+          "en": "to begin"
+        }
+      ],
+      "note": "Before eating, people often say **잘 먹겠습니다** (\"I will eat well\") to thank the host.",
+      "tags": [
+        "etiquette",
+        "table",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-number-four",
+      "category": "etiquette",
+      "title": "The unlucky number four",
+      "fact": "The number **4** is considered unlucky because its Sino-Korean reading sounds like the word for death. Some buildings label the fourth floor \"F\" instead of 4 in elevators.",
+      "korean": "한국에서 숫자 사를 안 좋아해요.",
+      "korean_en": "In Korea people dislike the number four.",
+      "vocabulary": [
+        {
+          "ko": "숫자",
+          "en": "number"
+        },
+        {
+          "ko": "사",
+          "en": "four (Sino-Korean)"
+        },
+        {
+          "ko": "층",
+          "en": "floor (of a building)"
+        }
+      ],
+      "note": "The Sino-Korean **사** (four) is a homophone of the word for death, so it feels ominous.",
+      "tags": [
+        "etiquette",
+        "numbers",
+        "superstition"
+      ]
+    },
+    {
+      "id": "etiquette-title-not-name",
+      "category": "etiquette",
+      "title": "Use titles, not first names",
+      "fact": "Adults rarely call each other by their first name alone. Instead you use a **title or role** such as teacher, manager, or older sibling, often after the surname.",
+      "korean": "선생님이라고 불러요.",
+      "korean_en": "I call him/her \"teacher.\"",
+      "vocabulary": [
+        {
+          "ko": "선생님",
+          "en": "teacher (also a polite title)"
+        },
+        {
+          "ko": "부르다",
+          "en": "to call (a name)"
+        },
+        {
+          "ko": "이름",
+          "en": "name"
+        }
+      ],
+      "note": "Even outside school, **선생님** is a respectful way to address an adult you don't know well.",
+      "tags": [
+        "etiquette",
+        "names",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-honorific-titles",
+      "category": "etiquette",
+      "title": "Calling older friends 'older sibling'",
+      "fact": "Younger people address slightly older friends with sibling words rather than names. A woman calls an older man **오빠** and an older woman **언니**; a man uses **형** and **누나**.",
+      "korean": "언니, 같이 가요!",
+      "korean_en": "Older sister (to a woman), let's go together!",
+      "vocabulary": [
+        {
+          "ko": "언니",
+          "en": "older sister (used by a female)"
+        },
+        {
+          "ko": "오빠",
+          "en": "older brother (used by a female)"
+        },
+        {
+          "ko": "형",
+          "en": "older brother (used by a male)"
+        }
+      ],
+      "note": "These words extend beyond family to any close person who is a bit older.",
+      "tags": [
+        "etiquette",
+        "names",
+        "relationships"
+      ]
+    },
+    {
+      "id": "etiquette-gifts-both-hands",
+      "category": "etiquette",
+      "title": "Receiving gifts with both hands",
+      "fact": "Gifts are offered and accepted with **both hands**, and a small polite refusal before accepting is common. People often open a gift later in private rather than in front of the giver.",
+      "korean": "선물을 두 손으로 받았어요.",
+      "korean_en": "I received the gift with both hands.",
+      "vocabulary": [
+        {
+          "ko": "선물",
+          "en": "gift, present"
+        },
+        {
+          "ko": "받다",
+          "en": "to receive"
+        },
+        {
+          "ko": "감사하다",
+          "en": "to be thankful"
+        }
+      ],
+      "note": "On a first home visit, fruit or a small treat is a common gift.",
+      "tags": [
+        "etiquette",
+        "gifts",
+        "respect"
+      ]
+    },
+    {
+      "id": "etiquette-queuing-quiet",
+      "category": "etiquette",
+      "title": "Queue and keep quiet in public",
+      "fact": "People line up in an orderly **queue** and keep their voices low in buses, trains, and quiet public spaces. Loud phone calls on transit are frowned upon.",
+      "korean": "버스를 타려고 줄을 서요.",
+      "korean_en": "I stand in line to take the bus.",
+      "vocabulary": [
+        {
+          "ko": "줄",
+          "en": "line, queue"
+        },
+        {
+          "ko": "서다",
+          "en": "to stand"
+        },
+        {
+          "ko": "조용히",
+          "en": "quietly"
+        }
+      ],
+      "note": "**줄을 서다** means \"to line up.\" Keeping quiet on transit is part of public courtesy.",
+      "tags": [
+        "etiquette",
+        "public",
+        "transit"
+      ]
+    },
+    {
+      "id": "etiquette-priority-seats",
+      "category": "etiquette",
+      "title": "Subway priority seats",
+      "fact": "Subway and bus cars have **priority seats** reserved for the elderly, pregnant women, and people with disabilities. These seats are usually left empty even when the car is crowded.",
+      "korean": "지하철에 노약자석이 있어요.",
+      "korean_en": "There are priority seats on the subway.",
+      "vocabulary": [
+        {
+          "ko": "지하철",
+          "en": "subway"
+        },
+        {
+          "ko": "노약자석",
+          "en": "priority seat (for the elderly and weak)"
+        },
+        {
+          "ko": "자리",
+          "en": "seat, place"
+        }
+      ],
+      "note": "Younger riders often give up an ordinary seat to an elder too, not just the marked seats.",
+      "tags": [
+        "etiquette",
+        "transit",
+        "public"
+      ]
+    },
+    {
+      "id": "etiquette-escalator-side",
+      "category": "etiquette",
+      "title": "Standing on the escalator",
+      "fact": "On escalators many people stand on one side to leave room for others, though transit authorities now ask riders to **stand still on both sides** for safety. Holding the handrail is the official guidance.",
+      "korean": "에스컬레이터에서 손잡이를 잡으세요.",
+      "korean_en": "Please hold the handrail on the escalator.",
+      "vocabulary": [
+        {
+          "ko": "손잡이",
+          "en": "handrail, handle"
+        },
+        {
+          "ko": "잡다",
+          "en": "to hold, to grab"
+        },
+        {
+          "ko": "조심하다",
+          "en": "to be careful"
+        }
+      ],
+      "note": "Safety campaigns discourage walking up moving escalators because of the fall risk.",
+      "tags": [
+        "etiquette",
+        "transit",
+        "safety"
+      ]
     }
   ]
 }

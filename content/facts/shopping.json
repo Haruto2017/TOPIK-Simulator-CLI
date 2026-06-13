@@ -84,6 +84,426 @@
         "won",
         "shopping"
       ]
+    },
+    {
+      "id": "shopping-department-store",
+      "category": "shopping",
+      "title": "Department stores",
+      "fact": "Large department stores (백화점) like Lotte and Shinsegae are upscale destinations with fixed prices and polite staff. The basement food halls and rooftop gardens are attractions in themselves.",
+      "korean": "백화점에서 옷을 샀어요.",
+      "korean_en": "I bought clothes at the department store.",
+      "vocabulary": [
+        {
+          "ko": "백화점",
+          "en": "department store"
+        },
+        {
+          "ko": "옷",
+          "en": "clothes"
+        },
+        {
+          "ko": "층",
+          "en": "floor"
+        }
+      ],
+      "note": "**백화점** literally means \"hundred goods store.\" Prices here are fixed, so don't haggle.",
+      "tags": [
+        "department-store",
+        "clothes",
+        "fixed-price"
+      ]
+    },
+    {
+      "id": "shopping-asking-price",
+      "category": "shopping",
+      "title": "Asking for something",
+      "fact": "The simplest way to ask for an item is **이거 주세요** — \"this one, please.\" Point at what you want and the phrase works in almost any shop or restaurant.",
+      "korean": "이거 주세요.",
+      "korean_en": "Please give me this one.",
+      "vocabulary": [
+        {
+          "ko": "이거",
+          "en": "this (thing)"
+        },
+        {
+          "ko": "주세요",
+          "en": "please give me"
+        },
+        {
+          "ko": "저거",
+          "en": "that (thing over there)"
+        }
+      ],
+      "note": "Swap in **저거 주세요** for something farther away. Add a number: **두 개 주세요** = \"two, please.\"",
+      "tags": [
+        "phrases",
+        "polite",
+        "beginner"
+      ]
+    },
+    {
+      "id": "shopping-bargaining",
+      "category": "shopping",
+      "title": "When you can bargain",
+      "fact": "Haggling is welcome at traditional markets and street stalls but not in department stores, chain shops, or supermarkets, where prices are fixed. A polite smile helps a lot.",
+      "korean": "조금 깎아 주세요.",
+      "korean_en": "Please lower the price a little.",
+      "vocabulary": [
+        {
+          "ko": "깎다",
+          "en": "to cut, to discount"
+        },
+        {
+          "ko": "조금",
+          "en": "a little"
+        },
+        {
+          "ko": "비싸다",
+          "en": "to be expensive"
+        }
+      ],
+      "note": "**비싸요** (\"it's expensive\") is a gentle opener before asking for a discount.",
+      "tags": [
+        "market",
+        "haggling",
+        "phrases"
+      ]
+    },
+    {
+      "id": "shopping-myeongdong-cosmetics",
+      "category": "shopping",
+      "title": "Myeongdong cosmetics",
+      "fact": "Myeongdong is famous for Korean cosmetics, with brand shops packed side by side. Staff often hand out free samples (샘플) and sheet masks to draw shoppers in.",
+      "korean": "이 화장품을 사고 싶어요.",
+      "korean_en": "I want to buy this cosmetic.",
+      "vocabulary": [
+        {
+          "ko": "화장품",
+          "en": "cosmetics"
+        },
+        {
+          "ko": "사고 싶다",
+          "en": "to want to buy"
+        },
+        {
+          "ko": "선물",
+          "en": "gift"
+        }
+      ],
+      "note": "K-beauty is a major export. **샘플 있어요?** = \"Do you have samples?\"",
+      "tags": [
+        "cosmetics",
+        "myeongdong",
+        "k-beauty"
+      ]
+    },
+    {
+      "id": "shopping-dongdaemun-night",
+      "category": "shopping",
+      "title": "Dongdaemun at night",
+      "fact": "Dongdaemun is a fashion district where some wholesale malls stay open until dawn. Designers and shoppers browse late, and the area buzzes long after midnight.",
+      "korean": "밤에 동대문에서 쇼핑해요.",
+      "korean_en": "I shop in Dongdaemun at night.",
+      "vocabulary": [
+        {
+          "ko": "밤",
+          "en": "night"
+        },
+        {
+          "ko": "쇼핑하다",
+          "en": "to shop"
+        },
+        {
+          "ko": "옷 가게",
+          "en": "clothing shop"
+        }
+      ],
+      "note": "**동대문** means \"Great East Gate,\" named after the historic city gate nearby.",
+      "tags": [
+        "dongdaemun",
+        "fashion",
+        "night-shopping"
+      ]
+    },
+    {
+      "id": "shopping-fast-delivery",
+      "category": "shopping",
+      "title": "Lightning-fast delivery",
+      "fact": "Online shopping in Korea is famous for speed. Many orders placed at night arrive by the next morning, a service often called **새벽 배송** (dawn delivery).",
+      "korean": "어제 산 물건이 오늘 왔어요.",
+      "korean_en": "The thing I bought yesterday arrived today.",
+      "vocabulary": [
+        {
+          "ko": "배송",
+          "en": "delivery (of goods)"
+        },
+        {
+          "ko": "물건",
+          "en": "item, goods"
+        },
+        {
+          "ko": "주문하다",
+          "en": "to order"
+        }
+      ],
+      "note": "**새벽 배송** literally means \"dawn delivery\" — groceries can land on your doorstep before breakfast.",
+      "tags": [
+        "online",
+        "delivery",
+        "fast"
+      ]
+    },
+    {
+      "id": "shopping-tax-refund",
+      "category": "shopping",
+      "title": "Tax refund for tourists",
+      "fact": "Tourists can get a tax refund on many purchases at stores marked **Tax Free**. Keep your receipt and passport, then claim the refund at the airport before you fly home.",
+      "korean": "여권을 보여 주세요.",
+      "korean_en": "Please show me your passport.",
+      "vocabulary": [
+        {
+          "ko": "여권",
+          "en": "passport"
+        },
+        {
+          "ko": "영수증",
+          "en": "receipt"
+        },
+        {
+          "ko": "공항",
+          "en": "airport"
+        }
+      ],
+      "note": "Look for the **택스 프리** (Tax Free) sign. Some shops give an instant refund at the register.",
+      "tags": [
+        "tourist",
+        "tax-refund",
+        "airport"
+      ]
+    },
+    {
+      "id": "shopping-duty-free",
+      "category": "shopping",
+      "title": "Duty-free shopping",
+      "fact": "Duty-free shops (면세점) sell perfume, liquor, and luxury goods without local tax to travelers leaving the country. You usually pick up your purchases at the airport gate.",
+      "korean": "면세점에서 향수를 샀어요.",
+      "korean_en": "I bought perfume at the duty-free shop.",
+      "vocabulary": [
+        {
+          "ko": "면세점",
+          "en": "duty-free shop"
+        },
+        {
+          "ko": "향수",
+          "en": "perfume"
+        },
+        {
+          "ko": "비행기",
+          "en": "airplane"
+        }
+      ],
+      "note": "**면세** means \"tax exempt.\" You'll need your passport and a boarding pass to buy.",
+      "tags": [
+        "duty-free",
+        "tourist",
+        "airport"
+      ]
+    },
+    {
+      "id": "shopping-daangn",
+      "category": "shopping",
+      "title": "Second-hand apps",
+      "fact": "Apps like **당근마켓** (Karrot) let neighbors buy and sell used goods locally. Sellers and buyers usually meet nearby to hand over the item in person.",
+      "korean": "중고 가방을 싸게 샀어요.",
+      "korean_en": "I bought a used bag cheaply.",
+      "vocabulary": [
+        {
+          "ko": "중고",
+          "en": "second-hand, used"
+        },
+        {
+          "ko": "싸다",
+          "en": "to be cheap"
+        },
+        {
+          "ko": "팔다",
+          "en": "to sell"
+        }
+      ],
+      "note": "**당근마켓** is named after 당근 (carrot); buying within walking distance keeps it local.",
+      "tags": [
+        "second-hand",
+        "app",
+        "local"
+      ]
+    },
+    {
+      "id": "shopping-gift-wrapping",
+      "category": "shopping",
+      "title": "Gift wrapping",
+      "fact": "Gift-giving is taken seriously, and many shops offer free, careful wrapping. Just ask the clerk and your purchase comes back neatly boxed and ribboned.",
+      "korean": "선물 포장 돼요?",
+      "korean_en": "Can you gift-wrap it?",
+      "vocabulary": [
+        {
+          "ko": "선물",
+          "en": "gift"
+        },
+        {
+          "ko": "포장",
+          "en": "wrapping, packaging"
+        },
+        {
+          "ko": "예쁘다",
+          "en": "to be pretty"
+        }
+      ],
+      "note": "**포장해 주세요** = \"please wrap it.\" The same word covers takeout food: **포장이요** means \"to go.\"",
+      "tags": [
+        "gift",
+        "wrapping",
+        "etiquette"
+      ]
+    },
+    {
+      "id": "shopping-five-day-market",
+      "category": "shopping",
+      "title": "Traditional 5-day markets",
+      "fact": "In smaller towns, **오일장** (five-day markets) open only on dates ending in certain numbers, so they appear every five days. They sell local produce, tools, and regional snacks.",
+      "korean": "오일장은 닷새마다 열려요.",
+      "korean_en": "The five-day market opens every five days.",
+      "vocabulary": [
+        {
+          "ko": "장",
+          "en": "market (fair)"
+        },
+        {
+          "ko": "열리다",
+          "en": "to open (be held)"
+        },
+        {
+          "ko": "농산물",
+          "en": "farm produce"
+        }
+      ],
+      "note": "**오일장** literally means \"five-day market.\" Each town's market follows its own schedule.",
+      "tags": [
+        "market",
+        "rural",
+        "tradition"
+      ]
+    },
+    {
+      "id": "shopping-trying-on",
+      "category": "shopping",
+      "title": "Trying clothes on",
+      "fact": "To try on clothing, ask **입어 봐도 돼요?** — \"may I try this on?\" Shops have fitting rooms (탈의실), though some boutiques limit trying on certain knitwear.",
+      "korean": "입어 봐도 돼요?",
+      "korean_en": "May I try this on?",
+      "vocabulary": [
+        {
+          "ko": "입다",
+          "en": "to wear, to put on"
+        },
+        {
+          "ko": "탈의실",
+          "en": "fitting room"
+        },
+        {
+          "ko": "거울",
+          "en": "mirror"
+        }
+      ],
+      "note": "**신어 봐도 돼요?** is the same question for shoes (신다 = to wear on the feet).",
+      "tags": [
+        "clothes",
+        "fitting-room",
+        "phrases"
+      ]
+    },
+    {
+      "id": "shopping-sizes",
+      "category": "shopping",
+      "title": "Asking about sizes",
+      "fact": "Clothing sizes often use numbers (like 90, 95, 100) or the borrowed words S, M, L. To ask for another size, say **더 큰 사이즈 있어요?** — \"do you have a bigger size?\"",
+      "korean": "더 큰 사이즈 있어요?",
+      "korean_en": "Do you have a bigger size?",
+      "vocabulary": [
+        {
+          "ko": "사이즈",
+          "en": "size"
+        },
+        {
+          "ko": "크다",
+          "en": "to be big"
+        },
+        {
+          "ko": "작다",
+          "en": "to be small"
+        }
+      ],
+      "note": "**더 작은 사이즈** = \"a smaller size.\" 더 means \"more,\" placed before the adjective.",
+      "tags": [
+        "clothes",
+        "sizes",
+        "phrases"
+      ]
+    },
+    {
+      "id": "shopping-card-payment",
+      "category": "shopping",
+      "title": "Cards over cash",
+      "fact": "Card payment is accepted almost everywhere, even for tiny purchases, and contactless and mobile pay are widespread. Cash is mainly handy at small market stalls.",
+      "korean": "카드로 계산할게요.",
+      "korean_en": "I'll pay by card.",
+      "vocabulary": [
+        {
+          "ko": "카드",
+          "en": "card"
+        },
+        {
+          "ko": "현금",
+          "en": "cash"
+        },
+        {
+          "ko": "계산하다",
+          "en": "to pay, to settle the bill"
+        }
+      ],
+      "note": "**카드 돼요?** = \"Do you take cards?\" — though the answer is almost always yes.",
+      "tags": [
+        "payment",
+        "card",
+        "cash"
+      ]
+    },
+    {
+      "id": "shopping-just-looking",
+      "category": "shopping",
+      "title": "Just browsing",
+      "fact": "If a clerk offers help but you only want to look around, say **그냥 구경하는 거예요** — \"I'm just looking.\" It's a polite way to browse without feeling pressured to buy.",
+      "korean": "그냥 구경하는 거예요.",
+      "korean_en": "I'm just looking around.",
+      "vocabulary": [
+        {
+          "ko": "그냥",
+          "en": "just, simply"
+        },
+        {
+          "ko": "구경하다",
+          "en": "to look around, to browse"
+        },
+        {
+          "ko": "도와주다",
+          "en": "to help"
+        }
+      ],
+      "note": "**구경하다** means to browse or sightsee, not to buy — handy in any shop.",
+      "tags": [
+        "phrases",
+        "browsing",
+        "polite"
+      ]
     }
   ]
 }

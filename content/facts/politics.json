@@ -57,6 +57,426 @@
         "president",
         "election"
       ]
+    },
+    {
+      "id": "politics-taegukgi",
+      "category": "politics",
+      "title": "The Taegukgi flag",
+      "fact": "South Korea's flag is the **태극기**. Its red-and-blue center circle (태극) represents balance and harmony, and the four black trigrams in the corners stand for heaven, earth, fire, and water.",
+      "korean": "태극기는 한국의 국기입니다.",
+      "korean_en": "The Taegukgi is Korea's national flag.",
+      "vocabulary": [
+        {
+          "ko": "국기",
+          "en": "national flag"
+        },
+        {
+          "ko": "태극",
+          "en": "taegeuk (yin-yang circle)"
+        },
+        {
+          "ko": "하늘",
+          "en": "sky, heaven"
+        }
+      ],
+      "note": "The white background symbolizes peace and purity. **태극기** literally means \"taegeuk flag.\"",
+      "tags": [
+        "flag",
+        "symbol",
+        "taegukgi"
+      ]
+    },
+    {
+      "id": "politics-mugunghwa",
+      "category": "politics",
+      "title": "Mugunghwa, the national flower",
+      "fact": "The national flower is the **무궁화** (rose of Sharon). Its name suggests \"eternal\" blooming, and the flower appears in the national anthem and on official emblems.",
+      "korean": "무궁화는 한국의 꽃입니다.",
+      "korean_en": "The mugunghwa is Korea's flower.",
+      "vocabulary": [
+        {
+          "ko": "무궁화",
+          "en": "rose of Sharon"
+        },
+        {
+          "ko": "꽃",
+          "en": "flower"
+        },
+        {
+          "ko": "나라",
+          "en": "country"
+        }
+      ],
+      "note": "Korea's fastest train, the **무궁화호**, is named after this flower.",
+      "tags": [
+        "flower",
+        "symbol",
+        "mugunghwa"
+      ]
+    },
+    {
+      "id": "politics-national-assembly",
+      "category": "politics",
+      "title": "The National Assembly",
+      "fact": "Laws are made by the **국회** (National Assembly), a single-chamber legislature. Its members are called 국회의원, and they are chosen in general elections.",
+      "korean": "국회에서 법을 만듭니다.",
+      "korean_en": "Laws are made in the National Assembly.",
+      "vocabulary": [
+        {
+          "ko": "국회",
+          "en": "National Assembly"
+        },
+        {
+          "ko": "법",
+          "en": "law"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make"
+        }
+      ],
+      "note": "국회 = \"national meeting.\" The building sits on **여의도** island in Seoul.",
+      "tags": [
+        "legislature",
+        "national-assembly",
+        "law"
+      ]
+    },
+    {
+      "id": "politics-single-term",
+      "category": "politics",
+      "title": "One five-year term",
+      "fact": "The South Korean president serves a **single five-year term** and cannot be re-elected. This single-term rule was set to prevent any one leader from holding power too long.",
+      "korean": "대통령은 오 년 동안 일합니다.",
+      "korean_en": "The president works for five years.",
+      "vocabulary": [
+        {
+          "ko": "오 년",
+          "en": "five years"
+        },
+        {
+          "ko": "동안",
+          "en": "during, for (a period)"
+        },
+        {
+          "ko": "일하다",
+          "en": "to work"
+        }
+      ],
+      "note": "동안 marks a span of time: **오 년 동안** = \"for five years.\"",
+      "tags": [
+        "president",
+        "term",
+        "constitution"
+      ]
+    },
+    {
+      "id": "politics-provinces",
+      "category": "politics",
+      "title": "Provinces and cities",
+      "fact": "The country is organized into provinces (**도**) and major cities. Larger units are divided further into 시 (cities), 군 (counties), and 구 (districts).",
+      "korean": "한국에는 여러 도와 시가 있습니다.",
+      "korean_en": "Korea has several provinces and cities.",
+      "vocabulary": [
+        {
+          "ko": "도",
+          "en": "province"
+        },
+        {
+          "ko": "시",
+          "en": "city"
+        },
+        {
+          "ko": "여러",
+          "en": "several, various"
+        }
+      ],
+      "note": "Examples include **경기도** (Gyeonggi Province) and 부산시 (Busan City).",
+      "tags": [
+        "administration",
+        "provinces",
+        "regions"
+      ]
+    },
+    {
+      "id": "politics-un-membership",
+      "category": "politics",
+      "title": "A member of the UN",
+      "fact": "South Korea joined the **United Nations** in 1991 and takes an active global role. A Korean diplomat, Ban Ki-moon, served as UN Secretary-General from 2007 to 2016.",
+      "korean": "한국은 유엔 회원국입니다.",
+      "korean_en": "Korea is a member of the United Nations.",
+      "vocabulary": [
+        {
+          "ko": "유엔",
+          "en": "United Nations (UN)"
+        },
+        {
+          "ko": "회원국",
+          "en": "member country"
+        },
+        {
+          "ko": "세계",
+          "en": "world"
+        }
+      ],
+      "note": "회원국 combines 회원 (\"member\") + 국 (\"country\").",
+      "tags": [
+        "un",
+        "international",
+        "diplomacy"
+      ]
+    },
+    {
+      "id": "politics-local-elections",
+      "category": "politics",
+      "title": "Local elections",
+      "fact": "Every four years citizens vote in **local elections** to choose mayors, provincial governors, and council members. These elections decide who runs cities and regions.",
+      "korean": "사 년마다 지방 선거를 합니다.",
+      "korean_en": "Local elections are held every four years.",
+      "vocabulary": [
+        {
+          "ko": "지방",
+          "en": "local, region"
+        },
+        {
+          "ko": "선거",
+          "en": "election"
+        },
+        {
+          "ko": "시장",
+          "en": "mayor"
+        }
+      ],
+      "note": "마다 means \"every\": **사 년마다** = \"every four years.\"",
+      "tags": [
+        "election",
+        "local-government",
+        "voting"
+      ]
+    },
+    {
+      "id": "politics-constitution",
+      "category": "politics",
+      "title": "The Constitution",
+      "fact": "The **헌법** (Constitution) is the country's highest law. The current constitution dates from 1987, and a special Constitutional Court (헌법재판소) decides whether laws follow it.",
+      "korean": "헌법은 가장 중요한 법입니다.",
+      "korean_en": "The constitution is the most important law.",
+      "vocabulary": [
+        {
+          "ko": "헌법",
+          "en": "constitution"
+        },
+        {
+          "ko": "가장",
+          "en": "most"
+        },
+        {
+          "ko": "중요하다",
+          "en": "to be important"
+        }
+      ],
+      "note": "가장 forms the superlative: **가장 중요한** = \"the most important.\"",
+      "tags": [
+        "constitution",
+        "law",
+        "government"
+      ]
+    },
+    {
+      "id": "politics-capital-seoul",
+      "category": "politics",
+      "title": "Seoul, the capital",
+      "fact": "**서울** is the capital and largest city, home to the presidential office and the National Assembly. Roughly half the country's population lives in the wider Seoul metropolitan area.",
+      "korean": "한국의 수도는 서울입니다.",
+      "korean_en": "Korea's capital is Seoul.",
+      "vocabulary": [
+        {
+          "ko": "수도",
+          "en": "capital city"
+        },
+        {
+          "ko": "서울",
+          "en": "Seoul"
+        },
+        {
+          "ko": "도시",
+          "en": "city"
+        }
+      ],
+      "note": "수도 means \"capital city,\" a different word from 물 (\"water\"). **서울** is a pure native-Korean name.",
+      "tags": [
+        "capital",
+        "seoul",
+        "government"
+      ]
+    },
+    {
+      "id": "politics-sejong-city",
+      "category": "politics",
+      "title": "Sejong, the administrative city",
+      "fact": "**세종특별자치시** (Sejong City) was built to host many government ministries and ease congestion in Seoul. It is named after King Sejong, who created the Korean alphabet.",
+      "korean": "세종시에 정부 건물이 많이 있습니다.",
+      "korean_en": "There are many government buildings in Sejong City.",
+      "vocabulary": [
+        {
+          "ko": "정부",
+          "en": "government"
+        },
+        {
+          "ko": "건물",
+          "en": "building"
+        },
+        {
+          "ko": "많이",
+          "en": "many, a lot"
+        }
+      ],
+      "note": "많이 is the adverb \"a lot\"; the adjective form is **많다** (\"to be many\").",
+      "tags": [
+        "government",
+        "sejong",
+        "administration"
+      ]
+    },
+    {
+      "id": "politics-candlelight",
+      "category": "politics",
+      "title": "Candlelight gatherings",
+      "fact": "South Korea has a tradition of large, peaceful **candlelight gatherings** (촛불집회), where citizens hold candles in public squares to express their views. They are known for being orderly and nonviolent.",
+      "korean": "사람들이 광장에서 촛불을 듭니다.",
+      "korean_en": "People hold candles in the square.",
+      "vocabulary": [
+        {
+          "ko": "촛불",
+          "en": "candle, candlelight"
+        },
+        {
+          "ko": "광장",
+          "en": "public square, plaza"
+        },
+        {
+          "ko": "들다",
+          "en": "to hold, to lift"
+        }
+      ],
+      "note": "촛불 = 초 (\"candle\") + 불 (\"fire/light\"), with a linking ㅅ (사이시옷).",
+      "tags": [
+        "civic",
+        "demonstration",
+        "candlelight"
+      ]
+    },
+    {
+      "id": "politics-national-anthem",
+      "category": "politics",
+      "title": "Aegukga, the anthem",
+      "fact": "The national anthem is **애국가**, meaning \"the song of love for the country.\" Its lyrics describe Korea's mountains and seas and express devotion to the nation.",
+      "korean": "사람들이 애국가를 부릅니다.",
+      "korean_en": "People sing the national anthem.",
+      "vocabulary": [
+        {
+          "ko": "애국가",
+          "en": "national anthem"
+        },
+        {
+          "ko": "노래",
+          "en": "song"
+        },
+        {
+          "ko": "부르다",
+          "en": "to sing"
+        }
+      ],
+      "note": "애국가 = 애국 (\"patriotism\") + 가 (\"song\"). The verb 부르다 is irregular: 불러요 in casual speech.",
+      "tags": [
+        "anthem",
+        "symbol",
+        "aegukga"
+      ]
+    },
+    {
+      "id": "politics-three-branches",
+      "category": "politics",
+      "title": "Three branches of power",
+      "fact": "Government power is split among three branches: the executive led by the president, the **국회** (legislature), and the courts (법원). This separation keeps any one branch from holding all the power.",
+      "korean": "한국의 정부는 세 부분으로 나뉩니다.",
+      "korean_en": "Korea's government is divided into three parts.",
+      "vocabulary": [
+        {
+          "ko": "정부",
+          "en": "government"
+        },
+        {
+          "ko": "세",
+          "en": "three"
+        },
+        {
+          "ko": "부분",
+          "en": "part"
+        }
+      ],
+      "note": "세 is the native number used before counters; **세 부분** = \"three parts.\"",
+      "tags": [
+        "government",
+        "separation-of-powers",
+        "structure"
+      ]
+    },
+    {
+      "id": "politics-political-parties",
+      "category": "politics",
+      "title": "Political parties",
+      "fact": "South Korea has several **political parties** (정당) that compete in elections. Citizens choose candidates from different parties when they vote.",
+      "korean": "한국에는 여러 정당이 있습니다.",
+      "korean_en": "There are several political parties in Korea.",
+      "vocabulary": [
+        {
+          "ko": "정당",
+          "en": "political party"
+        },
+        {
+          "ko": "후보",
+          "en": "candidate"
+        },
+        {
+          "ko": "뽑다",
+          "en": "to pick, to elect"
+        }
+      ],
+      "note": "뽑다 means \"to pick/choose\" and is often used for electing people: **대통령을 뽑다** = \"to elect a president.\"",
+      "tags": [
+        "parties",
+        "election",
+        "democracy"
+      ]
+    },
+    {
+      "id": "politics-national-symbols",
+      "category": "politics",
+      "title": "Other national symbols",
+      "fact": "Beyond the flag and flower, South Korea has other emblems: the national bird is often said to be the magpie (까치), and the Korean tiger (호랑이) is a beloved symbol used as a mascot, including at the 1988 Seoul Olympics.",
+      "korean": "호랑이는 한국의 상징입니다.",
+      "korean_en": "The tiger is a symbol of Korea.",
+      "vocabulary": [
+        {
+          "ko": "호랑이",
+          "en": "tiger"
+        },
+        {
+          "ko": "상징",
+          "en": "symbol"
+        },
+        {
+          "ko": "까치",
+          "en": "magpie"
+        }
+      ],
+      "note": "The peninsula's shape is sometimes likened to a **호랑이** standing upright.",
+      "tags": [
+        "symbol",
+        "tiger",
+        "national-identity"
+      ]
     }
   ]
 }

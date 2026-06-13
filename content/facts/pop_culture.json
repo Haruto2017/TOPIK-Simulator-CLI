@@ -260,6 +260,412 @@
         "app",
         "modern"
       ]
+    },
+    {
+      "id": "pop-bts-bp",
+      "category": "pop_culture",
+      "title": "K-pop conquers the global charts",
+      "fact": "K-pop groups like **BTS** (방탄소년단) and **BLACKPINK** (블랙핑크) have topped charts worldwide. BTS became the first Korean act to reach **No. 1 on the US Billboard Hot 100**, and their fans helped fill stadiums across the globe.",
+      "korean": "제가 제일 좋아하는 가수는 방탄소년단이에요.",
+      "korean_en": "My favorite singers are BTS.",
+      "vocabulary": [
+        {
+          "ko": "가수",
+          "en": "singer"
+        },
+        {
+          "ko": "좋아하다",
+          "en": "to like"
+        },
+        {
+          "ko": "제일",
+          "en": "most, the best"
+        }
+      ],
+      "note": "**제일** (or 가장) means \"most.\" The full Korean name **방탄소년단** means \"Bulletproof Boy Scouts.\"",
+      "tags": [
+        "kpop",
+        "bts",
+        "blackpink",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-coachella",
+      "category": "pop_culture",
+      "title": "K-pop idols at global festivals",
+      "fact": "K-pop has become a fixture at major Western music festivals. **BLACKPINK** headlined the famous **Coachella** festival in the United States in 2023, the first K-pop act to top that bill.",
+      "korean": "그 가수는 미국에서 공연을 했어요.",
+      "korean_en": "That singer performed in the United States.",
+      "vocabulary": [
+        {
+          "ko": "공연",
+          "en": "performance, show"
+        },
+        {
+          "ko": "미국",
+          "en": "the United States"
+        },
+        {
+          "ko": "하다",
+          "en": "to do"
+        }
+      ],
+      "note": "**공연을 하다** means \"to give a performance.\" The particle **에서** marks the place where an action happens.",
+      "tags": [
+        "kpop",
+        "coachella",
+        "festival",
+        "blackpink"
+      ]
+    },
+    {
+      "id": "pop-idol-generations",
+      "category": "pop_culture",
+      "title": "K-pop's 'generations' of idols",
+      "fact": "Fans group K-pop idol bands into **generations** by era. Groups that debuted in the early 2000s are the \"first generation,\" while today's global stars belong to the **fourth generation** or later.",
+      "korean": "이 아이돌 그룹은 2년 전에 데뷔했어요.",
+      "korean_en": "This idol group debuted two years ago.",
+      "vocabulary": [
+        {
+          "ko": "아이돌",
+          "en": "idol (pop star)"
+        },
+        {
+          "ko": "그룹",
+          "en": "group"
+        },
+        {
+          "ko": "데뷔하다",
+          "en": "to debut"
+        }
+      ],
+      "note": "**데뷔** comes from the French/English \"debut.\" **전** after a time word means \"ago\": 2년 전 = \"two years ago.\"",
+      "tags": [
+        "kpop",
+        "idol",
+        "generations",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-photocard",
+      "category": "pop_culture",
+      "title": "Photocards, the must-have collectible",
+      "fact": "K-pop albums come with random **photocards** (포토카드) of group members, and fans trade them eagerly to collect their favorite \"bias.\" Rare cards can be swapped or sold for surprisingly high prices.",
+      "korean": "저는 좋아하는 가수의 포토카드를 모아요.",
+      "korean_en": "I collect photocards of the singer I like.",
+      "vocabulary": [
+        {
+          "ko": "포토카드",
+          "en": "photocard"
+        },
+        {
+          "ko": "모으다",
+          "en": "to collect, to gather"
+        },
+        {
+          "ko": "사진",
+          "en": "photo, picture"
+        }
+      ],
+      "note": "Fans often shorten 포토카드 to **포카**. The verb **모으다** is used for collecting things.",
+      "tags": [
+        "kpop",
+        "photocard",
+        "collectible",
+        "fandom"
+      ]
+    },
+    {
+      "id": "pop-lightstick",
+      "category": "pop_culture",
+      "title": "Lightsticks light up concerts",
+      "fact": "Each major K-pop group has its own official **lightstick** (응원봉), with a unique shape and color. At concerts, thousands of synced lightsticks turn the audience into a glowing \"ocean\" of the group's color.",
+      "korean": "콘서트에서 응원봉을 흔들어요.",
+      "korean_en": "I wave a lightstick at the concert.",
+      "vocabulary": [
+        {
+          "ko": "응원봉",
+          "en": "lightstick (cheering stick)"
+        },
+        {
+          "ko": "흔들다",
+          "en": "to wave, to shake"
+        },
+        {
+          "ko": "불빛",
+          "en": "light, glow"
+        }
+      ],
+      "note": "**응원봉** combines 응원 (\"cheering\") and 봉 (\"stick, rod\"). Each fandom's color creates a unique \"sea\" at shows.",
+      "tags": [
+        "kpop",
+        "lightstick",
+        "concert",
+        "fandom"
+      ]
+    },
+    {
+      "id": "pop-mukbang",
+      "category": "pop_culture",
+      "title": "Mukbang, eating broadcasts",
+      "fact": "**Mukbang** (먹방) — videos of a host eating large amounts of food while chatting with viewers — started in Korea and became a worldwide online trend. The word now appears in many languages.",
+      "korean": "저는 자기 전에 먹방을 봐요.",
+      "korean_en": "I watch mukbang before going to sleep.",
+      "vocabulary": [
+        {
+          "ko": "먹방",
+          "en": "mukbang (eating broadcast)"
+        },
+        {
+          "ko": "음식",
+          "en": "food"
+        },
+        {
+          "ko": "먹다",
+          "en": "to eat"
+        }
+      ],
+      "note": "**먹방** is a blend of 먹다 (\"to eat\") and 방송 (\"broadcast\"). The ending **-기 전에** means \"before doing\": 자기 전에 = \"before sleeping.\"",
+      "tags": [
+        "mukbang",
+        "food",
+        "internet",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-aegyo",
+      "category": "pop_culture",
+      "title": "Aegyo, acting cute",
+      "fact": "**Aegyo** (애교) is the art of acting adorably cute through a sweet voice, gestures, and facial expressions. Idols are often asked to \"show some aegyo\" on variety shows, to fans' delight.",
+      "korean": "그 사람은 애교가 정말 많아요.",
+      "korean_en": "That person has a lot of aegyo (is very cute/charming).",
+      "vocabulary": [
+        {
+          "ko": "애교",
+          "en": "aegyo, cuteness, charm"
+        },
+        {
+          "ko": "귀엽다",
+          "en": "to be cute"
+        },
+        {
+          "ko": "많다",
+          "en": "to be a lot, many"
+        }
+      ],
+      "note": "People say **애교가 많다** (\"to have a lot of aegyo\") to describe someone who acts cute and affectionate.",
+      "tags": [
+        "aegyo",
+        "cute",
+        "language",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-mbti",
+      "category": "pop_culture",
+      "title": "The MBTI craze",
+      "fact": "Korea is famous for its **MBTI** obsession — the 16-type personality test. Young people often ask each other's MBTI type early on, and idols frequently share theirs with fans.",
+      "korean": "당신의 엠비티아이는 뭐예요?",
+      "korean_en": "What is your MBTI?",
+      "vocabulary": [
+        {
+          "ko": "성격",
+          "en": "personality"
+        },
+        {
+          "ko": "유형",
+          "en": "type"
+        },
+        {
+          "ko": "뭐",
+          "en": "what"
+        }
+      ],
+      "note": "**엠비티아이** is how MBTI is written in Korean letters. 성격 유형 means \"personality type.\"",
+      "tags": [
+        "mbti",
+        "personality",
+        "trend",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-line-friends",
+      "category": "pop_culture",
+      "title": "Character merch everywhere",
+      "fact": "Cute **characters** are huge business in Korea. **Line Friends** (such as Brown the bear) and **Kakao Friends** (like Ryan the lion) appear on plush toys, stationery, phone cases, and even themed cafés and stores.",
+      "korean": "저는 곰 인형을 정말 좋아해요.",
+      "korean_en": "I really like the teddy bear (bear doll).",
+      "vocabulary": [
+        {
+          "ko": "인형",
+          "en": "doll, plush toy"
+        },
+        {
+          "ko": "곰",
+          "en": "bear"
+        },
+        {
+          "ko": "캐릭터",
+          "en": "character"
+        }
+      ],
+      "note": "**인형** means \"doll\" or \"plush toy.\" Brown from Line Friends is a 곰 (\"bear\").",
+      "tags": [
+        "character",
+        "merch",
+        "line-friends",
+        "kakao-friends"
+      ]
+    },
+    {
+      "id": "pop-bballi",
+      "category": "pop_culture",
+      "title": "'Bballi bballi' culture",
+      "fact": "Koreans are known for **\"bballi bballi\"** (빨리빨리) culture — a fast-paced \"hurry, hurry\" attitude. It shows up in famously quick food delivery, fast internet, and a general love of speed and efficiency.",
+      "korean": "빨리빨리 가요!",
+      "korean_en": "Let's go quickly!",
+      "vocabulary": [
+        {
+          "ko": "빨리",
+          "en": "quickly, fast"
+        },
+        {
+          "ko": "가다",
+          "en": "to go"
+        },
+        {
+          "ko": "늦다",
+          "en": "to be late"
+        }
+      ],
+      "note": "Repeating **빨리** as 빨리빨리 stresses urgency. This phrase is one of the first Korean expressions many visitors learn.",
+      "tags": [
+        "bballi-bballi",
+        "culture",
+        "language",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-emoticon",
+      "category": "pop_culture",
+      "title": "Emoticons in chat",
+      "fact": "In Korean chat apps, paid cartoon stickers called **emoticons** (이모티콘) are wildly popular for expressing feelings. People also type **ㅋㅋㅋ** to mean laughter, like \"haha,\" since ㅋ stands for the \"k\" laughing sound.",
+      "korean": "저는 친구에게 이모티콘을 보냈어요.",
+      "korean_en": "I sent an emoticon to my friend.",
+      "vocabulary": [
+        {
+          "ko": "이모티콘",
+          "en": "emoticon, sticker"
+        },
+        {
+          "ko": "보내다",
+          "en": "to send"
+        },
+        {
+          "ko": "웃다",
+          "en": "to laugh"
+        }
+      ],
+      "note": "**ㅋㅋㅋ** (kkk) is the Korean equivalent of \"hahaha.\" Sticker-style **이모티콘** are often bought in sets.",
+      "tags": [
+        "emoticon",
+        "messaging",
+        "slang",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-couple-look",
+      "category": "pop_culture",
+      "title": "Couple looks and 100-day dates",
+      "fact": "Korean couples often wear matching **couple outfits** (커플룩) and celebrate relationship milestones counted in days — the **100th day** (백일) together is an especially big one.",
+      "korean": "우리는 오늘 백일이에요.",
+      "korean_en": "Today is our 100th day (together).",
+      "vocabulary": [
+        {
+          "ko": "커플",
+          "en": "couple"
+        },
+        {
+          "ko": "백",
+          "en": "hundred"
+        },
+        {
+          "ko": "날",
+          "en": "day"
+        }
+      ],
+      "note": "**백일** (100 days) uses Sino-Korean numbers: 백 = 100. The same word 백일 also names a baby's 100th-day celebration.",
+      "tags": [
+        "couple",
+        "dating",
+        "culture",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-dating-shows",
+      "category": "pop_culture",
+      "title": "Dating reality shows",
+      "fact": "Korean **dating reality shows** have become global hits on streaming services. Programs that follow ordinary singles looking for love — including some with surprising twists — attract big international audiences.",
+      "korean": "이 연애 프로그램이 아주 인기가 많아요.",
+      "korean_en": "This dating show is very popular.",
+      "vocabulary": [
+        {
+          "ko": "연애",
+          "en": "dating, romance"
+        },
+        {
+          "ko": "인기",
+          "en": "popularity"
+        },
+        {
+          "ko": "많다",
+          "en": "to be a lot, many"
+        }
+      ],
+      "note": "**인기가 많다** literally \"to have much popularity\" = \"to be popular.\" 연애 means romantic dating.",
+      "tags": [
+        "dating-show",
+        "reality-tv",
+        "streaming",
+        "modern"
+      ]
+    },
+    {
+      "id": "pop-mobile-games",
+      "category": "pop_culture",
+      "title": "A nation of mobile gamers",
+      "fact": "Korea is one of the world's biggest **mobile gaming** markets. Riding on super-fast internet and smartphones, mobile games are a hugely popular way for people of all ages to play on the go.",
+      "korean": "저는 지하철에서 휴대폰 게임을 해요.",
+      "korean_en": "I play mobile games on the subway.",
+      "vocabulary": [
+        {
+          "ko": "휴대폰",
+          "en": "mobile phone"
+        },
+        {
+          "ko": "게임",
+          "en": "game"
+        },
+        {
+          "ko": "지하철",
+          "en": "subway"
+        }
+      ],
+      "note": "**휴대폰** means \"mobile phone\" (휴대 = \"to carry\"); people also say 핸드폰 or 폰.",
+      "tags": [
+        "gaming",
+        "mobile",
+        "smartphone",
+        "modern"
+      ]
     }
   ]
 }

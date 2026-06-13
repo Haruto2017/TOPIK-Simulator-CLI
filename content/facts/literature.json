@@ -56,6 +56,456 @@
         "sijo",
         "poetry"
       ]
+    },
+    {
+      "id": "literature-hong-gildong",
+      "category": "literature",
+      "title": "Hong Gildong, a heroic outlaw",
+      "fact": "**The Tale of Hong Gildong** is often called Korea's first novel written in hangul. Its hero is the gifted son of a nobleman and a concubine who, blocked from advancement, becomes a Robin Hood-like leader of outlaws.",
+      "korean": "홍길동전은 한글로 쓴 옛날 소설입니다.",
+      "korean_en": "The Tale of Hong Gildong is an old novel written in hangul.",
+      "vocabulary": [
+        {
+          "ko": "소설",
+          "en": "novel"
+        },
+        {
+          "ko": "한글",
+          "en": "Hangul (the Korean alphabet)"
+        },
+        {
+          "ko": "옛날",
+          "en": "old times, the past"
+        }
+      ],
+      "note": "The name **홍길동** is still used today the way English uses \"John Doe\" on sample forms.",
+      "tags": [
+        "classic",
+        "novel",
+        "hong-gildong"
+      ]
+    },
+    {
+      "id": "literature-chunhyang",
+      "category": "literature",
+      "title": "Chunhyang, a famous love story",
+      "fact": "**The Tale of Chunhyang** is a beloved classic about a commoner's daughter who stays faithful to her noble husband despite a cruel governor's threats. It began as a pansori song before becoming a written tale.",
+      "korean": "춘향전은 아주 유명한 사랑 이야기입니다.",
+      "korean_en": "The Tale of Chunhyang is a very famous love story.",
+      "vocabulary": [
+        {
+          "ko": "사랑",
+          "en": "love"
+        },
+        {
+          "ko": "이야기",
+          "en": "story"
+        },
+        {
+          "ko": "유명하다",
+          "en": "to be famous"
+        }
+      ],
+      "note": "The city of **남원** holds a yearly festival in honor of **춘향**.",
+      "tags": [
+        "classic",
+        "love-story",
+        "chunhyang",
+        "pansori"
+      ]
+    },
+    {
+      "id": "literature-kim-sowol",
+      "category": "literature",
+      "title": "Kim Sowol and 'Azaleas'",
+      "fact": "Kim Sowol is one of Korea's most loved modern poets. His poem **진달래꽃** (\"Azaleas\") speaks of letting go of a departing love with quiet grace, and many Koreans know it by heart.",
+      "korean": "김소월은 아름다운 시를 많이 썼습니다.",
+      "korean_en": "Kim Sowol wrote many beautiful poems.",
+      "vocabulary": [
+        {
+          "ko": "시인",
+          "en": "poet"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to write"
+        },
+        {
+          "ko": "꽃",
+          "en": "flower"
+        }
+      ],
+      "note": "**진달래** (azalea) blooms in spring and is a common image in Korean poetry.",
+      "tags": [
+        "poetry",
+        "kim-sowol",
+        "modern"
+      ]
+    },
+    {
+      "id": "literature-yun-dongju",
+      "category": "literature",
+      "title": "Yun Dong-ju, a poet of conscience",
+      "fact": "Yun Dong-ju wrote gentle, searching poems during Japanese colonial rule and died in prison in 1945, just before liberation. His posthumous collection made him a national symbol of quiet resistance.",
+      "korean": "윤동주는 일제 강점기에 시를 썼습니다.",
+      "korean_en": "Yun Dong-ju wrote poems during the Japanese colonial period.",
+      "vocabulary": [
+        {
+          "ko": "시",
+          "en": "poem"
+        },
+        {
+          "ko": "하늘",
+          "en": "sky"
+        },
+        {
+          "ko": "부끄럽다",
+          "en": "to be ashamed, bashful"
+        }
+      ],
+      "note": "His poems often reflect on the **하늘** (sky) and personal honesty.",
+      "tags": [
+        "poetry",
+        "yun-dongju",
+        "colonial-era"
+      ]
+    },
+    {
+      "id": "literature-the-vegetarian",
+      "category": "literature",
+      "title": "The Vegetarian wins the Booker",
+      "fact": "Han Kang's novel **The Vegetarian** won the International Booker Prize in 2016, shared with its translator Deborah Smith. The win brought a wave of global attention to contemporary Korean fiction.",
+      "korean": "이 소설은 2016년에 상을 받았습니다.",
+      "korean_en": "This novel won a prize in 2016.",
+      "vocabulary": [
+        {
+          "ko": "채식주의자",
+          "en": "vegetarian (person)"
+        },
+        {
+          "ko": "번역",
+          "en": "translation"
+        },
+        {
+          "ko": "상",
+          "en": "prize, award"
+        }
+      ],
+      "note": "The Korean title is **채식주의자**, literally \"vegetarian person.\"",
+      "tags": [
+        "han-kang",
+        "booker",
+        "modern",
+        "translation"
+      ]
+    },
+    {
+      "id": "literature-pansori",
+      "category": "literature",
+      "title": "Pansori, sung storytelling",
+      "fact": "Pansori is a traditional performance where a single singer narrates a long story, accompanied only by a drummer. UNESCO recognized it as Intangible Cultural Heritage in 2003.",
+      "korean": "판소리는 한 사람이 부르는 긴 노래입니다.",
+      "korean_en": "Pansori is a long song sung by one person.",
+      "vocabulary": [
+        {
+          "ko": "노래",
+          "en": "song"
+        },
+        {
+          "ko": "부르다",
+          "en": "to sing"
+        },
+        {
+          "ko": "북",
+          "en": "drum"
+        }
+      ],
+      "note": "The drummer sometimes shouts **얼쑤!** to cheer the singer on.",
+      "tags": [
+        "pansori",
+        "traditional",
+        "storytelling"
+      ]
+    },
+    {
+      "id": "literature-folktale-heungbu",
+      "category": "literature",
+      "title": "Heungbu, Nolbu, and a swallow",
+      "fact": "In the folktale **Heungbu and Nolbu**, a kind poor brother heals a swallow's broken leg and is rewarded with riches, while his greedy rich brother's selfishness brings him ruin.",
+      "korean": "흥부는 마음이 착한 사람이었습니다.",
+      "korean_en": "Heungbu was a kind-hearted person.",
+      "vocabulary": [
+        {
+          "ko": "제비",
+          "en": "swallow (bird)"
+        },
+        {
+          "ko": "착하다",
+          "en": "to be kind, good-natured"
+        },
+        {
+          "ko": "형제",
+          "en": "brothers"
+        }
+      ],
+      "note": "Magic seeds grow from a **박** (gourd) — a classic image in this tale.",
+      "tags": [
+        "folktale",
+        "children",
+        "heungbu"
+      ]
+    },
+    {
+      "id": "literature-folktale-sim-cheong",
+      "category": "literature",
+      "title": "Sim Cheong's devotion",
+      "fact": "The folktale of **Sim Cheong** tells of a devoted daughter who sacrifices herself to the sea to restore her blind father's sight. Her piety moves the heavens, and she returns as a queen.",
+      "korean": "심청이는 아버지를 많이 사랑했습니다.",
+      "korean_en": "Sim Cheong loved her father very much.",
+      "vocabulary": [
+        {
+          "ko": "딸",
+          "en": "daughter"
+        },
+        {
+          "ko": "아버지",
+          "en": "father"
+        },
+        {
+          "ko": "바다",
+          "en": "sea"
+        }
+      ],
+      "note": "The story is a famous example of **효** (filial piety) in Korean culture.",
+      "tags": [
+        "folktale",
+        "sim-cheong",
+        "filial-piety"
+      ]
+    },
+    {
+      "id": "literature-proverb-start",
+      "category": "literature",
+      "title": "A proverb about beginnings",
+      "fact": "Korean is rich in **속담** (proverbs). A well-known one says that even a great task is already half done once you begin, encouraging people not to fear starting.",
+      "korean": "시작이 반이다.",
+      "korean_en": "Starting is half the battle. (lit. \"The beginning is half.\")",
+      "vocabulary": [
+        {
+          "ko": "속담",
+          "en": "proverb"
+        },
+        {
+          "ko": "시작",
+          "en": "beginning, start"
+        },
+        {
+          "ko": "반",
+          "en": "half"
+        }
+      ],
+      "note": "This is one of the first **속담** many Korean learners memorize.",
+      "tags": [
+        "proverb",
+        "sokdam"
+      ]
+    },
+    {
+      "id": "literature-proverb-words",
+      "category": "literature",
+      "title": "A proverb about kind words",
+      "fact": "Another common proverb teaches that if you speak kindly first, others will repay your kindness — a reminder that polite words shape how people treat you.",
+      "korean": "가는 말이 고와야 오는 말이 곱다.",
+      "korean_en": "Kind words going out bring kind words coming back.",
+      "vocabulary": [
+        {
+          "ko": "말",
+          "en": "words, speech"
+        },
+        {
+          "ko": "곱다",
+          "en": "to be pretty, kind (of words)"
+        },
+        {
+          "ko": "오다",
+          "en": "to come"
+        }
+      ],
+      "note": "Koreans often quote this to remind someone to speak politely.",
+      "tags": [
+        "proverb",
+        "sokdam",
+        "manners"
+      ]
+    },
+    {
+      "id": "literature-webnovel",
+      "category": "literature",
+      "title": "The rise of web novels",
+      "fact": "**Web novels** (웹소설) are a booming part of Korean reading culture, published chapter by chapter on phone apps. Many popular ones are later adapted into webtoons or TV dramas.",
+      "korean": "요즘 사람들은 휴대폰으로 웹소설을 읽습니다.",
+      "korean_en": "These days people read web novels on their phones.",
+      "vocabulary": [
+        {
+          "ko": "웹소설",
+          "en": "web novel"
+        },
+        {
+          "ko": "읽다",
+          "en": "to read"
+        },
+        {
+          "ko": "휴대폰",
+          "en": "mobile phone"
+        }
+      ],
+      "note": "Readers often pay a small fee to unlock each new **회** (episode/chapter).",
+      "tags": [
+        "webnovel",
+        "modern",
+        "digital"
+      ]
+    },
+    {
+      "id": "literature-childrens-bang",
+      "category": "literature",
+      "title": "Children's Day and a writer",
+      "fact": "Bang Jeong-hwan, an early champion of children's literature, helped create Korea's Children's Day. He is also credited with popularizing the respectful word **어린이** for children.",
+      "korean": "5월 5일은 어린이날입니다.",
+      "korean_en": "May 5th is Children's Day.",
+      "vocabulary": [
+        {
+          "ko": "어린이",
+          "en": "child, children"
+        },
+        {
+          "ko": "동화",
+          "en": "fairy tale, children's story"
+        },
+        {
+          "ko": "날",
+          "en": "day"
+        }
+      ],
+      "note": "He chose **어린이** to treat children with the same respect as adults.",
+      "tags": [
+        "children",
+        "history",
+        "bang-jeonghwan"
+      ]
+    },
+    {
+      "id": "literature-please-look-after-mom",
+      "category": "literature",
+      "title": "A bestselling novel about a mother",
+      "fact": "Shin Kyung-sook's novel **Please Look After Mom** became an international bestseller. It follows a family searching for their elderly mother after she goes missing in a Seoul subway station.",
+      "korean": "이 소설은 어머니에 대한 이야기입니다.",
+      "korean_en": "This novel is a story about a mother.",
+      "vocabulary": [
+        {
+          "ko": "어머니",
+          "en": "mother"
+        },
+        {
+          "ko": "가족",
+          "en": "family"
+        },
+        {
+          "ko": "찾다",
+          "en": "to look for, to find"
+        }
+      ],
+      "note": "The Korean title **엄마를 부탁해** means \"Please take care of Mom.\"",
+      "tags": [
+        "modern",
+        "novel",
+        "shin-kyungsook"
+      ]
+    },
+    {
+      "id": "literature-essay-diary",
+      "category": "literature",
+      "title": "Diaries and essays (수필)",
+      "fact": "The essay, called **수필** in Korean, is a popular literary form prized for its honest, personal voice. Keeping a diary (일기) is also a long-standing habit taught to schoolchildren.",
+      "korean": "저는 매일 일기를 씁니다.",
+      "korean_en": "I write in my diary every day.",
+      "vocabulary": [
+        {
+          "ko": "수필",
+          "en": "essay"
+        },
+        {
+          "ko": "일기",
+          "en": "diary"
+        },
+        {
+          "ko": "매일",
+          "en": "every day"
+        }
+      ],
+      "note": "Writing a daily **일기** is a common way for learners to practice Korean.",
+      "tags": [
+        "essay",
+        "diary",
+        "writing"
+      ]
+    },
+    {
+      "id": "literature-hangul-day",
+      "category": "literature",
+      "title": "Hangul Day honors the alphabet",
+      "fact": "October 9th is **Hangul Day** (한글날), celebrating King Sejong's creation of the Korean alphabet in the 15th century. The alphabet made reading and writing accessible to ordinary people.",
+      "korean": "10월 9일은 한글날입니다.",
+      "korean_en": "October 9th is Hangul Day.",
+      "vocabulary": [
+        {
+          "ko": "한글",
+          "en": "Hangul (the Korean alphabet)"
+        },
+        {
+          "ko": "글자",
+          "en": "letter, character"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make, to create"
+        }
+      ],
+      "note": "King **세종대왕** is honored for making writing easy to learn.",
+      "tags": [
+        "hangul",
+        "history",
+        "sejong",
+        "holiday"
+      ]
+    },
+    {
+      "id": "literature-kim-young-ha",
+      "category": "literature",
+      "title": "A modern storyteller",
+      "fact": "Kim Young-ha is a leading contemporary novelist whose work has been widely translated. His sharp, modern stories often explore memory, identity, and life in today's Korea.",
+      "korean": "그 작가의 책은 여러 나라에서 읽힙니다.",
+      "korean_en": "That author's books are read in many countries.",
+      "vocabulary": [
+        {
+          "ko": "책",
+          "en": "book"
+        },
+        {
+          "ko": "나라",
+          "en": "country"
+        },
+        {
+          "ko": "현대",
+          "en": "modern, contemporary"
+        }
+      ],
+      "note": "**현대 소설** (modern fiction) is a large category in any Korean bookstore.",
+      "tags": [
+        "modern",
+        "novel",
+        "kim-young-ha"
+      ]
     }
   ]
 }

@@ -183,6 +183,426 @@
         "cinema",
         "classic"
       ]
+    },
+    {
+      "id": "film-chungmuro",
+      "category": "film",
+      "title": "Chungmuro, the heart of Korean film",
+      "fact": "The street name **Chungmuro** (충무로) in central Seoul became the historic hub of the Korean movie industry. Even today, \"Chungmuro\" is used as a nickname for Korean cinema, much like \"Hollywood\" stands for the American film world.",
+      "korean": "충무로는 영화의 거리입니다.",
+      "korean_en": "Chungmuro is the street of film.",
+      "vocabulary": [
+        {
+          "ko": "거리",
+          "en": "street"
+        },
+        {
+          "ko": "중심",
+          "en": "center, hub"
+        },
+        {
+          "ko": "영화",
+          "en": "movie, film"
+        }
+      ],
+      "note": "Many old film studios and offices once gathered near **충무로**, which is also a stop on the Seoul subway.",
+      "tags": [
+        "film",
+        "movie",
+        "chungmuro",
+        "seoul",
+        "history"
+      ]
+    },
+    {
+      "id": "film-cheonman",
+      "category": "film",
+      "title": "The ten-million-admission club",
+      "fact": "In Korea, a movie that sells more than **ten million tickets** is called a **천만 영화** (ten-million film), a major mark of success in a country of about 50 million people. Hits like *The Host* and *Extreme Job* reached this milestone.",
+      "korean": "이 영화는 천만 명이 봤어요.",
+      "korean_en": "Ten million people watched this movie.",
+      "vocabulary": [
+        {
+          "ko": "천만",
+          "en": "ten million"
+        },
+        {
+          "ko": "명",
+          "en": "counter for people"
+        },
+        {
+          "ko": "관객",
+          "en": "audience, moviegoer"
+        }
+      ],
+      "note": "**천만** is 천 (thousand) times 만 (ten thousand); reaching this number is a headline event for any Korean film.",
+      "tags": [
+        "film",
+        "movie",
+        "box-office",
+        "blockbuster",
+        "modern"
+      ]
+    },
+    {
+      "id": "film-lee-chang-dong",
+      "category": "film",
+      "title": "Lee Chang-dong, the novelist-director",
+      "fact": "**Lee Chang-dong** (이창동) is a former novelist whose quiet, deeply human films like *Poetry* and *Burning* are praised at festivals worldwide. His work is known for its literary feeling and emotional depth.",
+      "korean": "이창동 감독은 소설도 썼어요.",
+      "korean_en": "Director Lee Chang-dong also wrote novels.",
+      "vocabulary": [
+        {
+          "ko": "소설",
+          "en": "novel"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to write"
+        },
+        {
+          "ko": "감독",
+          "en": "director"
+        }
+      ],
+      "note": "**소설** means \"novel\"; Lee Chang-dong even served for a time as Korea's Minister of Culture.",
+      "tags": [
+        "film",
+        "movie",
+        "lee-chang-dong",
+        "director",
+        "art-film"
+      ]
+    },
+    {
+      "id": "film-im-kwon-taek",
+      "category": "film",
+      "title": "Im Kwon-taek, a master of tradition",
+      "fact": "**Im Kwon-taek** (임권택) directed more than a hundred films over his long career and won Best Director at Cannes for **Chihwaseon**. His movies often explore Korean tradition, such as *Seopyeonje*, a story about pansori folk singing.",
+      "korean": "임권택 감독은 영화를 많이 만들었어요.",
+      "korean_en": "Director Im Kwon-taek made many movies.",
+      "vocabulary": [
+        {
+          "ko": "만들다",
+          "en": "to make"
+        },
+        {
+          "ko": "많이",
+          "en": "many, a lot"
+        },
+        {
+          "ko": "전통",
+          "en": "tradition"
+        }
+      ],
+      "note": "**전통** means \"tradition\"; his film *서편제* (Seopyeonje) helped renew public interest in pansori.",
+      "tags": [
+        "film",
+        "movie",
+        "im-kwon-taek",
+        "director",
+        "tradition"
+      ]
+    },
+    {
+      "id": "film-hong-sang-soo",
+      "category": "film",
+      "title": "Hong Sang-soo's small, talkative films",
+      "fact": "**Hong Sang-soo** (홍상수) makes many low-budget films built around long conversations, often featuring artists, drinking, and awkward romance. A regular at major festivals, he releases new work almost every year.",
+      "korean": "홍상수 영화에는 대화가 많아요.",
+      "korean_en": "There is a lot of conversation in Hong Sang-soo's films.",
+      "vocabulary": [
+        {
+          "ko": "대화",
+          "en": "conversation"
+        },
+        {
+          "ko": "많다",
+          "en": "to be many, to be a lot"
+        },
+        {
+          "ko": "영화",
+          "en": "movie, film"
+        }
+      ],
+      "note": "**대화** means \"conversation\"; his films are famous for natural, everyday dialogue rather than big action.",
+      "tags": [
+        "film",
+        "movie",
+        "hong-sang-soo",
+        "director",
+        "art-film"
+      ]
+    },
+    {
+      "id": "film-minari",
+      "category": "film",
+      "title": "Minari, a Korean-American story",
+      "fact": "**Minari** (미나리) is a 2020 American film about a Korean immigrant family farming in rural Arkansas. Veteran actress **Youn Yuh-jung** (윤여정) won the Academy Award for Best Supporting Actress for her role as the grandmother.",
+      "korean": "미나리는 한국 가족의 이야기예요.",
+      "korean_en": "Minari is the story of a Korean family.",
+      "vocabulary": [
+        {
+          "ko": "가족",
+          "en": "family"
+        },
+        {
+          "ko": "이야기",
+          "en": "story"
+        },
+        {
+          "ko": "할머니",
+          "en": "grandmother"
+        }
+      ],
+      "note": "**미나리** is the name of a Korean herb (water dropwort); Youn Yuh-jung was the first Korean to win an acting Oscar.",
+      "tags": [
+        "film",
+        "movie",
+        "minari",
+        "youn-yuh-jung",
+        "diaspora"
+      ]
+    },
+    {
+      "id": "film-screen-quota",
+      "category": "film",
+      "title": "The screen-quota system",
+      "fact": "Korea's **screen-quota system** (스크린쿼터) requires theaters to show domestic films for a set number of days each year. The policy was created to protect Korean cinema from being crowded out by foreign blockbusters.",
+      "korean": "한국 영화관은 한국 영화도 보여줘요.",
+      "korean_en": "Korean theaters also show Korean films.",
+      "vocabulary": [
+        {
+          "ko": "보여주다",
+          "en": "to show"
+        },
+        {
+          "ko": "정책",
+          "en": "policy"
+        },
+        {
+          "ko": "보호하다",
+          "en": "to protect"
+        }
+      ],
+      "note": "**스크린쿼터** is a loanword from English (\"screen quota\"); the required number of days has changed over the years.",
+      "tags": [
+        "film",
+        "movie",
+        "screen-quota",
+        "policy",
+        "industry"
+      ]
+    },
+    {
+      "id": "film-4dx-screenx",
+      "category": "film",
+      "title": "4DX and ScreenX from Korea",
+      "fact": "The immersive cinema formats **4DX** and **ScreenX** were developed by a Korean company and are now used in theaters worldwide. 4DX adds moving seats, wind, and scents, while ScreenX wraps the picture across three walls.",
+      "korean": "이 영화관은 의자가 움직여요.",
+      "korean_en": "In this cinema the seats move.",
+      "vocabulary": [
+        {
+          "ko": "의자",
+          "en": "chair, seat"
+        },
+        {
+          "ko": "움직이다",
+          "en": "to move"
+        },
+        {
+          "ko": "기술",
+          "en": "technology"
+        }
+      ],
+      "note": "**기술** means \"technology\"; these formats show how Korea innovates in the cinema experience, not just in films.",
+      "tags": [
+        "film",
+        "movie",
+        "4dx",
+        "screenx",
+        "technology"
+      ]
+    },
+    {
+      "id": "film-blue-dragon-awards",
+      "category": "film",
+      "title": "The Blue Dragon Film Awards",
+      "fact": "The **Blue Dragon Film Awards** (청룡영화상) are among Korea's most prestigious movie prizes, held every year since 1963. Winning Best Film here is a major honor for Korean directors and actors.",
+      "korean": "청룡영화상은 유명한 영화상이에요.",
+      "korean_en": "The Blue Dragon Awards are a famous film award.",
+      "vocabulary": [
+        {
+          "ko": "상",
+          "en": "prize, award"
+        },
+        {
+          "ko": "배우",
+          "en": "actor"
+        },
+        {
+          "ko": "올해",
+          "en": "this year"
+        }
+      ],
+      "note": "**청룡** means \"blue dragon\"; the ceremony is broadcast on television and widely followed by fans.",
+      "tags": [
+        "film",
+        "movie",
+        "blue-dragon",
+        "awards",
+        "industry"
+      ]
+    },
+    {
+      "id": "film-grand-bell-awards",
+      "category": "film",
+      "title": "The Grand Bell Awards",
+      "fact": "The **Grand Bell Awards** (대종상) are Korea's oldest film awards, first held in 1962. Often compared to the American Oscars, they have honored generations of Korean filmmakers.",
+      "korean": "대종상은 한국에서 오래된 영화상이에요.",
+      "korean_en": "The Grand Bell Awards are an old film award in Korea.",
+      "vocabulary": [
+        {
+          "ko": "오래되다",
+          "en": "to be old (of a thing)"
+        },
+        {
+          "ko": "처음",
+          "en": "first time, beginning"
+        },
+        {
+          "ko": "영화상",
+          "en": "film award"
+        }
+      ],
+      "note": "**대종상** literally refers to a \"great bell\"; it is one of the country's three big film-award ceremonies.",
+      "tags": [
+        "film",
+        "movie",
+        "grand-bell",
+        "awards",
+        "history"
+      ]
+    },
+    {
+      "id": "film-animation",
+      "category": "film",
+      "title": "Korean animation and Pororo",
+      "fact": "Korea has a strong animation industry, and the children's character **Pororo the Little Penguin** (뽀로로) is so beloved that he is jokingly called \"the children's president.\" Korean studios also produce animation for shows around the world.",
+      "korean": "아이들은 뽀로로를 좋아해요.",
+      "korean_en": "Children like Pororo.",
+      "vocabulary": [
+        {
+          "ko": "아이",
+          "en": "child"
+        },
+        {
+          "ko": "만화 영화",
+          "en": "animated film, cartoon"
+        },
+        {
+          "ko": "좋아하다",
+          "en": "to like"
+        }
+      ],
+      "note": "**만화 영화** literally means \"comic film\" and is a common Korean word for animation; the loanword **애니메이션** is also used.",
+      "tags": [
+        "film",
+        "movie",
+        "animation",
+        "pororo",
+        "children"
+      ]
+    },
+    {
+      "id": "film-independent-cinema",
+      "category": "film",
+      "title": "Independent and documentary film",
+      "fact": "Alongside big blockbusters, Korea has a lively **independent film** (독립영화) scene. The low-budget documentary *My Love, Don't Cross That River* became a surprise hit, drawing huge audiences to a quiet true story about an elderly couple.",
+      "korean": "저는 독립영화를 봤어요.",
+      "korean_en": "I watched an independent film.",
+      "vocabulary": [
+        {
+          "ko": "독립영화",
+          "en": "independent film"
+        },
+        {
+          "ko": "다큐멘터리",
+          "en": "documentary"
+        },
+        {
+          "ko": "보다",
+          "en": "to watch, to see"
+        }
+      ],
+      "note": "**독립영화** combines 독립 (independence) with 영화 (film); small art-house theaters often screen these movies.",
+      "tags": [
+        "film",
+        "movie",
+        "independent",
+        "documentary",
+        "art-film"
+      ]
+    },
+    {
+      "id": "film-cannes-success",
+      "category": "film",
+      "title": "Korean films at Cannes",
+      "fact": "Korean cinema has a remarkable record at the **Cannes Film Festival** (칸 영화제). In 2022 alone, Park Chan-wook won Best Director and Song Kang-ho won Best Actor, showing the strength of Korean filmmaking on the world stage.",
+      "korean": "한국 영화가 칸 영화제에서 상을 받았어요.",
+      "korean_en": "A Korean film won an award at the Cannes Film Festival.",
+      "vocabulary": [
+        {
+          "ko": "세계",
+          "en": "world"
+        },
+        {
+          "ko": "배우",
+          "en": "actor"
+        },
+        {
+          "ko": "상",
+          "en": "prize, award"
+        }
+      ],
+      "note": "**칸 영화제** is the Korean name for the Cannes Film Festival; 칸 is the transliteration of \"Cannes.\"",
+      "tags": [
+        "film",
+        "movie",
+        "cannes",
+        "festival",
+        "modern"
+      ]
+    },
+    {
+      "id": "film-song-kang-ho",
+      "category": "film",
+      "title": "Song Kang-ho, a beloved leading man",
+      "fact": "**Song Kang-ho** (송강호) is one of Korea's most respected actors, starring in hits such as *Parasite*, *The Host*, and *Memories of Murder*. In 2022 he won Best Actor at Cannes for the film *Broker*.",
+      "korean": "송강호는 좋은 배우예요.",
+      "korean_en": "Song Kang-ho is a good actor.",
+      "vocabulary": [
+        {
+          "ko": "배우",
+          "en": "actor"
+        },
+        {
+          "ko": "좋다",
+          "en": "to be good"
+        },
+        {
+          "ko": "연기",
+          "en": "acting, performance"
+        }
+      ],
+      "note": "**연기** means \"acting\"; Song Kang-ho has worked with many of Korea's top directors over his career.",
+      "tags": [
+        "film",
+        "movie",
+        "song-kang-ho",
+        "actor",
+        "modern"
+      ]
     }
   ]
 }

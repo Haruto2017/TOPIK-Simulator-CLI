@@ -85,6 +85,454 @@
         "seoul",
         "capital"
       ]
+    },
+    {
+      "id": "history-gojoseon-dangun",
+      "category": "history",
+      "title": "Gojoseon and the Dangun myth",
+      "fact": "According to legend, **Dangun** founded **Gojoseon**, the first Korean kingdom, in 2333 BCE. The myth tells of a bear that became a woman and gave birth to him, making Dangun the grandson of the sky god.",
+      "korean": "단군이 고조선을 세웠습니다.",
+      "korean_en": "Dangun founded Gojoseon.",
+      "vocabulary": [
+        {
+          "ko": "세우다",
+          "en": "to establish, to found"
+        },
+        {
+          "ko": "곰",
+          "en": "bear"
+        },
+        {
+          "ko": "처음",
+          "en": "first, beginning"
+        }
+      ],
+      "note": "**개천절** (National Foundation Day), October 3, celebrates the founding of Gojoseon.",
+      "tags": [
+        "gojoseon",
+        "dangun",
+        "myth"
+      ]
+    },
+    {
+      "id": "history-goryeo-celadon",
+      "category": "history",
+      "title": "Goryeo celadon",
+      "fact": "The **Goryeo** dynasty produced jade-green **celadon** pottery so refined that Chinese writers praised its color as \"first under heaven.\" Its delicate inlay technique remains a high point of East Asian ceramics.",
+      "korean": "고려청자는 아주 아름답습니다.",
+      "korean_en": "Goryeo celadon is very beautiful.",
+      "vocabulary": [
+        {
+          "ko": "청자",
+          "en": "celadon (blue-green pottery)"
+        },
+        {
+          "ko": "아름답다",
+          "en": "to be beautiful"
+        },
+        {
+          "ko": "색",
+          "en": "color"
+        }
+      ],
+      "note": "The English word **Korea** comes from **고려** (Goryeo).",
+      "tags": [
+        "goryeo",
+        "celadon",
+        "pottery"
+      ]
+    },
+    {
+      "id": "history-tripitaka-koreana",
+      "category": "history",
+      "title": "The Tripitaka Koreana",
+      "fact": "The **Tripitaka Koreana** is a complete set of Buddhist scriptures carved onto more than 80,000 woodblocks in the 13th century. Stored at **Haeinsa** temple, the blocks have survived almost 800 years without warping or decay.",
+      "korean": "팔만대장경은 나무로 만들었습니다.",
+      "korean_en": "The Tripitaka Koreana was made from wood.",
+      "vocabulary": [
+        {
+          "ko": "나무",
+          "en": "wood, tree"
+        },
+        {
+          "ko": "절",
+          "en": "(Buddhist) temple"
+        },
+        {
+          "ko": "책",
+          "en": "book"
+        }
+      ],
+      "note": "Koreans call it **팔만대장경**, literally the \"80,000 Tripitaka,\" after the number of woodblocks.",
+      "tags": [
+        "goryeo",
+        "buddhism",
+        "woodblock"
+      ]
+    },
+    {
+      "id": "history-jikji",
+      "category": "history",
+      "title": "Jikji, the oldest metal-type book",
+      "fact": "**Jikji**, a Buddhist text printed in Korea in **1377**, is the world's oldest surviving book made with movable metal type — about 78 years before Gutenberg's Bible. One volume is kept today at the National Library of France.",
+      "korean": "직지는 금속으로 만들었습니다.",
+      "korean_en": "Jikji was made with metal type.",
+      "vocabulary": [
+        {
+          "ko": "금속",
+          "en": "metal"
+        },
+        {
+          "ko": "오래되다",
+          "en": "to be old (of things)"
+        },
+        {
+          "ko": "세계",
+          "en": "world"
+        }
+      ],
+      "note": "**금속** means \"metal\"; the **으로** particle here marks the material something is made of.",
+      "tags": [
+        "goryeo",
+        "printing",
+        "jikji"
+      ]
+    },
+    {
+      "id": "history-yi-sunsin",
+      "category": "history",
+      "title": "Admiral Yi Sun-sin",
+      "fact": "Admiral **Yi Sun-sin** defended Korea during the Japanese invasions of the 1590s and is famous for never losing a naval battle. At **Myeongnyang** in 1597 his small fleet defeated a far larger enemy force.",
+      "korean": "이순신은 바다에서 싸웠습니다.",
+      "korean_en": "Yi Sun-sin fought at sea.",
+      "vocabulary": [
+        {
+          "ko": "바다",
+          "en": "sea"
+        },
+        {
+          "ko": "싸우다",
+          "en": "to fight"
+        },
+        {
+          "ko": "장군",
+          "en": "general, admiral"
+        }
+      ],
+      "note": "His statue stands in **광화문** (Gwanghwamun) square in central Seoul.",
+      "tags": [
+        "joseon",
+        "yi-sunsin",
+        "navy"
+      ]
+    },
+    {
+      "id": "history-turtle-ship",
+      "category": "history",
+      "title": "The turtle ship",
+      "fact": "The **geobukseon**, or \"turtle ship,\" was an armored warship used by Admiral Yi Sun-sin. Its covered deck, studded with iron spikes, protected the crew while a dragon-head prow let it fire cannons forward.",
+      "korean": "거북선은 거북이를 닮았습니다.",
+      "korean_en": "The turtle ship resembles a turtle.",
+      "vocabulary": [
+        {
+          "ko": "거북이",
+          "en": "turtle"
+        },
+        {
+          "ko": "배",
+          "en": "ship, boat"
+        },
+        {
+          "ko": "닮다",
+          "en": "to resemble"
+        }
+      ],
+      "note": "**거북선** literally combines **거북** (turtle) and **선** (ship).",
+      "tags": [
+        "joseon",
+        "turtle-ship",
+        "navy"
+      ]
+    },
+    {
+      "id": "history-silla-gold-crown",
+      "category": "history",
+      "title": "Silla gold crowns",
+      "fact": "The kingdom of **Silla** was so rich in gold that its rulers wore elaborate golden crowns shaped like trees and antlers. Several survive today and are national treasures, hinting at Silla's wealth and trade ties across Asia.",
+      "korean": "신라 왕은 금관을 썼습니다.",
+      "korean_en": "The Silla king wore a gold crown.",
+      "vocabulary": [
+        {
+          "ko": "금",
+          "en": "gold"
+        },
+        {
+          "ko": "왕",
+          "en": "king"
+        },
+        {
+          "ko": "쓰다",
+          "en": "to wear (on the head)"
+        }
+      ],
+      "note": "The verb **쓰다** is used for wearing things on the **head**, like hats and crowns.",
+      "tags": [
+        "silla",
+        "gold",
+        "crown"
+      ]
+    },
+    {
+      "id": "history-hanji-paper",
+      "category": "history",
+      "title": "Hanji, traditional Korean paper",
+      "fact": "**Hanji** is handmade paper produced from the bark of the mulberry tree. Famous for its strength and long life, it was used for books, windows, and even clothing, and good hanji can last over a thousand years.",
+      "korean": "한지는 아주 튼튼합니다.",
+      "korean_en": "Hanji is very strong.",
+      "vocabulary": [
+        {
+          "ko": "종이",
+          "en": "paper"
+        },
+        {
+          "ko": "튼튼하다",
+          "en": "to be strong, sturdy"
+        },
+        {
+          "ko": "오래",
+          "en": "for a long time"
+        }
+      ],
+      "note": "**한지** means \"Korean paper\"; the **지** here is the Sino-Korean word for paper.",
+      "tags": [
+        "joseon",
+        "hanji",
+        "craft"
+      ]
+    },
+    {
+      "id": "history-japanese-occupation",
+      "category": "history",
+      "title": "The Japanese occupation",
+      "fact": "From **1910 to 1945** Korea was a colony of Japan. During this time use of the Korean language was suppressed, yet independence movements kept the national identity alive.",
+      "korean": "한국은 1945년에 독립했습니다.",
+      "korean_en": "Korea became independent in 1945.",
+      "vocabulary": [
+        {
+          "ko": "독립",
+          "en": "independence"
+        },
+        {
+          "ko": "년",
+          "en": "year"
+        },
+        {
+          "ko": "역사",
+          "en": "history"
+        }
+      ],
+      "note": "**광복절** (Liberation Day), August 15, marks the end of the occupation in 1945.",
+      "tags": [
+        "occupation",
+        "japan",
+        "independence"
+      ]
+    },
+    {
+      "id": "history-march-first",
+      "category": "history",
+      "title": "The March First Movement",
+      "fact": "On **March 1, 1919**, Koreans held nationwide peaceful demonstrations to demand independence from Japan. Crowds read a declaration of independence and waved the **Taegukgi**, the Korean flag, in the streets.",
+      "korean": "사람들이 태극기를 들었습니다.",
+      "korean_en": "The people held up the Korean flag.",
+      "vocabulary": [
+        {
+          "ko": "사람들",
+          "en": "people"
+        },
+        {
+          "ko": "태극기",
+          "en": "the Korean flag"
+        },
+        {
+          "ko": "들다",
+          "en": "to lift, to hold up"
+        }
+      ],
+      "note": "**삼일절** (March First Day) is a national holiday remembering the 1919 movement.",
+      "tags": [
+        "occupation",
+        "independence",
+        "samiljeol"
+      ]
+    },
+    {
+      "id": "history-korean-war",
+      "category": "history",
+      "title": "The Korean War",
+      "fact": "The **Korean War** lasted from **1950 to 1953** and ended in an armistice rather than a peace treaty. The fighting divided the peninsula into North and South along a line near the 38th parallel.",
+      "korean": "한국 전쟁은 1950년에 시작했습니다.",
+      "korean_en": "The Korean War began in 1950.",
+      "vocabulary": [
+        {
+          "ko": "전쟁",
+          "en": "war"
+        },
+        {
+          "ko": "시작하다",
+          "en": "to begin, to start"
+        },
+        {
+          "ko": "남북",
+          "en": "north and south"
+        }
+      ],
+      "note": "Because no peace treaty was signed, the two Koreas are technically still at war today.",
+      "tags": [
+        "korean-war",
+        "division",
+        "20th-century"
+      ]
+    },
+    {
+      "id": "history-dmz",
+      "category": "history",
+      "title": "The DMZ",
+      "fact": "After the Korean War, a **Demilitarized Zone (DMZ)** about 250 km long was created between the two Koreas. Because people rarely enter it, the strip has unexpectedly become a refuge for rare wildlife.",
+      "korean": "남한과 북한 사이에 비무장지대가 있습니다.",
+      "korean_en": "There is a demilitarized zone between South and North Korea.",
+      "vocabulary": [
+        {
+          "ko": "남한",
+          "en": "South Korea"
+        },
+        {
+          "ko": "북한",
+          "en": "North Korea"
+        },
+        {
+          "ko": "사이",
+          "en": "between, space between"
+        }
+      ],
+      "note": "**사이** means \"between\"; the particle **에** marks the location where something exists.",
+      "tags": [
+        "dmz",
+        "division",
+        "20th-century"
+      ]
+    },
+    {
+      "id": "history-democratization",
+      "category": "history",
+      "title": "The democratization movement",
+      "fact": "South Korea was ruled by military governments for decades, but large protests in **June 1987** forced the country to adopt direct presidential elections. This peaceful turn helped build today's democracy.",
+      "korean": "사람들이 자유를 원했습니다.",
+      "korean_en": "The people wanted freedom.",
+      "vocabulary": [
+        {
+          "ko": "자유",
+          "en": "freedom"
+        },
+        {
+          "ko": "원하다",
+          "en": "to want"
+        },
+        {
+          "ko": "투표",
+          "en": "vote, voting"
+        }
+      ],
+      "note": "The 1987 protests are often called the **6월 민주 항쟁** (June Democratic Struggle).",
+      "tags": [
+        "democracy",
+        "protest",
+        "20th-century"
+      ]
+    },
+    {
+      "id": "history-gwangju",
+      "category": "history",
+      "title": "The Gwangju Uprising",
+      "fact": "In **May 1980**, citizens of the city of **Gwangju** rose up to demand democracy and resisted military force for several days. The uprising became a powerful symbol of South Korea's long struggle for freedom.",
+      "korean": "광주 사람들이 민주주의를 위해 싸웠습니다.",
+      "korean_en": "The people of Gwangju fought for democracy.",
+      "vocabulary": [
+        {
+          "ko": "민주주의",
+          "en": "democracy"
+        },
+        {
+          "ko": "위해",
+          "en": "for (the sake of)"
+        },
+        {
+          "ko": "도시",
+          "en": "city"
+        }
+      ],
+      "note": "**을/를 위해** means \"for the sake of\" something — here, fighting **for** democracy.",
+      "tags": [
+        "democracy",
+        "gwangju",
+        "20th-century"
+      ]
+    },
+    {
+      "id": "history-seoul-olympics",
+      "category": "history",
+      "title": "The 1988 Seoul Olympics",
+      "fact": "Seoul hosted the **Summer Olympics in 1988**, the first held in South Korea. The games introduced the country to a global audience and showcased its rapid economic rise after the war.",
+      "korean": "1988년에 서울에서 올림픽을 열었습니다.",
+      "korean_en": "In 1988 the Olympics were held in Seoul.",
+      "vocabulary": [
+        {
+          "ko": "올림픽",
+          "en": "the Olympics"
+        },
+        {
+          "ko": "열다",
+          "en": "to open, to hold (an event)"
+        },
+        {
+          "ko": "처음",
+          "en": "first time"
+        }
+      ],
+      "note": "The particle **에서** marks **where** an action happens, so 서울에서 means \"in Seoul.\"",
+      "tags": [
+        "olympics",
+        "seoul",
+        "20th-century"
+      ]
+    },
+    {
+      "id": "history-gyeongju",
+      "category": "history",
+      "title": "Gyeongju, the museum without walls",
+      "fact": "**Gyeongju** was the capital of the Silla kingdom for nearly a thousand years. So many temples, tombs, and pagodas remain there that it is often called \"a museum without walls.\"",
+      "korean": "경주는 신라의 수도였습니다.",
+      "korean_en": "Gyeongju was the capital of Silla.",
+      "vocabulary": [
+        {
+          "ko": "수도",
+          "en": "capital city"
+        },
+        {
+          "ko": "유적",
+          "en": "historic ruins, relics"
+        },
+        {
+          "ko": "옛날",
+          "en": "long ago"
+        }
+      ],
+      "note": "**였습니다** is the past tense of **이다** (\"to be\") after a vowel — \"was.\"",
+      "tags": [
+        "silla",
+        "gyeongju",
+        "heritage"
+      ]
     }
   ]
 }

@@ -116,6 +116,400 @@
         "seasons",
         "weather"
       ]
+    },
+    {
+      "id": "geo-seoraksan",
+      "category": "geography",
+      "title": "Seoraksan, the autumn jewel",
+      "fact": "Seoraksan in the northeast is one of Korea's most loved national parks, famous for jagged granite peaks and brilliant autumn foliage. Crowds arrive each fall to see the red and gold leaves.",
+      "korean": "가을에 설악산에 단풍이 아름답습니다.",
+      "korean_en": "In autumn the foliage on Seoraksan is beautiful.",
+      "vocabulary": [
+        {
+          "ko": "단풍",
+          "en": "autumn leaves, fall foliage"
+        },
+        {
+          "ko": "국립공원",
+          "en": "national park"
+        },
+        {
+          "ko": "봉우리",
+          "en": "peak, summit"
+        }
+      ],
+      "note": "**단풍** season is so popular that people say 단풍 구경 (\"foliage viewing\"), just like 벚꽃 구경 in spring.",
+      "tags": [
+        "seoraksan",
+        "national-park",
+        "autumn"
+      ]
+    },
+    {
+      "id": "geo-getbol",
+      "category": "geography",
+      "title": "The west-coast tidal flats",
+      "fact": "The wide mudflats (갯벌) along the west coast are among the world's largest, and several were named a UNESCO World Heritage site in 2021. They teem with crabs, clams, and migratory birds.",
+      "korean": "서해안에는 넓은 갯벌이 있습니다.",
+      "korean_en": "There are wide tidal flats on the west coast.",
+      "vocabulary": [
+        {
+          "ko": "갯벌",
+          "en": "tidal flat, mudflat"
+        },
+        {
+          "ko": "서해안",
+          "en": "west coast"
+        },
+        {
+          "ko": "넓다",
+          "en": "to be wide, broad"
+        }
+      ],
+      "note": "The west coast has a huge tidal range, so the **갯벌** appears and disappears with the tides every day.",
+      "tags": [
+        "getbol",
+        "tidal-flats",
+        "unesco",
+        "west-coast"
+      ]
+    },
+    {
+      "id": "geo-dokdo",
+      "category": "geography",
+      "title": "Dokdo, the easternmost islets",
+      "fact": "Dokdo is a pair of small rocky islets in the East Sea and the easternmost point of South Korea. Though tiny, they hold deep symbolic importance for Koreans.",
+      "korean": "독도는 한국의 동쪽 끝에 있습니다.",
+      "korean_en": "Dokdo is at the eastern end of Korea.",
+      "vocabulary": [
+        {
+          "ko": "동쪽",
+          "en": "east, eastern side"
+        },
+        {
+          "ko": "끝",
+          "en": "end, tip"
+        },
+        {
+          "ko": "바위",
+          "en": "rock, boulder"
+        }
+      ],
+      "note": "**동해** means \"East Sea,\" the body of water where Dokdo sits.",
+      "tags": [
+        "dokdo",
+        "islets",
+        "east-sea"
+      ]
+    },
+    {
+      "id": "geo-ulleungdo",
+      "category": "geography",
+      "title": "Ulleungdo, the remote volcanic isle",
+      "fact": "Ulleungdo is a steep volcanic island far out in the East Sea, reached by a long ferry ride. It is known for dramatic cliffs, squid fishing, and a slower way of life.",
+      "korean": "울릉도는 배로 갑니다.",
+      "korean_en": "You go to Ulleungdo by boat.",
+      "vocabulary": [
+        {
+          "ko": "배",
+          "en": "boat, ship"
+        },
+        {
+          "ko": "오징어",
+          "en": "squid"
+        },
+        {
+          "ko": "절벽",
+          "en": "cliff"
+        }
+      ],
+      "note": "**배로 가다** = \"to go by boat.\" The particle 로/으로 means \"by (means of).\"",
+      "tags": [
+        "ulleungdo",
+        "island",
+        "east-sea"
+      ]
+    },
+    {
+      "id": "geo-jangma",
+      "category": "geography",
+      "title": "Jangma, the summer monsoon",
+      "fact": "Jangma is the rainy monsoon season that usually arrives in late June and lasts into July. It brings heavy rain, high humidity, and lots of umbrellas.",
+      "korean": "여름에 장마가 시작됩니다.",
+      "korean_en": "In summer the monsoon season begins.",
+      "vocabulary": [
+        {
+          "ko": "장마",
+          "en": "monsoon, rainy season"
+        },
+        {
+          "ko": "비",
+          "en": "rain"
+        },
+        {
+          "ko": "우산",
+          "en": "umbrella"
+        }
+      ],
+      "note": "During **장마**, people often say 비가 많이 와요 (\"it rains a lot\"). 오다 (\"to come\") is the verb used for rain.",
+      "tags": [
+        "jangma",
+        "monsoon",
+        "summer",
+        "weather"
+      ]
+    },
+    {
+      "id": "geo-nakdong-river",
+      "category": "geography",
+      "title": "The Nakdong, the southern lifeline",
+      "fact": "The Nakdong River is the longest river in South Korea, flowing south through the Yeongnam region to the sea near Busan. Its broad estuary is an important stopover for migratory birds.",
+      "korean": "낙동강은 한국에서 가장 긴 강입니다.",
+      "korean_en": "The Nakdong River is the longest river in Korea.",
+      "vocabulary": [
+        {
+          "ko": "가장",
+          "en": "most (superlative)"
+        },
+        {
+          "ko": "길다",
+          "en": "to be long"
+        },
+        {
+          "ko": "흐르다",
+          "en": "to flow"
+        }
+      ],
+      "note": "**가장 + adjective** makes the superlative: 가장 긴 = \"the longest.\"",
+      "tags": [
+        "nakdong",
+        "river",
+        "busan"
+      ]
+    },
+    {
+      "id": "geo-geum-river",
+      "category": "geography",
+      "title": "The Geum River of the center-west",
+      "fact": "The Geum River winds through the central-western provinces, passing cities like Daejeon and Gongju before reaching the west coast. It watered the heartland of the ancient Baekje kingdom.",
+      "korean": "금강은 충청도를 지나갑니다.",
+      "korean_en": "The Geum River passes through Chungcheong Province.",
+      "vocabulary": [
+        {
+          "ko": "지나가다",
+          "en": "to pass through, go by"
+        },
+        {
+          "ko": "충청도",
+          "en": "Chungcheong Province"
+        },
+        {
+          "ko": "옛날",
+          "en": "old days, long ago"
+        }
+      ],
+      "note": "**지나가다** combines 지나다 (\"to pass\") + 가다 (\"to go\").",
+      "tags": [
+        "geum-river",
+        "river",
+        "chungcheong"
+      ]
+    },
+    {
+      "id": "geo-seoul-subway",
+      "category": "geography",
+      "title": "Seoul's vast subway",
+      "fact": "The Seoul metropolitan subway is one of the largest and busiest systems in the world, with more than 20 lines reaching deep into the surrounding cities. It is clean, punctual, and easy to use with a transit card.",
+      "korean": "서울에서 지하철을 자주 탑니다.",
+      "korean_en": "In Seoul I often take the subway.",
+      "vocabulary": [
+        {
+          "ko": "지하철",
+          "en": "subway, metro"
+        },
+        {
+          "ko": "자주",
+          "en": "often, frequently"
+        },
+        {
+          "ko": "역",
+          "en": "station"
+        }
+      ],
+      "note": "**지하철** literally means \"underground iron (rail).\" Each station is a 역.",
+      "tags": [
+        "seoul",
+        "subway",
+        "transport"
+      ]
+    },
+    {
+      "id": "geo-seoul-capital",
+      "category": "geography",
+      "title": "Seoul, the crowded capital",
+      "fact": "Seoul is the capital and largest city, home to roughly half the country's population when its greater metropolitan area is counted. The city is ringed by mountains and split by the Han River.",
+      "korean": "서울은 한국의 수도입니다.",
+      "korean_en": "Seoul is the capital of Korea.",
+      "vocabulary": [
+        {
+          "ko": "수도",
+          "en": "capital city"
+        },
+        {
+          "ko": "도시",
+          "en": "city"
+        },
+        {
+          "ko": "인구",
+          "en": "population"
+        }
+      ],
+      "note": "**수도** = \"capital.\" 서울은 인구가 많아요 = \"Seoul has a large population.\"",
+      "tags": [
+        "seoul",
+        "capital",
+        "city"
+      ]
+    },
+    {
+      "id": "geo-peninsula",
+      "category": "geography",
+      "title": "A peninsula on three seas",
+      "fact": "Korea is a peninsula bordered by sea on three sides: the East Sea, the West Sea (Yellow Sea), and the South Sea. This long coastline makes seafood a central part of the diet.",
+      "korean": "한국은 삼면이 바다입니다.",
+      "korean_en": "Korea is surrounded by sea on three sides.",
+      "vocabulary": [
+        {
+          "ko": "바다",
+          "en": "sea, ocean"
+        },
+        {
+          "ko": "반도",
+          "en": "peninsula"
+        },
+        {
+          "ko": "해안",
+          "en": "coast, shore"
+        }
+      ],
+      "note": "**삼면** = \"three sides\" (삼 \"three\" + 면 \"side/face\"). 한반도 = \"the Korean peninsula.\"",
+      "tags": [
+        "peninsula",
+        "sea",
+        "coast"
+      ]
+    },
+    {
+      "id": "geo-namhae-islands",
+      "category": "geography",
+      "title": "The many southern islands",
+      "fact": "The South Sea is dotted with thousands of small islands, many protected within Hallyeohaesang National Park. Their calm waters and green slopes make the area a scenic boating destination.",
+      "korean": "남해에는 작은 섬이 많습니다.",
+      "korean_en": "There are many small islands in the South Sea.",
+      "vocabulary": [
+        {
+          "ko": "남해",
+          "en": "South Sea"
+        },
+        {
+          "ko": "작다",
+          "en": "to be small"
+        },
+        {
+          "ko": "근처",
+          "en": "nearby, vicinity"
+        }
+      ],
+      "note": "**남해** = \"South Sea\" (남 \"south\" + 해 \"sea\"). Compare 동해 (East Sea) and 서해 (West Sea).",
+      "tags": [
+        "namhae",
+        "islands",
+        "south-coast"
+      ]
+    },
+    {
+      "id": "geo-limestone-caves",
+      "category": "geography",
+      "title": "Limestone caves of Gangwon",
+      "fact": "The mountainous Gangwon region holds famous limestone caves such as Hwanseongul, filled with stalactites and underground streams. Visitors walk lit paths through the cool, dripping chambers.",
+      "korean": "강원도에는 큰 동굴이 있습니다.",
+      "korean_en": "There are large caves in Gangwon Province.",
+      "vocabulary": [
+        {
+          "ko": "동굴",
+          "en": "cave"
+        },
+        {
+          "ko": "크다",
+          "en": "to be big, large"
+        },
+        {
+          "ko": "강원도",
+          "en": "Gangwon Province"
+        }
+      ],
+      "note": "**동굴** = \"cave.\" 강원도 is the rugged northeastern province best known for mountains and caves.",
+      "tags": [
+        "caves",
+        "gangwon",
+        "limestone"
+      ]
+    },
+    {
+      "id": "geo-hot-springs",
+      "category": "geography",
+      "title": "Hot springs and bathhouses",
+      "fact": "Natural hot springs in towns like Onyang and Yuseong have drawn bathers for centuries. Soaking in warm mineral water is a popular way to relax, especially in cold weather.",
+      "korean": "겨울에 온천에 갑니다.",
+      "korean_en": "In winter I go to the hot springs.",
+      "vocabulary": [
+        {
+          "ko": "온천",
+          "en": "hot spring"
+        },
+        {
+          "ko": "따뜻하다",
+          "en": "to be warm"
+        },
+        {
+          "ko": "물",
+          "en": "water"
+        }
+      ],
+      "note": "**온천** literally means \"warm spring\" (온 \"warm\" + 천 \"spring\").",
+      "tags": [
+        "hot-springs",
+        "onsen",
+        "relaxation"
+      ]
+    },
+    {
+      "id": "geo-taebaek-range",
+      "category": "geography",
+      "title": "The Taebaek Mountain Range",
+      "fact": "The Taebaek Mountains form the rugged spine of the peninsula, running down the eastern side and acting as a watershed for many rivers. The range is sometimes called the backbone of Korea.",
+      "korean": "태백산맥은 동쪽에 있습니다.",
+      "korean_en": "The Taebaek Mountains are in the east.",
+      "vocabulary": [
+        {
+          "ko": "산맥",
+          "en": "mountain range"
+        },
+        {
+          "ko": "높다",
+          "en": "to be high, tall"
+        },
+        {
+          "ko": "동쪽",
+          "en": "east, eastern side"
+        }
+      ],
+      "note": "**산맥** = \"mountain range\" (산 \"mountain\" + 맥 \"vein/line\").",
+      "tags": [
+        "taebaek",
+        "mountains",
+        "mountain-range"
+      ]
     }
   ]
 }

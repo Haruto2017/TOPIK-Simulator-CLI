@@ -85,6 +85,426 @@
         "beach",
         "coast"
       ]
+    },
+    {
+      "id": "sights-bulguksa",
+      "category": "sightseeing",
+      "title": "Bulguksa Temple",
+      "fact": "Bulguksa in Gyeongju is one of Korea's most famous Buddhist temples, built during the Silla kingdom. Its stone bridges and pagodas are a UNESCO World Heritage site.",
+      "korean": "불국사는 경주에 있습니다.",
+      "korean_en": "Bulguksa is in Gyeongju.",
+      "vocabulary": [
+        {
+          "ko": "절",
+          "en": "(Buddhist) temple"
+        },
+        {
+          "ko": "유명하다",
+          "en": "to be famous"
+        },
+        {
+          "ko": "탑",
+          "en": "pagoda, tower"
+        }
+      ],
+      "note": "Gyeongju (**경주**) was the capital of the Silla kingdom for almost a thousand years.",
+      "tags": [
+        "temple",
+        "gyeongju",
+        "unesco"
+      ]
+    },
+    {
+      "id": "sights-seokguram",
+      "category": "sightseeing",
+      "title": "Seokguram Grotto",
+      "fact": "Seokguram, on a mountain above Bulguksa, is a man-made stone grotto holding a large seated Buddha. The statue faces east toward the sea to greet the sunrise.",
+      "korean": "석굴암에서 일출을 봅니다.",
+      "korean_en": "I watch the sunrise at Seokguram.",
+      "vocabulary": [
+        {
+          "ko": "일출",
+          "en": "sunrise"
+        },
+        {
+          "ko": "산",
+          "en": "mountain"
+        },
+        {
+          "ko": "보다",
+          "en": "to see, to watch"
+        }
+      ],
+      "note": "**석굴암** and 불국사 are listed together as one UNESCO World Heritage site.",
+      "tags": [
+        "grotto",
+        "gyeongju",
+        "buddha"
+      ]
+    },
+    {
+      "id": "sights-hwaseong",
+      "category": "sightseeing",
+      "title": "Suwon Hwaseong Fortress",
+      "fact": "Hwaseong in Suwon is a large 18th-century fortress wall built by King Jeongjo. You can walk the whole wall and see gates, watchtowers, and a floodgate over a stream.",
+      "korean": "수원 화성은 큰 성입니다.",
+      "korean_en": "Suwon Hwaseong is a big fortress.",
+      "vocabulary": [
+        {
+          "ko": "성",
+          "en": "fortress, castle"
+        },
+        {
+          "ko": "벽",
+          "en": "wall"
+        },
+        {
+          "ko": "걷다",
+          "en": "to walk"
+        }
+      ],
+      "note": "**수원** is also famous for grilled galbi (갈비), short ribs.",
+      "tags": [
+        "fortress",
+        "suwon",
+        "unesco"
+      ]
+    },
+    {
+      "id": "sights-jeonju-hanok",
+      "category": "sightseeing",
+      "title": "Jeonju Hanok Village",
+      "fact": "Jeonju has a large hanok village with hundreds of traditional houses. The city is also the home of bibimbap and is known as a center of Korean food.",
+      "korean": "전주는 음식으로 유명합니다.",
+      "korean_en": "Jeonju is famous for its food.",
+      "vocabulary": [
+        {
+          "ko": "음식",
+          "en": "food"
+        },
+        {
+          "ko": "비빔밥",
+          "en": "bibimbap (mixed rice)"
+        },
+        {
+          "ko": "맛있다",
+          "en": "to be delicious"
+        }
+      ],
+      "note": "**전주** is a UNESCO City of Gastronomy, famous for bibimbap.",
+      "tags": [
+        "hanok",
+        "jeonju",
+        "food"
+      ]
+    },
+    {
+      "id": "sights-andong-hahoe",
+      "category": "sightseeing",
+      "title": "Andong Hahoe Village",
+      "fact": "Hahoe Village in Andong is an old folk village where people still live in traditional houses. It is famous for a mask dance and is a UNESCO World Heritage site.",
+      "korean": "안동에는 오래된 마을이 있습니다.",
+      "korean_en": "There is an old village in Andong.",
+      "vocabulary": [
+        {
+          "ko": "오래되다",
+          "en": "to be old (of a thing)"
+        },
+        {
+          "ko": "탈",
+          "en": "mask"
+        },
+        {
+          "ko": "춤",
+          "en": "dance"
+        }
+      ],
+      "note": "Andong (**안동**) is also known for its salted mackerel and soju.",
+      "tags": [
+        "village",
+        "andong",
+        "unesco"
+      ]
+    },
+    {
+      "id": "sights-templestay",
+      "category": "sightseeing",
+      "title": "Templestay",
+      "fact": "A templestay lets visitors stay overnight at a Buddhist temple. You can try meditation, eat simple temple food, and wake up early for the morning service.",
+      "korean": "저는 절에서 하룻밤 잡니다.",
+      "korean_en": "I sleep one night at the temple.",
+      "vocabulary": [
+        {
+          "ko": "절",
+          "en": "(Buddhist) temple"
+        },
+        {
+          "ko": "자다",
+          "en": "to sleep"
+        },
+        {
+          "ko": "조용하다",
+          "en": "to be quiet"
+        }
+      ],
+      "note": "A **템플스테이** usually includes meditation (명상) and tea with a monk.",
+      "tags": [
+        "templestay",
+        "buddhism",
+        "experience"
+      ]
+    },
+    {
+      "id": "sights-nseoul-tower",
+      "category": "sightseeing",
+      "title": "N Seoul Tower",
+      "fact": "N Seoul Tower stands on Namsan mountain in the middle of the city. You can see all of Seoul from the top, and couples leave love locks on the fence.",
+      "korean": "남산 타워에서 서울이 다 보입니다.",
+      "korean_en": "You can see all of Seoul from Namsan Tower.",
+      "vocabulary": [
+        {
+          "ko": "타워",
+          "en": "tower"
+        },
+        {
+          "ko": "야경",
+          "en": "night view"
+        },
+        {
+          "ko": "사랑",
+          "en": "love"
+        }
+      ],
+      "note": "Take the cable car (**케이블카**) up Namsan, or climb the stairs for exercise.",
+      "tags": [
+        "tower",
+        "seoul",
+        "view"
+      ]
+    },
+    {
+      "id": "sights-nami-island",
+      "category": "sightseeing",
+      "title": "Nami Island",
+      "fact": "Nami Island is a small river island near Chuncheon famous for long tree-lined paths. It became very popular after a hit Korean TV drama was filmed there.",
+      "korean": "남이섬에는 나무가 많습니다.",
+      "korean_en": "Nami Island has many trees.",
+      "vocabulary": [
+        {
+          "ko": "섬",
+          "en": "island"
+        },
+        {
+          "ko": "나무",
+          "en": "tree"
+        },
+        {
+          "ko": "길",
+          "en": "road, path"
+        }
+      ],
+      "note": "You reach **남이섬** by a short ferry ride from near Chuncheon (춘천).",
+      "tags": [
+        "island",
+        "nature",
+        "drama"
+      ]
+    },
+    {
+      "id": "sights-boseong-tea",
+      "category": "sightseeing",
+      "title": "Boseong Green Tea Fields",
+      "fact": "Boseong in the south is famous for green tea grown on steep, striped hillsides. Visitors walk between the rows and drink fresh green tea and even tea ice cream.",
+      "korean": "보성은 녹차로 유명합니다.",
+      "korean_en": "Boseong is famous for green tea.",
+      "vocabulary": [
+        {
+          "ko": "녹차",
+          "en": "green tea"
+        },
+        {
+          "ko": "밭",
+          "en": "field (dry farm)"
+        },
+        {
+          "ko": "마시다",
+          "en": "to drink"
+        }
+      ],
+      "note": "The green rows of **보성** are most beautiful in late spring and early summer.",
+      "tags": [
+        "tea",
+        "boseong",
+        "nature"
+      ]
+    },
+    {
+      "id": "sights-cherry-blossom",
+      "category": "sightseeing",
+      "title": "Cherry Blossom Season",
+      "fact": "In early April, cherry trees bloom all over Korea. Jinhae near Busan holds the biggest cherry blossom festival, with streets covered in pink flowers.",
+      "korean": "봄에 벚꽃이 핍니다.",
+      "korean_en": "Cherry blossoms bloom in spring.",
+      "vocabulary": [
+        {
+          "ko": "벚꽃",
+          "en": "cherry blossom"
+        },
+        {
+          "ko": "봄",
+          "en": "spring"
+        },
+        {
+          "ko": "피다",
+          "en": "to bloom"
+        }
+      ],
+      "note": "The famous **벚꽃** festival in Jinhae (진해) is held every April.",
+      "tags": [
+        "spring",
+        "flowers",
+        "festival"
+      ]
+    },
+    {
+      "id": "sights-autumn-foliage",
+      "category": "sightseeing",
+      "title": "Autumn Foliage at Naejangsan",
+      "fact": "In autumn, Korea's mountains turn red and yellow. Naejangsan National Park is one of the most popular places to see the bright fall leaves.",
+      "korean": "가을에 단풍이 아름답습니다.",
+      "korean_en": "The autumn leaves are beautiful in fall.",
+      "vocabulary": [
+        {
+          "ko": "단풍",
+          "en": "autumn leaves"
+        },
+        {
+          "ko": "가을",
+          "en": "autumn, fall"
+        },
+        {
+          "ko": "산",
+          "en": "mountain"
+        }
+      ],
+      "note": "Hiking (**등산**) to see 단풍 is a favorite autumn activity in Korea.",
+      "tags": [
+        "autumn",
+        "mountains",
+        "nature"
+      ]
+    },
+    {
+      "id": "sights-dmz-tour",
+      "category": "sightseeing",
+      "title": "DMZ Tour",
+      "fact": "The DMZ is the border zone between South and North Korea. On a guided tour you can visit observation points and look across the border into the North.",
+      "korean": "디엠지는 남한과 북한 사이에 있습니다.",
+      "korean_en": "The DMZ is between South Korea and North Korea.",
+      "vocabulary": [
+        {
+          "ko": "남한",
+          "en": "South Korea"
+        },
+        {
+          "ko": "북한",
+          "en": "North Korea"
+        },
+        {
+          "ko": "사이",
+          "en": "between, space between"
+        }
+      ],
+      "note": "You must join an official tour (**투어**) to visit the **디엠지** safely.",
+      "tags": [
+        "dmz",
+        "border",
+        "history"
+      ]
+    },
+    {
+      "id": "sights-changdeokgung-garden",
+      "category": "sightseeing",
+      "title": "Changdeokgung Secret Garden",
+      "fact": "Changdeokgung is a palace known for its Secret Garden, a large wooded park with ponds and pavilions behind the buildings. You can only enter the garden on a guided tour.",
+      "korean": "창덕궁에는 아름다운 정원이 있습니다.",
+      "korean_en": "Changdeokgung has a beautiful garden.",
+      "vocabulary": [
+        {
+          "ko": "정원",
+          "en": "garden"
+        },
+        {
+          "ko": "연못",
+          "en": "pond"
+        },
+        {
+          "ko": "아름답다",
+          "en": "to be beautiful"
+        }
+      ],
+      "note": "The Secret Garden (**후원**) of 창덕궁 is a UNESCO World Heritage site.",
+      "tags": [
+        "palace",
+        "garden",
+        "unesco"
+      ]
+    },
+    {
+      "id": "sights-jjimjilbang",
+      "category": "sightseeing",
+      "title": "Jjimjilbang Korean Spa",
+      "fact": "A jjimjilbang is a Korean spa open day and night. People bathe, relax in hot and cold sauna rooms, eat snacks, and can even sleep over for a low price.",
+      "korean": "찜질방에서 목욕을 합니다.",
+      "korean_en": "I take a bath at the jjimjilbang.",
+      "vocabulary": [
+        {
+          "ko": "목욕",
+          "en": "bath, bathing"
+        },
+        {
+          "ko": "땀",
+          "en": "sweat"
+        },
+        {
+          "ko": "쉬다",
+          "en": "to rest"
+        }
+      ],
+      "note": "At a **찜질방** people often eat baked eggs and sweet rice drink (식혜).",
+      "tags": [
+        "spa",
+        "jjimjilbang",
+        "relax"
+      ]
+    },
+    {
+      "id": "sights-jeju-island",
+      "category": "sightseeing",
+      "title": "Jeju Island",
+      "fact": "Jeju is a volcanic island south of the mainland and Korea's most popular holiday spot. It has Hallasan, the country's tallest mountain, plus beaches, waterfalls, and lava tubes.",
+      "korean": "제주도는 섬입니다.",
+      "korean_en": "Jeju is an island.",
+      "vocabulary": [
+        {
+          "ko": "섬",
+          "en": "island"
+        },
+        {
+          "ko": "한라산",
+          "en": "Hallasan (mountain)"
+        },
+        {
+          "ko": "여행",
+          "en": "travel, trip"
+        }
+      ],
+      "note": "Many Koreans fly to **제주도** for a honeymoon or a short holiday.",
+      "tags": [
+        "jeju",
+        "island",
+        "nature"
+      ]
     }
   ]
 }

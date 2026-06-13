@@ -85,6 +85,454 @@
         "samgyeopsal",
         "dining"
       ]
+    },
+    {
+      "id": "food-bibimbap",
+      "category": "food",
+      "title": "Bibimbap, the mixed rice bowl",
+      "fact": "Bibimbap is a bowl of warm rice topped with vegetables, meat, an egg, and red pepper paste. You **mix everything together** before eating.",
+      "korean": "비빔밥을 비벼서 먹어요.",
+      "korean_en": "I mix the bibimbap and then eat it.",
+      "vocabulary": [
+        {
+          "ko": "비빔밥",
+          "en": "bibimbap; mixed rice"
+        },
+        {
+          "ko": "비비다",
+          "en": "to mix; to stir together"
+        },
+        {
+          "ko": "계란",
+          "en": "egg"
+        }
+      ],
+      "note": "The verb **비비다** (to mix) is the root of the name 비빔밥.",
+      "tags": [
+        "bibimbap",
+        "rice",
+        "vegetables"
+      ]
+    },
+    {
+      "id": "food-bulgogi",
+      "category": "food",
+      "title": "Bulgogi, sweet marinated beef",
+      "fact": "Bulgogi is thin beef marinated in soy sauce, sugar, garlic, and sesame oil, then grilled or pan-fried. Its name literally means **\"fire meat.\"**",
+      "korean": "불고기는 안 매워요.",
+      "korean_en": "Bulgogi is not spicy.",
+      "vocabulary": [
+        {
+          "ko": "불고기",
+          "en": "bulgogi"
+        },
+        {
+          "ko": "소고기",
+          "en": "beef"
+        },
+        {
+          "ko": "달다",
+          "en": "to be sweet"
+        }
+      ],
+      "note": "**불** means \"fire\" and **고기** means \"meat\" — together, \"fire meat.\"",
+      "tags": [
+        "bulgogi",
+        "beef",
+        "mild"
+      ]
+    },
+    {
+      "id": "food-tteokbokki",
+      "category": "food",
+      "title": "Tteokbokki, spicy rice cakes",
+      "fact": "Tteokbokki is chewy rice cakes simmered in a sweet-and-spicy red sauce. It is one of Korea's most popular street snacks.",
+      "korean": "떡볶이는 조금 매워요.",
+      "korean_en": "Tteokbokki is a little spicy.",
+      "vocabulary": [
+        {
+          "ko": "떡볶이",
+          "en": "tteokbokki"
+        },
+        {
+          "ko": "떡",
+          "en": "rice cake"
+        },
+        {
+          "ko": "길거리",
+          "en": "the street"
+        }
+      ],
+      "note": "**조금** means \"a little\" and softens how strong something is.",
+      "tags": [
+        "tteokbokki",
+        "street-food",
+        "spicy"
+      ]
+    },
+    {
+      "id": "food-japchae",
+      "category": "food",
+      "title": "Japchae, glass-noodle stir-fry",
+      "fact": "Japchae is chewy sweet-potato glass noodles stir-fried with vegetables and beef in soy sauce and sesame oil. It is a favorite dish at parties and holidays.",
+      "korean": "잔치에서 잡채를 먹어요.",
+      "korean_en": "We eat japchae at the party.",
+      "vocabulary": [
+        {
+          "ko": "잡채",
+          "en": "japchae; glass-noodle stir-fry"
+        },
+        {
+          "ko": "국수",
+          "en": "noodles"
+        },
+        {
+          "ko": "잔치",
+          "en": "party; feast"
+        }
+      ],
+      "note": "Glass noodles are made from **고구마** (sweet potato) starch.",
+      "tags": [
+        "japchae",
+        "noodles",
+        "celebration"
+      ]
+    },
+    {
+      "id": "food-samgyetang",
+      "category": "food",
+      "title": "Samgyetang for hot summer days",
+      "fact": "Samgyetang is a whole young chicken stuffed with rice, ginseng, and jujube in a hot broth. Koreans eat it on the hottest summer days to restore energy.",
+      "korean": "여름에 삼계탕을 먹어요.",
+      "korean_en": "We eat samgyetang in summer.",
+      "vocabulary": [
+        {
+          "ko": "삼계탕",
+          "en": "ginseng chicken soup"
+        },
+        {
+          "ko": "닭",
+          "en": "chicken"
+        },
+        {
+          "ko": "여름",
+          "en": "summer"
+        }
+      ],
+      "note": "The hottest summer days are called **복날** (boknal).",
+      "tags": [
+        "samgyetang",
+        "soup",
+        "summer"
+      ]
+    },
+    {
+      "id": "food-naengmyeon",
+      "category": "food",
+      "title": "Naengmyeon, cold buckwheat noodles",
+      "fact": "Naengmyeon is chewy buckwheat noodles served in an icy broth or with a spicy sauce. It is a refreshing dish people crave in hot weather.",
+      "korean": "냉면은 정말 시원해요.",
+      "korean_en": "Naengmyeon is really refreshing.",
+      "vocabulary": [
+        {
+          "ko": "냉면",
+          "en": "cold noodles"
+        },
+        {
+          "ko": "차갑다",
+          "en": "to be cold"
+        },
+        {
+          "ko": "시원하다",
+          "en": "to be cool and refreshing"
+        }
+      ],
+      "note": "**냉** comes from a Chinese root meaning \"cold,\" seen in many food names.",
+      "tags": [
+        "naengmyeon",
+        "noodles",
+        "cold"
+      ]
+    },
+    {
+      "id": "food-kimchijjigae",
+      "category": "food",
+      "title": "Jjigae, the bubbling stew",
+      "fact": "Jjigae is a thick, hearty stew served bubbling hot in a stone pot. Popular kinds include kimchi jjigae, soybean-paste jjigae, and soft-tofu jjigae.",
+      "korean": "김치찌개가 아주 맛있어요.",
+      "korean_en": "Kimchi stew is very delicious.",
+      "vocabulary": [
+        {
+          "ko": "찌개",
+          "en": "stew"
+        },
+        {
+          "ko": "두부",
+          "en": "tofu"
+        },
+        {
+          "ko": "맛있다",
+          "en": "to be delicious"
+        }
+      ],
+      "note": "A **찌개** is thicker and saltier than a **국** (a lighter soup).",
+      "tags": [
+        "jjigae",
+        "stew",
+        "kimchi"
+      ]
+    },
+    {
+      "id": "food-gimbap",
+      "category": "food",
+      "title": "Gimbap, the rolled rice snack",
+      "fact": "Gimbap is rice and fillings rolled in dried seaweed and sliced into bite-sized rounds. It is cheap, portable, and a classic picnic food.",
+      "korean": "소풍에 김밥을 가져가요.",
+      "korean_en": "I take gimbap to the picnic.",
+      "vocabulary": [
+        {
+          "ko": "김밥",
+          "en": "gimbap; seaweed rice roll"
+        },
+        {
+          "ko": "김",
+          "en": "dried seaweed"
+        },
+        {
+          "ko": "소풍",
+          "en": "picnic; outing"
+        }
+      ],
+      "note": "**김** (seaweed) plus **밥** (rice) gives the name 김밥.",
+      "tags": [
+        "gimbap",
+        "seaweed",
+        "snack"
+      ]
+    },
+    {
+      "id": "food-hotteok",
+      "category": "food",
+      "title": "Hotteok, sweet winter pancakes",
+      "fact": "Hotteok is a chewy fried pancake filled with melted brown sugar, cinnamon, and nuts. Street vendors sell it hot in winter.",
+      "korean": "겨울에 호떡을 사 먹어요.",
+      "korean_en": "In winter I buy and eat hotteok.",
+      "vocabulary": [
+        {
+          "ko": "호떡",
+          "en": "hotteok; sweet pancake"
+        },
+        {
+          "ko": "겨울",
+          "en": "winter"
+        },
+        {
+          "ko": "사다",
+          "en": "to buy"
+        }
+      ],
+      "note": "**사 먹다** literally \"buy and eat\" means to eat out rather than cook.",
+      "tags": [
+        "hotteok",
+        "street-food",
+        "winter"
+      ]
+    },
+    {
+      "id": "food-makgeolli",
+      "category": "food",
+      "title": "Makgeolli, milky rice wine",
+      "fact": "Makgeolli is a milky, lightly fizzy rice wine with a low alcohol content. It is often enjoyed with savory pancakes on rainy days.",
+      "korean": "비 오는 날에 막걸리를 마셔요.",
+      "korean_en": "On rainy days we drink makgeolli.",
+      "vocabulary": [
+        {
+          "ko": "막걸리",
+          "en": "makgeolli; rice wine"
+        },
+        {
+          "ko": "마시다",
+          "en": "to drink"
+        },
+        {
+          "ko": "비",
+          "en": "rain"
+        }
+      ],
+      "note": "**비가 오다** (literally \"rain comes\") is the usual way to say \"it rains.\"",
+      "tags": [
+        "makgeolli",
+        "drink",
+        "rice-wine"
+      ]
+    },
+    {
+      "id": "food-soju",
+      "category": "food",
+      "title": "Soju, the everyday spirit",
+      "fact": "Soju is a clear, inexpensive distilled spirit and Korea's most popular alcoholic drink. It is usually shared in small glasses among friends.",
+      "korean": "어른에게 두 손으로 술을 따라요.",
+      "korean_en": "I pour the drink to an elder with two hands.",
+      "vocabulary": [
+        {
+          "ko": "소주",
+          "en": "soju"
+        },
+        {
+          "ko": "술",
+          "en": "alcohol; liquor"
+        },
+        {
+          "ko": "따르다",
+          "en": "to pour"
+        }
+      ],
+      "note": "Pouring for an elder with **두 손** (two hands) shows respect.",
+      "tags": [
+        "soju",
+        "drink",
+        "etiquette"
+      ]
+    },
+    {
+      "id": "food-templefood",
+      "category": "food",
+      "title": "Temple food, calm and meatless",
+      "fact": "Buddhist temple cuisine uses no meat and avoids strong-smelling vegetables like garlic and onion. It emphasizes seasonal, simple, plant-based dishes.",
+      "korean": "절에서는 고기를 안 먹어요.",
+      "korean_en": "At the temple they don't eat meat.",
+      "vocabulary": [
+        {
+          "ko": "절",
+          "en": "Buddhist temple"
+        },
+        {
+          "ko": "채소",
+          "en": "vegetables"
+        },
+        {
+          "ko": "스님",
+          "en": "Buddhist monk"
+        }
+      ],
+      "note": "Placing **안** before a verb makes it negative: 안 먹어요 = \"don't eat.\"",
+      "tags": [
+        "temple-food",
+        "vegetarian",
+        "buddhism"
+      ]
+    },
+    {
+      "id": "food-jang",
+      "category": "food",
+      "title": "Jang, the fermented pastes",
+      "fact": "Korean cooking relies on fermented soybean pastes called jang: doenjang (soybean paste), gochujang (red pepper paste), and ganjang (soy sauce). They give dishes their deep, savory flavor.",
+      "korean": "된장은 콩으로 만들어요.",
+      "korean_en": "Doenjang is made from soybeans.",
+      "vocabulary": [
+        {
+          "ko": "된장",
+          "en": "soybean paste"
+        },
+        {
+          "ko": "고추장",
+          "en": "red pepper paste"
+        },
+        {
+          "ko": "콩",
+          "en": "bean; soybean"
+        }
+      ],
+      "note": "The ending **-으로** here means \"from / out of\" a material.",
+      "tags": [
+        "jang",
+        "fermentation",
+        "paste"
+      ]
+    },
+    {
+      "id": "food-songpyeon",
+      "category": "food",
+      "title": "Songpyeon for the harvest holiday",
+      "fact": "Songpyeon are half-moon rice cakes filled with sweet sesame or beans and steamed over pine needles. Families make them together for the autumn holiday Chuseok.",
+      "korean": "추석에 송편을 만들어요.",
+      "korean_en": "We make songpyeon on Chuseok.",
+      "vocabulary": [
+        {
+          "ko": "송편",
+          "en": "songpyeon; half-moon rice cake"
+        },
+        {
+          "ko": "추석",
+          "en": "Chuseok; harvest festival"
+        },
+        {
+          "ko": "만들다",
+          "en": "to make"
+        }
+      ],
+      "note": "**떡** (rice cake) appears at nearly every Korean holiday and celebration.",
+      "tags": [
+        "songpyeon",
+        "rice-cake",
+        "chuseok"
+      ]
+    },
+    {
+      "id": "food-miyeokguk",
+      "category": "food",
+      "title": "Seaweed soup on birthdays",
+      "fact": "Miyeokguk is a light soup made from seaweed. Koreans eat it on their **birthday** and mothers eat it after childbirth for nourishment.",
+      "korean": "생일에 미역국을 먹어요.",
+      "korean_en": "We eat seaweed soup on birthdays.",
+      "vocabulary": [
+        {
+          "ko": "미역국",
+          "en": "seaweed soup"
+        },
+        {
+          "ko": "생일",
+          "en": "birthday"
+        },
+        {
+          "ko": "국",
+          "en": "soup"
+        }
+      ],
+      "note": "The time-marker **-에** (at/on) attaches to days and times, as in 생일에.",
+      "tags": [
+        "miyeokguk",
+        "soup",
+        "birthday"
+      ]
+    },
+    {
+      "id": "food-mealtimephrase",
+      "category": "food",
+      "title": "Saying \"I will eat well\"",
+      "fact": "Before eating, Koreans often say **\"jal meokgesseumnida\"** (I will eat well) to thank whoever prepared or paid for the meal, and \"jal meogeosseumnida\" afterward.",
+      "korean": "잘 먹겠습니다.",
+      "korean_en": "I will eat well. (said before a meal)",
+      "vocabulary": [
+        {
+          "ko": "잘",
+          "en": "well"
+        },
+        {
+          "ko": "먹다",
+          "en": "to eat"
+        },
+        {
+          "ko": "감사하다",
+          "en": "to be thankful"
+        }
+      ],
+      "note": "After eating, say **잘 먹었습니다** (\"I ate well\") to give thanks.",
+      "tags": [
+        "phrases",
+        "etiquette",
+        "mealtime"
+      ]
     }
   ]
 }

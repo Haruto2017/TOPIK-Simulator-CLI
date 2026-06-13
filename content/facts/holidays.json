@@ -57,6 +57,426 @@
         "harvest",
         "songpyeon"
       ]
+    },
+    {
+      "id": "holiday-buddha-birthday",
+      "category": "holidays",
+      "title": "Buddha's Birthday and lotus lanterns",
+      "fact": "Buddha's Birthday (**부처님 오신 날**) falls on the eighth day of the fourth lunar month. Temples and streets are decorated with colorful lotus lanterns, and a lantern parade lights up Seoul.",
+      "korean": "부처님 오신 날에 연등을 구경해요.",
+      "korean_en": "On Buddha's Birthday I look at the lotus lanterns.",
+      "vocabulary": [
+        {
+          "ko": "부처님",
+          "en": "the Buddha"
+        },
+        {
+          "ko": "연등",
+          "en": "lotus lantern"
+        },
+        {
+          "ko": "절",
+          "en": "(Buddhist) temple"
+        }
+      ],
+      "note": "The lantern festival is called **연등회**; it is on UNESCO's list of intangible cultural heritage.",
+      "tags": [
+        "buddha",
+        "lantern",
+        "buddhism"
+      ]
+    },
+    {
+      "id": "holiday-childrens-day",
+      "category": "holidays",
+      "title": "Children's Day",
+      "fact": "Children's Day (**어린이날**) is celebrated on May 5 and is a public holiday. Parents take their kids to parks, zoos, and amusement parks and give them gifts.",
+      "korean": "어린이날은 오월 오일이에요.",
+      "korean_en": "Children's Day is May 5th.",
+      "vocabulary": [
+        {
+          "ko": "어린이",
+          "en": "child"
+        },
+        {
+          "ko": "선물",
+          "en": "gift"
+        },
+        {
+          "ko": "공원",
+          "en": "park"
+        }
+      ],
+      "note": "The word **어린이** (child) was popularized by writer 방정환, who helped create the holiday.",
+      "tags": [
+        "childrens-day",
+        "may",
+        "family"
+      ]
+    },
+    {
+      "id": "holiday-hangeul-day",
+      "category": "holidays",
+      "title": "Hangeul Day",
+      "fact": "Hangeul Day (**한글날**), on October 9, celebrates the creation of the Korean alphabet by King Sejong in 1446. It honors Hangeul as a uniquely scientific writing system.",
+      "korean": "한글날은 시월 구일이에요.",
+      "korean_en": "Hangeul Day is October 9th.",
+      "vocabulary": [
+        {
+          "ko": "한글",
+          "en": "the Korean alphabet"
+        },
+        {
+          "ko": "세종대왕",
+          "en": "King Sejong the Great"
+        },
+        {
+          "ko": "글자",
+          "en": "letter, character"
+        }
+      ],
+      "note": "King 세종대왕 published Hangeul in a text called **훈민정음** (\"the proper sounds to instruct the people\").",
+      "tags": [
+        "hangeul",
+        "sejong",
+        "language"
+      ]
+    },
+    {
+      "id": "holiday-liberation-day",
+      "category": "holidays",
+      "title": "Liberation Day",
+      "fact": "Liberation Day (**광복절**), on August 15, marks Korea's freedom from Japanese colonial rule in 1945. The name means \"the day the light returned.\"",
+      "korean": "광복절은 팔월 십오일이에요.",
+      "korean_en": "Liberation Day is August 15th.",
+      "vocabulary": [
+        {
+          "ko": "광복",
+          "en": "liberation, restoration of light"
+        },
+        {
+          "ko": "태극기",
+          "en": "the Korean national flag"
+        },
+        {
+          "ko": "독립",
+          "en": "independence"
+        }
+      ],
+      "note": "On 광복절 many people hang the **태극기** (national flag) outside their homes.",
+      "tags": [
+        "liberation-day",
+        "history",
+        "august"
+      ]
+    },
+    {
+      "id": "holiday-memorial-day",
+      "category": "holidays",
+      "title": "Memorial Day",
+      "fact": "Memorial Day (**현충일**), on June 6, honors soldiers and citizens who died for the country. At 10 a.m. a siren sounds nationwide and people observe a moment of silence.",
+      "korean": "현충일에 나라를 위해 묵념해요.",
+      "korean_en": "On Memorial Day we observe a silent tribute for the country.",
+      "vocabulary": [
+        {
+          "ko": "나라",
+          "en": "country, nation"
+        },
+        {
+          "ko": "묵념",
+          "en": "silent tribute"
+        },
+        {
+          "ko": "군인",
+          "en": "soldier"
+        }
+      ],
+      "note": "On 현충일 the national flag is flown at half-mast, called **조기**.",
+      "tags": [
+        "memorial-day",
+        "remembrance",
+        "june"
+      ]
+    },
+    {
+      "id": "holiday-daeboreum",
+      "category": "holidays",
+      "title": "Jeongwol Daeboreum, first full moon",
+      "fact": "Jeongwol Daeboreum (**정월대보름**) is the first full moon of the lunar year. People eat nuts to ward off illness and wish for good luck while gazing at the bright moon.",
+      "korean": "정월대보름에 보름달을 봐요.",
+      "korean_en": "On the first full moon day, I look at the full moon.",
+      "vocabulary": [
+        {
+          "ko": "보름달",
+          "en": "full moon"
+        },
+        {
+          "ko": "소원",
+          "en": "wish"
+        },
+        {
+          "ko": "견과류",
+          "en": "nuts"
+        }
+      ],
+      "note": "Cracking nuts with your teeth on this day is called **부럼 깨기**, believed to keep your skin healthy all year.",
+      "tags": [
+        "daeboreum",
+        "full-moon",
+        "lunar"
+      ]
+    },
+    {
+      "id": "holiday-dano",
+      "category": "holidays",
+      "title": "Dano, early summer festival",
+      "fact": "Dano (**단오**), on the fifth day of the fifth lunar month, welcomes early summer. Traditionally women washed their hair in iris water and people enjoyed swinging and ssireum wrestling.",
+      "korean": "단오에 그네를 타요.",
+      "korean_en": "On Dano I ride the swing.",
+      "vocabulary": [
+        {
+          "ko": "그네",
+          "en": "swing"
+        },
+        {
+          "ko": "여름",
+          "en": "summer"
+        },
+        {
+          "ko": "씨름",
+          "en": "Korean wrestling"
+        }
+      ],
+      "note": "The **강릉단오제** (Gangneung Dano Festival) is a famous celebration recognized by UNESCO.",
+      "tags": [
+        "dano",
+        "summer",
+        "tradition"
+      ]
+    },
+    {
+      "id": "holiday-pepero-day",
+      "category": "holidays",
+      "title": "Pepero Day",
+      "fact": "Pepero Day (**빼빼로 데이**), on November 11, is an unofficial day when friends and couples exchange thin stick-shaped chocolate biscuits. The date 11/11 looks like four Pepero sticks.",
+      "korean": "십일월 십일일에 빼빼로를 선물해요.",
+      "korean_en": "On November 11th, I give Pepero as a gift.",
+      "vocabulary": [
+        {
+          "ko": "빼빼로",
+          "en": "Pepero (stick biscuit)"
+        },
+        {
+          "ko": "친구",
+          "en": "friend"
+        },
+        {
+          "ko": "초콜릿",
+          "en": "chocolate"
+        }
+      ],
+      "note": "It is a commercial holiday, not a traditional one; the same date is also **가래떡 데이**, promoting rice cakes.",
+      "tags": [
+        "pepero-day",
+        "commercial",
+        "november"
+      ]
+    },
+    {
+      "id": "holiday-solar-vs-lunar",
+      "category": "holidays",
+      "title": "Solar and lunar calendar dates",
+      "fact": "Some Korean holidays follow the solar calendar (**양력**) and others the lunar calendar (**음력**). Seollal and Chuseok move each year because they are set by the lunar calendar.",
+      "korean": "설날은 음력으로 정해요.",
+      "korean_en": "Lunar New Year is set by the lunar calendar.",
+      "vocabulary": [
+        {
+          "ko": "양력",
+          "en": "solar calendar"
+        },
+        {
+          "ko": "음력",
+          "en": "lunar calendar"
+        },
+        {
+          "ko": "날짜",
+          "en": "date"
+        }
+      ],
+      "note": "Many Korean calendars print the **음력** date in small numbers under the **양력** date.",
+      "tags": [
+        "calendar",
+        "lunar",
+        "solar"
+      ]
+    },
+    {
+      "id": "holiday-charye-rites",
+      "category": "holidays",
+      "title": "Charye, ancestral rites",
+      "fact": "Charye (**차례**) is a memorial rite held on Seollal and Chuseok to honor ancestors. The family sets a table of food, bows together, and shares the meal afterward.",
+      "korean": "명절에 차례를 지내요.",
+      "korean_en": "On traditional holidays we hold ancestral rites.",
+      "vocabulary": [
+        {
+          "ko": "차례",
+          "en": "ancestral rite"
+        },
+        {
+          "ko": "조상",
+          "en": "ancestor"
+        },
+        {
+          "ko": "절하다",
+          "en": "to bow"
+        }
+      ],
+      "note": "The verb for performing a rite is **지내다**, as in 차례를 지내다 or 제사를 지내다.",
+      "tags": [
+        "charye",
+        "ancestors",
+        "rite"
+      ]
+    },
+    {
+      "id": "holiday-new-year-sunrise",
+      "category": "holidays",
+      "title": "First sunrise of the New Year",
+      "fact": "On January 1, many Koreans travel to the east coast or a mountain to watch the first sunrise (**해돋이**). They make a wish for the new year as the sun appears.",
+      "korean": "새해 첫날에 해돋이를 보러 가요.",
+      "korean_en": "On New Year's Day I go to see the sunrise.",
+      "vocabulary": [
+        {
+          "ko": "해돋이",
+          "en": "sunrise"
+        },
+        {
+          "ko": "새해",
+          "en": "new year"
+        },
+        {
+          "ko": "소원을 빌다",
+          "en": "to make a wish"
+        }
+      ],
+      "note": "**정동진** on the east coast is one of the most popular spots to watch the first 해돋이.",
+      "tags": [
+        "new-year",
+        "sunrise",
+        "tradition"
+      ]
+    },
+    {
+      "id": "holiday-baek-il",
+      "category": "holidays",
+      "title": "Baegil, the 100th-day celebration",
+      "fact": "Baegil (**백일**) celebrates a baby's 100th day of life. In the past, surviving the first hundred days was a milestone, so families share rice cakes to wish the child long life.",
+      "korean": "아기 백일에 떡을 나눠 먹어요.",
+      "korean_en": "On a baby's 100th day, we share rice cakes.",
+      "vocabulary": [
+        {
+          "ko": "백일",
+          "en": "100th day"
+        },
+        {
+          "ko": "아기",
+          "en": "baby"
+        },
+        {
+          "ko": "떡",
+          "en": "rice cake"
+        }
+      ],
+      "note": "It was once traditional to share **백일 떡** with 100 people to pray for the baby's long life.",
+      "tags": [
+        "baegil",
+        "baby",
+        "family"
+      ]
+    },
+    {
+      "id": "holiday-doljanchi",
+      "category": "holidays",
+      "title": "Dol, the first birthday",
+      "fact": "Dol (**돌**) is a big party for a baby's first birthday. At the highlight, called doljabi, the baby picks an object from a table, which is said to predict the child's future.",
+      "korean": "첫 번째 생일을 돌이라고 해요.",
+      "korean_en": "The first birthday is called \"dol.\"",
+      "vocabulary": [
+        {
+          "ko": "돌",
+          "en": "first birthday"
+        },
+        {
+          "ko": "생일",
+          "en": "birthday"
+        },
+        {
+          "ko": "잔치",
+          "en": "feast, party"
+        }
+      ],
+      "note": "If the baby grabs the thread (**실**) at **돌잡이**, it is said to mean a long life.",
+      "tags": [
+        "dol",
+        "birthday",
+        "baby"
+      ]
+    },
+    {
+      "id": "holiday-sebae",
+      "category": "holidays",
+      "title": "Sebae, the New Year bow",
+      "fact": "Sebae (**세배**) is the formal New Year's bow children give to their elders on Seollal. In return, elders offer words of wisdom and gift money called sebaetdon.",
+      "korean": "설날에 어른들께 세배를 해요.",
+      "korean_en": "On Lunar New Year, we bow to our elders.",
+      "vocabulary": [
+        {
+          "ko": "세배",
+          "en": "New Year's bow"
+        },
+        {
+          "ko": "어른",
+          "en": "elder, adult"
+        },
+        {
+          "ko": "세뱃돈",
+          "en": "New Year's money"
+        }
+      ],
+      "note": "Children often say **새해 복 많이 받으세요** (\"receive many blessings in the new year\") while bowing.",
+      "tags": [
+        "sebae",
+        "new-year",
+        "tradition"
+      ]
+    },
+    {
+      "id": "holiday-substitute-day",
+      "category": "holidays",
+      "title": "Substitute holidays",
+      "fact": "Korea uses a substitute holiday system (**대체공휴일**): if a public holiday falls on a weekend or overlaps another holiday, the next weekday becomes a day off instead. This guarantees people still get the rest day.",
+      "korean": "공휴일이 일요일이면 다음 날에 쉬어요.",
+      "korean_en": "If a public holiday is on Sunday, we rest the next day.",
+      "vocabulary": [
+        {
+          "ko": "공휴일",
+          "en": "public holiday"
+        },
+        {
+          "ko": "쉬다",
+          "en": "to rest"
+        },
+        {
+          "ko": "주말",
+          "en": "weekend"
+        }
+      ],
+      "note": "The official term is **대체공휴일**, literally a \"substitute public holiday.\"",
+      "tags": [
+        "public-holiday",
+        "substitute",
+        "calendar"
+      ]
     }
   ]
 }
