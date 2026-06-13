@@ -58,17 +58,27 @@ class FactsModuleTests(unittest.TestCase):
 class BundledFactsTests(unittest.TestCase):
     def test_bundled_file_is_well_formed(self):
         facts = load_facts(BUNDLED_FACTS)
-        self.assertGreaterEqual(len(facts), 20)
+        self.assertGreaterEqual(len(facts), 40)
         ids = [f.get("id") for f in facts]
         self.assertEqual(len(ids), len(set(ids)), "fact ids must be unique")
         for fact in facts:
             self.assertTrue(fact.get("id"))
             self.assertTrue(fact.get("category"))
             self.assertTrue(str(fact.get("fact", "")).strip())
-        # spans many areas, both historical and current
+        # spans many areas, both historical and current, incl. music/film/pop culture
         cats = set(categories(facts))
-        for expected in {"history", "geography", "food", "shopping", "sightseeing", "literature"}:
+        for expected in {"history", "geography", "food", "shopping", "sightseeing",
+                         "literature", "music", "film", "pop_culture"}:
             self.assertIn(expected, cats)
+
+    def test_film_facts_match_either_film_or_movie(self):
+        # film cards carry a "movie" tag so /facts movie also finds them
+        facts = load_facts(BUNDLED_FACTS)
+        film_facts = filter_facts(facts, "film")
+        self.assertTrue(film_facts)
+        movie_matches = filter_facts(facts, "movie")
+        self.assertTrue(movie_matches)
+        self.assertTrue({f["id"] for f in movie_matches} & {f["id"] for f in film_facts})
 
     def test_default_path_points_at_bundled_file(self):
         self.assertEqual(Path(DEFAULT_FACTS_PATH), Path("content") / "korea_facts.json")
