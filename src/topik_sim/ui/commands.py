@@ -110,6 +110,14 @@ COMMANDS: list[Command] = [
         "A miss reveals the 두벌식 keystrokes. Examples: /typing · /typing 20 · /typing topik-i-mini-pack 15",
     ),
     Command(
+        "facts", "cmd_facts", "/facts [category|list]", "Discover a fact about Korea — culture, history, food, and more.", ("fact", "culture"),
+        category="Practice",
+        details="A random interesting fact each time, with a Korean phrase, its translation,\n"
+        "useful vocabulary, and a short language note. Pass a category to focus it, or\n"
+        "'list' to see them. After a fact, a bare /say reads the Korean aloud.\n"
+        "Examples: /facts · /facts history · /facts food · /facts list",
+    ),
+    Command(
         "attempts", "cmd_attempts", "/attempts", "List recent attempts.",
         category="Progress",
         details="The numbers shown are what /resume <n>, /drill <n>, and /report <n> accept.",

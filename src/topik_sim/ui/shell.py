@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 import shlex
 import time
 from dataclasses import replace
@@ -59,6 +60,7 @@ class Shell:
         flashcard_seed: int | None = None,
         keyboard_hints: bool = False,
         keyboard_pinned: bool = False,
+        facts_path: str | Path | None = None,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -103,6 +105,13 @@ class Shell:
         self._typing_missed: list[str] = []
         self._typing_label = "Typing practice"
         self._typing_verb = "Typed"
+        from ..facts import DEFAULT_FACTS_PATH
+
+        self.facts_path = Path(facts_path) if facts_path is not None else DEFAULT_FACTS_PATH
+        self._facts: list[dict[str, Any]] | None = None
+        self._facts_seen: set[str] = set()
+        self._facts_rng = random.Random(flashcard_seed)
+        self._fact_speech = ""
 
     # ------------------------------------------------------------- plumbing
 
@@ -426,6 +435,9 @@ class Shell:
             return
         if not argument and self.state == TYPING and self._typing_items:
             self._speak([self._typing_items[self._typing_index]["speech"]], playback=True)
+            return
+        if not argument and self.state == IDLE and self._fact_speech:
+            self._speak([self._fact_speech], playback=True)
             return
         if not argument:
             self.emit("Usage: /say <text> — pronounces the sentence without touching your answer.")
@@ -875,6 +887,45 @@ class Shell:
         self.emit(render.rule("Study stats"))
         for line in format_stats(collect_stats(self.attempt_dir, self.library_dir)):
             self.emit(line)
+
+    def cmd_facts(self, argument: str) -> None:
+        from ..facts import categories, filter_facts, load_facts
+
+        if self._facts is None:
+            self._facts = load_facts(self.facts_path)
+        facts = self._facts
+        if not facts:
+            self.emit(f"No facts are available (looked for {self.facts_path}).")
+            return
+
+        wanted = argument.strip().lower()
+        if wanted in {"list", "categories", "category"}:
+            self.emit(render.rule("Korea facts · categories"))
+            for category in categories(facts):
+                self.emit(f"  {category} ({len(filter_facts(facts, category))})")
+            self.emit("Try /facts <category>, or just /facts for a random one.")
+            return
+
+        pool = filter_facts(facts, wanted) if wanted else facts
+        if not pool:
+            self.emit(f"No facts match {argument!r}. /facts list shows the categories.")
+            pool = facts
+        fact = self._pick_fact(pool)
+        self._fact_speech = str(fact.get("korean", "")).strip()
+        self.emit(render.fact_card(fact))
+        if self._fact_speech and self.audio_enabled:
+            self.emit(ansi.style("(/say reads the Korean aloud)", ansi.GREY))
+
+    def _pick_fact(self, pool: list[dict[str, Any]]) -> dict[str, Any]:
+        """Pick a fact, avoiding repeats until the pool is exhausted."""
+        pool_ids = {str(fact.get("id")) for fact in pool}
+        fresh = [fact for fact in pool if str(fact.get("id")) not in self._facts_seen]
+        if not fresh:
+            self._facts_seen -= pool_ids  # whole pool seen — start it over
+            fresh = pool
+        choice = self._facts_rng.choice(fresh)
+        self._facts_seen.add(str(choice.get("id")))
+        return choice
 
     def cmd_tts(self, argument: str) -> None:
         if not argument:

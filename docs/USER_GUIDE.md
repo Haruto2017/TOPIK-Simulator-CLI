@@ -81,6 +81,8 @@ It saves a Markdown report of the attempt — every miss with its correct answer
 3. `/recall` — ten English words appear one by one; you type the Korean (10 is the default).
 4. `/grammar 10` — ten grammar pattern cards drawn from across your exams.
 
+To finish on something lighter, run `/facts` for a bite of Korean culture, history, or daily life — each comes with a Korean phrase you can hear with `/say`.
+
 **Exam week.** Every other day, sit a full timed mock with `/take` — no `/transcript`, no `/hint`, treat the countdown as real. Finish, then `/report`, and read it the same evening. On the off days, `/drill` the misses and clear `/review`. Run `/stats` after each mock and watch the listening/reading split: the trend matters more than any single score.
 
 **Listening focus.** `/dictation topik-i-authentic-mock-01 10` speaks a transcript sentence and you type what you hear; the feedback diff shows exactly which syllable you lost, and `/replay` repeats it. Then re-run a mock's listening section on its own: `/take topik-i-authentic-mock-01 listening`. Generous use of `/replay` while practicing is not cheating.
@@ -107,6 +109,7 @@ It saves a Markdown report of the attempt — every miss with its correct answer
 | `/grammar [pack] [count]` (`/gram`) | Grammar pattern cards; bare uses every pack, 20 cards. |
 | `/recall [pack] [count]` (`/translate`) | English gloss shown, you type the Korean; default 10 words. |
 | `/typing [pack] [count]` | Keyboard trainer: jamo → syllables → exam words. |
+| `/facts [category\|list]` (`/fact`, `/culture`) | An interesting fact about Korea with a Korean phrase and notes; `/say` reads it aloud. |
 
 **Progress**
 

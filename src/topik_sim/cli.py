@@ -24,6 +24,7 @@ from .activities import create_drill_attempt
 from .audio_cache import cache_stats, prune_cache, warm_pack
 from .config import config_value, load_config
 from .content import ContentValidationError, load_pack, validate_pack_file
+from .facts import DEFAULT_FACTS_PATH
 from .grading import grade_answers, grade_question
 from .library import (
     DEFAULT_LIBRARY_DIR,
@@ -226,6 +227,12 @@ def build_parser() -> argparse.ArgumentParser:
     stats_parser.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
     stats_parser.add_argument("--library", default=library_default, help="Content library directory.")
     stats_parser.set_defaults(handler=handle_stats)
+
+    facts_parser = subparsers.add_parser("facts", help="Show an interesting fact about Korea with Korean and learning notes.")
+    facts_parser.add_argument("category", nargs="?", help="Filter to a category (see --list).")
+    facts_parser.add_argument("--list", action="store_true", help="List the available fact categories.")
+    facts_parser.add_argument("--facts-file", default=str(DEFAULT_FACTS_PATH), help="Facts JSON data file.")
+    facts_parser.set_defaults(handler=handle_facts)
 
     audio = subparsers.add_parser("audio", help="Manage the generated audio cache.")
     audio_sub = audio.add_subparsers(required=True)
@@ -864,6 +871,28 @@ def handle_stats(args: argparse.Namespace) -> int:
 
     for line in format_stats(collect_stats(args.attempt_dir, args.library)):
         print(line)
+    return 0
+
+
+def handle_facts(args: argparse.Namespace) -> int:
+    import random
+
+    from .facts import categories, filter_facts, load_facts
+    from .ui import render
+
+    facts = load_facts(args.facts_file)
+    if not facts:
+        print(f"No facts are available (looked for {args.facts_file}).", file=sys.stderr)
+        return 1
+    if args.list:
+        for category in categories(facts):
+            print(f"{category} ({len(filter_facts(facts, category))})")
+        return 0
+    pool = filter_facts(facts, args.category) if args.category else facts
+    if not pool:
+        print(f"No facts match {args.category!r}. Use --list to see categories.", file=sys.stderr)
+        return 1
+    print(render.fact_card(random.choice(pool)))
     return 0
 
 

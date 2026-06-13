@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import shutil
 from typing import Any
 
@@ -7,6 +8,15 @@ from ..question_types import response_format_hint
 from ..tts import is_listening_question
 from . import ansi
 from .commands import Command
+
+
+_BOLD_MD = re.compile(r"\*\*(.+?)\*\*")
+
+
+def inline_markdown(text: str) -> str:
+    """Render **bold** for the terminal: styled when color is on, markers
+    simply stripped when it is off (e.g. piped output)."""
+    return _BOLD_MD.sub(lambda match: ansi.style(match.group(1), ansi.BOLD), text)
 
 
 def _width() -> int:
@@ -190,6 +200,44 @@ def summary_panel(attempt: dict[str, Any]) -> str:
             pace += f" · limit {format_clock(float(limit) * 60)}"
         lines.append(pace)
     lines.append(f"Attempt: {attempt.get('attempt_id', '?')}")
+    return "\n".join(lines)
+
+
+def fact_card(fact: dict[str, Any]) -> str:
+    category = str(fact.get("category", "")).replace("_", " ").strip()
+    header = f"Korea fact · {category}" if category else "Korea fact"
+    lines = [rule(header)]
+
+    title = str(fact.get("title", "")).strip()
+    if title:
+        lines.append(ansi.style(title, ansi.BOLD))
+    body = str(fact.get("fact", "")).strip()
+    if body:
+        lines.append(inline_markdown(body))
+
+    korean = str(fact.get("korean", "")).strip()
+    if korean:
+        lines.append("")
+        lines.append("한국어  " + ansi.style(korean, ansi.CYAN))
+        korean_en = str(fact.get("korean_en", "")).strip()
+        if korean_en:
+            lines.append(ansi.style("        " + korean_en, ansi.DIM))
+
+    vocabulary = [item for item in (fact.get("vocabulary") or []) if isinstance(item, dict)]
+    if vocabulary:
+        lines.append("")
+        lines.append("어휘 (vocabulary):")
+        for item in vocabulary:
+            ko = str(item.get("ko", "")).strip()
+            en = str(item.get("en", "")).strip()
+            if ko and en:
+                lines.append(f"  • {ansi.style(ko, ansi.CYAN)}: {en}")
+
+    note = str(fact.get("note", "")).strip()
+    if note:
+        lines.append("")
+        lines.append(ansi.style("메모: ", ansi.BOLD) + inline_markdown(note))
+
     return "\n".join(lines)
 
 

@@ -74,6 +74,7 @@ Slash commands:
 - `/grammar [pack] [count]` (alias `/gram`): grammar pattern cards built from teaching explanations — front shows the pattern, the flip shows its explanation and an example sentence (`/say` speaks it). Scoped to one pack, or to every imported pack when bare (default 20 cards; `count` overrides).
 - `/recall [pack] [count]` (alias `/translate`): active vocabulary production — the English gloss is shown and the Korean must be typed. Any Korean word taught with that gloss counts as correct; a miss reveals the answer with its 두벌식 keys. Pack-scoped or library-wide when bare (default 10 words).
 - `/typing [pack] [count]`: Korean keyboard trainer ramping jamo → syllables → real words. The word stage uses the given pack's vocabulary, or the union of every imported pack's vocabulary when no pack is named; random syllables are only the empty-library fallback. A miss reveals the 두벌식 keystrokes.
+- `/facts [category|list]` (aliases `/fact`, `/culture`): show an interesting fact about Korea — history, geography, food, shopping, sightseeing, and more — with a Korean phrase, its translation, vocabulary, and a short language note. No argument picks a random fact (not repeating until the pool is exhausted); a category or any text filters; `list` shows the categories. After a fact, a bare `/say` reads its Korean aloud. Facts come from `content/korea_facts.json`.
 - `/keyboard [on|off|pin|unpin]` (alias `/kb`): print the 두벌식 layout chart. `on` enables keyboard mode: a compact chart is pinned to the bottom toolbar — hovering above the input line, never scrolled away — and keystroke hints (`Keys: skf·Tl`, uppercase = Shift) render consistently in dictation feedback, flashcard backs, and `/typing` misses. `pin`/`unpin` control just the docked chart. The hovering chart needs the prompt_toolkit frontend; the plain fallback prints the chart inline only. Defaults from `shell.keyboard_hints` / `shell.keyboard_pinned` in the config.
 - `/attempts`, `/packs`: list saved attempts / imported packs.
 - `/say <text>` (alias `/speak`): pronounce any sentence aloud without affecting the current answer. With no text during flashcards, speaks the current card.
@@ -137,6 +138,16 @@ Per-skill accuracy, average pace, recent attempt trend, and per-pack best/last s
 ```powershell
 python -m topik_sim stats [--attempt-dir <dir>] [--library <dir>]
 ```
+
+## `facts`
+
+Print an interesting fact about Korea with a Korean phrase, translation, vocabulary, and a learning note. Content lives in `content/korea_facts.json` (extend it freely — see `docs/CONTENT_CONTRACT.md`).
+
+```powershell
+python -m topik_sim facts [category] [--list] [--facts-file <path>]
+```
+
+- No category: a random fact. `category`: filter by category or any text. `--list`: show categories with counts.
 
 ## `report`
 

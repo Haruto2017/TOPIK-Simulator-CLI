@@ -1,0 +1,456 @@
+{
+  "schema_version": "topik-sim.facts.v1",
+  "facts": [
+    {
+      "id": "history-hangul",
+      "category": "history",
+      "title": "Hangul was invented, not evolved",
+      "fact": "Korea's alphabet, Hangul, was created in 1443 under King Sejong the Great. It is one of the few writing systems with a known inventor and creation date, and its letter shapes mirror the mouth and tongue positions used to make each sound.",
+      "korean": "세종대왕이 한글을 만들었습니다.",
+      "korean_en": "King Sejong created Hangul.",
+      "vocabulary": [
+        { "ko": "한글", "en": "Hangul (the Korean alphabet)" },
+        { "ko": "만들다", "en": "to make, to create" },
+        { "ko": "임금", "en": "king (old word)" }
+      ],
+      "note": "**한글날** (Hangul Day) is a national holiday on **October 9** that celebrates the alphabet.",
+      "tags": ["sejong", "alphabet", "language"]
+    },
+    {
+      "id": "history-three-kingdoms",
+      "category": "history",
+      "title": "The Three Kingdoms",
+      "fact": "For centuries the peninsula was divided among three kingdoms — Goguryeo, Baekje, and Silla — until Silla unified most of it in 668.",
+      "korean": "옛날 한국에는 세 나라가 있었습니다.",
+      "korean_en": "Long ago there were three kingdoms in Korea.",
+      "vocabulary": [
+        { "ko": "옛날", "en": "old days, long ago" },
+        { "ko": "나라", "en": "country, kingdom" },
+        { "ko": "있다", "en": "to exist, to have" }
+      ],
+      "note": "고구려, 백제, 신라 are the **삼국** (Three Kingdoms).",
+      "tags": ["goguryeo", "baekje", "silla"]
+    },
+    {
+      "id": "history-joseon-seoul",
+      "category": "history",
+      "title": "Seoul, a 600-year capital",
+      "fact": "When the Joseon dynasty made Seoul its capital in 1394, it began a run of more than 600 years as Korea's center of power that continues today.",
+      "korean": "서울은 한국의 수도입니다.",
+      "korean_en": "Seoul is the capital of Korea.",
+      "vocabulary": [
+        { "ko": "수도", "en": "capital city" },
+        { "ko": "옛날", "en": "long ago" },
+        { "ko": "역사", "en": "history" }
+      ],
+      "note": "한국의 means \"Korea's\" — the particle **의** marks possession.",
+      "tags": ["joseon", "seoul", "capital"]
+    },
+    {
+      "id": "geo-mountains",
+      "category": "geography",
+      "title": "A mountainous country",
+      "fact": "About 70% of South Korea is mountainous, so cities cluster in valleys and along the coast. Hiking is one of the most popular weekend activities.",
+      "korean": "한국에는 산이 많습니다.",
+      "korean_en": "There are many mountains in Korea.",
+      "vocabulary": [
+        { "ko": "산", "en": "mountain" },
+        { "ko": "많다", "en": "to be many" },
+        { "ko": "등산", "en": "hiking, mountain climbing" }
+      ],
+      "note": "주말에 등산을 해요 = \"I hike on the weekend.\" 등산 literally means \"climb-mountain.\"",
+      "tags": ["mountains", "hiking", "nature"]
+    },
+    {
+      "id": "geo-jeju",
+      "category": "geography",
+      "title": "Jeju, the volcanic island",
+      "fact": "Jeju Island off the south coast is volcanic and home to Hallasan, South Korea's highest peak at 1,947 m. It is a favorite honeymoon and holiday destination.",
+      "korean": "제주도는 아름다운 섬입니다.",
+      "korean_en": "Jeju Island is a beautiful island.",
+      "vocabulary": [
+        { "ko": "섬", "en": "island" },
+        { "ko": "아름답다", "en": "to be beautiful" },
+        { "ko": "화산", "en": "volcano" }
+      ],
+      "note": "In **제주도**, the 도 means \"island/province.\"",
+      "tags": ["jeju", "island", "hallasan"]
+    },
+    {
+      "id": "geo-han-river",
+      "category": "geography",
+      "title": "The Han River through Seoul",
+      "fact": "The Han River runs through the middle of Seoul. Its riverside parks are popular for picnics, bike rides, and ordering fried chicken by delivery.",
+      "korean": "한강에서 자전거를 탑니다.",
+      "korean_en": "I ride a bicycle at the Han River.",
+      "vocabulary": [
+        { "ko": "강", "en": "river" },
+        { "ko": "자전거", "en": "bicycle" },
+        { "ko": "타다", "en": "to ride" }
+      ],
+      "note": "**치맥** (치킨 + 맥주, \"chicken + beer\") by the river is a beloved tradition.",
+      "tags": ["han-river", "seoul", "chimaek"]
+    },
+    {
+      "id": "geo-four-seasons",
+      "category": "geography",
+      "title": "Four distinct seasons",
+      "fact": "Korea has four clear seasons: spring with cherry blossoms, hot humid summer, crisp colorful autumn, and a cold dry winter with snow.",
+      "korean": "한국은 사계절이 있습니다.",
+      "korean_en": "Korea has four seasons.",
+      "vocabulary": [
+        { "ko": "봄", "en": "spring" },
+        { "ko": "여름", "en": "summer" },
+        { "ko": "가을", "en": "autumn" },
+        { "ko": "겨울", "en": "winter" }
+      ],
+      "note": "**사계절** = \"four seasons.\" 벚꽃 (cherry blossom) season in spring is a big event.",
+      "tags": ["seasons", "weather"]
+    },
+    {
+      "id": "politics-division",
+      "category": "politics",
+      "title": "A divided peninsula",
+      "fact": "Since 1948 the peninsula has been divided into the Republic of Korea (South) and the DPRK (North), separated by the DMZ near the 38th parallel.",
+      "korean": "한국은 남쪽과 북쪽으로 나누어져 있습니다.",
+      "korean_en": "Korea is divided into south and north.",
+      "vocabulary": [
+        { "ko": "남쪽", "en": "south" },
+        { "ko": "북쪽", "en": "north" },
+        { "ko": "나누다", "en": "to divide" }
+      ],
+      "note": "South Korea's official name is **대한민국**; the DMZ truce line is the 휴전선.",
+      "tags": ["division", "dmz", "north-south"]
+    },
+    {
+      "id": "politics-democracy",
+      "category": "politics",
+      "title": "A young, lively democracy",
+      "fact": "South Korea is a democratic republic with a directly elected president. Its democracy is young — direct presidential elections returned only in 1987 — and turnout is famously high.",
+      "korean": "한국 사람들은 투표를 합니다.",
+      "korean_en": "Korean people vote.",
+      "vocabulary": [
+        { "ko": "대통령", "en": "president" },
+        { "ko": "선거", "en": "election" },
+        { "ko": "투표", "en": "vote, voting" }
+      ],
+      "note": "투표를 하다 = \"to vote\" (literally \"to do a vote\"). Many nouns pair with **하다** to form verbs.",
+      "tags": ["democracy", "president", "election"]
+    },
+    {
+      "id": "literature-han-kang",
+      "category": "literature",
+      "title": "A Nobel for Korean literature",
+      "fact": "In 2024, novelist Han Kang became the first Korean to win the Nobel Prize in Literature, recognized for prose that confronts historical trauma.",
+      "korean": "한강 작가가 노벨 문학상을 받았습니다.",
+      "korean_en": "The author Han Kang won the Nobel Prize in Literature.",
+      "vocabulary": [
+        { "ko": "작가", "en": "author, writer" },
+        { "ko": "받다", "en": "to receive, to win" },
+        { "ko": "문학", "en": "literature" }
+      ],
+      "note": "A nice coincidence: the author **한강** is written exactly like the **한강** (Han River).",
+      "tags": ["han-kang", "nobel", "modern"]
+    },
+    {
+      "id": "literature-sijo",
+      "category": "literature",
+      "title": "The sijo, a three-line poem",
+      "fact": "The sijo is a traditional three-line Korean poem dating back to the Goryeo dynasty — short and structured, comparable in spirit to the Japanese haiku.",
+      "korean": "시조는 한국의 전통 시입니다.",
+      "korean_en": "Sijo is a traditional Korean poem.",
+      "vocabulary": [
+        { "ko": "시", "en": "poem" },
+        { "ko": "전통", "en": "tradition" },
+        { "ko": "짧다", "en": "to be short" }
+      ],
+      "note": "A **시조** has three lines of about 14–16 syllables each.",
+      "tags": ["sijo", "poetry"]
+    },
+    {
+      "id": "food-kimchi",
+      "category": "food",
+      "title": "Kimchi at every meal",
+      "fact": "Kimchi — fermented vegetables seasoned with chili and garlic — accompanies almost every Korean meal. Families traditionally make big batches in late autumn in an event called gimjang.",
+      "korean": "저는 김치를 좋아합니다.",
+      "korean_en": "I like kimchi.",
+      "vocabulary": [
+        { "ko": "김치", "en": "kimchi" },
+        { "ko": "맵다", "en": "to be spicy" },
+        { "ko": "좋아하다", "en": "to like" }
+      ],
+      "note": "**김장** (gimjang), the communal kimchi-making, is on UNESCO's intangible heritage list.",
+      "tags": ["kimchi", "gimjang", "fermentation"]
+    },
+    {
+      "id": "food-banchan",
+      "category": "food",
+      "title": "Rice, soup, and many side dishes",
+      "fact": "A Korean meal centers on rice and soup with many small shared side dishes called banchan, which are refilled for free at most restaurants.",
+      "korean": "밥하고 반찬을 먹습니다.",
+      "korean_en": "I eat rice and side dishes.",
+      "vocabulary": [
+        { "ko": "밥", "en": "cooked rice; a meal" },
+        { "ko": "반찬", "en": "side dish" },
+        { "ko": "먹다", "en": "to eat" }
+      ],
+      "note": "**하고** means \"and\" when joining nouns, and is very common in speech.",
+      "tags": ["banchan", "rice", "dining"]
+    },
+    {
+      "id": "food-bbq",
+      "category": "food",
+      "title": "Grill-it-yourself barbecue",
+      "fact": "At a Korean barbecue you grill meat at your own table and wrap it in lettuce with garlic, ssamjang, and rice. Meals are social and shared.",
+      "korean": "친구하고 고기를 먹어요.",
+      "korean_en": "I eat meat with friends.",
+      "vocabulary": [
+        { "ko": "고기", "en": "meat" },
+        { "ko": "친구", "en": "friend" },
+        { "ko": "같이", "en": "together" }
+      ],
+      "note": "**삼겹살** (samgyeopsal, pork belly) is the most popular cut.",
+      "tags": ["bbq", "samgyeopsal", "dining"]
+    },
+    {
+      "id": "language-honorifics",
+      "category": "language",
+      "title": "Speech changes with respect",
+      "fact": "Korean has several speech levels. The same idea changes form depending on who you address — the verb 먹다 (to eat) becomes polite 먹어요 or honorific 드세요.",
+      "korean": "천천히 드세요.",
+      "korean_en": "Please eat slowly. (said warmly to a guest)",
+      "vocabulary": [
+        { "ko": "천천히", "en": "slowly" },
+        { "ko": "드시다", "en": "to eat (honorific)" },
+        { "ko": "말", "en": "speech, words" }
+      ],
+      "note": "**존댓말** is polite/honorific speech; **반말** is casual speech used with close friends.",
+      "tags": ["honorifics", "jondaetmal"]
+    },
+    {
+      "id": "language-numbers",
+      "category": "language",
+      "title": "Two number systems",
+      "fact": "Korean uses two sets of numbers: native Korean (하나, 둘, 셋…) for counting things and ages, and Sino-Korean (일, 이, 삼…) for dates, money, and minutes.",
+      "korean": "사과 세 개를 샀습니다.",
+      "korean_en": "I bought three apples.",
+      "vocabulary": [
+        { "ko": "개", "en": "counter for objects" },
+        { "ko": "사다", "en": "to buy" },
+        { "ko": "사과", "en": "apple" }
+      ],
+      "note": "세 개 uses native 셋 → 세 with the counter **개**. Money uses Sino-Korean: 삼천 원 = 3,000 won.",
+      "tags": ["numbers", "counters"]
+    },
+    {
+      "id": "holiday-seollal",
+      "category": "holidays",
+      "title": "Seollal, Lunar New Year",
+      "fact": "Seollal, the Lunar New Year, is one of Korea's biggest holidays. Families gather, hold ancestral rites, and children bow to elders to receive money and blessings.",
+      "korean": "설날에 가족을 만납니다.",
+      "korean_en": "I meet my family on Lunar New Year.",
+      "vocabulary": [
+        { "ko": "설날", "en": "Lunar New Year" },
+        { "ko": "가족", "en": "family" },
+        { "ko": "만나다", "en": "to meet" }
+      ],
+      "note": "On 설날 people eat **떡국** (rice-cake soup); eating it is playfully said to add a year to your age.",
+      "tags": ["seollal", "new-year", "tradition"]
+    },
+    {
+      "id": "holiday-chuseok",
+      "category": "holidays",
+      "title": "Chuseok, the harvest festival",
+      "fact": "Chuseok, the autumn harvest festival, is often called \"Korean Thanksgiving.\" People travel to their hometowns and share songpyeon, half-moon rice cakes.",
+      "korean": "추석은 가을 명절입니다.",
+      "korean_en": "Chuseok is an autumn holiday.",
+      "vocabulary": [
+        { "ko": "가을", "en": "autumn" },
+        { "ko": "명절", "en": "traditional holiday" },
+        { "ko": "보름달", "en": "full moon" }
+      ],
+      "note": "**명절** is a traditional holiday, as opposed to 휴일, an ordinary day off.",
+      "tags": ["chuseok", "harvest", "songpyeon"]
+    },
+    {
+      "id": "pop-hallyu",
+      "category": "pop_culture",
+      "title": "The Korean Wave",
+      "fact": "The \"Korean Wave\" has carried K-pop, dramas, and film around the world. In 2020, Bong Joon-ho's \"Parasite\" became the first non-English film to win the Best Picture Oscar.",
+      "korean": "저는 케이팝을 자주 들어요.",
+      "korean_en": "I listen to K-pop often.",
+      "vocabulary": [
+        { "ko": "노래", "en": "song" },
+        { "ko": "듣다", "en": "to listen" },
+        { "ko": "자주", "en": "often" }
+      ],
+      "note": "**한류** (Hallyu) literally means \"Korean flow/wave.\"",
+      "tags": ["kpop", "hallyu", "modern"]
+    },
+    {
+      "id": "pop-webtoon",
+      "category": "pop_culture",
+      "title": "Korea invented the webtoon",
+      "fact": "Korea pioneered the webtoon — vertical-scroll digital comics made for phones. Many hit dramas and films are now adapted from popular webtoons.",
+      "korean": "저는 매일 웹툰을 봐요.",
+      "korean_en": "I read webtoons every day.",
+      "vocabulary": [
+        { "ko": "매일", "en": "every day" },
+        { "ko": "보다", "en": "to see, to read" },
+        { "ko": "그림", "en": "picture, drawing" }
+      ],
+      "note": "**웹툰** = \"web\" + 툰 (from \"cartoon\").",
+      "tags": ["webtoon", "comics", "modern"]
+    },
+    {
+      "id": "shopping-markets",
+      "category": "shopping",
+      "title": "Traditional markets",
+      "fact": "Traditional markets such as Seoul's Namdaemun and Gwangjang sell everything from clothes to street food. Friendly haggling is common at market stalls, though not in shops.",
+      "korean": "시장에서 과일을 삽니다.",
+      "korean_en": "I buy fruit at the market.",
+      "vocabulary": [
+        { "ko": "시장", "en": "market" },
+        { "ko": "과일", "en": "fruit" },
+        { "ko": "가격", "en": "price" }
+      ],
+      "note": "**깎아 주세요** = \"Please give me a discount\" (literally \"please cut [the price]\").",
+      "tags": ["market", "haggling", "street-food"]
+    },
+    {
+      "id": "shopping-convenience",
+      "category": "shopping",
+      "title": "Convenience stores do everything",
+      "fact": "Convenience stores are everywhere and offer far more than snacks — hot meals, package pickup, even simple banking. Online orders often arrive the very next morning.",
+      "korean": "편의점에서 김밥을 삽니다.",
+      "korean_en": "I buy gimbap at the convenience store.",
+      "vocabulary": [
+        { "ko": "편의점", "en": "convenience store" },
+        { "ko": "사다", "en": "to buy" },
+        { "ko": "빠르다", "en": "to be fast" }
+      ],
+      "note": "**배달** (delivery) culture is huge — almost anything can be delivered to your door.",
+      "tags": ["convenience-store", "delivery"]
+    },
+    {
+      "id": "shopping-won",
+      "category": "shopping",
+      "title": "The won, and a familiar face",
+      "fact": "The currency is the won. Coins run from 10 to 500 won and bills from 1,000 to 50,000 won. The 10,000-won note features King Sejong, who created Hangul.",
+      "korean": "이것은 얼마예요?",
+      "korean_en": "How much is this?",
+      "vocabulary": [
+        { "ko": "돈", "en": "money" },
+        { "ko": "얼마", "en": "how much" },
+        { "ko": "원", "en": "won (currency)" }
+      ],
+      "note": "**얼마예요?** is the essential shopping question.",
+      "tags": ["money", "won", "shopping"]
+    },
+    {
+      "id": "sights-gyeongbokgung",
+      "category": "sightseeing",
+      "title": "Gyeongbokgung Palace",
+      "fact": "Gyeongbokgung, built in 1395, is Seoul's grand main palace. Visitors who wear hanbok, traditional dress, get in free.",
+      "korean": "경복궁은 아주 큽니다.",
+      "korean_en": "Gyeongbokgung is very big.",
+      "vocabulary": [
+        { "ko": "궁궐", "en": "palace" },
+        { "ko": "크다", "en": "to be big" },
+        { "ko": "한복", "en": "traditional Korean clothing" }
+      ],
+      "note": "Catch the changing-of-the-guard ceremony (**수문장 교대식**) at the main gate.",
+      "tags": ["palace", "hanbok", "seoul"]
+    },
+    {
+      "id": "sights-bukchon",
+      "category": "sightseeing",
+      "title": "Bukchon Hanok Village",
+      "fact": "Bukchon Hanok Village preserves hundreds of traditional tile-roof houses on hilly lanes between two palaces — a favorite spot for photos in hanbok.",
+      "korean": "한옥은 한국의 전통 집입니다.",
+      "korean_en": "A hanok is a traditional Korean house.",
+      "vocabulary": [
+        { "ko": "집", "en": "house, home" },
+        { "ko": "전통", "en": "tradition" },
+        { "ko": "마을", "en": "village" }
+      ],
+      "note": "A **한옥** uses under-floor heating called 온돌 to stay warm in winter.",
+      "tags": ["hanok", "bukchon", "architecture"]
+    },
+    {
+      "id": "sights-busan",
+      "category": "sightseeing",
+      "title": "Busan by the sea",
+      "fact": "Busan, the second-largest city, is a coastal hub famous for Haeundae Beach, the huge Jagalchi fish market, and a major international film festival.",
+      "korean": "부산은 바다가 아름답습니다.",
+      "korean_en": "Busan has a beautiful sea.",
+      "vocabulary": [
+        { "ko": "바다", "en": "sea" },
+        { "ko": "도시", "en": "city" },
+        { "ko": "해변", "en": "beach" }
+      ],
+      "note": "The KTX train from Seoul to **부산** takes about two and a half hours.",
+      "tags": ["busan", "beach", "coast"]
+    },
+    {
+      "id": "tech-internet",
+      "category": "science",
+      "title": "Wired and fast",
+      "fact": "South Korea has some of the world's fastest average internet speeds and near-universal smartphone use. Transit, payments, and even restaurant orders are heavily app-based.",
+      "korean": "한국은 인터넷이 빠릅니다.",
+      "korean_en": "Korea's internet is fast.",
+      "vocabulary": [
+        { "ko": "인터넷", "en": "internet" },
+        { "ko": "빠르다", "en": "to be fast" },
+        { "ko": "휴대폰", "en": "cell phone" }
+      ],
+      "note": "**와이파이** (wifi) is widely available in cafés, subways, and buses.",
+      "tags": ["internet", "technology", "modern"]
+    },
+    {
+      "id": "tech-ktx",
+      "category": "science",
+      "title": "High-speed rail",
+      "fact": "The KTX high-speed train links major cities at up to 300 km/h, putting most of the country within a few hours of Seoul.",
+      "korean": "기차로 부산에 갑니다.",
+      "korean_en": "I go to Busan by train.",
+      "vocabulary": [
+        { "ko": "기차", "en": "train" },
+        { "ko": "가다", "en": "to go" },
+        { "ko": "표", "en": "ticket" }
+      ],
+      "note": "In 기차로, the particle **(으)로** marks the means: \"by train.\"",
+      "tags": ["ktx", "train", "transport"]
+    },
+    {
+      "id": "etiquette-shoes",
+      "category": "etiquette",
+      "title": "Shoes off indoors",
+      "fact": "You remove your shoes before entering a Korean home, and often at traditional restaurants with floor seating. Because floors are heated, sitting on the floor is comfortable.",
+      "korean": "집에서 신발을 벗습니다.",
+      "korean_en": "I take off my shoes in the house.",
+      "vocabulary": [
+        { "ko": "신발", "en": "shoes" },
+        { "ko": "벗다", "en": "to take off" },
+        { "ko": "집", "en": "house, home" }
+      ],
+      "note": "**온돌** (ondol) is the traditional under-floor heating system.",
+      "tags": ["etiquette", "home", "ondol"]
+    },
+    {
+      "id": "etiquette-age",
+      "category": "etiquette",
+      "title": "Age shapes everything",
+      "fact": "Age shapes language and relationships, so people often ask your age early on. In 2023 Korea officially switched to international age counting for legal use, retiring the older \"Korean age.\"",
+      "korean": "나이가 어떻게 되세요?",
+      "korean_en": "How old are you? (polite)",
+      "vocabulary": [
+        { "ko": "나이", "en": "age" },
+        { "ko": "살", "en": "years old (counter)" },
+        { "ko": "몇", "en": "how many" }
+      ],
+      "note": "A more casual version is **몇 살이에요?** Use the polite form with people you have just met.",
+      "tags": ["age", "etiquette", "modern"]
+    }
+  ]
+}

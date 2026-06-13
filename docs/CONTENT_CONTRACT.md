@@ -6,6 +6,8 @@ Content packs are JSON files. The current schema version is:
 "topik-sim.content.v1"
 ```
 
+> This file covers exam packs. A separate, simpler data file — `content/korea_facts.json` (`topik-sim.facts.v1`) — backs the `/facts` command; see the **Korea Facts** section at the end.
+
 ## Pack Shape
 
 ```json
@@ -221,3 +223,31 @@ Requirements:
 - Every question must include an explanation summary.
 - Teaching notes should be useful even when the learner answered correctly.
 - Use stable IDs because answer files and learner history depend on them.
+
+## Korea Facts (`topik-sim.facts.v1`)
+
+`content/korea_facts.json` backs the `/facts` command. It is plain reference content — add or edit freely; no import step is needed (the file is read directly).
+
+```json
+{
+  "schema_version": "topik-sim.facts.v1",
+  "facts": [
+    {
+      "id": "geo-jeju",
+      "category": "geography",
+      "title": "Jeju, the volcanic island",
+      "fact": "English explanation, one or two sentences. May use **bold** markdown.",
+      "korean": "제주도는 아름다운 섬입니다.",
+      "korean_en": "Jeju Island is a beautiful island.",
+      "vocabulary": [ { "ko": "섬", "en": "island" } ],
+      "note": "A short language or culture note. **Bold** renders in the terminal.",
+      "tags": ["jeju", "island"]
+    }
+  ]
+}
+```
+
+- `id` (unique) and `category` are required in practice; `fact` carries the English text.
+- `korean` / `korean_en`, `vocabulary` (`ko`/`en` pairs), `note`, and `tags` are optional and shown when present.
+- Categories are free-text; group facts by area (history, geography, politics, literature, food, shopping, sightseeing, language, holidays, pop_culture, science, etiquette, …).
+- A malformed or missing file disables `/facts` gracefully rather than breaking the app.

@@ -5,6 +5,17 @@ All notable changes to the TOPIK exam simulator are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Korea facts**: `/facts` (and the `topik-sim facts` command) shows an
+  interesting fact about Korea — history, geography, food, shopping,
+  sightseeing, and more — each with a Korean phrase, its translation, useful
+  vocabulary, and a short language note. Filter by category, and after a fact
+  a bare `/say` reads its Korean aloud. Content lives in the editable
+  `content/korea_facts.json`.
+
 ## [1.0.0] - 2026-06-11
 
 First stable release: the complete TOPIK I study loop — sit a mock exam, review
