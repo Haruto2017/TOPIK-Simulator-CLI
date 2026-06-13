@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-06-13
+
 ### Added
 
 - **Korea facts**: `/facts` (and the `topik-sim facts` command) shows an
@@ -16,7 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   facts across 14 areas — history, geography, politics, literature, food,
   shopping, sightseeing, language, holidays, science, etiquette, and
   **music, film, and pop culture** (`/facts movie` also finds film cards).
-  Content lives in the editable `content/korea_facts.json`.
+
+### Changed
+
+- Facts content is organized as one file per genre under `content/facts/`,
+  so a genre can be edited or expanded on its own. The command reads the
+  whole directory.
 
 ## [1.0.0] - 2026-06-11
 

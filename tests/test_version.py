@@ -7,8 +7,8 @@ from topik_sim.cli import main
 
 
 class VersionTests(unittest.TestCase):
-    def test_package_version_is_1_0_0(self):
-        self.assertEqual(topik_sim.__version__, "1.0.0")
+    def test_package_version_is_set(self):
+        self.assertEqual(topik_sim.__version__, "1.1.0")
 
     def test_version_flag_prints_and_exits_zero(self):
         buffer = io.StringIO()
