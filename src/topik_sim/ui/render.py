@@ -241,6 +241,33 @@ def fact_card(fact: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def compose_lesson_card(lesson: dict[str, Any], evidence: dict[str, Any] | None = None) -> str:
+    pattern = str(lesson.get("pattern", "")).strip()
+    meaning = str(lesson.get("meaning", "")).strip()
+    lines = [rule(f"Structure · {pattern}")]
+    headline = ansi.style(pattern, ansi.BOLD, ansi.CYAN)
+    if meaning:
+        headline += ansi.style(f"  —  {meaning}", ansi.BOLD)
+    lines.append(headline)
+    example = str(lesson.get("example", "")).strip()
+    if example:
+        example_en = str(lesson.get("example_en", "")).strip()
+        suffix = ansi.style(f"  ({example_en})", ansi.DIM) if example_en else ""
+        lines.append("예: " + ansi.style(example, ansi.CYAN) + suffix)
+    note = str(lesson.get("note", "")).strip()
+    if note:
+        lines.append(inline_markdown(note))
+    if evidence and evidence.get("count"):
+        packs = evidence.get("packs", [])
+        where = packs[0] if len(packs) == 1 else f"{len(packs)} of your packs"
+        lines.append(ansi.style(f"From your packs ({evidence['count']}×, {where}):", ansi.GREY))
+        if evidence.get("example"):
+            lines.append(ansi.style(f"  {evidence['example']}", ansi.GREY))
+    count = len(lesson.get("sentences", []))
+    lines.append(ansi.style(f"Now write {count} sentence(s) with this structure:", ansi.BOLD))
+    return "\n".join(lines)
+
+
 def help_table(commands: list[Command]) -> str:
     from .commands import commands_by_category
 

@@ -31,6 +31,7 @@ FLASH_FRONT = "flash_front"
 FLASH_BACK = "flash_back"
 DICTATION = "dictation"
 TYPING = "typing"
+COMPOSE_PICK = "compose_pick"
 COMPOSE_TYPE = "compose_type"
 COMPOSE_GRADE = "compose_grade"
 PICK = "pick"
@@ -63,7 +64,7 @@ class Shell:
         keyboard_hints: bool = False,
         keyboard_pinned: bool = False,
         facts_path: str | Path | None = None,
-        sentences_path: str | Path | None = None,
+        compose_path: str | Path | None = None,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -115,10 +116,12 @@ class Shell:
         self._facts_seen: set[str] = set()
         self._facts_rng = random.Random(flashcard_seed)
         self._fact_speech = ""
-        from ..sentences import DEFAULT_SENTENCES_PATH
+        from ..compose import DEFAULT_COMPOSE_PATH
 
-        self.sentences_path = Path(sentences_path) if sentences_path is not None else DEFAULT_SENTENCES_PATH
-        self._sentences: list[dict[str, Any]] | None = None
+        self.compose_path = Path(compose_path) if compose_path is not None else DEFAULT_COMPOSE_PATH
+        self._lessons: list[dict[str, Any]] | None = None
+        self._pack_grammar: list[dict[str, str]] | None = None
+        self._lesson_pick: list[dict[str, Any]] = []
         self._compose_items: list[dict[str, Any]] = []
         self._compose_index = 0
         self._compose_hits = 0
@@ -196,6 +199,8 @@ class Shell:
                 self._grade_typing(text)
             else:
                 self.emit("Type the shown text, or /pause to stop.")
+        elif self.state == COMPOSE_PICK:
+            self._handle_lesson_pick(text)
         elif self.state == COMPOSE_TYPE:
             if text:
                 self._grade_compose(text)
@@ -619,36 +624,73 @@ class Shell:
         self.state = IDLE
 
     def cmd_compose(self, argument: str) -> None:
-        from ..sentences import build_drill, filter_sentences, load_sentences
+        from ..compose import filter_lessons, load_lessons
 
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
-        if self._sentences is None:
-            self._sentences = load_sentences(self.sentences_path)
-        if not self._sentences:
-            self.emit(f"No sentences are available (looked in {self.sentences_path}).")
+        if self._lessons is None:
+            self._lessons = load_lessons(self.compose_path)
+        if not self._lessons:
+            self.emit(f"No writing lessons are available (looked in {self.compose_path}).")
             return
 
-        topic: str | None = None
-        count = 10
-        for part in argument.split():
-            if part.isdigit():
-                count = int(part)
-            else:
-                topic = part
-        if topic and not filter_sentences(self._sentences, topic):
-            self.emit(f"No sentences match {topic!r}; using all topics. (/compose with no topic, or try one of them)")
-            topic = None
-        items = build_drill(self._sentences, topic=topic, count=count, seed=self._flashcard_seed)
-        self._compose_items = items
+        argument = argument.strip()
+        if not argument:
+            self._open_lesson_picker(self._lessons)
+            return
+        if argument.isdigit() and 1 <= int(argument) <= len(self._lessons):
+            self._start_lesson(self._lessons[int(argument) - 1])
+            return
+        matches = filter_lessons(self._lessons, argument)
+        if len(matches) == 1:
+            self._start_lesson(matches[0])
+        elif matches:
+            self._open_lesson_picker(matches)
+        else:
+            self.emit(f"No structure matches {argument!r}.")
+            self._open_lesson_picker(self._lessons)
+
+    def _open_lesson_picker(self, lessons: list[dict[str, Any]]) -> None:
+        self._lesson_pick = lessons
+        self.emit(render.rule("Compose — pick a structure to practice"))
+        for index, lesson in enumerate(lessons, start=1):
+            meaning = str(lesson.get("meaning", ""))
+            n = len(lesson.get("sentences", []))
+            self.emit(
+                f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {ansi.style(str(lesson.get('pattern', '')), ansi.CYAN)}"
+                f"  {ansi.style(f'{meaning} · {n} sentences', ansi.GREY)}"
+            )
+        self.emit("Type a number, or press Enter to cancel.")
+        self.state = COMPOSE_PICK
+
+    def _handle_lesson_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._lesson_pick = []
+            self.state = IDLE
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._lesson_pick):
+            lesson = self._lesson_pick[int(text) - 1]
+            self._lesson_pick = []
+            self._start_lesson(lesson)
+            return
+        self.emit(f"Type a number from 1 to {len(self._lesson_pick)}, or press Enter to cancel.")
+
+    def _start_lesson(self, lesson: dict[str, Any]) -> None:
+        from ..compose import collect_pack_grammar, drill_order, lesson_pack_evidence
+
+        if self._pack_grammar is None:
+            self._pack_grammar = collect_pack_grammar(self.library_dir)
+        evidence = lesson_pack_evidence(lesson, self._pack_grammar)
+        self.emit("")
+        self.emit(render.compose_lesson_card(lesson, evidence))
+        self.emit(ansi.style("Type the Korean · /say reveals it aloud · /pause stops", ansi.GREY))
+        self._compose_items = drill_order(lesson, seed=self._flashcard_seed)
         self._compose_index = 0
         self._compose_hits = 0
         self._compose_missed = []
-        title = f"Translation practice: {topic}" if topic else "Translation practice"
-        self.emit(ansi.style(title, ansi.BOLD))
-        self.emit(f"{len(items)} sentence(s) · type the Korean · /say reveals it aloud · /pause stops")
         self._present_compose()
 
     def _present_compose(self) -> None:
@@ -659,7 +701,7 @@ class Shell:
         self.state = COMPOSE_TYPE
 
     def _grade_compose(self, typed: str) -> None:
-        from ..sentences import accepted_answers, is_correct
+        from ..compose import accepted_answers, is_correct
 
         item = self._compose_items[self._compose_index]
         model = str(item.get("korean", ""))
@@ -725,6 +767,9 @@ class Shell:
             self._end_typing(early=True)
         elif self.state in {COMPOSE_TYPE, COMPOSE_GRADE}:
             self._end_compose(early=True)
+        elif self.state == COMPOSE_PICK:
+            self._lesson_pick = []
+            self.state = IDLE
 
     def cmd_flashcards(self, argument: str) -> None:
         from ..flashcards import build_deck
@@ -960,7 +1005,7 @@ class Shell:
         self._submit("")
 
     def cmd_pause(self, argument: str) -> None:
-        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_TYPE, COMPOSE_GRADE}:
+        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_PICK, COMPOSE_TYPE, COMPOSE_GRADE}:
             self._end_minigames()
             return
         if self.session is None:

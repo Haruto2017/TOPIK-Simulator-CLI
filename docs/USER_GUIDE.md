@@ -108,7 +108,7 @@ To finish on something lighter, run `/facts` for a bite of Korean culture, histo
 | `/dictation [pack] [limit]` | Hear a sentence, type what you heard, see the diff. |
 | `/grammar [pack] [count]` (`/gram`) | Grammar pattern cards; bare uses every pack, 20 cards. |
 | `/recall [pack] [count]` (`/translate`) | English gloss shown, you type the Korean; default 10 words. |
-| `/compose [topic] [count]` (`/write`) | English sentence shown, you type the Korean; exact matches auto-pass, else self-rate against a model. |
+| `/compose [structure]` (`/write`) | Learn a grammar structure (taught from your packs), then write several Korean sentences using it. |
 | `/typing [pack] [count]` | Keyboard trainer: jamo → syllables → exam words. |
 | `/facts [category\|list]` (`/fact`, `/culture`) | An interesting fact about Korea with a Korean phrase and notes; `/say` reads it aloud. |
 

@@ -9,12 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Sentence writing practice**: `/compose` (alias `/write`) shows an English
-  sentence and you type the Korean. An exact match (whitespace- and
-  punctuation-tolerant, against any accepted answer) auto-passes; otherwise the
-  model answer and natural variants are revealed and you self-rate. Focus a
-  topic, and `/say` reads the model aloud. Sentences live in the editable
-  `content/sentences/` directory, one file per topic.
+- **Sentence writing practice**: `/compose` (alias `/write`) teaches one
+  grammar structure up front — its meaning, an example, and how it appears in
+  your imported exam packs (with an authentic example pulled from them) — then
+  has you write several English→Korean sentences that all use it. Exact matches
+  auto-pass; otherwise the model and natural variants are revealed and you
+  self-rate. `/say` reads the model aloud. Lessons live in the editable
+  `content/compose/` directory.
 
 ## [1.1.0] - 2026-06-13
 

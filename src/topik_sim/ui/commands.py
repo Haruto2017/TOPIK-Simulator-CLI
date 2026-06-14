@@ -103,12 +103,13 @@ COMMANDS: list[Command] = [
         "count: number of words (default 10). Examples: /recall · /recall topik-i-authentic-mock-02 15",
     ),
     Command(
-        "compose", "cmd_compose", "/compose [topic] [count]", "Translate an English sentence into Korean and check it.", ("write",),
+        "compose", "cmd_compose", "/compose [structure]", "Learn a grammar structure, then write sentences with it.", ("write",),
         category="Practice",
-        details="Sentence-writing practice: an English sentence is shown and you type the Korean.\n"
-        "An exact match auto-passes; otherwise the model answer is revealed and you self-rate y/n.\n"
-        "topic: focus a topic (greetings, daily_life, travel); count: how many (default 10).\n"
-        "/say reads the model aloud. Examples: /compose · /compose travel · /compose greetings 5",
+        details="Sentence-writing grounded in grammar. Pick a structure (e.g. -고 싶다); it is taught\n"
+        "up front — meaning, an example, and how it appears in your imported packs — then you\n"
+        "write several English-to-Korean sentences that all use it. An exact match auto-passes;\n"
+        "otherwise the model is revealed and you self-rate y/n. /say reads the model aloud.\n"
+        "Examples: /compose · /compose 싶 · /compose past-tense",
     ),
     Command(
         "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",

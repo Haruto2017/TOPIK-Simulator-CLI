@@ -4,19 +4,21 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from topik_sim.sentences import (
-    DEFAULT_SENTENCES_PATH,
+from topik_sim.compose import (
+    DEFAULT_COMPOSE_PATH,
     accepted_answers,
-    build_drill,
-    filter_sentences,
+    collect_pack_grammar,
+    filter_lessons,
     is_correct,
-    load_sentences,
+    lesson_pack_evidence,
+    lesson_sentences,
+    load_lessons,
     normalize_answer,
-    topics,
 )
+from topik_sim.library import import_pack
 from topik_sim.tts import TTSConfig
-from topik_sim.ui import ansi
-from topik_sim.ui.shell import COMPOSE_GRADE, COMPOSE_TYPE, IDLE, Shell
+from topik_sim.ui import ansi, render
+from topik_sim.ui.shell import COMPOSE_GRADE, COMPOSE_PICK, COMPOSE_TYPE, IDLE, Shell
 
 try:
     from test_shell import StubPrefetcher
@@ -25,77 +27,104 @@ except ImportError:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BUNDLED_SENTENCES = ROOT / "content" / "sentences"
+BUNDLED_COMPOSE = ROOT / "content" / "compose"
+SAMPLE_PACK = ROOT / "examples" / "content" / "topik_i_mini_pack.json"
 
-SAMPLE = [
-    {"id": "s1", "topic": "greet", "english": "Hello.", "korean": "안녕하세요.", "accepted": ["안녕하세요."]},
-    {"id": "s2", "topic": "greet", "english": "Thank you.", "korean": "감사합니다.", "accepted": ["감사합니다.", "고맙습니다."], "note": "**thanks**"},
-    {"id": "s3", "topic": "food", "english": "I eat rice.", "korean": "밥을 먹어요.", "accepted": ["밥을 먹어요."]},
+SAMPLE_LESSONS = [
+    {
+        "id": "want-to",
+        "pattern": "-고 싶다",
+        "meaning": "to want to",
+        "example": "가고 싶어요.",
+        "example_en": "I want to go.",
+        "note": "**-고 싶어요**",
+        "match": ["고 싶"],
+        "sentences": [
+            {"english": "I want to eat.", "korean": "먹고 싶어요.", "accepted": ["먹고 싶어요.", "먹고 싶습니다."]},
+            {"english": "I want to sleep.", "korean": "자고 싶어요.", "accepted": ["자고 싶어요."]},
+        ],
+    },
+    {
+        "id": "location",
+        "pattern": "N에서",
+        "meaning": "at (action place)",
+        "example": "집에서 쉬어요.",
+        "example_en": "I rest at home.",
+        "match": ["에서"],
+        "sentences": [
+            {"english": "I study at the library.", "korean": "도서관에서 공부해요.", "accepted": ["도서관에서 공부해요."]},
+        ],
+    },
 ]
 
 
-def _sentences_file(directory):
-    path = Path(directory) / "sample.json"
-    path.write_text(json.dumps({"schema_version": "topik-sim.sentences.v1", "sentences": SAMPLE}, ensure_ascii=False), encoding="utf-8")
+def _lessons_file(directory):
+    path = Path(directory) / "lessons.json"
+    path.write_text(json.dumps({"schema_version": "topik-sim.compose.v1", "lessons": SAMPLE_LESSONS}, ensure_ascii=False), encoding="utf-8")
     return path
 
 
-class SentencesModuleTests(unittest.TestCase):
-    def test_load_missing_or_malformed(self):
-        self.assertEqual(load_sentences("nope/x.json"), [])
+class ComposeModuleTests(unittest.TestCase):
+    def test_load_and_validate(self):
+        self.assertEqual(load_lessons("nope/x.json"), [])
         with tempfile.TemporaryDirectory() as d:
-            bad = Path(d) / "bad.json"
-            bad.write_text("{not json", encoding="utf-8")
-            self.assertEqual(load_sentences(bad), [])
+            (Path(d) / "bad.json").write_text("{nope", encoding="utf-8")
+            self.assertEqual(load_lessons(Path(d) / "bad.json"), [])
+            # lessons without a pattern or without sentences are dropped
+            partial = {"lessons": [{"pattern": "x", "sentences": []}, {"sentences": [{"english": "a", "korean": "ㄱ"}]}, SAMPLE_LESSONS[0]]}
+            (Path(d) / "p.json").write_text(json.dumps(partial, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(len(load_lessons(Path(d) / "p.json")), 1)
 
-    def test_load_drops_items_missing_english_or_korean(self):
-        with tempfile.TemporaryDirectory() as d:
-            path = Path(d) / "s.json"
-            path.write_text(json.dumps({"sentences": [{"english": "x"}, {"english": "a", "korean": "ㄱ"}]}, ensure_ascii=False), encoding="utf-8")
-            self.assertEqual(len(load_sentences(path)), 1)
+    def test_filter_and_sentences(self):
+        self.assertEqual(len(filter_lessons(SAMPLE_LESSONS, "싶")), 1)
+        self.assertEqual([l["id"] for l in filter_lessons(SAMPLE_LESSONS, "location")], ["location"])
+        self.assertEqual(len(lesson_sentences(SAMPLE_LESSONS[0])), 2)
 
-    def test_topics_and_filter(self):
-        self.assertEqual(topics(SAMPLE), ["food", "greet"])
-        self.assertEqual(len(filter_sentences(SAMPLE, "greet")), 2)
-        self.assertEqual(len(filter_sentences(SAMPLE, "")), 3)
-        self.assertEqual([s["id"] for s in filter_sentences(SAMPLE, "rice")], ["s3"])
-        self.assertEqual(filter_sentences(SAMPLE, "zzz"), [])
-
-    def test_accepted_defaults_to_korean(self):
+    def test_grading_tolerant(self):
+        s = SAMPLE_LESSONS[0]["sentences"][0]
+        self.assertEqual(normalize_answer("  먹고  싶어요. "), "먹고 싶어요")
+        self.assertTrue(is_correct(s, "먹고 싶어요"))
+        self.assertTrue(is_correct(s, "먹고 싶습니다."))
+        self.assertFalse(is_correct(s, "자고 싶어요."))
         self.assertEqual(accepted_answers({"korean": "안녕"}), ["안녕"])
-        self.assertEqual(accepted_answers(SAMPLE[1]), ["감사합니다.", "고맙습니다."])
 
-    def test_normalize_and_is_correct_tolerant(self):
-        self.assertEqual(normalize_answer("  안녕하세요. "), "안녕하세요")
-        self.assertEqual(normalize_answer("밥을   먹어요"), "밥을 먹어요")
-        item = SAMPLE[0]
-        self.assertTrue(is_correct(item, "안녕하세요."))
-        self.assertTrue(is_correct(item, "안녕하세요"))   # missing period
-        self.assertTrue(is_correct(item, " 안녕하세요. "))  # spacing
-        self.assertFalse(is_correct(item, "안녕"))
-        self.assertTrue(is_correct(SAMPLE[1], "고맙습니다"))  # accepted variant
-
-    def test_build_drill_count_topic_and_determinism(self):
-        self.assertEqual(len(build_drill(SAMPLE, count=2, seed=0)), 2)
-        greet = build_drill(SAMPLE, topic="greet", seed=0)
-        self.assertTrue(all(s["topic"] == "greet" for s in greet))
-        self.assertEqual(build_drill(SAMPLE, seed=0), build_drill(SAMPLE, seed=0))
+    def test_pack_evidence_grounds_in_pack_grammar(self):
+        with tempfile.TemporaryDirectory() as d:
+            library = Path(d) / "library"
+            import_pack(SAMPLE_PACK, library)
+            grammar = collect_pack_grammar(library)
+            # the mini pack teaches N에서, so the location lesson is grounded
+            location = next(l for l in SAMPLE_LESSONS if l["id"] == "location")
+            evidence = lesson_pack_evidence(location, grammar)
+            self.assertGreaterEqual(evidence["count"], 1)
+            self.assertTrue(evidence["packs"])
+            # a pattern the pack does not teach yields no evidence
+            absent = {"pattern": "-습니까", "match": ["을까요"], "sentences": [{"english": "x", "korean": "ㄱ"}]}
+            self.assertEqual(lesson_pack_evidence(absent, grammar)["count"], 0)
 
 
-class BundledSentencesTests(unittest.TestCase):
-    def test_default_path_and_bundled_files(self):
-        self.assertEqual(Path(DEFAULT_SENTENCES_PATH), Path("content") / "sentences")
-        sentences = load_sentences(BUNDLED_SENTENCES)
-        self.assertGreaterEqual(len(sentences), 20)
-        ids = [s["id"] for s in sentences]
-        self.assertEqual(len(ids), len(set(ids)), "sentence ids must be unique")
-        for topic_file in sorted(BUNDLED_SENTENCES.glob("*.json")):
-            items = load_sentences(topic_file)
-            self.assertTrue(items, f"{topic_file.name} empty")
-            self.assertEqual({s["topic"] for s in items}, {topic_file.stem})
-            for s in items:
-                self.assertTrue(s["english"] and s["korean"])
+class BundledComposeTests(unittest.TestCase):
+    def test_default_path_and_bundled_lessons(self):
+        self.assertEqual(Path(DEFAULT_COMPOSE_PATH), Path("content") / "compose")
+        lessons = load_lessons(BUNDLED_COMPOSE)
+        self.assertGreaterEqual(len(lessons), 5)
+        ids = [l["id"] for l in lessons]
+        self.assertEqual(len(ids), len(set(ids)), "lesson ids must be unique")
+        for lesson in lessons:
+            self.assertTrue(lesson["pattern"] and lesson.get("meaning"))
+            sentences = lesson_sentences(lesson)
+            self.assertGreaterEqual(len(sentences), 3)
+            for s in sentences:
                 self.assertTrue(is_correct(s, s["korean"]))  # the model itself passes
+
+    def test_bundled_lessons_are_grounded_in_the_real_library(self):
+        # Every bundled lesson's structure should appear in the shipped exams.
+        grammar = collect_pack_grammar("content/library")
+        if not grammar:
+            self.skipTest("no imported packs in this environment")
+        lessons = load_lessons(BUNDLED_COMPOSE)
+        grounded = [l for l in lessons if lesson_pack_evidence(l, grammar)["count"] > 0]
+        self.assertGreaterEqual(len(grounded), len(lessons) - 1)
 
 
 class ComposeShellTests(unittest.TestCase):
@@ -103,13 +132,13 @@ class ComposeShellTests(unittest.TestCase):
         ansi.set_color_enabled(False)
         self._temp = tempfile.TemporaryDirectory()
         self.temp_dir = Path(self._temp.name)
-        self.sentences_path = _sentences_file(self.temp_dir)
+        self.compose_path = _lessons_file(self.temp_dir)
 
     def tearDown(self):
         ansi.set_color_enabled(None)
         self._temp.cleanup()
 
-    def make_shell(self, sentences_path=None):
+    def make_shell(self, compose_path=None):
         output = []
         shell = Shell(
             library_dir=self.temp_dir / "library",
@@ -118,79 +147,80 @@ class ComposeShellTests(unittest.TestCase):
             output=output.append,
             prefetcher=StubPrefetcher(),
             flashcard_seed=0,
-            sentences_path=sentences_path or self.sentences_path,
+            compose_path=compose_path or self.compose_path,
         )
         return shell, output
 
-    def test_exact_match_auto_passes(self):
+    def test_bare_compose_opens_structure_picker(self):
         shell, output = self.make_shell()
-        shell.handle_line("/compose 2")
+        shell.handle_line("/compose")
+        text = "\n".join(output)
+        self.assertEqual(shell.state, COMPOSE_PICK)
+        self.assertIn("pick a structure", text)
+        self.assertIn("-고 싶다", text)
+
+        output.clear()
+        shell.handle_line("1")
+        text = "\n".join(output)
+        self.assertIn("Structure · -고 싶다", text)
+        self.assertIn("Now write", text)
         self.assertEqual(shell.state, COMPOSE_TYPE)
+
+    def test_direct_structure_by_substring(self):
+        shell, output = self.make_shell()
+        shell.handle_line("/compose 싶")
+        self.assertIn("Structure · -고 싶다", "\n".join(output))
+        self.assertEqual(shell.state, COMPOSE_TYPE)
+
+    def test_exact_pass_then_self_grade_flow(self):
+        shell, output = self.make_shell()
+        shell.handle_line("/compose 싶")
         first = shell._compose_items[0]["korean"]
         shell.handle_line(first)
         self.assertIn("✓", "\n".join(output))
-        # advanced straight to the next item — no self-grade step
         self.assertEqual(shell.state, COMPOSE_TYPE)
-        second = shell._compose_items[1]["korean"]
-        shell.handle_line(second)
-        self.assertIn("Correct 2/2.", "\n".join(output))
-        self.assertEqual(shell.state, IDLE)
 
-    def test_non_exact_reveals_model_and_self_grades(self):
-        shell, output = self.make_shell()
-        shell.handle_line("/compose 1")
-        model = shell._compose_items[0]["korean"]
-        shell.handle_line("모르겠어요")  # not an accepted answer
-        text = "\n".join(output)
-        self.assertIn(f"Model: {model}", text)
+        # answer the rest wrong to reach the self-grade branch and summary
+        output.clear()
+        shell.handle_line("몰라요")
         self.assertEqual(shell.state, COMPOSE_GRADE)
-        shell.handle_line("y")
-        self.assertIn("Correct 1/1.", "\n".join(output))
-        self.assertEqual(shell.state, IDLE)
-
-    def test_self_grade_no_lists_for_review(self):
-        shell, output = self.make_shell()
-        shell.handle_line("/compose 1")
-        shell.handle_line("틀린 답")
+        self.assertIn("Model:", "\n".join(output))
         shell.handle_line("n")
         text = "\n".join(output)
-        self.assertIn("Correct 0/1.", text)
+        self.assertIn("Correct 1/2.", text)
         self.assertIn("Review again:", text)
-
-    def test_topic_filter_and_fallback(self):
-        shell, output = self.make_shell()
-        shell.handle_line("/compose food")
-        self.assertTrue(all(s["topic"] == "food" for s in shell._compose_items))
-
-        shell2, output2 = self.make_shell()
-        shell2.handle_line("/compose zzz")
-        self.assertIn("using all topics", "\n".join(output2))
-        self.assertEqual(shell2.state, COMPOSE_TYPE)
-
-    def test_pause_stops_early(self):
-        shell, output = self.make_shell()
-        shell.handle_line("/compose 3")
-        shell.handle_line("/pause")
-        self.assertIn("stopped after 0/3", "\n".join(output))
         self.assertEqual(shell.state, IDLE)
 
     def test_say_speaks_the_model(self):
         shell, output = self.make_shell()
         calls = []
-
-        def fake_synthesize(texts, config):
-            calls.append(list(texts))
-            return []
-
-        with patch("topik_sim.ui.shell.synthesize_many", side_effect=fake_synthesize):
-            shell.handle_line("/compose 1")
+        with patch("topik_sim.ui.shell.synthesize_many", side_effect=lambda t, c: calls.append(list(t)) or []):
+            shell.handle_line("/compose 싶")
             shell.handle_line("/say")
         self.assertEqual(calls, [[shell._compose_items[0]["korean"]]])
 
-    def test_empty_sentences_reports_gently(self):
-        shell, output = self.make_shell(sentences_path=self.temp_dir / "absent")
+    def test_pause_from_picker_and_drill(self):
+        shell, output = self.make_shell()
         shell.handle_line("/compose")
-        self.assertIn("No sentences are available", "\n".join(output))
+        shell.handle_line("/pause")
+        self.assertEqual(shell.state, IDLE)
+
+        shell.handle_line("/compose 싶")
+        output.clear()
+        shell.handle_line("/pause")
+        self.assertIn("stopped after 0/2", "\n".join(output))
+        self.assertEqual(shell.state, IDLE)
+
+    def test_structure_card_shows_pack_evidence(self):
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output = self.make_shell()
+        shell.handle_line("/compose location")
+        self.assertIn("From your packs", "\n".join(output))
+
+    def test_empty_lessons_reports_gently(self):
+        shell, output = self.make_shell(compose_path=self.temp_dir / "absent")
+        shell.handle_line("/compose")
+        self.assertIn("No writing lessons are available", "\n".join(output))
         self.assertEqual(shell.state, IDLE)
 
 

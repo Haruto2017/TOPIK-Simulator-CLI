@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "want-to",
+      "pattern": "-고 싶다",
+      "meaning": "to want to (do something)",
+      "example": "부산에 가고 싶어요.",
+      "example_en": "I want to go to Busan.",
+      "note": "Attach **-고 싶어요** (polite) or **-고 싶습니다** (formal) to a verb stem to say you want to do it.",
+      "match": ["고 싶"],
+      "level": 1,
+      "sentences": [
+        { "english": "I want to eat kimchi.", "korean": "김치를 먹고 싶어요.", "accepted": ["김치를 먹고 싶어요.", "김치를 먹고 싶습니다.", "김치가 먹고 싶어요."] },
+        { "english": "I want to learn Korean.", "korean": "한국어를 배우고 싶어요.", "accepted": ["한국어를 배우고 싶어요.", "한국어를 배우고 싶습니다."] },
+        { "english": "I want to rest at home.", "korean": "집에서 쉬고 싶어요.", "accepted": ["집에서 쉬고 싶어요.", "집에서 쉬고 싶습니다."] },
+        { "english": "I want to drink coffee.", "korean": "커피를 마시고 싶어요.", "accepted": ["커피를 마시고 싶어요.", "커피가 마시고 싶어요.", "커피를 마시고 싶습니다."] },
+        { "english": "I want to meet a friend.", "korean": "친구를 만나고 싶어요.", "accepted": ["친구를 만나고 싶어요.", "친구를 만나고 싶습니다."] }
+      ]
+    },
+    {
+      "id": "location-eseo",
+      "pattern": "N에서",
+      "meaning": "at / in (where an action happens)",
+      "example": "도서관에서 책을 읽어요.",
+      "example_en": "I read a book at the library.",
+      "note": "**에서** marks the place where an action happens — contrast with **에** for a destination or for existence.",
+      "match": ["에서"],
+      "level": 1,
+      "sentences": [
+        { "english": "I study at the library.", "korean": "도서관에서 공부해요.", "accepted": ["도서관에서 공부해요.", "도서관에서 공부합니다.", "저는 도서관에서 공부해요."] },
+        { "english": "I eat at a restaurant.", "korean": "식당에서 밥을 먹어요.", "accepted": ["식당에서 밥을 먹어요.", "식당에서 밥을 먹습니다."] },
+        { "english": "I meet a friend at the cafe.", "korean": "카페에서 친구를 만나요.", "accepted": ["카페에서 친구를 만나요.", "카페에서 친구를 만납니다."] },
+        { "english": "I exercise at the park.", "korean": "공원에서 운동해요.", "accepted": ["공원에서 운동해요.", "공원에서 운동합니다."] },
+        { "english": "I watch a movie at home.", "korean": "집에서 영화를 봐요.", "accepted": ["집에서 영화를 봐요.", "집에서 영화를 봅니다."] }
+      ]
+    },
+    {
+      "id": "destination-e-gada",
+      "pattern": "N에 가다",
+      "meaning": "to go to (a place)",
+      "example": "학교에 가요.",
+      "example_en": "I go to school.",
+      "note": "**에** marks the destination with 가다 (to go) or 오다 (to come).",
+      "match": ["에 가"],
+      "level": 1,
+      "sentences": [
+        { "english": "I go to school.", "korean": "학교에 가요.", "accepted": ["학교에 가요.", "학교에 갑니다.", "저는 학교에 가요."] },
+        { "english": "I go to the hospital.", "korean": "병원에 가요.", "accepted": ["병원에 가요.", "병원에 갑니다."] },
+        { "english": "I go home.", "korean": "집에 가요.", "accepted": ["집에 가요.", "집에 갑니다."] },
+        { "english": "I go to the market.", "korean": "시장에 가요.", "accepted": ["시장에 가요.", "시장에 갑니다."] },
+        { "english": "I go to Korea.", "korean": "한국에 가요.", "accepted": ["한국에 가요.", "한국에 갑니다."] }
+      ]
+    },
+    {
+      "id": "past-tense",
+      "pattern": "-았/었어요",
+      "meaning": "past tense ending",
+      "example": "어제 영화를 봤어요.",
+      "example_en": "I watched a movie yesterday.",
+      "note": "Add **-았어요** to ㅏ/ㅗ stems and **-었어요** to the others; the formal forms are -았습니다 / -었습니다.",
+      "match": ["았어", "었어", "았습", "었습"],
+      "level": 1,
+      "sentences": [
+        { "english": "I ate breakfast.", "korean": "아침을 먹었어요.", "accepted": ["아침을 먹었어요.", "아침을 먹었습니다."] },
+        { "english": "I met a friend.", "korean": "친구를 만났어요.", "accepted": ["친구를 만났어요.", "친구를 만났습니다."] },
+        { "english": "I read a book.", "korean": "책을 읽었어요.", "accepted": ["책을 읽었어요.", "책을 읽었습니다."] },
+        { "english": "I went to school.", "korean": "학교에 갔어요.", "accepted": ["학교에 갔어요.", "학교에 갔습니다."] },
+        { "english": "The weather was good.", "korean": "날씨가 좋았어요.", "accepted": ["날씨가 좋았어요.", "날씨가 좋았습니다."] }
+      ]
+    },
+    {
+      "id": "reason-aseo",
+      "pattern": "-아/어서",
+      "meaning": "because / and so (reason)",
+      "example": "비가 와서 집에 있어요.",
+      "example_en": "It's raining, so I stay home.",
+      "note": "**-아서/어서** links a reason to its result; the first clause cannot carry its own past-tense marking.",
+      "match": ["아서", "어서"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'm tired, so I rest.", "korean": "피곤해서 쉬어요.", "accepted": ["피곤해서 쉬어요.", "피곤해서 쉽니다."] },
+        { "english": "It's cold, so I wear a coat.", "korean": "추워서 코트를 입어요.", "accepted": ["추워서 코트를 입어요.", "추워서 코트를 입습니다."] },
+        { "english": "I have a lot of work, so I'm busy.", "korean": "일이 많아서 바빠요.", "accepted": ["일이 많아서 바빠요.", "일이 많아서 바쁩니다."] },
+        { "english": "I met a friend, so I'm happy.", "korean": "친구를 만나서 기뻐요.", "accepted": ["친구를 만나서 기뻐요.", "친구를 만나서 기쁩니다."] },
+        { "english": "It's expensive, so I won't buy it.", "korean": "비싸서 안 사요.", "accepted": ["비싸서 안 사요.", "비싸서 안 삽니다."] }
+      ]
+    },
+    {
+      "id": "purpose-euro-gada",
+      "pattern": "-(으)러 가다",
+      "meaning": "to go in order to (do something)",
+      "example": "밥을 먹으러 가요.",
+      "example_en": "I go to eat.",
+      "note": "**-(으)러 가다/오다** gives the purpose of going or coming: **-러** after a vowel, **-으러** after a consonant.",
+      "match": ["으러", "러 가"],
+      "level": 2,
+      "sentences": [
+        { "english": "I go to study.", "korean": "공부하러 가요.", "accepted": ["공부하러 가요.", "공부하러 갑니다."] },
+        { "english": "I go to eat lunch.", "korean": "점심을 먹으러 가요.", "accepted": ["점심을 먹으러 가요.", "점심을 먹으러 갑니다."] },
+        { "english": "I go to buy clothes.", "korean": "옷을 사러 가요.", "accepted": ["옷을 사러 가요.", "옷을 사러 갑니다."] },
+        { "english": "I go to meet a friend.", "korean": "친구를 만나러 가요.", "accepted": ["친구를 만나러 가요.", "친구를 만나러 갑니다."] },
+        { "english": "I go to see a movie.", "korean": "영화를 보러 가요.", "accepted": ["영화를 보러 가요.", "영화를 보러 갑니다."] }
+      ]
+    }
+  ]
+}

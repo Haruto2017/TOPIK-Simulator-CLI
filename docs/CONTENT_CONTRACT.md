@@ -256,31 +256,37 @@ Each genre file:
 - **One file per genre** means a genre can be expanded in isolation — well-suited to a focused authoring agent owning a single file with no merge conflicts.
 - A malformed or missing file is skipped; `/facts` degrades gracefully rather than breaking the app.
 
-## Translation Sentences (`topik-sim.sentences.v1`)
+## Compose Lessons (`topik-sim.compose.v1`)
 
-The `/compose` command (English → type the Korean) is backed by the `content/sentences/` directory — **one file per topic**, named `<topic>.json` (e.g. `greetings.json`, `travel.json`). The loader reads every `*.json` in the directory; a single `.json` file is also accepted. Like the facts files, a topic can be expanded in isolation by one author or agent.
+The `/compose` command is backed by the `content/compose/` directory — files of **grammar-structure lessons**. Each lesson teaches one structure (a grammar pattern), then drills several English→Korean sentences that all use it. The loader reads every `*.json` in the directory (a single file also works), so a lesson set can be authored in isolation by one author or agent.
 
 ```json
 {
-  "schema_version": "topik-sim.sentences.v1",
-  "topic": "travel",
-  "sentences": [
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
     {
-      "id": "travel-002",
-      "topic": "travel",
-      "english": "How much is this?",
-      "korean": "이거 얼마예요?",
-      "accepted": ["이거 얼마예요?", "이것은 얼마예요?"],
-      "vocabulary": [ { "ko": "얼마", "en": "how much" } ],
-      "note": "A short note. **Bold** renders in the terminal.",
-      "level": 1
+      "id": "want-to",
+      "pattern": "-고 싶다",
+      "meaning": "to want to (do something)",
+      "example": "부산에 가고 싶어요.",
+      "example_en": "I want to go to Busan.",
+      "note": "Attach **-고 싶어요** to a verb stem. **Bold** renders in the terminal.",
+      "match": ["고 싶"],
+      "level": 1,
+      "sentences": [
+        {
+          "english": "I want to eat kimchi.",
+          "korean": "김치를 먹고 싶어요.",
+          "accepted": ["김치를 먹고 싶어요.", "김치를 먹고 싶습니다."]
+        }
+      ]
     }
   ]
 }
 ```
 
-- `id` (unique across the directory), `english` (the prompt), and `korean` (the model answer) are required; sentences missing `english` or `korean` are skipped.
-- `accepted` is an optional list of Korean answers that count as correct (it defaults to `[korean]`). Grading is whitespace- and trailing-punctuation-tolerant and NFC-normalized, so include natural variants (e.g. formal `-습니다` and polite `-어요`) rather than relying on exact spelling.
-- `vocabulary`, `note`, `level`, and `tags` are optional.
-- By convention a file holds only its own topic, and `id`s are prefixed by topic.
+- `id` (unique across the directory), `pattern` (the structure shown up front), and a non-empty `sentences` list are required; lessons missing these are dropped. Each sentence needs `english` (the prompt) and `korean` (the model).
+- `meaning`, `example` / `example_en`, and `note` form the up-front teaching card.
+- `accepted` (per sentence) is an optional list of Korean answers that count as correct (defaults to `[korean]`). Grading is whitespace- and trailing-punctuation-tolerant and NFC-normalized — include natural variants (formal `-습니다`, polite `-어요`) rather than relying on exact spelling.
+- `match` is an optional list of Korean substrings used to ground the lesson in the learner's imported packs: at runtime `/compose` scans the packs' grammar notes (pattern + example) for these substrings and, if found, shows how often the structure appears and an authentic example sentence from the packs. Choose patterns the packs actually teach so this grounding fires.
 - A malformed or missing file is skipped; `/compose` degrades gracefully.
