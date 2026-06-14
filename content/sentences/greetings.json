@@ -1,0 +1,86 @@
+{
+  "schema_version": "topik-sim.sentences.v1",
+  "topic": "greetings",
+  "sentences": [
+    {
+      "id": "greet-001",
+      "topic": "greetings",
+      "english": "Hello. Nice to meet you.",
+      "korean": "안녕하세요. 만나서 반갑습니다.",
+      "accepted": ["안녕하세요. 만나서 반갑습니다.", "안녕하세요. 만나서 반가워요."],
+      "vocabulary": [{ "ko": "만나다", "en": "to meet" }, { "ko": "반갑다", "en": "to be glad (to meet)" }],
+      "note": "**만나서 반갑습니다** is the set phrase for \"nice to meet you.\"",
+      "level": 1
+    },
+    {
+      "id": "greet-002",
+      "topic": "greetings",
+      "english": "Thank you very much.",
+      "korean": "정말 감사합니다.",
+      "accepted": ["정말 감사합니다.", "정말 고맙습니다.", "감사합니다."],
+      "vocabulary": [{ "ko": "정말", "en": "really, very" }, { "ko": "감사하다", "en": "to thank" }],
+      "note": "**감사합니다** and **고맙습니다** both mean \"thank you.\"",
+      "level": 1
+    },
+    {
+      "id": "greet-003",
+      "topic": "greetings",
+      "english": "What is your name?",
+      "korean": "이름이 뭐예요?",
+      "accepted": ["이름이 뭐예요?", "이름이 무엇입니까?", "이름이 뭐예요"],
+      "vocabulary": [{ "ko": "이름", "en": "name" }, { "ko": "뭐", "en": "what" }],
+      "note": "**뭐예요?** is the everyday \"what is it?\"; **무엇입니까?** is more formal.",
+      "level": 1
+    },
+    {
+      "id": "greet-004",
+      "topic": "greetings",
+      "english": "My name is Minsu.",
+      "korean": "제 이름은 민수입니다.",
+      "accepted": ["제 이름은 민수입니다.", "제 이름은 민수예요.", "저는 민수입니다."],
+      "vocabulary": [{ "ko": "제", "en": "my (humble)" }, { "ko": "이름", "en": "name" }],
+      "note": "**제** is the humble \"my\"; the topic particle **은** marks 이름.",
+      "level": 1
+    },
+    {
+      "id": "greet-005",
+      "topic": "greetings",
+      "english": "See you again.",
+      "korean": "또 만나요.",
+      "accepted": ["또 만나요.", "또 봐요.", "또 만나요"],
+      "vocabulary": [{ "ko": "또", "en": "again" }, { "ko": "만나다", "en": "to meet" }],
+      "note": "**또** means \"again\"; 봐요 is from 보다 (to see).",
+      "level": 1
+    },
+    {
+      "id": "greet-006",
+      "topic": "greetings",
+      "english": "Have a good day.",
+      "korean": "좋은 하루 보내세요.",
+      "accepted": ["좋은 하루 보내세요.", "좋은 하루 보내세요"],
+      "vocabulary": [{ "ko": "하루", "en": "a day" }, { "ko": "보내다", "en": "to spend, to send" }],
+      "note": "**좋은 하루 보내세요** literally \"spend a good day.\"",
+      "level": 1
+    },
+    {
+      "id": "greet-007",
+      "topic": "greetings",
+      "english": "Goodbye. (to someone leaving)",
+      "korean": "안녕히 가세요.",
+      "accepted": ["안녕히 가세요.", "안녕히 가세요"],
+      "vocabulary": [{ "ko": "안녕히", "en": "peacefully" }, { "ko": "가다", "en": "to go" }],
+      "note": "Say **안녕히 가세요** to someone leaving, **안녕히 계세요** to someone staying.",
+      "level": 1
+    },
+    {
+      "id": "greet-008",
+      "topic": "greetings",
+      "english": "I'm sorry, I'm late.",
+      "korean": "죄송합니다, 늦었어요.",
+      "accepted": ["죄송합니다, 늦었어요.", "죄송합니다. 늦었어요.", "미안합니다, 늦었어요."],
+      "vocabulary": [{ "ko": "죄송하다", "en": "to be sorry (polite)" }, { "ko": "늦다", "en": "to be late" }],
+      "note": "**늦었어요** is the past tense of 늦다 (to be late).",
+      "level": 1
+    }
+  ]
+}

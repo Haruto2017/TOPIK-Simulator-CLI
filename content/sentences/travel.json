@@ -1,0 +1,86 @@
+{
+  "schema_version": "topik-sim.sentences.v1",
+  "topic": "travel",
+  "sentences": [
+    {
+      "id": "travel-001",
+      "topic": "travel",
+      "english": "Where is the subway station?",
+      "korean": "지하철역이 어디예요?",
+      "accepted": ["지하철역이 어디예요?", "지하철역이 어디 있어요?", "지하철역이 어디예요"],
+      "vocabulary": [{ "ko": "지하철역", "en": "subway station" }, { "ko": "어디", "en": "where" }],
+      "note": "**어디예요?** = \"where is it?\"",
+      "level": 1
+    },
+    {
+      "id": "travel-002",
+      "topic": "travel",
+      "english": "How much is this?",
+      "korean": "이거 얼마예요?",
+      "accepted": ["이거 얼마예요?", "이것은 얼마예요?", "이거 얼마예요"],
+      "vocabulary": [{ "ko": "얼마", "en": "how much" }, { "ko": "이거", "en": "this (casual)" }],
+      "note": "**이거** is the casual form of 이것.",
+      "level": 1
+    },
+    {
+      "id": "travel-003",
+      "topic": "travel",
+      "english": "Please give me one coffee.",
+      "korean": "커피 한 잔 주세요.",
+      "accepted": ["커피 한 잔 주세요.", "커피 한 잔 주세요", "커피 한 잔만 주세요."],
+      "vocabulary": [{ "ko": "잔", "en": "cup (counter)" }, { "ko": "주다", "en": "to give" }],
+      "note": "**한 잔** = \"one cup\"; 잔 is the counter for drinks.",
+      "level": 1
+    },
+    {
+      "id": "travel-004",
+      "topic": "travel",
+      "english": "I want to go to Busan.",
+      "korean": "부산에 가고 싶어요.",
+      "accepted": ["부산에 가고 싶어요.", "부산에 가고 싶습니다.", "저는 부산에 가고 싶어요."],
+      "vocabulary": [{ "ko": "가다", "en": "to go" }, { "ko": "-고 싶다", "en": "to want to" }],
+      "note": "**-고 싶어요** expresses \"want to (do).\"",
+      "level": 1
+    },
+    {
+      "id": "travel-005",
+      "topic": "travel",
+      "english": "Is there a bathroom here?",
+      "korean": "여기 화장실이 있어요?",
+      "accepted": ["여기 화장실이 있어요?", "여기 화장실이 있어요", "화장실이 여기 있어요?"],
+      "vocabulary": [{ "ko": "여기", "en": "here" }, { "ko": "화장실", "en": "bathroom" }],
+      "note": "**있어요?** asks \"is there / do you have?\"",
+      "level": 1
+    },
+    {
+      "id": "travel-006",
+      "topic": "travel",
+      "english": "Please call a taxi.",
+      "korean": "택시를 불러 주세요.",
+      "accepted": ["택시를 불러 주세요.", "택시를 불러 주세요", "택시 불러 주세요."],
+      "vocabulary": [{ "ko": "택시", "en": "taxi" }, { "ko": "부르다", "en": "to call" }],
+      "note": "**불러 주세요** = \"please call (for me)\"; 부르다 is irregular (르 → 불러).",
+      "level": 2
+    },
+    {
+      "id": "travel-007",
+      "topic": "travel",
+      "english": "What time does the train leave?",
+      "korean": "기차가 몇 시에 출발해요?",
+      "accepted": ["기차가 몇 시에 출발해요?", "기차가 몇 시에 출발합니까?", "기차가 몇 시에 떠나요?"],
+      "vocabulary": [{ "ko": "기차", "en": "train" }, { "ko": "출발하다", "en": "to depart" }],
+      "note": "**몇 시에** = \"at what time.\"",
+      "level": 2
+    },
+    {
+      "id": "travel-008",
+      "topic": "travel",
+      "english": "I would like to book a room.",
+      "korean": "방을 예약하고 싶어요.",
+      "accepted": ["방을 예약하고 싶어요.", "방을 예약하고 싶습니다.", "방 예약하고 싶어요."],
+      "vocabulary": [{ "ko": "방", "en": "room" }, { "ko": "예약하다", "en": "to reserve, to book" }],
+      "note": "**예약하고 싶어요** = \"want to reserve.\"",
+      "level": 2
+    }
+  ]
+}

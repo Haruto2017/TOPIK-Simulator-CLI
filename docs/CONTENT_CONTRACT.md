@@ -6,7 +6,7 @@ Content packs are JSON files. The current schema version is:
 "topik-sim.content.v1"
 ```
 
-> This file covers exam packs. A separate, simpler data file — `content/korea_facts.json` (`topik-sim.facts.v1`) — backs the `/facts` command; see the **Korea Facts** section at the end.
+> This file covers exam packs. Two simpler data sets are documented at the end: **Korea Facts** (`content/facts/`, backs `/facts`) and **Translation Sentences** (`content/sentences/`, backs `/compose`).
 
 ## Pack Shape
 
@@ -255,3 +255,32 @@ Each genre file:
 - Categories are free-text; current genres include history, geography, politics, literature, food, shopping, sightseeing, language, holidays, science, etiquette, music, film, and pop_culture.
 - **One file per genre** means a genre can be expanded in isolation — well-suited to a focused authoring agent owning a single file with no merge conflicts.
 - A malformed or missing file is skipped; `/facts` degrades gracefully rather than breaking the app.
+
+## Translation Sentences (`topik-sim.sentences.v1`)
+
+The `/compose` command (English → type the Korean) is backed by the `content/sentences/` directory — **one file per topic**, named `<topic>.json` (e.g. `greetings.json`, `travel.json`). The loader reads every `*.json` in the directory; a single `.json` file is also accepted. Like the facts files, a topic can be expanded in isolation by one author or agent.
+
+```json
+{
+  "schema_version": "topik-sim.sentences.v1",
+  "topic": "travel",
+  "sentences": [
+    {
+      "id": "travel-002",
+      "topic": "travel",
+      "english": "How much is this?",
+      "korean": "이거 얼마예요?",
+      "accepted": ["이거 얼마예요?", "이것은 얼마예요?"],
+      "vocabulary": [ { "ko": "얼마", "en": "how much" } ],
+      "note": "A short note. **Bold** renders in the terminal.",
+      "level": 1
+    }
+  ]
+}
+```
+
+- `id` (unique across the directory), `english` (the prompt), and `korean` (the model answer) are required; sentences missing `english` or `korean` are skipped.
+- `accepted` is an optional list of Korean answers that count as correct (it defaults to `[korean]`). Grading is whitespace- and trailing-punctuation-tolerant and NFC-normalized, so include natural variants (e.g. formal `-습니다` and polite `-어요`) rather than relying on exact spelling.
+- `vocabulary`, `note`, `level`, and `tags` are optional.
+- By convention a file holds only its own topic, and `id`s are prefixed by topic.
+- A malformed or missing file is skipped; `/compose` degrades gracefully.

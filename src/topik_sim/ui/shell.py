@@ -31,6 +31,8 @@ FLASH_FRONT = "flash_front"
 FLASH_BACK = "flash_back"
 DICTATION = "dictation"
 TYPING = "typing"
+COMPOSE_TYPE = "compose_type"
+COMPOSE_GRADE = "compose_grade"
 PICK = "pick"
 PICK_PACK = "pick_pack"
 MENU = "menu"
@@ -61,6 +63,7 @@ class Shell:
         keyboard_hints: bool = False,
         keyboard_pinned: bool = False,
         facts_path: str | Path | None = None,
+        sentences_path: str | Path | None = None,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -112,6 +115,14 @@ class Shell:
         self._facts_seen: set[str] = set()
         self._facts_rng = random.Random(flashcard_seed)
         self._fact_speech = ""
+        from ..sentences import DEFAULT_SENTENCES_PATH
+
+        self.sentences_path = Path(sentences_path) if sentences_path is not None else DEFAULT_SENTENCES_PATH
+        self._sentences: list[dict[str, Any]] | None = None
+        self._compose_items: list[dict[str, Any]] = []
+        self._compose_index = 0
+        self._compose_hits = 0
+        self._compose_missed: list[dict[str, Any]] = []
 
     # ------------------------------------------------------------- plumbing
 
@@ -185,6 +196,18 @@ class Shell:
                 self._grade_typing(text)
             else:
                 self.emit("Type the shown text, or /pause to stop.")
+        elif self.state == COMPOSE_TYPE:
+            if text:
+                self._grade_compose(text)
+            else:
+                self.emit("Type the Korean translation, or /pause to stop.")
+        elif self.state == COMPOSE_GRADE:
+            if text.lower() in {"y", "yes"}:
+                self._selfgrade_compose(True)
+            elif text.lower() in {"n", "no"}:
+                self._selfgrade_compose(False)
+            else:
+                self.emit("y if your sentence was right, n if not.")
         elif self.state == PICK:
             self._handle_pick(text)
         elif self.state == PICK_PACK:
@@ -436,6 +459,9 @@ class Shell:
         if not argument and self.state == TYPING and self._typing_items:
             self._speak([self._typing_items[self._typing_index]["speech"]], playback=True)
             return
+        if not argument and self.state in {COMPOSE_TYPE, COMPOSE_GRADE} and self._compose_items:
+            self._speak([self._compose_items[self._compose_index]["korean"]], playback=True)
+            return
         if not argument and self.state == IDLE and self._fact_speech:
             self._speak([self._fact_speech], playback=True)
             return
@@ -592,6 +618,104 @@ class Shell:
         self._typing_missed = []
         self.state = IDLE
 
+    def cmd_compose(self, argument: str) -> None:
+        from ..sentences import build_drill, filter_sentences, load_sentences
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        if self._sentences is None:
+            self._sentences = load_sentences(self.sentences_path)
+        if not self._sentences:
+            self.emit(f"No sentences are available (looked in {self.sentences_path}).")
+            return
+
+        topic: str | None = None
+        count = 10
+        for part in argument.split():
+            if part.isdigit():
+                count = int(part)
+            else:
+                topic = part
+        if topic and not filter_sentences(self._sentences, topic):
+            self.emit(f"No sentences match {topic!r}; using all topics. (/compose with no topic, or try one of them)")
+            topic = None
+        items = build_drill(self._sentences, topic=topic, count=count, seed=self._flashcard_seed)
+        self._compose_items = items
+        self._compose_index = 0
+        self._compose_hits = 0
+        self._compose_missed = []
+        title = f"Translation practice: {topic}" if topic else "Translation practice"
+        self.emit(ansi.style(title, ansi.BOLD))
+        self.emit(f"{len(items)} sentence(s) · type the Korean · /say reveals it aloud · /pause stops")
+        self._present_compose()
+
+    def _present_compose(self) -> None:
+        item = self._compose_items[self._compose_index]
+        self.emit("")
+        self.emit(render.rule(f"Translate {self._compose_index + 1}/{len(self._compose_items)}"))
+        self.emit(ansi.style(item["english"], ansi.BOLD, ansi.CYAN))
+        self.state = COMPOSE_TYPE
+
+    def _grade_compose(self, typed: str) -> None:
+        from ..sentences import accepted_answers, is_correct
+
+        item = self._compose_items[self._compose_index]
+        model = str(item.get("korean", ""))
+        if is_correct(item, typed):
+            self._compose_hits += 1
+            self.emit(ansi.style(f"✓ {model}", ansi.BOLD, ansi.GREEN))
+            self._compose_feedback(item)
+            self._advance_compose()
+            return
+        # Free Korean can't be auto-graded — reveal the model and let the
+        # learner self-judge whether their sentence was right.
+        self.emit(ansi.style(f"Model: {model}", ansi.CYAN))
+        others = [a for a in accepted_answers(item) if a != model]
+        if others:
+            self.emit(ansi.style("Also fine: " + " / ".join(others), ansi.DIM))
+        self._compose_feedback(item)
+        self.emit(ansi.style("Was your sentence right? y / n", ansi.GREY))
+        self.state = COMPOSE_GRADE
+
+    def _compose_feedback(self, item: dict[str, Any]) -> None:
+        note = str(item.get("note", "")).strip()
+        if note:
+            self.emit(render.inline_markdown(note))
+
+    def _selfgrade_compose(self, correct: bool) -> None:
+        if correct:
+            self._compose_hits += 1
+        else:
+            self._compose_missed.append(self._compose_items[self._compose_index])
+        self._advance_compose()
+
+    def _advance_compose(self) -> None:
+        self._compose_index += 1
+        if self._compose_index >= len(self._compose_items):
+            self._end_compose()
+        else:
+            self._present_compose()
+
+    def _end_compose(self, early: bool = False) -> None:
+        done = self._compose_index
+        if early:
+            self.emit(f"Translation practice stopped after {done}/{len(self._compose_items)} sentence(s).")
+        if done:
+            self.emit(f"Correct {self._compose_hits}/{done}.")
+        if self._compose_missed:
+            review = " · ".join(
+                f"{item['english']} → {item.get('korean', '')}"
+                for item in self._compose_missed
+            )
+            self.emit(f"Review again: {review}")
+        self._compose_items = []
+        self._compose_index = 0
+        self._compose_hits = 0
+        self._compose_missed = []
+        self.state = IDLE
+
     def _end_minigames(self) -> None:
         if self.state in {FLASH_FRONT, FLASH_BACK}:
             self._end_flashcards(early=True)
@@ -599,6 +723,8 @@ class Shell:
             self._end_dictation(early=True)
         elif self.state == TYPING:
             self._end_typing(early=True)
+        elif self.state in {COMPOSE_TYPE, COMPOSE_GRADE}:
+            self._end_compose(early=True)
 
     def cmd_flashcards(self, argument: str) -> None:
         from ..flashcards import build_deck
@@ -834,7 +960,7 @@ class Shell:
         self._submit("")
 
     def cmd_pause(self, argument: str) -> None:
-        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING}:
+        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_TYPE, COMPOSE_GRADE}:
             self._end_minigames()
             return
         if self.session is None:

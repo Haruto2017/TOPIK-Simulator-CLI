@@ -103,6 +103,14 @@ COMMANDS: list[Command] = [
         "count: number of words (default 10). Examples: /recall · /recall topik-i-authentic-mock-02 15",
     ),
     Command(
+        "compose", "cmd_compose", "/compose [topic] [count]", "Translate an English sentence into Korean and check it.", ("write",),
+        category="Practice",
+        details="Sentence-writing practice: an English sentence is shown and you type the Korean.\n"
+        "An exact match auto-passes; otherwise the model answer is revealed and you self-rate y/n.\n"
+        "topic: focus a topic (greetings, daily_life, travel); count: how many (default 10).\n"
+        "/say reads the model aloud. Examples: /compose · /compose travel · /compose greetings 5",
+    ),
+    Command(
         "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
         category="Practice",
         details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"

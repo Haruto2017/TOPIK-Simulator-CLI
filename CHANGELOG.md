@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Sentence writing practice**: `/compose` (alias `/write`) shows an English
+  sentence and you type the Korean. An exact match (whitespace- and
+  punctuation-tolerant, against any accepted answer) auto-passes; otherwise the
+  model answer and natural variants are revealed and you self-rate. Focus a
+  topic, and `/say` reads the model aloud. Sentences live in the editable
+  `content/sentences/` directory, one file per topic.
+
 ## [1.1.0] - 2026-06-13
 
 ### Added
