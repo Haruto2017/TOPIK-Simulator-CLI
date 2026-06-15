@@ -173,6 +173,24 @@ class ComposeShellTests(unittest.TestCase):
         self.assertIn("Structure · -고 싶다", "\n".join(output))
         self.assertEqual(shell.state, COMPOSE_TYPE)
 
+    def test_random_starts_a_lesson_directly(self):
+        shell, output = self.make_shell()
+        shell.handle_line("/compose random")
+        text = "\n".join(output)
+        self.assertIn("Structure ·", text)
+        self.assertIn("Now write", text)
+        self.assertEqual(shell.state, COMPOSE_TYPE)
+
+    def test_random_from_the_picker(self):
+        shell, output = self.make_shell()
+        shell.handle_line("/compose")
+        self.assertEqual(shell.state, COMPOSE_PICK)
+        self.assertIn("r for a random one", "\n".join(output))
+        output.clear()
+        shell.handle_line("r")
+        self.assertIn("Structure ·", "\n".join(output))
+        self.assertEqual(shell.state, COMPOSE_TYPE)
+
     def test_exact_pass_then_self_grade_flow(self):
         shell, output = self.make_shell()
         shell.handle_line("/compose 싶")

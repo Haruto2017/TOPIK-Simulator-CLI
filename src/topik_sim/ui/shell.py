@@ -119,6 +119,7 @@ class Shell:
         from ..compose import DEFAULT_COMPOSE_PATH
 
         self.compose_path = Path(compose_path) if compose_path is not None else DEFAULT_COMPOSE_PATH
+        self._compose_rng = random.Random(flashcard_seed)
         self._lessons: list[dict[str, Any]] | None = None
         self._pack_grammar: list[dict[str, str]] | None = None
         self._lesson_pick: list[dict[str, Any]] = []
@@ -637,6 +638,9 @@ class Shell:
             return
 
         argument = argument.strip()
+        if argument.lower() in {"random", "r"}:
+            self._start_lesson(self._compose_rng.choice(self._lessons))
+            return
         if not argument:
             self._open_lesson_picker(self._lessons)
             return
@@ -662,7 +666,7 @@ class Shell:
                 f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {ansi.style(str(lesson.get('pattern', '')), ansi.CYAN)}"
                 f"  {ansi.style(f'{meaning} · {n} sentences', ansi.GREY)}"
             )
-        self.emit("Type a number, or press Enter to cancel.")
+        self.emit("Type a number, r for a random one, or press Enter to cancel.")
         self.state = COMPOSE_PICK
 
     def _handle_lesson_pick(self, text: str) -> None:
@@ -671,12 +675,17 @@ class Shell:
             self._lesson_pick = []
             self.state = IDLE
             return
+        if text.lower() in {"r", "random"}:
+            lesson = self._compose_rng.choice(self._lesson_pick)
+            self._lesson_pick = []
+            self._start_lesson(lesson)
+            return
         if text.isdigit() and 1 <= int(text) <= len(self._lesson_pick):
             lesson = self._lesson_pick[int(text) - 1]
             self._lesson_pick = []
             self._start_lesson(lesson)
             return
-        self.emit(f"Type a number from 1 to {len(self._lesson_pick)}, or press Enter to cancel.")
+        self.emit(f"Type a number from 1 to {len(self._lesson_pick)}, r for random, or press Enter to cancel.")
 
     def _start_lesson(self, lesson: dict[str, Any]) -> None:
         from ..compose import collect_pack_grammar, drill_order, lesson_pack_evidence

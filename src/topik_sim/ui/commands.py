@@ -109,7 +109,7 @@ COMMANDS: list[Command] = [
         "up front — meaning, an example, and how it appears in your imported packs — then you\n"
         "write several English-to-Korean sentences that all use it. An exact match auto-passes;\n"
         "otherwise the model is revealed and you self-rate y/n. /say reads the model aloud.\n"
-        "Examples: /compose · /compose 싶 · /compose past-tense",
+        "Examples: /compose · /compose random · /compose 싶 · /compose past-tense",
     ),
     Command(
         "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
