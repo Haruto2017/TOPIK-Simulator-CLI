@@ -1,0 +1,141 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "adv-jamaja",
+      "pattern": "-자마자",
+      "meaning": "as soon as (one thing happens, the next follows)",
+      "example": "집에 도착하자마자 잠을 잤어요.",
+      "example_en": "As soon as I arrived home, I went to sleep.",
+      "note": "Attach **-자마자** directly to a verb stem (no tense marker) to show the second action happens right after the first.",
+      "match": ["자마자"],
+      "level": 2,
+      "sentences": [
+        { "english": "As soon as I woke up, I drank water.", "korean": "일어나자마자 물을 마셨어요.", "accepted": ["일어나자마자 물을 마셨어요.", "일어나자마자 물을 마셨습니다.", "저는 일어나자마자 물을 마셨어요."] },
+        { "english": "As soon as class ended, I went home.", "korean": "수업이 끝나자마자 집에 갔어요.", "accepted": ["수업이 끝나자마자 집에 갔어요.", "수업이 끝나자마자 집에 갔습니다."] },
+        { "english": "As soon as I heard the news, I called my friend.", "korean": "소식을 듣자마자 친구에게 전화했어요.", "accepted": ["소식을 듣자마자 친구에게 전화했어요.", "소식을 듣자마자 친구에게 전화했습니다.", "소식을 듣자마자 친구한테 전화했어요."] },
+        { "english": "As soon as I sat down, the phone rang.", "korean": "앉자마자 전화가 왔어요.", "accepted": ["앉자마자 전화가 왔어요.", "앉자마자 전화가 왔습니다."] },
+        { "english": "As soon as I get home, I will rest.", "korean": "집에 가자마자 쉴 거예요.", "accepted": ["집에 가자마자 쉴 거예요.", "집에 가자마자 쉬겠어요.", "집에 도착하자마자 쉴 거예요."] }
+      ]
+    },
+    {
+      "id": "adv-neun-dongan",
+      "pattern": "-는 동안(에)",
+      "meaning": "while / during (an action is ongoing)",
+      "example": "제가 공부하는 동안 동생은 잤어요.",
+      "example_en": "While I was studying, my younger sibling slept.",
+      "note": "Use **-는 동안(에)** after a verb stem for \"while doing,\" or attach **동안** to a noun (방학 동안 = during the vacation).",
+      "match": ["는 동안", "동안에"],
+      "level": 2,
+      "sentences": [
+        { "english": "While I was sleeping, it rained.", "korean": "제가 자는 동안 비가 왔어요.", "accepted": ["제가 자는 동안 비가 왔어요.", "제가 자는 동안 비가 왔습니다.", "제가 자는 동안에 비가 왔어요.", "내가 자는 동안 비가 왔어요."] },
+        { "english": "Please wait while I cook.", "korean": "제가 요리하는 동안 기다려 주세요.", "accepted": ["제가 요리하는 동안 기다려 주세요.", "제가 요리하는 동안에 기다려 주세요.", "요리하는 동안 기다려 주세요."] },
+        { "english": "While my mother was out, I cleaned the house.", "korean": "어머니가 나가신 동안 집을 청소했어요.", "accepted": ["어머니가 나가신 동안 집을 청소했어요.", "어머니가 안 계시는 동안 집을 청소했어요.", "어머니가 안 계시는 동안에 집을 청소했어요."] },
+        { "english": "I read a book while waiting for the bus.", "korean": "버스를 기다리는 동안 책을 읽었어요.", "accepted": ["버스를 기다리는 동안 책을 읽었어요.", "버스를 기다리는 동안에 책을 읽었어요.", "버스를 기다리는 동안 책을 읽었습니다."] },
+        { "english": "While I was studying abroad, I learned a lot.", "korean": "유학하는 동안 많이 배웠어요.", "accepted": ["유학하는 동안 많이 배웠어요.", "유학하는 동안에 많이 배웠어요.", "유학하는 동안 많이 배웠습니다."] }
+      ]
+    },
+    {
+      "id": "adv-gi-wihae",
+      "pattern": "-기 위해(서)",
+      "meaning": "in order to / for the purpose of",
+      "example": "건강해지기 위해서 운동을 해요.",
+      "example_en": "I exercise in order to become healthy.",
+      "note": "Attach **-기 위해(서)** to a verb stem for a goal, or use **N을/를 위해(서)** with a noun (가족을 위해서 = for my family).",
+      "match": ["기 위해", "기 위하"],
+      "level": 3,
+      "sentences": [
+        { "english": "I study hard in order to pass the exam.", "korean": "시험에 합격하기 위해서 열심히 공부해요.", "accepted": ["시험에 합격하기 위해서 열심히 공부해요.", "시험에 합격하기 위해 열심히 공부해요.", "시험에 합격하기 위해서 열심히 공부합니다."] },
+        { "english": "I save money in order to travel.", "korean": "여행하기 위해서 돈을 모아요.", "accepted": ["여행하기 위해서 돈을 모아요.", "여행하기 위해 돈을 모아요.", "여행을 하기 위해서 돈을 모아요."] },
+        { "english": "I get up early in order to catch the train.", "korean": "기차를 타기 위해서 일찍 일어나요.", "accepted": ["기차를 타기 위해서 일찍 일어나요.", "기차를 타기 위해 일찍 일어나요.", "기차를 타기 위해서 일찍 일어납니다."] },
+        { "english": "I came to Korea in order to learn Korean.", "korean": "한국어를 배우기 위해서 한국에 왔어요.", "accepted": ["한국어를 배우기 위해서 한국에 왔어요.", "한국어를 배우기 위해 한국에 왔어요.", "한국어를 배우기 위해서 한국에 왔습니다."] },
+        { "english": "I work hard for my family.", "korean": "가족을 위해서 열심히 일해요.", "accepted": ["가족을 위해서 열심히 일해요.", "가족을 위해 열심히 일해요.", "가족을 위해서 열심히 일합니다."] }
+      ]
+    },
+    {
+      "id": "adv-dago-hada",
+      "pattern": "-(ㄴ/는)다고 하다",
+      "meaning": "reported speech: to say / said that ~",
+      "example": "친구가 내일 온다고 했어요.",
+      "example_en": "My friend said (that) he will come tomorrow.",
+      "note": "Verbs take **-ㄴ다고/는다고 하다** (간다고, 먹는다고), adjectives **-다고** (예쁘다고), and nouns **-(이)라고** (학생이라고).",
+      "match": ["다고 하", "다고 해", "다고 했", "라고 해"],
+      "level": 3,
+      "sentences": [
+        { "english": "My friend says he goes to school.", "korean": "친구가 학교에 간다고 해요.", "accepted": ["친구가 학교에 간다고 해요.", "친구가 학교에 간다고 합니다.", "친구는 학교에 간다고 해요."] },
+        { "english": "My older brother said he eats breakfast every day.", "korean": "형이 매일 아침을 먹는다고 했어요.", "accepted": ["형이 매일 아침을 먹는다고 했어요.", "형이 매일 아침을 먹는다고 했습니다.", "오빠가 매일 아침을 먹는다고 했어요."] },
+        { "english": "She says the flowers are pretty.", "korean": "그 사람이 꽃이 예쁘다고 해요.", "accepted": ["그 사람이 꽃이 예쁘다고 해요.", "그 사람이 꽃이 예쁘다고 합니다.", "그 사람은 꽃이 예쁘다고 해요."] },
+        { "english": "He said he is a student.", "korean": "그 사람이 학생이라고 했어요.", "accepted": ["그 사람이 학생이라고 했어요.", "그 사람이 학생이라고 했습니다.", "그 사람은 학생이라고 했어요."] },
+        { "english": "The teacher said tomorrow there is no class.", "korean": "선생님이 내일 수업이 없다고 했어요.", "accepted": ["선생님이 내일 수업이 없다고 했어요.", "선생님이 내일 수업이 없다고 했습니다.", "선생님께서 내일 수업이 없다고 하셨어요."] }
+      ]
+    },
+    {
+      "id": "adv-neurago",
+      "pattern": "-느라고",
+      "meaning": "because of (doing something, with a negative or hindered result)",
+      "example": "어제 공부하느라고 잠을 못 잤어요.",
+      "example_en": "I couldn't sleep last night because I was studying.",
+      "note": "**-느라고** links a cause to a negative or failed result; both clauses share the same subject and the cause is an action verb, not an adjective.",
+      "match": ["느라고", "느라 "],
+      "level": 3,
+      "sentences": [
+        { "english": "I was busy working, so I couldn't call you.", "korean": "일하느라고 전화를 못 했어요.", "accepted": ["일하느라고 전화를 못 했어요.", "일하느라고 전화를 못 했습니다.", "일하느라 전화를 못 했어요."] },
+        { "english": "I overslept, so I was late.", "korean": "늦잠을 자느라고 늦었어요.", "accepted": ["늦잠을 자느라고 늦었어요.", "늦잠을 자느라고 늦었습니다.", "늦잠을 자느라 늦었어요."] },
+        { "english": "I was watching a movie, so I didn't hear the phone.", "korean": "영화를 보느라고 전화 소리를 못 들었어요.", "accepted": ["영화를 보느라고 전화 소리를 못 들었어요.", "영화를 보느라고 전화 소리를 못 들었습니다.", "영화를 보느라 전화 소리를 못 들었어요."] },
+        { "english": "I was preparing for the exam, so I was very tired.", "korean": "시험을 준비하느라고 너무 피곤했어요.", "accepted": ["시험을 준비하느라고 너무 피곤했어요.", "시험을 준비하느라고 너무 피곤했습니다.", "시험을 준비하느라 너무 피곤했어요."] },
+        { "english": "I was playing games, so I forgot my homework.", "korean": "게임을 하느라고 숙제를 잊어버렸어요.", "accepted": ["게임을 하느라고 숙제를 잊어버렸어요.", "게임을 하느라고 숙제를 잊어버렸습니다.", "게임을 하느라 숙제를 잊어버렸어요."] }
+      ]
+    },
+    {
+      "id": "adv-neundedo",
+      "pattern": "-(으)ㄴ/는데도",
+      "meaning": "even though / in spite of",
+      "example": "열심히 공부했는데도 시험을 못 봤어요.",
+      "example_en": "Even though I studied hard, I did poorly on the exam.",
+      "note": "Use **-는데도** with verbs in the present, **-았/었는데도** for the past, and **-(으)ㄴ데도** with adjectives (바쁜데도 = even though busy).",
+      "match": ["는데도", "ㄴ데도", "은데도"],
+      "level": 3,
+      "sentences": [
+        { "english": "Even though it is raining, I am going out.", "korean": "비가 오는데도 나가요.", "accepted": ["비가 오는데도 나가요.", "비가 오는데도 나갑니다.", "비가 오는데도 밖에 나가요."] },
+        { "english": "Even though I ate a lot, I am still hungry.", "korean": "많이 먹었는데도 아직 배가 고파요.", "accepted": ["많이 먹었는데도 아직 배가 고파요.", "많이 먹었는데도 아직 배가 고픕니다.", "많이 먹었는데도 배가 고파요."] },
+        { "english": "Even though it is expensive, a lot of people buy it.", "korean": "비싼데도 사람들이 많이 사요.", "accepted": ["비싼데도 사람들이 많이 사요.", "비싼데도 사람들이 많이 삽니다.", "비싼데도 사람이 많이 사요."] },
+        { "english": "Even though he is busy, he always helps me.", "korean": "바쁜데도 항상 저를 도와줘요.", "accepted": ["바쁜데도 항상 저를 도와줘요.", "바쁜데도 항상 저를 도와줍니다.", "바쁜데도 늘 저를 도와줘요."] },
+        { "english": "Even though I called many times, he didn't answer.", "korean": "여러 번 전화했는데도 받지 않았어요.", "accepted": ["여러 번 전화했는데도 받지 않았어요.", "여러 번 전화했는데도 받지 않았습니다.", "여러 번 전화했는데도 안 받았어요."] }
+      ]
+    },
+    {
+      "id": "adv-eul-ppeonhada",
+      "pattern": "-(으)ㄹ 뻔하다",
+      "meaning": "almost did / nearly happened (but didn't)",
+      "example": "넘어질 뻔했어요.",
+      "example_en": "I almost fell down.",
+      "note": "**-(으)ㄹ 뻔하다** describes something that nearly happened; it is almost always used in the past tense as **-(으)ㄹ 뻔했어요**.",
+      "match": ["ㄹ 뻔", "을 뻔", "를 뻔"],
+      "level": 3,
+      "sentences": [
+        { "english": "I almost missed the bus.", "korean": "버스를 놓칠 뻔했어요.", "accepted": ["버스를 놓칠 뻔했어요.", "버스를 놓칠 뻔했습니다.", "하마터면 버스를 놓칠 뻔했어요."] },
+        { "english": "I almost forgot your name.", "korean": "이름을 잊어버릴 뻔했어요.", "accepted": ["이름을 잊어버릴 뻔했어요.", "이름을 잊어버릴 뻔했습니다.", "이름을 잊을 뻔했어요."] },
+        { "english": "I was so tired I almost fell asleep.", "korean": "너무 피곤해서 잠이 들 뻔했어요.", "accepted": ["너무 피곤해서 잠이 들 뻔했어요.", "너무 피곤해서 잠이 들 뻔했습니다.", "너무 피곤해서 잠들 뻔했어요."] },
+        { "english": "I almost fell because of the ice.", "korean": "얼음 때문에 넘어질 뻔했어요.", "accepted": ["얼음 때문에 넘어질 뻔했어요.", "얼음 때문에 넘어질 뻔했습니다.", "하마터면 얼음 때문에 넘어질 뻔했어요."] },
+        { "english": "I was so surprised I almost cried.", "korean": "너무 놀라서 울 뻔했어요.", "accepted": ["너무 놀라서 울 뻔했어요.", "너무 놀라서 울 뻔했습니다.", "너무 놀라서 눈물이 날 뻔했어요."] }
+      ]
+    },
+    {
+      "id": "adv-eo-duda-nota",
+      "pattern": "-아/어 두다 / -아/어 놓다",
+      "meaning": "do something in advance and leave it that way",
+      "example": "표를 미리 사 놓았어요.",
+      "example_en": "I bought the tickets in advance (and kept them ready).",
+      "note": "Attach **-아/어 두다** or **-아/어 놓다** to a verb to show you finished an action and left the result in place for later.",
+      "match": ["어 두", "아 두", "어 놓", "아 놓"],
+      "level": 3,
+      "sentences": [
+        { "english": "I made the food in advance.", "korean": "음식을 미리 만들어 놓았어요.", "accepted": ["음식을 미리 만들어 놓았어요.", "음식을 미리 만들어 놨어요.", "음식을 미리 만들어 두었어요.", "음식을 미리 만들어 놓았습니다."] },
+        { "english": "Please leave the window open.", "korean": "창문을 열어 놓으세요.", "accepted": ["창문을 열어 놓으세요.", "창문을 열어 두세요.", "창문을 열어 놓아 주세요."] },
+        { "english": "I wrote down the address beforehand.", "korean": "주소를 미리 적어 두었어요.", "accepted": ["주소를 미리 적어 두었어요.", "주소를 미리 적어 놨어요.", "주소를 미리 적어 놓았어요.", "주소를 미리 적어 뒀어요."] },
+        { "english": "I reserved a seat in advance.", "korean": "자리를 미리 예약해 두었어요.", "accepted": ["자리를 미리 예약해 두었어요.", "자리를 미리 예약해 놓았어요.", "자리를 미리 예약해 놨어요.", "자리를 미리 예약해 뒀어요."] },
+        { "english": "Keep the door closed, please.", "korean": "문을 닫아 두세요.", "accepted": ["문을 닫아 두세요.", "문을 닫아 놓으세요.", "문을 닫아 놓아 주세요."] }
+      ]
+    }
+  ]
+}

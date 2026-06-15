@@ -1,0 +1,141 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "expr-gi-sijakhada",
+      "pattern": "-기 시작하다",
+      "meaning": "to start doing (something)",
+      "example": "갑자기 비가 오기 시작했어요.",
+      "example_en": "It suddenly started to rain.",
+      "note": "Add **-기 시작하다** to a verb stem to say an action begins. The 시작하다 part carries the tense, so the past is **-기 시작했어요**.",
+      "match": ["기 시작"],
+      "level": 2,
+      "sentences": [
+        { "english": "It started to rain.", "korean": "비가 오기 시작했어요.", "accepted": ["비가 오기 시작했어요.", "비가 오기 시작했습니다.", "비가 내리기 시작했어요."] },
+        { "english": "I started to study Korean.", "korean": "한국어를 공부하기 시작했어요.", "accepted": ["한국어를 공부하기 시작했어요.", "한국어를 공부하기 시작했습니다.", "저는 한국어를 공부하기 시작했어요."] },
+        { "english": "The baby started to cry.", "korean": "아기가 울기 시작했어요.", "accepted": ["아기가 울기 시작했어요.", "아기가 울기 시작했습니다."] },
+        { "english": "I start work at nine.", "korean": "아홉 시에 일하기 시작해요.", "accepted": ["아홉 시에 일하기 시작해요.", "아홉 시에 일하기 시작합니다.", "저는 아홉 시에 일하기 시작해요."] },
+        { "english": "The students started to laugh.", "korean": "학생들이 웃기 시작했어요.", "accepted": ["학생들이 웃기 시작했어요.", "학생들이 웃기 시작했습니다."] }
+      ]
+    },
+    {
+      "id": "expr-ge-doeda",
+      "pattern": "-게 되다",
+      "meaning": "to come to / to end up / to get to (do something)",
+      "example": "한국 친구를 만나서 한국어를 잘하게 됐어요.",
+      "example_en": "I met a Korean friend, so I got to be good at Korean.",
+      "note": "**-게 되다** shows a change that happens through circumstances rather than your own plan. The past **됐어요** is a contraction of 되었어요.",
+      "match": ["게 되", "게 됐", "게 됩"],
+      "level": 2,
+      "sentences": [
+        { "english": "I got to like Korean food.", "korean": "한국 음식을 좋아하게 됐어요.", "accepted": ["한국 음식을 좋아하게 됐어요.", "한국 음식을 좋아하게 되었어요.", "한국 음식을 좋아하게 되었습니다."] },
+        { "english": "I came to live in Seoul.", "korean": "서울에서 살게 됐어요.", "accepted": ["서울에서 살게 됐어요.", "서울에서 살게 되었어요.", "서울에서 살게 되었습니다."] },
+        { "english": "I ended up knowing the truth.", "korean": "사실을 알게 됐어요.", "accepted": ["사실을 알게 됐어요.", "사실을 알게 되었어요.", "사실을 알게 되었습니다."] },
+        { "english": "I got to meet a famous singer.", "korean": "유명한 가수를 만나게 됐어요.", "accepted": ["유명한 가수를 만나게 됐어요.", "유명한 가수를 만나게 되었어요.", "유명한 가수를 만나게 되었습니다."] },
+        { "english": "I will end up going to Korea next year.", "korean": "내년에 한국에 가게 될 거예요.", "accepted": ["내년에 한국에 가게 될 거예요.", "내년에 한국에 가게 될 겁니다.", "내년에 한국에 가게 될 것입니다."] }
+      ]
+    },
+    {
+      "id": "expr-a-eo-itda",
+      "pattern": "-아/어 있다",
+      "meaning": "to be in a resulting state (after the action finished)",
+      "example": "할머니가 의자에 앉아 있어요.",
+      "example_en": "Grandmother is sitting on the chair.",
+      "note": "Use **-아/어 있다** for the state that remains after an action, mostly with intransitive verbs like 앉다, 서다, 열리다. This differs from **-고 있다**, which is the ongoing action.",
+      "match": ["아 있", "어 있", "여 있"],
+      "level": 3,
+      "sentences": [
+        { "english": "Grandmother is sitting on the chair.", "korean": "할머니가 의자에 앉아 있어요.", "accepted": ["할머니가 의자에 앉아 있어요.", "할머니가 의자에 앉아 있습니다.", "할머니께서 의자에 앉아 있어요."] },
+        { "english": "A lot of people are standing in front of the store.", "korean": "가게 앞에 사람들이 서 있어요.", "accepted": ["가게 앞에 사람들이 서 있어요.", "가게 앞에 사람들이 서 있습니다.", "가게 앞에 많은 사람들이 서 있어요."] },
+        { "english": "The window is open.", "korean": "창문이 열려 있어요.", "accepted": ["창문이 열려 있어요.", "창문이 열려 있습니다."] },
+        { "english": "My name is written on the paper.", "korean": "종이에 제 이름이 쓰여 있어요.", "accepted": ["종이에 제 이름이 쓰여 있어요.", "종이에 제 이름이 쓰여 있습니다.", "종이에 이름이 쓰여 있어요."] },
+        { "english": "The light is on in the room.", "korean": "방에 불이 켜져 있어요.", "accepted": ["방에 불이 켜져 있어요.", "방에 불이 켜져 있습니다."] }
+      ]
+    },
+    {
+      "id": "expr-a-eo-boida",
+      "pattern": "-아/어 보이다",
+      "meaning": "to look / to seem (a certain way)",
+      "example": "오늘 피곤해 보여요.",
+      "example_en": "You look tired today.",
+      "note": "Attach **-아/어 보이다** to an adjective stem to describe how something looks. Mind the contractions: 예쁘다 → **예뻐 보여요**, 좋다 → **좋아 보여요**.",
+      "match": ["아 보여", "어 보여", "해 보여", "아 보입", "어 보입"],
+      "level": 2,
+      "sentences": [
+        { "english": "You look tired today.", "korean": "오늘 피곤해 보여요.", "accepted": ["오늘 피곤해 보여요.", "오늘 피곤해 보입니다.", "오늘 피곤해 보이네요."] },
+        { "english": "This bag looks expensive.", "korean": "이 가방이 비싸 보여요.", "accepted": ["이 가방이 비싸 보여요.", "이 가방이 비싸 보입니다.", "이 가방은 비싸 보여요."] },
+        { "english": "The food looks delicious.", "korean": "음식이 맛있어 보여요.", "accepted": ["음식이 맛있어 보여요.", "음식이 맛있어 보입니다.", "음식이 맛있어 보이네요."] },
+        { "english": "She looks young.", "korean": "그 사람은 어려 보여요.", "accepted": ["그 사람은 어려 보여요.", "그 사람은 어려 보입니다.", "그 사람이 어려 보여요."] },
+        { "english": "Today you look happy.", "korean": "오늘 행복해 보여요.", "accepted": ["오늘 행복해 보여요.", "오늘 행복해 보입니다.", "오늘 기분이 좋아 보여요."] }
+      ]
+    },
+    {
+      "id": "expr-n-neun-geot-gatda",
+      "pattern": "-(으)ㄴ/는 것 같다",
+      "meaning": "to seem / I think (that)",
+      "example": "밖에 비가 오는 것 같아요.",
+      "example_en": "It seems to be raining outside.",
+      "note": "Use **-는 것 같다** with verbs and **-(으)ㄴ 것 같다** with adjectives to make a soft guess. For a past guess use **-(으)ㄴ 것 같다** on a verb.",
+      "match": ["는 것 같", "ㄴ 것 같", "은 것 같", "운 것 같"],
+      "level": 3,
+      "sentences": [
+        { "english": "It seems to be raining outside.", "korean": "밖에 비가 오는 것 같아요.", "accepted": ["밖에 비가 오는 것 같아요.", "밖에 비가 오는 것 같습니다.", "밖에 비가 오는 것 같아."] },
+        { "english": "This movie seems interesting.", "korean": "이 영화가 재미있는 것 같아요.", "accepted": ["이 영화가 재미있는 것 같아요.", "이 영화가 재미있는 것 같습니다.", "이 영화는 재미있는 것 같아요."] },
+        { "english": "I think this place is good.", "korean": "이 곳이 좋은 것 같아요.", "accepted": ["이 곳이 좋은 것 같아요.", "이 곳이 좋은 것 같습니다.", "여기가 좋은 것 같아요."] },
+        { "english": "I think she already left.", "korean": "그 사람은 벌써 간 것 같아요.", "accepted": ["그 사람은 벌써 간 것 같아요.", "그 사람은 벌써 간 것 같습니다.", "그 사람이 벌써 간 것 같아요."] },
+        { "english": "The weather seems cold today.", "korean": "오늘 날씨가 추운 것 같아요.", "accepted": ["오늘 날씨가 추운 것 같아요.", "오늘 날씨가 추운 것 같습니다.", "오늘은 날씨가 추운 것 같아요."] }
+      ]
+    },
+    {
+      "id": "expr-gi-ro-hada",
+      "pattern": "-기로 하다",
+      "meaning": "to decide to (do something)",
+      "example": "친구하고 내일 만나기로 했어요.",
+      "example_en": "I decided to meet my friend tomorrow.",
+      "note": "Add **-기로 하다** to a verb stem to say you have decided or arranged to do it. Because the decision is already made, it is usually **-기로 했어요**.",
+      "match": ["기로 하", "기로 했", "기로 합"],
+      "level": 3,
+      "sentences": [
+        { "english": "I decided to meet my friend tomorrow.", "korean": "내일 친구를 만나기로 했어요.", "accepted": ["내일 친구를 만나기로 했어요.", "내일 친구를 만나기로 했습니다.", "저는 내일 친구를 만나기로 했어요."] },
+        { "english": "I decided to exercise every day.", "korean": "매일 운동하기로 했어요.", "accepted": ["매일 운동하기로 했어요.", "매일 운동하기로 했습니다.", "저는 매일 운동하기로 했어요."] },
+        { "english": "We decided to study together.", "korean": "같이 공부하기로 했어요.", "accepted": ["같이 공부하기로 했어요.", "같이 공부하기로 했습니다.", "우리는 같이 공부하기로 했어요."] },
+        { "english": "I decided to quit smoking.", "korean": "담배를 끊기로 했어요.", "accepted": ["담배를 끊기로 했어요.", "담배를 끊기로 했습니다."] },
+        { "english": "I decided not to eat late at night.", "korean": "밤에 늦게 먹지 않기로 했어요.", "accepted": ["밤에 늦게 먹지 않기로 했어요.", "밤에 늦게 먹지 않기로 했습니다.", "밤에 늦게 안 먹기로 했어요."] }
+      ]
+    },
+    {
+      "id": "expr-gi-ttaemune",
+      "pattern": "-기 때문에",
+      "meaning": "because (of)",
+      "example": "비가 오기 때문에 집에 있어요.",
+      "example_en": "Because it is raining, I am staying home.",
+      "note": "Add **-기 때문에** to a verb or adjective stem to give a strong reason. After a noun use **N이기 때문에 / N 때문에**. The result clause carries the tense.",
+      "match": ["기 때문"],
+      "level": 3,
+      "sentences": [
+        { "english": "Because it is raining, I am staying home.", "korean": "비가 오기 때문에 집에 있어요.", "accepted": ["비가 오기 때문에 집에 있어요.", "비가 오기 때문에 집에 있습니다.", "비가 오기 때문에 집에 있어요."] },
+        { "english": "Because I am busy, I cannot go.", "korean": "바쁘기 때문에 못 가요.", "accepted": ["바쁘기 때문에 못 가요.", "바쁘기 때문에 못 갑니다.", "저는 바쁘기 때문에 못 가요."] },
+        { "english": "Because the weather is cold, I wear a coat.", "korean": "날씨가 춥기 때문에 코트를 입어요.", "accepted": ["날씨가 춥기 때문에 코트를 입어요.", "날씨가 춥기 때문에 코트를 입습니다."] },
+        { "english": "Because I like Korean food, I often eat it.", "korean": "한국 음식을 좋아하기 때문에 자주 먹어요.", "accepted": ["한국 음식을 좋아하기 때문에 자주 먹어요.", "한국 음식을 좋아하기 때문에 자주 먹습니다.", "저는 한국 음식을 좋아하기 때문에 자주 먹어요."] },
+        { "english": "Because there was a lot of work, I was tired.", "korean": "일이 많았기 때문에 피곤했어요.", "accepted": ["일이 많았기 때문에 피곤했어요.", "일이 많았기 때문에 피곤했습니다."] }
+      ]
+    },
+    {
+      "id": "expr-myeon-joketda",
+      "pattern": "-(으)면 좋겠다",
+      "meaning": "I wish / it would be nice if",
+      "example": "내일 날씨가 좋으면 좋겠어요.",
+      "example_en": "I hope the weather is nice tomorrow.",
+      "note": "Attach **-(으)면 좋겠다** to a stem to express a wish: **-면** after a vowel, **-으면** after a consonant. The polite form is **좋겠어요**.",
+      "match": ["면 좋겠", "으면 좋겠"],
+      "level": 3,
+      "sentences": [
+        { "english": "I hope the weather is nice tomorrow.", "korean": "내일 날씨가 좋으면 좋겠어요.", "accepted": ["내일 날씨가 좋으면 좋겠어요.", "내일 날씨가 좋으면 좋겠습니다.", "내일 날씨가 좋았으면 좋겠어요."] },
+        { "english": "I wish it would not rain.", "korean": "비가 안 오면 좋겠어요.", "accepted": ["비가 안 오면 좋겠어요.", "비가 안 오면 좋겠습니다.", "비가 오지 않으면 좋겠어요."] },
+        { "english": "I wish I could pass the exam.", "korean": "시험에 합격하면 좋겠어요.", "accepted": ["시험에 합격하면 좋겠어요.", "시험에 합격하면 좋겠습니다.", "시험에 합격했으면 좋겠어요."] },
+        { "english": "It would be nice if you came too.", "korean": "당신도 오면 좋겠어요.", "accepted": ["당신도 오면 좋겠어요.", "당신도 오면 좋겠습니다.", "너도 오면 좋겠어."] },
+        { "english": "I wish I had more time.", "korean": "시간이 더 있으면 좋겠어요.", "accepted": ["시간이 더 있으면 좋겠어요.", "시간이 더 있으면 좋겠습니다.", "시간이 더 많으면 좋겠어요."] }
+      ]
+    }
+  ]
+}

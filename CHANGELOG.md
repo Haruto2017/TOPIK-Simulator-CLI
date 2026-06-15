@@ -15,9 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   has you write several English→Korean sentences that all use it. Exact matches
   auto-pass; otherwise the model and natural variants are revealed and you
   self-rate. `/say` reads the model aloud. Lessons live in the editable
-  `content/compose/` directory, covering ~50 grammar structures across the
-  core TOPIK I inventory (particles, connectors, tense/negation, ability and
-  obligation, requests, time relations, and comparison).
+  `content/compose/` directory, covering ~65 grammar structures across the
+  core TOPIK inventory (particles, connectors, tense/negation, ability and
+  obligation, requests, time relations, comparison) plus common exam
+  expression patterns (-기 시작하다, -게 되다, -(으)ㄴ/는 것 같다, reported
+  speech, -자마자, -기 위해서, and more). `/compose random` picks one at random.
 
 ## [1.1.0] - 2026-06-13
 
