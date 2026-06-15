@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "tense-future",
+      "pattern": "-(으)ㄹ 거예요",
+      "meaning": "will / be going to (future tense)",
+      "example": "내일 부산에 갈 거예요.",
+      "example_en": "I will go to Busan tomorrow.",
+      "note": "Attach **-ㄹ 거예요** to a vowel stem and **-을 거예요** to a consonant stem; the formal form is **-(으)ㄹ 겁니다**.",
+      "match": ["거예요", "ㄹ 거"],
+      "level": 1,
+      "sentences": [
+        { "english": "I will study tomorrow.", "korean": "내일 공부할 거예요.", "accepted": ["내일 공부할 거예요.", "내일 공부할 겁니다.", "저는 내일 공부할 거예요."] },
+        { "english": "I will eat lunch.", "korean": "점심을 먹을 거예요.", "accepted": ["점심을 먹을 거예요.", "점심을 먹을 겁니다."] },
+        { "english": "I will meet a friend.", "korean": "친구를 만날 거예요.", "accepted": ["친구를 만날 거예요.", "친구를 만날 겁니다."] },
+        { "english": "I will rest at home.", "korean": "집에서 쉴 거예요.", "accepted": ["집에서 쉴 거예요.", "집에서 쉴 겁니다."] },
+        { "english": "I will read a book.", "korean": "책을 읽을 거예요.", "accepted": ["책을 읽을 거예요.", "책을 읽을 겁니다."] }
+      ]
+    },
+    {
+      "id": "tense-progressive",
+      "pattern": "-고 있다",
+      "meaning": "to be doing (present progressive)",
+      "example": "지금 밥을 먹고 있어요.",
+      "example_en": "I'm eating right now.",
+      "note": "Attach **-고 있어요** (polite) or **-고 있습니다** (formal) to a verb stem to say an action is in progress now.",
+      "match": ["고 있"],
+      "level": 1,
+      "sentences": [
+        { "english": "I'm studying Korean.", "korean": "한국어를 공부하고 있어요.", "accepted": ["한국어를 공부하고 있어요.", "한국어를 공부하고 있습니다.", "저는 한국어를 공부하고 있어요."] },
+        { "english": "I'm reading a book now.", "korean": "지금 책을 읽고 있어요.", "accepted": ["지금 책을 읽고 있어요.", "지금 책을 읽고 있습니다."] },
+        { "english": "I'm watching a movie.", "korean": "영화를 보고 있어요.", "accepted": ["영화를 보고 있어요.", "영화를 보고 있습니다."] },
+        { "english": "I'm waiting for a friend.", "korean": "친구를 기다리고 있어요.", "accepted": ["친구를 기다리고 있어요.", "친구를 기다리고 있습니다."] },
+        { "english": "It's raining now.", "korean": "지금 비가 오고 있어요.", "accepted": ["지금 비가 오고 있어요.", "지금 비가 오고 있습니다."] }
+      ]
+    },
+    {
+      "id": "tense-an-negation",
+      "pattern": "안 + verb/adjective",
+      "meaning": "not (short negation)",
+      "example": "오늘은 안 가요.",
+      "example_en": "I'm not going today.",
+      "note": "Put **안** right before a verb or adjective to negate it. With **하다** verbs it splits the noun and 하다: 공부하다 → **공부 안 해요**.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I don't drink coffee.", "korean": "커피를 안 마셔요.", "accepted": ["커피를 안 마셔요.", "커피를 안 마십니다.", "저는 커피를 안 마셔요."] },
+        { "english": "I don't study today.", "korean": "오늘은 공부 안 해요.", "accepted": ["오늘은 공부 안 해요.", "오늘은 공부 안 합니다."] },
+        { "english": "The weather isn't good.", "korean": "날씨가 안 좋아요.", "accepted": ["날씨가 안 좋아요.", "날씨가 안 좋습니다."] },
+        { "english": "I don't eat meat.", "korean": "고기를 안 먹어요.", "accepted": ["고기를 안 먹어요.", "고기를 안 먹습니다."] },
+        { "english": "I'm not busy today.", "korean": "오늘은 안 바빠요.", "accepted": ["오늘은 안 바빠요.", "오늘은 안 바쁩니다."] }
+      ]
+    },
+    {
+      "id": "tense-mot-inability",
+      "pattern": "못 + verb",
+      "meaning": "cannot (inability, short form)",
+      "example": "오늘은 못 가요.",
+      "example_en": "I can't go today.",
+      "note": "Put **못** right before a verb to say you can't do it. With **하다** verbs it splits the noun and 하다: 운동하다 → **운동 못 해요**.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I can't go today.", "korean": "오늘은 못 가요.", "accepted": ["오늘은 못 가요.", "오늘은 못 갑니다.", "저는 오늘은 못 가요."] },
+        { "english": "I can't eat spicy food.", "korean": "매운 음식을 못 먹어요.", "accepted": ["매운 음식을 못 먹어요.", "매운 음식을 못 먹습니다."] },
+        { "english": "I can't drive.", "korean": "운전을 못 해요.", "accepted": ["운전을 못 해요.", "운전을 못 합니다.", "운전 못 해요."] },
+        { "english": "I can't sleep these days.", "korean": "요즘 잠을 못 자요.", "accepted": ["요즘 잠을 못 자요.", "요즘 잠을 못 잡니다."] },
+        { "english": "I can't meet a friend today.", "korean": "오늘은 친구를 못 만나요.", "accepted": ["오늘은 친구를 못 만나요.", "오늘은 친구를 못 만납니다."] }
+      ]
+    },
+    {
+      "id": "tense-ji-anta",
+      "pattern": "-지 않다",
+      "meaning": "not (long negation)",
+      "example": "오늘은 가지 않아요.",
+      "example_en": "I'm not going today.",
+      "note": "Attach **-지 않아요** (polite) or **-지 않습니다** (formal) to a verb or adjective stem. It means the same as short **안** but sounds a little more formal.",
+      "match": ["지 않"],
+      "level": 2,
+      "sentences": [
+        { "english": "I don't drink coffee.", "korean": "커피를 마시지 않아요.", "accepted": ["커피를 마시지 않아요.", "커피를 마시지 않습니다.", "저는 커피를 마시지 않아요."] },
+        { "english": "I don't study on weekends.", "korean": "주말에는 공부하지 않아요.", "accepted": ["주말에는 공부하지 않아요.", "주말에는 공부하지 않습니다."] },
+        { "english": "This room isn't big.", "korean": "이 방은 크지 않아요.", "accepted": ["이 방은 크지 않아요.", "이 방은 크지 않습니다."] },
+        { "english": "I don't watch TV.", "korean": "텔레비전을 보지 않아요.", "accepted": ["텔레비전을 보지 않아요.", "텔레비전을 보지 않습니다."] },
+        { "english": "The food isn't expensive.", "korean": "음식이 비싸지 않아요.", "accepted": ["음식이 비싸지 않아요.", "음식이 비싸지 않습니다."] }
+      ]
+    },
+    {
+      "id": "tense-ji-motada",
+      "pattern": "-지 못하다",
+      "meaning": "cannot (inability, long form)",
+      "example": "오늘은 가지 못해요.",
+      "example_en": "I can't go today.",
+      "note": "Attach **-지 못해요** (polite) or **-지 못합니다** (formal) to a verb stem. It means the same as short **못** but sounds a little more formal.",
+      "match": ["지 못"],
+      "level": 2,
+      "sentences": [
+        { "english": "I can't go today.", "korean": "오늘은 가지 못해요.", "accepted": ["오늘은 가지 못해요.", "오늘은 가지 못합니다.", "저는 오늘은 가지 못해요."] },
+        { "english": "I can't eat spicy food.", "korean": "매운 음식을 먹지 못해요.", "accepted": ["매운 음식을 먹지 못해요.", "매운 음식을 먹지 못합니다."] },
+        { "english": "I can't swim.", "korean": "수영을 하지 못해요.", "accepted": ["수영을 하지 못해요.", "수영을 하지 못합니다."] },
+        { "english": "I couldn't sleep yesterday.", "korean": "어제 잠을 자지 못했어요.", "accepted": ["어제 잠을 자지 못했어요.", "어제 잠을 자지 못했습니다."] },
+        { "english": "I can't meet a friend today.", "korean": "오늘은 친구를 만나지 못해요.", "accepted": ["오늘은 친구를 만나지 못해요.", "오늘은 친구를 만나지 못합니다."] }
+      ]
+    }
+  ]
+}

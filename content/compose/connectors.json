@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "conn-go",
+      "pattern": "-고",
+      "meaning": "and / and then (listing or sequencing actions)",
+      "example": "아침을 먹고 학교에 가요.",
+      "example_en": "I eat breakfast and (then) go to school.",
+      "note": "Attach **-고** to a verb or adjective stem to join two clauses; it lists actions or puts them in order without changing for tense.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I wash my hands and eat.", "korean": "손을 씻고 밥을 먹어요.", "accepted": ["손을 씻고 밥을 먹어요.", "손을 씻고 밥을 먹습니다."] },
+        { "english": "I read a book and listen to music.", "korean": "책을 읽고 음악을 들어요.", "accepted": ["책을 읽고 음악을 들어요.", "책을 읽고 음악을 듣습니다."] },
+        { "english": "I do my homework and then sleep.", "korean": "숙제를 하고 자요.", "accepted": ["숙제를 하고 자요.", "숙제를 하고 잡니다."] },
+        { "english": "This room is big and clean.", "korean": "이 방은 크고 깨끗해요.", "accepted": ["이 방은 크고 깨끗해요.", "이 방은 크고 깨끗합니다."] },
+        { "english": "I exercise and take a shower.", "korean": "운동하고 샤워해요.", "accepted": ["운동하고 샤워해요.", "운동하고 샤워합니다."] }
+      ]
+    },
+    {
+      "id": "conn-jiman",
+      "pattern": "-지만",
+      "meaning": "but / although (contrast)",
+      "example": "한국어는 어렵지만 재미있어요.",
+      "example_en": "Korean is difficult, but it's fun.",
+      "note": "Attach **-지만** to a verb or adjective stem to contrast two clauses; the two ideas pull in opposite directions.",
+      "match": ["지만"],
+      "level": 1,
+      "sentences": [
+        { "english": "I like coffee, but I don't like tea.", "korean": "커피는 좋아하지만 차는 안 좋아해요.", "accepted": ["커피는 좋아하지만 차는 안 좋아해요.", "커피는 좋아하지만 차는 안 좋아합니다.", "커피는 좋아하지만 차는 좋아하지 않아요."] },
+        { "english": "This bag is pretty, but it's expensive.", "korean": "이 가방은 예쁘지만 비싸요.", "accepted": ["이 가방은 예쁘지만 비싸요.", "이 가방은 예쁘지만 비쌉니다."] },
+        { "english": "I studied a lot, but the test was hard.", "korean": "공부를 많이 했지만 시험이 어려웠어요.", "accepted": ["공부를 많이 했지만 시험이 어려웠어요.", "공부를 많이 했지만 시험이 어려웠습니다."] },
+        { "english": "The food is delicious, but the restaurant is small.", "korean": "음식은 맛있지만 식당이 작아요.", "accepted": ["음식은 맛있지만 식당이 작아요.", "음식은 맛있지만 식당이 작습니다."] },
+        { "english": "I'm tired, but I have to work.", "korean": "피곤하지만 일해야 해요.", "accepted": ["피곤하지만 일해야 해요.", "피곤하지만 일해야 합니다.", "피곤하지만 일을 해야 해요."] }
+      ]
+    },
+    {
+      "id": "conn-nikka",
+      "pattern": "-(으)니까",
+      "meaning": "because / so (reason, often before a suggestion)",
+      "example": "비가 오니까 우산을 가져가세요.",
+      "example_en": "It's raining, so take an umbrella.",
+      "note": "**-(으)니까** gives a reason, and the second clause is often a suggestion or command: **-니까** after a vowel, **-으니까** after a consonant.",
+      "match": ["니까"],
+      "level": 2,
+      "sentences": [
+        { "english": "It's expensive, so let's not buy it.", "korean": "비싸니까 사지 마세요.", "accepted": ["비싸니까 사지 마세요.", "비싸니까 사지 맙시다.", "비싸니까 사지 마요."] },
+        { "english": "I'm busy now, so let's meet tomorrow.", "korean": "지금 바쁘니까 내일 만나요.", "accepted": ["지금 바쁘니까 내일 만나요.", "지금 바쁘니까 내일 만납시다."] },
+        { "english": "The weather is good, so let's go to the park.", "korean": "날씨가 좋으니까 공원에 가요.", "accepted": ["날씨가 좋으니까 공원에 가요.", "날씨가 좋으니까 공원에 갑시다."] },
+        { "english": "This restaurant is delicious, so let's eat here.", "korean": "이 식당이 맛있으니까 여기에서 먹어요.", "accepted": ["이 식당이 맛있으니까 여기에서 먹어요.", "이 식당이 맛있으니까 여기에서 먹읍시다.", "이 식당이 맛있으니까 여기서 먹어요."] },
+        { "english": "I'm tired, so I'll rest at home today.", "korean": "피곤하니까 오늘은 집에서 쉴 거예요.", "accepted": ["피곤하니까 오늘은 집에서 쉴 거예요.", "피곤하니까 오늘은 집에서 쉬겠어요."] }
+      ]
+    },
+    {
+      "id": "conn-myeon",
+      "pattern": "-(으)면",
+      "meaning": "if / when (condition)",
+      "example": "시간이 있으면 영화를 봐요.",
+      "example_en": "If I have time, I watch a movie.",
+      "note": "**-(으)면** marks a condition in the first clause: **-면** after a vowel, **-으면** after a consonant.",
+      "match": [],
+      "level": 2,
+      "sentences": [
+        { "english": "If it rains, I stay home.", "korean": "비가 오면 집에 있어요.", "accepted": ["비가 오면 집에 있어요.", "비가 오면 집에 있습니다."] },
+        { "english": "If you're tired, please rest.", "korean": "피곤하면 쉬세요.", "accepted": ["피곤하면 쉬세요.", "피곤하면 쉬어요.", "피곤하면 쉬십시오."] },
+        { "english": "When spring comes, flowers bloom.", "korean": "봄이 오면 꽃이 피어요.", "accepted": ["봄이 오면 꽃이 피어요.", "봄이 오면 꽃이 핍니다."] },
+        { "english": "If you have time, let's meet tomorrow.", "korean": "시간이 있으면 내일 만나요.", "accepted": ["시간이 있으면 내일 만나요.", "시간이 있으면 내일 만납시다."] },
+        { "english": "If it's cheap, I'll buy it.", "korean": "싸면 살 거예요.", "accepted": ["싸면 살 거예요.", "싸면 사겠어요."] }
+      ]
+    },
+    {
+      "id": "conn-neunde",
+      "pattern": "-는데",
+      "meaning": "background or mild contrast (and / but / so)",
+      "example": "지금 밥을 먹는데 좀 매워요.",
+      "example_en": "I'm eating now, and it's a bit spicy.",
+      "note": "**-는데** sets up background for the next clause or marks a soft contrast; use **-는데** with verbs and **-(으)ㄴ데** with adjectives.",
+      "match": ["는데"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'm going to the library; do you want to come together?", "korean": "도서관에 가는데 같이 갈래요?", "accepted": ["도서관에 가는데 같이 갈래요?", "도서관에 가는데 같이 가실래요?"] },
+        { "english": "I want to buy this bag, but it's expensive.", "korean": "이 가방을 사고 싶은데 너무 비싸요.", "accepted": ["이 가방을 사고 싶은데 너무 비싸요.", "이 가방을 사고 싶은데 너무 비쌉니다."] },
+        { "english": "I'm studying Korean, and it's really fun.", "korean": "한국어를 공부하는데 정말 재미있어요.", "accepted": ["한국어를 공부하는데 정말 재미있어요.", "한국어를 공부하는데 정말 재미있습니다."] },
+        { "english": "I'm at the cafe now; where are you?", "korean": "지금 카페에 있는데 어디예요?", "accepted": ["지금 카페에 있는데 어디예요?", "지금 카페에 있는데 어디에 있어요?", "지금 카페에 있는데 어디세요?"] },
+        { "english": "I called my friend, but he didn't answer the phone.", "korean": "친구한테 전화했는데 전화를 안 받았어요.", "accepted": ["친구한테 전화했는데 전화를 안 받았어요.", "친구한테 전화했는데 전화를 안 받았습니다.", "친구에게 전화했는데 전화를 안 받았어요."] }
+      ]
+    },
+    {
+      "id": "conn-geona",
+      "pattern": "-거나",
+      "meaning": "or (listing alternative actions)",
+      "example": "주말에 책을 읽거나 영화를 봐요.",
+      "example_en": "On weekends I read a book or watch a movie.",
+      "note": "Attach **-거나** to a verb or adjective stem to offer alternatives — it joins choices the way **이나/나** joins nouns.",
+      "match": ["거나"],
+      "level": 2,
+      "sentences": [
+        { "english": "On weekends I rest or exercise.", "korean": "주말에 쉬거나 운동해요.", "accepted": ["주말에 쉬거나 운동해요.", "주말에 쉬거나 운동합니다."] },
+        { "english": "When I'm bored, I listen to music or read a book.", "korean": "심심할 때 음악을 듣거나 책을 읽어요.", "accepted": ["심심할 때 음악을 듣거나 책을 읽어요.", "심심할 때 음악을 듣거나 책을 읽습니다."] },
+        { "english": "I usually drink coffee or tea in the morning.", "korean": "보통 아침에 커피를 마시거나 차를 마셔요.", "accepted": ["보통 아침에 커피를 마시거나 차를 마셔요.", "보통 아침에 커피를 마시거나 차를 마십니다.", "보통 아침에 커피나 차를 마셔요."] },
+        { "english": "On the weekend I go to the movies or meet friends.", "korean": "주말에 영화를 보거나 친구를 만나요.", "accepted": ["주말에 영화를 보거나 친구를 만나요.", "주말에 영화를 보거나 친구를 만납니다.", "주말에 영화를 보거나 친구들을 만나요."] },
+        { "english": "On vacation I want to travel or rest at home.", "korean": "휴가 때 여행하거나 집에서 쉬고 싶어요.", "accepted": ["휴가 때 여행하거나 집에서 쉬고 싶어요.", "휴가 때 여행하거나 집에서 쉬고 싶습니다.", "휴가 때 여행을 하거나 집에서 쉬고 싶어요."] }
+      ]
+    }
+  ]
+}

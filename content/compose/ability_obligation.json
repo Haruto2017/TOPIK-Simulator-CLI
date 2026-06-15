@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "able-can",
+      "pattern": "-(으)ㄹ 수 있다",
+      "meaning": "can / be able to (do something)",
+      "example": "저는 한국어를 할 수 있어요.",
+      "example_en": "I can speak Korean.",
+      "note": "Attach **-ㄹ 수 있어요** after a vowel and **-을 수 있어요** after a consonant to say you are able to do something; the formal form is -(으)ㄹ 수 있습니다.",
+      "match": ["수 있"],
+      "level": 2,
+      "sentences": [
+        { "english": "I can speak Korean.", "korean": "한국어를 할 수 있어요.", "accepted": ["한국어를 할 수 있어요.", "한국어를 할 수 있습니다.", "저는 한국어를 할 수 있어요."] },
+        { "english": "I can swim.", "korean": "수영을 할 수 있어요.", "accepted": ["수영을 할 수 있어요.", "수영을 할 수 있습니다.", "수영할 수 있어요."] },
+        { "english": "I can read this book.", "korean": "이 책을 읽을 수 있어요.", "accepted": ["이 책을 읽을 수 있어요.", "이 책을 읽을 수 있습니다."] },
+        { "english": "I can come tomorrow.", "korean": "내일 올 수 있어요.", "accepted": ["내일 올 수 있어요.", "내일 올 수 있습니다."] },
+        { "english": "I can make Korean food.", "korean": "한국 음식을 만들 수 있어요.", "accepted": ["한국 음식을 만들 수 있어요.", "한국 음식을 만들 수 있습니다."] }
+      ]
+    },
+    {
+      "id": "able-cannot",
+      "pattern": "-(으)ㄹ 수 없다",
+      "meaning": "cannot / be unable to (do something)",
+      "example": "오늘은 갈 수 없어요.",
+      "example_en": "I can't go today.",
+      "note": "Use **-(으)ㄹ 수 없어요** for the opposite of -(으)ㄹ 수 있어요; in speech 못 + verb (못 가요) carries the same meaning.",
+      "match": ["수 없"],
+      "level": 2,
+      "sentences": [
+        { "english": "I can't go today.", "korean": "오늘은 갈 수 없어요.", "accepted": ["오늘은 갈 수 없어요.", "오늘은 갈 수 없습니다.", "오늘 갈 수 없어요."] },
+        { "english": "I can't drive a car.", "korean": "운전을 할 수 없어요.", "accepted": ["운전을 할 수 없어요.", "운전을 할 수 없습니다.", "운전할 수 없어요."] },
+        { "english": "I can't eat spicy food.", "korean": "매운 음식을 먹을 수 없어요.", "accepted": ["매운 음식을 먹을 수 없어요.", "매운 음식을 먹을 수 없습니다."] },
+        { "english": "I can't sleep tonight.", "korean": "오늘 밤에 잘 수 없어요.", "accepted": ["오늘 밤에 잘 수 없어요.", "오늘 밤에 잘 수 없습니다."] },
+        { "english": "I can't find my phone.", "korean": "제 휴대폰을 찾을 수 없어요.", "accepted": ["제 휴대폰을 찾을 수 없어요.", "제 휴대폰을 찾을 수 없습니다.", "휴대폰을 찾을 수 없어요."] }
+      ]
+    },
+    {
+      "id": "able-must-hada",
+      "pattern": "-아/어야 하다",
+      "meaning": "must / have to (do something)",
+      "example": "지금 가야 해요.",
+      "example_en": "I have to go now.",
+      "note": "Add **-아야 해요** to ㅏ/ㅗ stems and **-어야 해요** to the others to express obligation; 하다 verbs become 해야 해요.",
+      "match": ["아야 하", "어야 하", "야 해", "여야 하"],
+      "level": 2,
+      "sentences": [
+        { "english": "I have to go now.", "korean": "지금 가야 해요.", "accepted": ["지금 가야 해요.", "지금 가야 합니다.", "지금 가야 해."] },
+        { "english": "I have to study today.", "korean": "오늘 공부해야 해요.", "accepted": ["오늘 공부해야 해요.", "오늘 공부해야 합니다."] },
+        { "english": "I have to get up early.", "korean": "일찍 일어나야 해요.", "accepted": ["일찍 일어나야 해요.", "일찍 일어나야 합니다."] },
+        { "english": "You have to read this book.", "korean": "이 책을 읽어야 해요.", "accepted": ["이 책을 읽어야 해요.", "이 책을 읽어야 합니다."] },
+        { "english": "I have to take medicine.", "korean": "약을 먹어야 해요.", "accepted": ["약을 먹어야 해요.", "약을 먹어야 합니다."] }
+      ]
+    },
+    {
+      "id": "able-must-doeda",
+      "pattern": "-아/어야 되다",
+      "meaning": "must / have to (do something)",
+      "example": "내일까지 끝내야 돼요.",
+      "example_en": "I have to finish by tomorrow.",
+      "note": "**-아/어야 돼요** means the same as -아/어야 해요 and is common in everyday speech; the formal form is -아/어야 됩니다.",
+      "match": ["야 되", "야 돼"],
+      "level": 2,
+      "sentences": [
+        { "english": "I have to finish by tomorrow.", "korean": "내일까지 끝내야 돼요.", "accepted": ["내일까지 끝내야 돼요.", "내일까지 끝내야 됩니다.", "내일까지 끝내야 해요."] },
+        { "english": "I have to wait here.", "korean": "여기에서 기다려야 돼요.", "accepted": ["여기에서 기다려야 돼요.", "여기에서 기다려야 됩니다.", "여기서 기다려야 돼요."] },
+        { "english": "You have to wear a mask.", "korean": "마스크를 써야 돼요.", "accepted": ["마스크를 써야 돼요.", "마스크를 써야 됩니다.", "마스크를 써야 해요."] },
+        { "english": "I have to call my mom.", "korean": "엄마한테 전화해야 돼요.", "accepted": ["엄마한테 전화해야 돼요.", "엄마한테 전화해야 됩니다.", "엄마에게 전화해야 돼요."] },
+        { "english": "I have to clean the room.", "korean": "방을 청소해야 돼요.", "accepted": ["방을 청소해야 돼요.", "방을 청소해야 됩니다.", "방을 청소해야 해요."] }
+      ]
+    },
+    {
+      "id": "able-must-not",
+      "pattern": "-(으)면 안 되다",
+      "meaning": "must not / be not allowed to",
+      "example": "여기에서 사진을 찍으면 안 돼요.",
+      "example_en": "You must not take pictures here.",
+      "note": "Attach **-면 안 돼요** after a vowel and **-으면 안 돼요** after a consonant to say something is not allowed; the formal form is -(으)면 안 됩니다.",
+      "match": ["면 안 되", "면 안 돼", "면 안 됩"],
+      "level": 2,
+      "sentences": [
+        { "english": "You must not take pictures here.", "korean": "여기에서 사진을 찍으면 안 돼요.", "accepted": ["여기에서 사진을 찍으면 안 돼요.", "여기에서 사진을 찍으면 안 됩니다.", "여기서 사진을 찍으면 안 돼요."] },
+        { "english": "You must not smoke here.", "korean": "여기에서 담배를 피우면 안 돼요.", "accepted": ["여기에서 담배를 피우면 안 돼요.", "여기에서 담배를 피우면 안 됩니다.", "여기서 담배를 피우면 안 돼요."] },
+        { "english": "You must not be late.", "korean": "늦으면 안 돼요.", "accepted": ["늦으면 안 돼요.", "늦으면 안 됩니다."] },
+        { "english": "You must not open the window.", "korean": "창문을 열면 안 돼요.", "accepted": ["창문을 열면 안 돼요.", "창문을 열면 안 됩니다."] },
+        { "english": "You must not eat here.", "korean": "여기에서 음식을 먹으면 안 돼요.", "accepted": ["여기에서 음식을 먹으면 안 돼요.", "여기에서 음식을 먹으면 안 됩니다.", "여기서 음식을 먹으면 안 돼요."] }
+      ]
+    },
+    {
+      "id": "able-may",
+      "pattern": "-아/어도 되다",
+      "meaning": "may / it's okay to (do something)",
+      "example": "들어가도 돼요?",
+      "example_en": "May I go in?",
+      "note": "Add **-아도 돼요** to ㅏ/ㅗ stems and **-어도 돼요** to the others to ask or give permission; raise the tone for a question, as in 들어가도 돼요?",
+      "match": ["아도 되", "어도 되", "아도 돼", "어도 돼", "여도 되", "여도 돼"],
+      "level": 2,
+      "sentences": [
+        { "english": "May I go in?", "korean": "들어가도 돼요?", "accepted": ["들어가도 돼요?", "들어가도 됩니까?", "들어가도 될까요?"] },
+        { "english": "May I sit here?", "korean": "여기에 앉아도 돼요?", "accepted": ["여기에 앉아도 돼요?", "여기에 앉아도 됩니까?", "여기 앉아도 돼요?"] },
+        { "english": "May I take a picture?", "korean": "사진을 찍어도 돼요?", "accepted": ["사진을 찍어도 돼요?", "사진을 찍어도 됩니까?"] },
+        { "english": "You may go home now.", "korean": "이제 집에 가도 돼요.", "accepted": ["이제 집에 가도 돼요.", "이제 집에 가도 됩니다."] },
+        { "english": "May I open the window?", "korean": "창문을 열어도 돼요?", "accepted": ["창문을 열어도 돼요?", "창문을 열어도 됩니까?"] }
+      ]
+    }
+  ]
+}

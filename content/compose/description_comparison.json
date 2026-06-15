@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "comp-boda",
+      "pattern": "N보다",
+      "meaning": "more than / compared to",
+      "example": "기차가 버스보다 빨라요.",
+      "example_en": "The train is faster than the bus.",
+      "note": "Attach **보다** to the noun you are comparing against; it marks the standard, so 'A is bigger than B' becomes A가 B**보다** 커요. Often paired with 더 (more).",
+      "match": ["보다"],
+      "level": 2,
+      "sentences": [
+        { "english": "The train is faster than the bus.", "korean": "기차가 버스보다 빨라요.", "accepted": ["기차가 버스보다 빨라요.", "기차가 버스보다 빠릅니다.", "기차가 버스보다 더 빨라요."] },
+        { "english": "Today is colder than yesterday.", "korean": "오늘이 어제보다 추워요.", "accepted": ["오늘이 어제보다 추워요.", "오늘이 어제보다 춥습니다.", "오늘이 어제보다 더 추워요."] },
+        { "english": "Korean is more interesting than math.", "korean": "한국어가 수학보다 재미있어요.", "accepted": ["한국어가 수학보다 재미있어요.", "한국어가 수학보다 재미있습니다.", "한국어가 수학보다 더 재미있어요."] },
+        { "english": "My older brother is taller than me.", "korean": "형이 저보다 키가 커요.", "accepted": ["형이 저보다 키가 커요.", "형이 저보다 키가 큽니다.", "형이 저보다 더 키가 커요.", "오빠가 저보다 키가 커요."] },
+        { "english": "Coffee is more expensive than tea.", "korean": "커피가 차보다 비싸요.", "accepted": ["커피가 차보다 비싸요.", "커피가 차보다 비쌉니다.", "커피가 차보다 더 비싸요."] }
+      ]
+    },
+    {
+      "id": "comp-jeil",
+      "pattern": "가장 / 제일",
+      "meaning": "the most (superlative)",
+      "example": "저는 사과를 제일 좋아해요.",
+      "example_en": "I like apples the most.",
+      "note": "Place **가장** or **제일** before a verb or adjective to make a superlative ('the most ~'). They mean the same thing; **제일** is a little more casual.",
+      "match": ["가장", "제일"],
+      "level": 2,
+      "sentences": [
+        { "english": "I like apples the most.", "korean": "저는 사과를 제일 좋아해요.", "accepted": ["저는 사과를 제일 좋아해요.", "저는 사과를 제일 좋아합니다.", "저는 사과를 가장 좋아해요.", "사과를 제일 좋아해요."] },
+        { "english": "Seoul is the biggest city in Korea.", "korean": "서울이 한국에서 가장 큰 도시예요.", "accepted": ["서울이 한국에서 가장 큰 도시예요.", "서울이 한국에서 가장 큰 도시입니다.", "서울이 한국에서 제일 큰 도시예요."] },
+        { "english": "Winter is the coldest season.", "korean": "겨울이 제일 추운 계절이에요.", "accepted": ["겨울이 제일 추운 계절이에요.", "겨울이 제일 추운 계절입니다.", "겨울이 가장 추운 계절이에요."] },
+        { "english": "This restaurant is the most delicious.", "korean": "이 식당이 제일 맛있어요.", "accepted": ["이 식당이 제일 맛있어요.", "이 식당이 제일 맛있습니다.", "이 식당이 가장 맛있어요."] },
+        { "english": "I get up the earliest in the morning.", "korean": "저는 아침에 가장 일찍 일어나요.", "accepted": ["저는 아침에 가장 일찍 일어나요.", "저는 아침에 가장 일찍 일어납니다.", "저는 아침에 제일 일찍 일어나요."] }
+      ]
+    },
+    {
+      "id": "comp-eo-boda",
+      "pattern": "-아/어 보다",
+      "meaning": "to try doing something",
+      "example": "이 음식을 먹어 보세요.",
+      "example_en": "Try eating this food.",
+      "note": "Attach **-아/어 보다** to a verb stem to mean 'try doing' it. Use **-아 보다** after ㅏ/ㅗ stems and **-어 보다** after the others; the very common command form is **-아/어 보세요** (try ~).",
+      "match": ["아 보", "어 보", "여 보", "해 보", "가 보"],
+      "level": 2,
+      "sentences": [
+        { "english": "Try eating this food.", "korean": "이 음식을 먹어 보세요.", "accepted": ["이 음식을 먹어 보세요.", "이 음식을 먹어 보십시오.", "이 음식을 한번 먹어 보세요."] },
+        { "english": "Try reading this book.", "korean": "이 책을 읽어 보세요.", "accepted": ["이 책을 읽어 보세요.", "이 책을 읽어 보십시오.", "이 책을 한번 읽어 보세요."] },
+        { "english": "I will try wearing these clothes.", "korean": "이 옷을 입어 볼게요.", "accepted": ["이 옷을 입어 볼게요.", "이 옷을 입어 보겠습니다.", "이 옷을 입어 보겠어요."] },
+        { "english": "Please try saying it in Korean.", "korean": "한국어로 말해 보세요.", "accepted": ["한국어로 말해 보세요.", "한국어로 말해 보십시오.", "한국어로 한번 말해 보세요."] },
+        { "english": "Try going to Jeju Island once.", "korean": "제주도에 한번 가 보세요.", "accepted": ["제주도에 한번 가 보세요.", "제주도에 가 보세요.", "제주도에 한번 가 보십시오."] }
+      ]
+    },
+    {
+      "id": "comp-eo-jida",
+      "pattern": "-아/어지다",
+      "meaning": "to become / get (adjective)",
+      "example": "날씨가 추워졌어요.",
+      "example_en": "The weather got cold.",
+      "note": "Attach **-아/어지다** to an adjective stem to show a change of state ('to become ~'). Use **-아지다** after ㅏ/ㅗ stems and **-어지다** after the others; the past form is **-아/어졌어요**.",
+      "match": ["아져", "어져", "아졌", "어졌", "아지", "어지", "해져", "해졌"],
+      "level": 2,
+      "sentences": [
+        { "english": "The weather got cold.", "korean": "날씨가 추워졌어요.", "accepted": ["날씨가 추워졌어요.", "날씨가 추워졌습니다.", "날씨가 추워져요."] },
+        { "english": "Korean has become fun.", "korean": "한국어가 재미있어졌어요.", "accepted": ["한국어가 재미있어졌어요.", "한국어가 재미있어졌습니다.", "한국어가 재미있어져요."] },
+        { "english": "The room got clean.", "korean": "방이 깨끗해졌어요.", "accepted": ["방이 깨끗해졌어요.", "방이 깨끗해졌습니다.", "방이 깨끗해져요."] },
+        { "english": "The days are getting longer.", "korean": "낮이 길어져요.", "accepted": ["낮이 길어져요.", "낮이 점점 길어져요.", "낮이 길어졌어요."] },
+        { "english": "The test got difficult.", "korean": "시험이 어려워졌어요.", "accepted": ["시험이 어려워졌어요.", "시험이 어려워졌습니다.", "시험이 어려워져요."] }
+      ]
+    },
+    {
+      "id": "comp-lge-yo",
+      "pattern": "-(으)ㄹ게요",
+      "meaning": "I'll do it (speaker's intention / promise)",
+      "example": "제가 할게요.",
+      "example_en": "I'll do it.",
+      "note": "Attach **-ㄹ게요** after a vowel and **-을게요** after a consonant to a verb stem to announce what you (the speaker) will do, often as a promise. It is only used about yourself, not others.",
+      "match": ["게요", "을게"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'll do it.", "korean": "제가 할게요.", "accepted": ["제가 할게요.", "제가 그거 할게요.", "그건 제가 할게요."] },
+        { "english": "I'll call you tomorrow.", "korean": "내일 전화할게요.", "accepted": ["내일 전화할게요.", "제가 내일 전화할게요.", "내일 전화 할게요."] },
+        { "english": "I'll wait here.", "korean": "여기에서 기다릴게요.", "accepted": ["여기에서 기다릴게요.", "여기서 기다릴게요.", "제가 여기에서 기다릴게요."] },
+        { "english": "I'll eat this.", "korean": "이거 먹을게요.", "accepted": ["이거 먹을게요.", "이것을 먹을게요.", "제가 이거 먹을게요."] },
+        { "english": "I'll arrive early tomorrow.", "korean": "내일 일찍 올게요.", "accepted": ["내일 일찍 올게요.", "제가 내일 일찍 올게요.", "내일은 일찍 올게요."] }
+      ]
+    },
+    {
+      "id": "comp-ryeogo-hada",
+      "pattern": "-(으)려고 하다",
+      "meaning": "to intend / plan to (do something)",
+      "example": "내일 친구를 만나려고 해요.",
+      "example_en": "I intend to meet a friend tomorrow.",
+      "note": "Attach **-려고 하다** after a vowel and **-으려고 하다** after a consonant to a verb stem to express a plan or intention. The ending changes: **-려고 해요** (polite) / **-려고 합니다** (formal).",
+      "match": ["려고", "으려고"],
+      "level": 2,
+      "sentences": [
+        { "english": "I intend to meet a friend tomorrow.", "korean": "내일 친구를 만나려고 해요.", "accepted": ["내일 친구를 만나려고 해요.", "내일 친구를 만나려고 합니다."] },
+        { "english": "I plan to study Korean.", "korean": "한국어를 공부하려고 해요.", "accepted": ["한국어를 공부하려고 해요.", "한국어를 공부하려고 합니다."] },
+        { "english": "I plan to read a book this weekend.", "korean": "이번 주말에 책을 읽으려고 해요.", "accepted": ["이번 주말에 책을 읽으려고 해요.", "이번 주말에 책을 읽으려고 합니다."] },
+        { "english": "I intend to buy new shoes.", "korean": "새 신발을 사려고 해요.", "accepted": ["새 신발을 사려고 해요.", "새 신발을 사려고 합니다."] },
+        { "english": "I plan to go to bed early today.", "korean": "오늘 일찍 자려고 해요.", "accepted": ["오늘 일찍 자려고 해요.", "오늘 일찍 자려고 합니다."] }
+      ]
+    }
+  ]
+}

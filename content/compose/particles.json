@@ -1,0 +1,124 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "part-topic-eun-neun",
+      "pattern": "은/는",
+      "meaning": "topic marker (as for ~, speaking of ~)",
+      "example": "저는 학생이에요.",
+      "example_en": "I am a student.",
+      "note": "Use **은** after a consonant and **는** after a vowel to mark the topic — what the sentence is about, often for introductions or contrast.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I am a student.", "korean": "저는 학생이에요.", "accepted": ["저는 학생이에요.", "저는 학생입니다."] },
+        { "english": "My name is Minsu.", "korean": "제 이름은 민수예요.", "accepted": ["제 이름은 민수예요.", "제 이름은 민수입니다."] },
+        { "english": "Today is Monday.", "korean": "오늘은 월요일이에요.", "accepted": ["오늘은 월요일이에요.", "오늘은 월요일입니다."] },
+        { "english": "The weather is nice today.", "korean": "오늘은 날씨가 좋아요.", "accepted": ["오늘은 날씨가 좋아요.", "오늘은 날씨가 좋습니다."] },
+        { "english": "This book is interesting.", "korean": "이 책은 재미있어요.", "accepted": ["이 책은 재미있어요.", "이 책은 재미있습니다."] }
+      ]
+    },
+    {
+      "id": "part-subject-i-ga",
+      "pattern": "이/가",
+      "meaning": "subject marker",
+      "example": "친구가 와요.",
+      "example_en": "My friend is coming.",
+      "note": "Use **이** after a consonant and **가** after a vowel to mark the subject — the one doing the action or being described, often for new information.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "A friend is coming.", "korean": "친구가 와요.", "accepted": ["친구가 와요.", "친구가 옵니다."] },
+        { "english": "The weather is good.", "korean": "날씨가 좋아요.", "accepted": ["날씨가 좋아요.", "날씨가 좋습니다."] },
+        { "english": "The bag is heavy.", "korean": "가방이 무거워요.", "accepted": ["가방이 무거워요.", "가방이 무겁습니다."] },
+        { "english": "The coffee is hot.", "korean": "커피가 뜨거워요.", "accepted": ["커피가 뜨거워요.", "커피가 뜨겁습니다."] },
+        { "english": "My younger sibling is tall.", "korean": "동생이 키가 커요.", "accepted": ["동생이 키가 커요.", "동생이 키가 큽니다."] }
+      ]
+    },
+    {
+      "id": "part-object-eul-reul",
+      "pattern": "을/를",
+      "meaning": "object marker",
+      "example": "밥을 먹어요.",
+      "example_en": "I eat rice.",
+      "note": "Use **을** after a consonant and **를** after a vowel to mark the object — the thing the action is done to.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I eat rice.", "korean": "밥을 먹어요.", "accepted": ["밥을 먹어요.", "밥을 먹습니다."] },
+        { "english": "I drink water.", "korean": "물을 마셔요.", "accepted": ["물을 마셔요.", "물을 마십니다."] },
+        { "english": "I read a book.", "korean": "책을 읽어요.", "accepted": ["책을 읽어요.", "책을 읽습니다."] },
+        { "english": "I watch a movie.", "korean": "영화를 봐요.", "accepted": ["영화를 봐요.", "영화를 봅니다."] },
+        { "english": "I study Korean.", "korean": "한국어를 공부해요.", "accepted": ["한국어를 공부해요.", "한국어를 공부합니다."] }
+      ]
+    },
+    {
+      "id": "part-also-do",
+      "pattern": "도",
+      "meaning": "also, too",
+      "example": "저도 학생이에요.",
+      "example_en": "I am a student too.",
+      "note": "**도** means \"also/too\" and replaces 은/는, 이/가, or 을/를 — never stack them, just attach 도 to the noun.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I am a student too.", "korean": "저도 학생이에요.", "accepted": ["저도 학생이에요.", "저도 학생입니다."] },
+        { "english": "I like coffee too.", "korean": "저는 커피도 좋아해요.", "accepted": ["저는 커피도 좋아해요.", "저는 커피도 좋아합니다.", "커피도 좋아해요."] },
+        { "english": "My friend studies Korean too.", "korean": "친구도 한국어를 공부해요.", "accepted": ["친구도 한국어를 공부해요.", "친구도 한국어를 공부합니다."] },
+        { "english": "I will eat bread too.", "korean": "빵도 먹어요.", "accepted": ["빵도 먹어요.", "빵도 먹습니다."] },
+        { "english": "Today is busy too.", "korean": "오늘도 바빠요.", "accepted": ["오늘도 바빠요.", "오늘도 바쁩니다."] }
+      ]
+    },
+    {
+      "id": "part-only-man",
+      "pattern": "만",
+      "meaning": "only, just",
+      "example": "물만 마셔요.",
+      "example_en": "I drink only water.",
+      "note": "**만** means \"only/just\" and attaches directly to the noun, usually replacing 이/가 or 을/를.",
+      "match": [],
+      "level": 1,
+      "sentences": [
+        { "english": "I drink only water.", "korean": "물만 마셔요.", "accepted": ["물만 마셔요.", "물만 마십니다."] },
+        { "english": "I study only Korean.", "korean": "한국어만 공부해요.", "accepted": ["한국어만 공부해요.", "한국어만 공부합니다."] },
+        { "english": "Only my friend came.", "korean": "친구만 왔어요.", "accepted": ["친구만 왔어요.", "친구만 왔습니다."] },
+        { "english": "I rest only on Sundays.", "korean": "일요일에만 쉬어요.", "accepted": ["일요일에만 쉬어요.", "일요일에만 쉽니다."] },
+        { "english": "There is only one apple.", "korean": "사과가 하나만 있어요.", "accepted": ["사과가 하나만 있어요.", "사과가 하나만 있습니다.", "사과는 하나만 있어요."] }
+      ]
+    },
+    {
+      "id": "part-and-with-hago",
+      "pattern": "하고",
+      "meaning": "and / with (nouns)",
+      "example": "빵하고 우유를 사요.",
+      "example_en": "I buy bread and milk.",
+      "note": "**하고** joins two nouns (\"A and B\") and also means \"with someone\"; it attaches to the noun with no space.",
+      "match": ["하고"],
+      "level": 1,
+      "sentences": [
+        { "english": "I buy bread and milk.", "korean": "빵하고 우유를 사요.", "accepted": ["빵하고 우유를 사요.", "빵하고 우유를 삽니다."] },
+        { "english": "I eat with a friend.", "korean": "친구하고 밥을 먹어요.", "accepted": ["친구하고 밥을 먹어요.", "친구하고 밥을 먹습니다."] },
+        { "english": "I have an older brother and an older sister.", "korean": "형하고 누나가 있어요.", "accepted": ["형하고 누나가 있어요.", "형하고 누나가 있습니다."] },
+        { "english": "I like apples and grapes.", "korean": "사과하고 포도를 좋아해요.", "accepted": ["사과하고 포도를 좋아해요.", "사과하고 포도를 좋아합니다."] },
+        { "english": "I watch a movie with my younger sibling.", "korean": "동생하고 영화를 봐요.", "accepted": ["동생하고 영화를 봐요.", "동생하고 영화를 봅니다."] }
+      ]
+    },
+    {
+      "id": "part-existence-e-itda",
+      "pattern": "N에 있다/없다",
+      "meaning": "to be (located) at / to not be at",
+      "example": "책상 위에 책이 있어요.",
+      "example_en": "There is a book on the desk.",
+      "note": "**에** marks where something exists; pair it with **있어요** (there is) or **없어요** (there isn't).",
+      "match": ["에 있", "에 없"],
+      "level": 1,
+      "sentences": [
+        { "english": "There is a book on the desk.", "korean": "책상 위에 책이 있어요.", "accepted": ["책상 위에 책이 있어요.", "책상 위에 책이 있습니다."] },
+        { "english": "My friend is at school.", "korean": "친구가 학교에 있어요.", "accepted": ["친구가 학교에 있어요.", "친구가 학교에 있습니다."] },
+        { "english": "There is no water in the refrigerator.", "korean": "냉장고에 물이 없어요.", "accepted": ["냉장고에 물이 없어요.", "냉장고에 물이 없습니다."] },
+        { "english": "Mom is at home.", "korean": "엄마가 집에 있어요.", "accepted": ["엄마가 집에 있어요.", "엄마가 집에 있습니다."] },
+        { "english": "There is no one in the classroom.", "korean": "교실에 사람이 없어요.", "accepted": ["교실에 사람이 없어요.", "교실에 사람이 없습니다."] }
+      ]
+    }
+  ]
+}

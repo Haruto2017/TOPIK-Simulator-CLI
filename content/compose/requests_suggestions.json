@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "req-euseyo",
+      "pattern": "-(으)세요",
+      "meaning": "please do (polite command)",
+      "example": "여기 앉으세요.",
+      "example_en": "Please sit here.",
+      "note": "Attach **-으세요** to a consonant stem and **-세요** to a vowel stem to politely tell someone to do something themselves.",
+      "match": ["으세요", "세요"],
+      "level": 1,
+      "sentences": [
+        { "english": "Please sit here.", "korean": "여기 앉으세요.", "accepted": ["여기 앉으세요.", "여기에 앉으세요."] },
+        { "english": "Please come in.", "korean": "들어오세요.", "accepted": ["들어오세요.", "안으로 들어오세요."] },
+        { "english": "Please read this book.", "korean": "이 책을 읽으세요.", "accepted": ["이 책을 읽으세요.", "이 책 읽으세요."] },
+        { "english": "Please wait a moment.", "korean": "잠깐 기다리세요.", "accepted": ["잠깐 기다리세요.", "잠시 기다리세요.", "잠깐만 기다리세요."] },
+        { "english": "Please take this medicine.", "korean": "이 약을 드세요.", "accepted": ["이 약을 드세요.", "이 약 드세요."] }
+      ]
+    },
+    {
+      "id": "req-juseyo",
+      "pattern": "-아/어 주세요",
+      "meaning": "please do it (for me)",
+      "example": "사진을 찍어 주세요.",
+      "example_en": "Please take a photo (for me).",
+      "note": "Add **-아 주세요** to ㅏ/ㅗ stems and **-어 주세요** to the others to ask someone to do something for your benefit — contrast with plain **-(으)세요**, which just tells them to do it.",
+      "match": ["아 주세요", "어 주세요", "해 주세요"],
+      "level": 1,
+      "sentences": [
+        { "english": "Please take a photo (for me).", "korean": "사진을 찍어 주세요.", "accepted": ["사진을 찍어 주세요.", "사진 찍어 주세요.", "사진을 좀 찍어 주세요."] },
+        { "english": "Please open the window.", "korean": "창문을 열어 주세요.", "accepted": ["창문을 열어 주세요.", "창문 열어 주세요.", "창문을 좀 열어 주세요."] },
+        { "english": "Please lend me a pen.", "korean": "펜을 빌려 주세요.", "accepted": ["펜을 빌려 주세요.", "펜 좀 빌려 주세요.", "펜을 좀 빌려 주세요."] },
+        { "english": "Please speak slowly.", "korean": "천천히 말해 주세요.", "accepted": ["천천히 말해 주세요.", "천천히 이야기해 주세요.", "좀 천천히 말해 주세요."] },
+        { "english": "Please help me.", "korean": "도와 주세요.", "accepted": ["도와 주세요.", "좀 도와 주세요.", "저를 도와 주세요."] }
+      ]
+    },
+    {
+      "id": "req-eulkkayo",
+      "pattern": "-(으)ㄹ까요?",
+      "meaning": "shall we? / shall I?",
+      "example": "같이 갈까요?",
+      "example_en": "Shall we go together?",
+      "note": "Add **-ㄹ까요?** to a vowel stem and **-을까요?** to a consonant stem to suggest doing something together or to offer to do it.",
+      "match": ["ㄹ까요", "을까요", "ᆯ까요"],
+      "level": 2,
+      "sentences": [
+        { "english": "Shall we go together?", "korean": "같이 갈까요?", "accepted": ["같이 갈까요?", "우리 같이 갈까요?", "같이 갈까요"] },
+        { "english": "Shall we eat lunch?", "korean": "점심을 먹을까요?", "accepted": ["점심을 먹을까요?", "점심 먹을까요?", "점심을 먹을까요"] },
+        { "english": "Shall we drink coffee?", "korean": "커피를 마실까요?", "accepted": ["커피를 마실까요?", "커피 마실까요?", "커피를 마실까요"] },
+        { "english": "Shall I open the window?", "korean": "창문을 열까요?", "accepted": ["창문을 열까요?", "창문 열까요?", "창문을 열까요"] },
+        { "english": "Shall we watch a movie tomorrow?", "korean": "내일 영화를 볼까요?", "accepted": ["내일 영화를 볼까요?", "내일 영화 볼까요?", "내일 영화를 볼까요"] }
+      ]
+    },
+    {
+      "id": "req-eupsida",
+      "pattern": "-(으)ㅂ시다",
+      "meaning": "let's (do something)",
+      "example": "점심을 먹읍시다.",
+      "example_en": "Let's eat lunch.",
+      "note": "Add **-ㅂ시다** to a vowel stem and **-읍시다** to a consonant stem to propose doing something together. It is a confident suggestion, so use it with friends or juniors rather than elders.",
+      "match": ["ㅂ시다", "읍시다", "ᆸ시다"],
+      "level": 2,
+      "sentences": [
+        { "english": "Let's eat lunch.", "korean": "점심을 먹읍시다.", "accepted": ["점심을 먹읍시다.", "점심 먹읍시다.", "우리 점심을 먹읍시다."] },
+        { "english": "Let's go together.", "korean": "같이 갑시다.", "accepted": ["같이 갑시다.", "우리 같이 갑시다.", "함께 갑시다."] },
+        { "english": "Let's study Korean.", "korean": "한국어를 공부합시다.", "accepted": ["한국어를 공부합시다.", "같이 한국어를 공부합시다.", "한국어 공부합시다."] },
+        { "english": "Let's read this book together.", "korean": "이 책을 같이 읽읍시다.", "accepted": ["이 책을 같이 읽읍시다.", "이 책을 읽읍시다.", "이 책 같이 읽읍시다."] },
+        { "english": "Let's meet tomorrow.", "korean": "내일 만납시다.", "accepted": ["내일 만납시다.", "우리 내일 만납시다.", "내일 같이 만납시다."] }
+      ]
+    },
+    {
+      "id": "req-maseyo",
+      "pattern": "-지 마세요",
+      "meaning": "please don't (do something)",
+      "example": "늦지 마세요.",
+      "example_en": "Please don't be late.",
+      "note": "Attach **-지 마세요** to a verb stem to politely tell someone not to do something. The stem stays the same no matter what it ends in.",
+      "match": ["지 마세요", "지 마"],
+      "level": 1,
+      "sentences": [
+        { "english": "Please don't be late.", "korean": "늦지 마세요.", "accepted": ["늦지 마세요.", "늦지 마요."] },
+        { "english": "Please don't worry.", "korean": "걱정하지 마세요.", "accepted": ["걱정하지 마세요.", "걱정 마세요.", "걱정하지 마요."] },
+        { "english": "Please don't smoke here.", "korean": "여기에서 담배를 피우지 마세요.", "accepted": ["여기에서 담배를 피우지 마세요.", "여기서 담배를 피우지 마세요.", "여기에서 담배 피우지 마세요."] },
+        { "english": "Please don't open the door.", "korean": "문을 열지 마세요.", "accepted": ["문을 열지 마세요.", "문 열지 마세요."] },
+        { "english": "Please don't forget.", "korean": "잊지 마세요.", "accepted": ["잊지 마세요.", "잊어버리지 마세요.", "잊지 마요."] }
+      ]
+    },
+    {
+      "id": "req-jusigesseoyo",
+      "pattern": "-아/어 주시겠어요?",
+      "meaning": "could you please do it (for me)?",
+      "example": "창문을 닫아 주시겠어요?",
+      "example_en": "Could you please close the window?",
+      "note": "Swap **주세요** for **주시겠어요?** to make a request softer and more polite — closer to \"could you…?\" than \"please do.\" It is handy for strangers and formal settings.",
+      "match": ["주시겠어요", "주시겠습니까"],
+      "level": 2,
+      "sentences": [
+        { "english": "Could you please close the window?", "korean": "창문을 닫아 주시겠어요?", "accepted": ["창문을 닫아 주시겠어요?", "창문 좀 닫아 주시겠어요?", "창문을 닫아 주시겠어요"] },
+        { "english": "Could you please say it again?", "korean": "다시 말해 주시겠어요?", "accepted": ["다시 말해 주시겠어요?", "다시 한 번 말해 주시겠어요?", "다시 말해 주시겠어요"] },
+        { "english": "Could you please wait a moment?", "korean": "잠깐 기다려 주시겠어요?", "accepted": ["잠깐 기다려 주시겠어요?", "잠시 기다려 주시겠어요?", "잠깐 기다려 주시겠어요"] },
+        { "english": "Could you please help me?", "korean": "좀 도와 주시겠어요?", "accepted": ["좀 도와 주시겠어요?", "저를 도와 주시겠어요?", "좀 도와 주시겠어요"] },
+        { "english": "Could you please teach me Korean?", "korean": "한국어를 가르쳐 주시겠어요?", "accepted": ["한국어를 가르쳐 주시겠어요?", "한국어 좀 가르쳐 주시겠어요?", "한국어를 가르쳐 주시겠어요"] }
+      ]
+    }
+  ]
+}

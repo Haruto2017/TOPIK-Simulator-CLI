@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "time-before",
+      "pattern": "-기 전에",
+      "meaning": "before (doing something)",
+      "example": "밥을 먹기 전에 손을 씻어요.",
+      "example_en": "I wash my hands before eating.",
+      "note": "Attach **-기 전에** to a verb stem to say the action happens *before* the next one. A noun takes **전에** directly (수업 전에 = before class).",
+      "match": ["기 전"],
+      "level": 2,
+      "sentences": [
+        { "english": "I wash my hands before eating.", "korean": "밥을 먹기 전에 손을 씻어요.", "accepted": ["밥을 먹기 전에 손을 씻어요.", "밥을 먹기 전에 손을 씻습니다."] },
+        { "english": "I brush my teeth before sleeping.", "korean": "자기 전에 이를 닦아요.", "accepted": ["자기 전에 이를 닦아요.", "자기 전에 이를 닦습니다."] },
+        { "english": "I drink coffee before studying.", "korean": "공부하기 전에 커피를 마셔요.", "accepted": ["공부하기 전에 커피를 마셔요.", "공부하기 전에 커피를 마십니다."] },
+        { "english": "I check the weather before going out.", "korean": "나가기 전에 날씨를 봐요.", "accepted": ["나가기 전에 날씨를 봐요.", "나가기 전에 날씨를 봅니다.", "나가기 전에 날씨를 확인해요."] },
+        { "english": "I exercise before breakfast.", "korean": "아침을 먹기 전에 운동해요.", "accepted": ["아침을 먹기 전에 운동해요.", "아침을 먹기 전에 운동합니다.", "아침 먹기 전에 운동해요."] }
+      ]
+    },
+    {
+      "id": "time-after",
+      "pattern": "-(으)ㄴ 후에",
+      "meaning": "after (doing something)",
+      "example": "운동한 후에 샤워해요.",
+      "example_en": "I take a shower after exercising.",
+      "note": "Attach **-ㄴ 후에** after a vowel stem and **-은 후에** after a consonant stem. **-(으)ㄴ 다음에** means the same thing.",
+      "match": ["ㄴ 후", "은 후", "후에"],
+      "level": 2,
+      "sentences": [
+        { "english": "I take a shower after exercising.", "korean": "운동한 후에 샤워해요.", "accepted": ["운동한 후에 샤워해요.", "운동한 후에 샤워합니다.", "운동한 다음에 샤워해요."] },
+        { "english": "I drink coffee after eating.", "korean": "밥을 먹은 후에 커피를 마셔요.", "accepted": ["밥을 먹은 후에 커피를 마셔요.", "밥을 먹은 후에 커피를 마십니다.", "밥을 먹은 다음에 커피를 마셔요."] },
+        { "english": "I rest after class ends.", "korean": "수업이 끝난 후에 쉬어요.", "accepted": ["수업이 끝난 후에 쉬어요.", "수업이 끝난 후에 쉽니다.", "수업이 끝난 다음에 쉬어요."] },
+        { "english": "I read a book after doing my homework.", "korean": "숙제를 한 후에 책을 읽어요.", "accepted": ["숙제를 한 후에 책을 읽어요.", "숙제를 한 후에 책을 읽습니다.", "숙제를 한 다음에 책을 읽어요."] },
+        { "english": "I brush my teeth after eating.", "korean": "밥을 먹은 후에 이를 닦아요.", "accepted": ["밥을 먹은 후에 이를 닦아요.", "밥을 먹은 후에 이를 닦습니다.", "밥을 먹은 다음에 이를 닦아요."] }
+      ]
+    },
+    {
+      "id": "time-when",
+      "pattern": "-(으)ㄹ 때",
+      "meaning": "when / at the time of (doing something)",
+      "example": "한국에 갈 때 비행기를 타요.",
+      "example_en": "When I go to Korea, I take a plane.",
+      "note": "Attach **-ㄹ 때** after a vowel stem and **-을 때** after a consonant stem. Use **-았/었을 때** for a completed past moment (어렸을 때 = when I was young).",
+      "match": ["ㄹ 때", "을 때"],
+      "level": 2,
+      "sentences": [
+        { "english": "When I go to Korea, I take a plane.", "korean": "한국에 갈 때 비행기를 타요.", "accepted": ["한국에 갈 때 비행기를 타요.", "한국에 갈 때 비행기를 탑니다."] },
+        { "english": "When I'm tired, I drink coffee.", "korean": "피곤할 때 커피를 마셔요.", "accepted": ["피곤할 때 커피를 마셔요.", "피곤할 때 커피를 마십니다."] },
+        { "english": "When I have time, I read books.", "korean": "시간이 있을 때 책을 읽어요.", "accepted": ["시간이 있을 때 책을 읽어요.", "시간이 있을 때 책을 읽습니다."] },
+        { "english": "When I eat, I watch TV.", "korean": "밥을 먹을 때 텔레비전을 봐요.", "accepted": ["밥을 먹을 때 텔레비전을 봐요.", "밥을 먹을 때 텔레비전을 봅니다.", "밥을 먹을 때 티비를 봐요."] },
+        { "english": "When the weather is nice, I take a walk.", "korean": "날씨가 좋을 때 산책해요.", "accepted": ["날씨가 좋을 때 산책해요.", "날씨가 좋을 때 산책합니다.", "날씨가 좋을 때 산책을 해요."] }
+      ]
+    },
+    {
+      "id": "time-while",
+      "pattern": "-(으)면서",
+      "meaning": "while (doing two things at once)",
+      "example": "음악을 들으면서 공부해요.",
+      "example_en": "I study while listening to music.",
+      "note": "Attach **-면서** after a vowel stem and **-으면서** after a consonant stem to show one subject doing two actions at the same time.",
+      "match": ["면서", "으면서"],
+      "level": 2,
+      "sentences": [
+        { "english": "I study while listening to music.", "korean": "음악을 들으면서 공부해요.", "accepted": ["음악을 들으면서 공부해요.", "음악을 들으면서 공부합니다."] },
+        { "english": "I eat while watching TV.", "korean": "텔레비전을 보면서 밥을 먹어요.", "accepted": ["텔레비전을 보면서 밥을 먹어요.", "텔레비전을 보면서 밥을 먹습니다.", "티비를 보면서 밥을 먹어요."] },
+        { "english": "I drink coffee while reading a book.", "korean": "책을 읽으면서 커피를 마셔요.", "accepted": ["책을 읽으면서 커피를 마셔요.", "책을 읽으면서 커피를 마십니다."] },
+        { "english": "I sing while taking a walk.", "korean": "산책하면서 노래를 불러요.", "accepted": ["산책하면서 노래를 불러요.", "산책하면서 노래를 부릅니다.", "산책을 하면서 노래를 불러요."] },
+        { "english": "I talk with a friend while drinking coffee.", "korean": "커피를 마시면서 친구와 이야기해요.", "accepted": ["커피를 마시면서 친구와 이야기해요.", "커피를 마시면서 친구와 이야기합니다.", "커피를 마시면서 친구하고 이야기해요."] }
+      ]
+    },
+    {
+      "id": "time-experience",
+      "pattern": "-(으)ㄴ 적이 있다",
+      "meaning": "to have (ever) done something before",
+      "example": "제주도에 간 적이 있어요.",
+      "example_en": "I have been to Jeju Island.",
+      "note": "Attach **-ㄴ 적이 있다** after a vowel stem and **-은 적이 있다** after a consonant stem to say you have the experience of doing it. Negate with **-(으)ㄴ 적이 없다** (have never done).",
+      "match": ["ㄴ 적이 있", "은 적이 있", "적이 있"],
+      "level": 2,
+      "sentences": [
+        { "english": "I have been to Jeju Island.", "korean": "제주도에 간 적이 있어요.", "accepted": ["제주도에 간 적이 있어요.", "제주도에 간 적이 있습니다."] },
+        { "english": "I have eaten Korean food.", "korean": "한국 음식을 먹은 적이 있어요.", "accepted": ["한국 음식을 먹은 적이 있어요.", "한국 음식을 먹은 적이 있습니다."] },
+        { "english": "I have met a famous person.", "korean": "유명한 사람을 만난 적이 있어요.", "accepted": ["유명한 사람을 만난 적이 있어요.", "유명한 사람을 만난 적이 있습니다."] },
+        { "english": "I have learned Korean.", "korean": "한국어를 배운 적이 있어요.", "accepted": ["한국어를 배운 적이 있어요.", "한국어를 배운 적이 있습니다."] },
+        { "english": "I have never read this book.", "korean": "이 책을 읽은 적이 없어요.", "accepted": ["이 책을 읽은 적이 없어요.", "이 책을 읽은 적이 없습니다."] }
+      ]
+    },
+    {
+      "id": "time-since",
+      "pattern": "-(으)ㄴ 지",
+      "meaning": "(duration) since doing something",
+      "example": "한국어를 배운 지 일 년 됐어요.",
+      "example_en": "It has been one year since I started learning Korean.",
+      "note": "Attach **-ㄴ 지** after a vowel stem and **-은 지** after a consonant stem, then state how much time has passed with **됐어요** or **지났어요**.",
+      "match": ["ㄴ 지", "은 지", "지 됐", "지 지났"],
+      "level": 2,
+      "sentences": [
+        { "english": "It has been one year since I started learning Korean.", "korean": "한국어를 배운 지 일 년 됐어요.", "accepted": ["한국어를 배운 지 일 년 됐어요.", "한국어를 배운 지 일 년 됐습니다.", "한국어를 배운 지 일 년이 됐어요.", "한국어를 배운 지 일 년 지났어요."] },
+        { "english": "It has been two hours since I ate.", "korean": "밥을 먹은 지 두 시간 됐어요.", "accepted": ["밥을 먹은 지 두 시간 됐어요.", "밥을 먹은 지 두 시간 됐습니다.", "밥을 먹은 지 두 시간이 됐어요.", "밥을 먹은 지 두 시간 지났어요."] },
+        { "english": "It has been three months since I came to Korea.", "korean": "한국에 온 지 세 달 됐어요.", "accepted": ["한국에 온 지 세 달 됐어요.", "한국에 온 지 세 달 됐습니다.", "한국에 온 지 세 달이 됐어요.", "한국에 온 지 삼 개월 됐어요."] },
+        { "english": "It has been a week since I met my friend.", "korean": "친구를 만난 지 일주일 됐어요.", "accepted": ["친구를 만난 지 일주일 됐어요.", "친구를 만난 지 일주일 됐습니다.", "친구를 만난 지 일주일이 됐어요.", "친구를 만난 지 일주일 지났어요."] },
+        { "english": "It has been a long time since I read a book.", "korean": "책을 읽은 지 오래 됐어요.", "accepted": ["책을 읽은 지 오래 됐어요.", "책을 읽은 지 오래 됐습니다.", "책을 읽은 지 오래됐어요.", "책을 읽은 지 오래됐습니다."] }
+      ]
+    }
+  ]
+}
