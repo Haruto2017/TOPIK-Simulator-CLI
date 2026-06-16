@@ -100,6 +100,12 @@ To finish on something lighter, run `/facts` for a bite of Korean culture, histo
 | `/drill [n]` | Re-practice the misses from a completed attempt. |
 | `/review [pack]` | Spaced-repetition session over questions you have missed before. |
 
+**Take a test**
+
+| Command | What it does |
+| --- | --- |
+| `/course [pack]` | Study a pack as a guided course: vocabulary, grammar, then its questions, lesson by lesson. |
+
 **Practice**
 
 | Command | What it does |

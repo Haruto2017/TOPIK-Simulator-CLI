@@ -6,7 +6,7 @@ Content packs are JSON files. The current schema version is:
 "topik-sim.content.v1"
 ```
 
-> This file covers exam packs. Two simpler data sets are documented at the end: **Korea Facts** (`content/facts/`, backs `/facts`) and **Translation Sentences** (`content/sentences/`, backs `/compose`).
+> This file covers exam packs. Three overlay data sets are documented at the end: **Korea Facts** (`content/facts/`, backs `/facts`), **Compose Lessons** (`content/compose/`, backs `/compose`), and **Guided Courses** (`content/courses/`, backs `/course`).
 
 ## Pack Shape
 
@@ -290,3 +290,35 @@ The `/compose` command is backed by the `content/compose/` directory — files o
 - `accepted` (per sentence) is an optional list of Korean answers that count as correct (defaults to `[korean]`). Grading is whitespace- and trailing-punctuation-tolerant and NFC-normalized — include natural variants (formal `-습니다`, polite `-어요`) rather than relying on exact spelling.
 - `match` is an optional list of Korean substrings used to ground the lesson in the learner's imported packs: at runtime `/compose` scans the packs' grammar notes (pattern + example) for these substrings and, if found, shows how often the structure appears and an authentic example sentence from the packs. Choose patterns the packs actually teach so this grounding fires.
 - A malformed or missing file is skipped; `/compose` degrades gracefully.
+
+## Guided Courses (`topik-sim.course.v1`)
+
+The `/course` command turns an exam pack into a curriculum. Each pack may have a course file at `content/courses/<pack_id>.json` — an overlay that never modifies the exam pack. A course is a textbook-style lesson: a theme, objectives, a bounded set of new vocabulary and grammar, and the exam questions it covers.
+
+```json
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-authentic-mock-01",
+  "title": "...",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01", "order": 1,
+      "title": "Greetings", "title_ko": "인사",
+      "objectives": ["Greet and introduce yourself"],
+      "new_vocabulary": [ { "ko": "이름", "en": "name" } ],
+      "new_grammar": [ { "pattern": "-습니다", "explanation": "...", "example": "..." } ],
+      "question_ids": ["l-001", "r-001"],
+      "review": "one-line wrap-up"
+    }
+  ]
+}
+```
+
+Contract (checked by `courses.validate_course_doc`):
+
+- The `question_ids` across all courses **partition the pack**: every question id is covered by exactly one course; none is unknown or duplicated.
+- Each course introduces at most `limits.max_new_vocab` new vocabulary and `limits.max_new_grammar` new grammar points. "New" means first appearance: a `ko` headword or grammar `pattern` may not reappear as new in a later course.
+- `order` is contiguous `1..K`.
+- Vocabulary and grammar are drawn from the covered questions' `explanation` blocks (grounded in the pack, not invented).
+- A missing course file simply means the pack has no guided course; `/course` degrades gracefully.

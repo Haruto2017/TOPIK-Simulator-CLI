@@ -1,0 +1,287 @@
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-authentic-mock-03",
+  "title": "TOPIK I Authentic Mock Exam 03 — Guided Course",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01",
+      "order": 1,
+      "title": "Everyday Replies and Greetings",
+      "title_ko": "일상 대답과 인사",
+      "objectives": [
+        "Answer yes/no and wh- questions by echoing the right verb or question word",
+        "Use fixed reply phrases for apologies and the telephone"
+      ],
+      "new_vocabulary": [
+        { "ko": "숙제", "en": "homework" },
+        { "ko": "다", "en": "all, completely" },
+        { "ko": "하다", "en": "to do" },
+        { "ko": "회사", "en": "company, office" },
+        { "ko": "멀다", "en": "to be far" },
+        { "ko": "가깝다", "en": "to be close" },
+        { "ko": "언제", "en": "when" },
+        { "ko": "타다", "en": "to ride, to take (a vehicle)" },
+        { "ko": "누구", "en": "who, whose" },
+        { "ko": "늦다", "en": "to be late" },
+        { "ko": "괜찮다", "en": "to be okay" },
+        { "ko": "여보세요", "en": "hello (on the phone)" }
+      ],
+      "new_grammar": [
+        { "pattern": "-았/었어요?", "explanation": "Past-tense polite question; answer by confirming or denying the same verb in the past.", "example": "숙제를 다 했어요? - 네, 다 했어요." },
+        { "pattern": "N에 (time)", "explanation": "Marks the time at which an action happens; required in answers to 언제/몇 시에 questions.", "example": "아침 여덟 시에 학교에 가요." },
+        { "pattern": "-아/어서 (reason)", "explanation": "Attaches the reason to an apology or thanks; the pattern 늦어서 미안하다 is very common.", "example": "늦어서 정말 죄송합니다." }
+      ],
+      "question_ids": ["l-001", "l-002", "l-003", "l-004", "l-005", "l-006"],
+      "review": "You can now answer simple questions and reply correctly to apologies and phone calls."
+    },
+    {
+      "id": "c02",
+      "order": 2,
+      "title": "Where Am I? Places and Topics",
+      "title_ko": "여기는 어디? 장소와 화제",
+      "objectives": [
+        "Identify a place from the verbs and key words spoken there",
+        "Name the topic that covers a whole short conversation"
+      ],
+      "new_vocabulary": [
+        { "ko": "서점", "en": "bookstore" },
+        { "ko": "사다", "en": "to buy" },
+        { "ko": "택시", "en": "taxi" },
+        { "ko": "역", "en": "station" },
+        { "ko": "교실", "en": "classroom" },
+        { "ko": "수업", "en": "class, lesson" },
+        { "ko": "도서관", "en": "library" },
+        { "ko": "직업", "en": "occupation, job" },
+        { "ko": "가르치다", "en": "to teach" },
+        { "ko": "교통", "en": "transportation, traffic" },
+        { "ko": "약속", "en": "appointment, promise" },
+        { "ko": "시험", "en": "exam, test" }
+      ],
+      "new_grammar": [
+        { "pattern": "-고 싶다", "explanation": "Expresses the speaker's desire to do something.", "example": "문법 책을 사고 싶어요." },
+        { "pattern": "-아/어도 되다", "explanation": "Asks for or gives permission; the negative answer uses -(으)ㄹ 수 없다 or 안 되다.", "example": "여기에서 전화해도 돼요? - 아니요, 할 수 없어요." },
+        { "pattern": "-(으)ㄹ까요?", "explanation": "Invites the listener to decide something together.", "example": "내일 몇 시에 만날까요?" }
+      ],
+      "question_ids": ["l-007", "l-008", "l-009", "l-010", "l-011", "l-012", "l-013", "l-014"],
+      "review": "You can now pick out where a conversation happens and what it is about."
+    },
+    {
+      "id": "c03",
+      "order": 3,
+      "title": "Reading Basics: Particles, Verbs, Counters",
+      "title_ko": "읽기 기초: 조사, 동사, 단위",
+      "objectives": [
+        "Choose the right particle and counter to complete a sentence",
+        "Pick the verb, adverb, or connector that fits the context"
+      ],
+      "new_vocabulary": [
+        { "ko": "기사", "en": "driver (as a job)" },
+        { "ko": "손님", "en": "customer, passenger" },
+        { "ko": "단어", "en": "word, vocabulary" },
+        { "ko": "외우다", "en": "to memorize" },
+        { "ko": "문법", "en": "grammar" },
+        { "ko": "배우다", "en": "to learn" },
+        { "ko": "내리다", "en": "to get off" },
+        { "ko": "길이 막히다", "en": "the road is congested" },
+        { "ko": "도착하다", "en": "to arrive" },
+        { "ko": "그렇지만", "en": "but, however" },
+        { "ko": "재미있다", "en": "to be fun, interesting" },
+        { "ko": "권", "en": "counter for books" }
+      ],
+      "new_grammar": [
+        { "pattern": "N에서 (location of action)", "explanation": "Marks where an action verb takes place.", "example": "학교에서 한국어를 배웁니다." },
+        { "pattern": "그래서", "explanation": "Connects a cause to its result; the second sentence happens because of the first.", "example": "집이 멉니다. 그래서 지하철을 탑니다." },
+        { "pattern": "number + counter", "explanation": "Korean counts objects with a number plus a category-specific counter word.", "example": "한국어 책을 두 권 샀습니다." }
+      ],
+      "question_ids": ["r-001", "r-002", "r-003", "r-004", "r-005", "r-006", "r-007", "r-008", "r-009"],
+      "review": "You can now fill blanks with the correct particle, counter, verb, and connector."
+    },
+    {
+      "id": "c04",
+      "order": 4,
+      "title": "Notices, Signs, and Asking the Way",
+      "title_ko": "안내문과 길 묻기",
+      "objectives": [
+        "Read a notice and spot the statement that does not match it",
+        "Follow and give simple directions, and handle a phone message"
+      ],
+      "new_vocabulary": [
+        { "ko": "이용", "en": "use (of a facility)" },
+        { "ko": "빌리다", "en": "to borrow" },
+        { "ko": "돌려주다", "en": "to return, to give back" },
+        { "ko": "신분증", "en": "ID card" },
+        { "ko": "꼭", "en": "surely, without fail" },
+        { "ko": "기숙사", "en": "dormitory" },
+        { "ko": "무료", "en": "free of charge" },
+        { "ko": "실례합니다", "en": "excuse me" },
+        { "ko": "근처", "en": "vicinity, nearby" },
+        { "ko": "건너다", "en": "to cross" },
+        { "ko": "메모", "en": "memo, message" },
+        { "ko": "전하다", "en": "to pass on, to convey" }
+      ],
+      "new_grammar": [
+        { "pattern": "N 안에", "explanation": "Within a period of time; marks a deadline window.", "example": "빌린 책은 2주일 안에 돌려줘야 합니다." },
+        { "pattern": "-(으)ㄹ 때", "explanation": "At the time of doing something.", "example": "탈 때 학생증을 보여 주세요." },
+        { "pattern": "-아/어서 (sequence)", "explanation": "Connects actions done in order, where the first leads into the second.", "example": "횡단보도를 건너서 왼쪽으로 가세요." }
+      ],
+      "question_ids": ["r-010", "r-011", "r-012", "l-015", "l-016"],
+      "review": "You can now read notices for details and ask for or give directions politely."
+    },
+    {
+      "id": "c05",
+      "order": 5,
+      "title": "Appointments and Workplace Details",
+      "title_ko": "약속과 회사 일 세부 내용",
+      "objectives": [
+        "Track changes to a plan and keep the latest agreed details",
+        "Tell apart an action in progress, a deadline, and an intention"
+      ],
+      "new_vocabulary": [
+        { "ko": "바꾸다", "en": "to change" },
+        { "ko": "회의", "en": "meeting (at work)" },
+        { "ko": "취소하다", "en": "to cancel" },
+        { "ko": "금요일", "en": "Friday" },
+        { "ko": "자료", "en": "materials, documents" },
+        { "ko": "걸리다", "en": "to take (time)" },
+        { "ko": "시작하다", "en": "to start" },
+        { "ko": "박물관", "en": "museum" },
+        { "ko": "떠나다", "en": "to leave, to depart" },
+        { "ko": "비자", "en": "visa" },
+        { "ko": "사무실", "en": "office" },
+        { "ko": "알리다", "en": "to inform, to let know" }
+      ],
+      "new_grammar": [
+        { "pattern": "-(으)려고 하다", "explanation": "States what someone intends or is about to do.", "example": "오늘 책을 돌려주려고 해요." },
+        { "pattern": "-고 있다", "explanation": "Progressive: the action is happening right now.", "example": "지금 자료를 만들고 있어요." },
+        { "pattern": "-(으)ㄴ 후에", "explanation": "After completing the first action, the second follows.", "example": "다 만든 후에 보내 주세요." }
+      ],
+      "question_ids": ["l-017", "l-018", "l-019", "l-020", "l-021"],
+      "review": "You can now follow workplace dialogues and update plans as they change."
+    },
+    {
+      "id": "c06",
+      "order": 6,
+      "title": "Opinions, Advice, and Announcements",
+      "title_ko": "의견, 조언, 안내 방송",
+      "objectives": [
+        "Find a speaker's main point after a contrast like 하지만",
+        "Catch the purpose and details of a public announcement"
+      ],
+      "new_vocabulary": [
+        { "ko": "공책", "en": "notebook" },
+        { "ko": "기억하다", "en": "to remember" },
+        { "ko": "잊어버리다", "en": "to forget" },
+        { "ko": "연락", "en": "contact, getting in touch" },
+        { "ko": "미리", "en": "in advance" },
+        { "ko": "걱정하다", "en": "to worry" },
+        { "ko": "질문하다", "en": "to ask a question" },
+        { "ko": "바로", "en": "right away, immediately" },
+        { "ko": "기간", "en": "period (of time)" },
+        { "ko": "평소", "en": "usual times, normally" },
+        { "ko": "열다", "en": "to open" },
+        { "ko": "닫다", "en": "to close" }
+      ],
+      "new_grammar": [
+        { "pattern": "-(으)면서", "explanation": "Two actions at the same time by the same subject.", "example": "단어를 쓰면서 외워요." },
+        { "pattern": "하지만", "explanation": "Contrast connector; the speaker's real claim usually follows it.", "example": "늦을 수 있어요. 하지만 전화를 해야 해요." },
+        { "pattern": "N부터 N까지", "explanation": "Brackets the start and end of a time span.", "example": "월요일부터 금요일까지는 시험 기간입니다." }
+      ],
+      "question_ids": ["l-022", "l-023", "l-024", "l-025", "l-026"],
+      "review": "You can now identify a speaker's opinion and the message of an announcement."
+    },
+    {
+      "id": "c07",
+      "order": 7,
+      "title": "Reading Paragraphs: Routines and Feelings",
+      "title_ko": "읽기 단락: 일상과 감정",
+      "objectives": [
+        "Separate the usual routine from the exception in a short essay",
+        "Read for a writer's habit, feeling, or main idea"
+      ],
+      "new_vocabulary": [
+        { "ko": "발표", "en": "presentation" },
+        { "ko": "인쇄하다", "en": "to print" },
+        { "ko": "갈아타다", "en": "to transfer (bus/train)" },
+        { "ko": "고향", "en": "hometown" },
+        { "ko": "출근하다", "en": "to go to work" },
+        { "ko": "정류장", "en": "(bus) stop" },
+        { "ko": "팔리다", "en": "to be sold" },
+        { "ko": "직원", "en": "staff member, clerk" },
+        { "ko": "복습", "en": "review (of a lesson)" },
+        { "ko": "피곤하다", "en": "to be tired" },
+        { "ko": "물어보다", "en": "to ask" },
+        { "ko": "무섭다", "en": "to be scary, frightening" }
+      ],
+      "new_grammar": [
+        { "pattern": "-기로 하다", "explanation": "States a decision or arrangement made earlier.", "example": "두 시에 만나기로 했어요." },
+        { "pattern": "-아/어도", "explanation": "Even if/though: the action still happens despite the condition.", "example": "바빠도 한국어 교실에 갑니다." },
+        { "pattern": "처음에는 A. 그런데 지금은 B.", "explanation": "Contrasts the early stage with the present.", "example": "처음에는 무서웠습니다. 그런데 지금은 기다려집니다." }
+      ],
+      "question_ids": ["l-027", "l-028", "l-029", "l-030", "r-013", "r-014", "r-015", "r-016", "r-017", "r-018", "r-019", "r-020"],
+      "review": "You can now read short essays and tell routine from exception and feeling from fact."
+    },
+    {
+      "id": "c08",
+      "order": 8,
+      "title": "Sequencing and Campus Programs",
+      "title_ko": "순서 배열과 학교 프로그램",
+      "objectives": [
+        "Order scrambled sentences using connectors and counting clues",
+        "Read passages about clubs and programs for matching details"
+      ],
+      "new_vocabulary": [
+        { "ko": "반대", "en": "opposite" },
+        { "ko": "방향", "en": "direction" },
+        { "ko": "확인하다", "en": "to check, to confirm" },
+        { "ko": "선배", "en": "senior (colleague/student)" },
+        { "ko": "실수", "en": "mistake" },
+        { "ko": "다니다", "en": "to attend, to go regularly (work/school)" },
+        { "ko": "모임", "en": "meeting, club gathering" },
+        { "ko": "주제", "en": "topic, theme" },
+        { "ko": "퇴근", "en": "leaving work" },
+        { "ko": "사과하다", "en": "to apologize" },
+        { "ko": "동네", "en": "neighborhood" },
+        { "ko": "끝까지", "en": "to the end" }
+      ],
+      "new_grammar": [
+        { "pattern": "N보다", "explanation": "Comparison standard: later/earlier than N.", "example": "약속 시간보다 삼십 분 늦게 도착했습니다." },
+        { "pattern": "그런데 / 그래서", "explanation": "그런데 brings the unexpected problem; 그래서 gives the resulting action.", "example": "그런데 일이 늦게 끝났습니다. 그래서 사과했습니다." },
+        { "pattern": "-다가", "explanation": "An action stops partway or switches to another.", "example": "혼자 읽다가 끝까지 못 읽을 때가 많았습니다." }
+      ],
+      "question_ids": ["r-021", "r-022", "r-023", "r-024", "r-025", "r-026", "r-027", "r-028", "r-029", "r-030"],
+      "review": "You can now order a short story and read program notices for the right details."
+    },
+    {
+      "id": "c09",
+      "order": 9,
+      "title": "Letters and Longer Narratives",
+      "title_ko": "편지와 긴 이야기",
+      "objectives": [
+        "Read a polite letter for its purpose and key facts",
+        "Follow a multi-step narrative and choose the verb that fits the ending"
+      ],
+      "new_vocabulary": [
+        { "ko": "면접", "en": "job interview" },
+        { "ko": "올림", "en": "humbly from (letter closing)" },
+        { "ko": "뵙다", "en": "to meet (humble)" },
+        { "ko": "합격하다", "en": "to pass (an exam)" },
+        { "ko": "단계", "en": "level, stage" },
+        { "ko": "시청", "en": "city hall" },
+        { "ko": "인기", "en": "popularity" },
+        { "ko": "서로", "en": "each other" },
+        { "ko": "할 일", "en": "things to do, tasks" },
+        { "ko": "유실물 센터", "en": "lost and found center" },
+        { "ko": "역무원", "en": "station attendant" },
+        { "ko": "덕분에", "en": "thanks to" }
+      ],
+      "new_grammar": [
+        { "pattern": "N을 위한 N", "explanation": "For the benefit of: 외국인을 위한 교실 = a class for foreigners.", "example": "외국인을 위한 무료 한국어 교실을 엽니다." },
+        { "pattern": "-게 되다", "explanation": "Marks a change: something has come to be the case.", "example": "아침 시간을 잘 쓰게 되었습니다." },
+        { "pattern": "-(으)니까 (discovery)", "explanation": "Doing one thing reveals another.", "example": "전화를 해 보니까 제 가방이 거기에 있었습니다." }
+      ],
+      "question_ids": ["r-031", "r-032", "r-033", "r-034", "r-035", "r-036", "r-037", "r-038", "r-039", "r-040"],
+      "review": "You can now read letters and longer stories and finish them with the right word."
+    }
+  ]
+}

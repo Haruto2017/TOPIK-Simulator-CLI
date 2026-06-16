@@ -1,0 +1,32 @@
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-mini-pack",
+  "title": "TOPIK I Mini Pack — Guided Course",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01",
+      "order": 1,
+      "title": "Weather and the Library",
+      "title_ko": "날씨와 도서관",
+      "objectives": [
+        "Describe today's weather in polite Korean",
+        "Say where an action happens with N에서"
+      ],
+      "new_vocabulary": [
+        { "ko": "오늘", "en": "today" },
+        { "ko": "날씨", "en": "weather" },
+        { "ko": "좋다", "en": "to be good" },
+        { "ko": "도서관", "en": "library" },
+        { "ko": "책", "en": "book" },
+        { "ko": "읽다", "en": "to read" }
+      ],
+      "new_grammar": [
+        { "pattern": "-습니다", "explanation": "Formal polite declarative ending.", "example": "날씨가 좋습니다." },
+        { "pattern": "N에서", "explanation": "Marks the place where an action happens.", "example": "도서관에서 책을 읽습니다." }
+      ],
+      "question_ids": ["r-001", "r-002"],
+      "review": "You can now describe the weather and say where you do things."
+    }
+  ]
+}

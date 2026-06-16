@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Guided courses**: `/course <pack>` turns an exam pack into a textbook-style
+  curriculum — a sequence of short lessons, each teaching a bounded set of new
+  vocabulary (flashcards) and grammar (cards) before running the exam questions
+  it covers. Courses cover the whole pack, introduce at most 12 new words and 3
+  grammar points each, and track completion. The four authentic mock exams ship
+  with 8-9 courses apiece, grounded in the packs' own vocabulary and grammar.
+  Course definitions live in the editable `content/courses/` directory.
+
 - **Sentence writing practice**: `/compose` (alias `/write`) teaches one
   grammar structure up front — its meaning, an example, and how it appears in
   your imported exam packs (with an authentic example pulled from them) — then

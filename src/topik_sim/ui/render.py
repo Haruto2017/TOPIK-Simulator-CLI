@@ -241,6 +241,36 @@ def fact_card(fact: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def course_list(pack_title: str, courses: list[dict[str, Any]], done: set[str]) -> str:
+    lines = [rule(f"Course · {pack_title}")]
+    for index, course in enumerate(courses, start=1):
+        mark = ansi.style("✓", ansi.GREEN) if course.get("id") in done else " "
+        nv = len(course.get("new_vocabulary", []))
+        ng = len(course.get("new_grammar", []))
+        nq = len(course.get("question_ids", []))
+        title = str(course.get("title", course.get("id", "?")))
+        title_ko = str(course.get("title_ko", "")).strip()
+        ko = f"  {ansi.style(title_ko, ansi.DIM)}" if title_ko else ""
+        meta = ansi.style(f"{nv} words · {ng} grammar · {nq} questions", ansi.GREY)
+        lines.append(f"  {mark} {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {title}{ko}  {meta}")
+    lines.append("Type a number to start a course, or press Enter to cancel.")
+    return "\n".join(lines)
+
+
+def course_intro(course: dict[str, Any]) -> str:
+    title = str(course.get("title", ""))
+    title_ko = str(course.get("title_ko", "")).strip()
+    header = title + (ansi.style(f"  ({title_ko})", ansi.DIM) if title_ko else "")
+    lines = [rule(f"Course {course.get('order', '?')}"), ansi.style(header, ansi.BOLD, ansi.CYAN)]
+    for objective in course.get("objectives", []):
+        lines.append(f"  • {objective}")
+    nv = len(course.get("new_vocabulary", []))
+    ng = len(course.get("new_grammar", []))
+    nq = len(course.get("question_ids", []))
+    lines.append(ansi.style(f"Inside: {nv} new words · {ng} grammar points · {nq} exam questions", ansi.GREY))
+    return "\n".join(lines)
+
+
 def compose_lesson_card(lesson: dict[str, Any], evidence: dict[str, Any] | None = None) -> str:
     pattern = str(lesson.get("pattern", "")).strip()
     meaning = str(lesson.get("meaning", "")).strip()

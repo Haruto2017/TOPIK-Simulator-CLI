@@ -1,0 +1,296 @@
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-authentic-mock-01",
+  "title": "TOPIK I Authentic Mock Exam 01 — Guided Course",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01",
+      "order": 1,
+      "title": "Greetings and Everyday Short Answers",
+      "title_ko": "인사와 짧은 대답",
+      "objectives": [
+        "Answer yes/no questions by echoing the verb (이에요?, 있어요?)",
+        "Reply to simple wh- and frequency questions",
+        "Use the right set phrase for first meetings and farewells"
+      ],
+      "new_vocabulary": [
+        { "ko": "학생", "en": "student" },
+        { "ko": "만나다", "en": "to meet" },
+        { "ko": "우산", "en": "umbrella" },
+        { "ko": "있다", "en": "to exist, to have" },
+        { "ko": "사다", "en": "to buy" },
+        { "ko": "운동", "en": "exercise" },
+        { "ko": "자주", "en": "often" },
+        { "ko": "가끔", "en": "sometimes, occasionally" },
+        { "ko": "어디", "en": "where" },
+        { "ko": "점심", "en": "lunch" },
+        { "ko": "회사", "en": "company, office" },
+        { "ko": "식당", "en": "restaurant, cafeteria" }
+      ],
+      "new_grammar": [
+        { "pattern": "N이에요/예요?", "explanation": "Polite question asking whether something or someone is N; answered with 네, N이에요 or 아니요, N이/가 아니에요.", "example": "학생이에요? - 네, 학생이에요." },
+        { "pattern": "N이/가 있어요?", "explanation": "Asks whether N exists or whether the listener has N; answer with 있어요 or 없어요.", "example": "우산이 있어요? - 네, 있어요." },
+        { "pattern": "N에서", "explanation": "Marks the place where an action happens; required in answers to 어디에서 questions.", "example": "회사 식당에서 점심을 먹어요." }
+      ],
+      "question_ids": ["l-001", "l-002", "l-003", "l-004", "l-005", "l-006"],
+      "review": "You can now field basic yes/no, wh-, and greeting exchanges by matching the verb and the set phrase."
+    },
+    {
+      "id": "c02",
+      "order": 2,
+      "title": "Places Around Town",
+      "title_ko": "동네의 여러 장소",
+      "objectives": [
+        "Identify a place from the verbs and items in a short dialogue",
+        "Tell apart a library, hospital, shop, and station",
+        "Say what you want to do with -고 싶다"
+      ],
+      "new_vocabulary": [
+        { "ko": "빌리다", "en": "to borrow" },
+        { "ko": "병원", "en": "hospital, clinic" },
+        { "ko": "아프다", "en": "to hurt, to be sick" },
+        { "ko": "얼마", "en": "how much" },
+        { "ko": "과일", "en": "fruit" },
+        { "ko": "가게", "en": "shop, store" },
+        { "ko": "표", "en": "ticket" },
+        { "ko": "기차역", "en": "train station" },
+        { "ko": "코트", "en": "coat" },
+        { "ko": "입다", "en": "to wear (clothing)" },
+        { "ko": "춥다", "en": "to be cold (weather)" },
+        { "ko": "따뜻하다", "en": "to be warm" }
+      ],
+      "new_grammar": [
+        { "pattern": "-고 싶다", "explanation": "Expresses the speaker's desire to do something.", "example": "책을 빌리고 싶어요." },
+        { "pattern": "N까지", "explanation": "Marks the endpoint of movement or a range (to/until).", "example": "부산까지 가는 표 주세요." },
+        { "pattern": "A-(으)ㄴ N", "explanation": "Adjective modifying a noun: 따뜻하다 → 따뜻한 코트.", "example": "따뜻한 코트를 입습니다." }
+      ],
+      "question_ids": ["l-007", "l-008", "l-009", "l-010", "r-006"],
+      "review": "Let the verb decide the place: 빌리다 means a library, 아프다 means a clinic, and the vehicle word names the station."
+    },
+    {
+      "id": "c03",
+      "order": 3,
+      "title": "Talking About a Topic",
+      "title_ko": "무엇에 대한 이야기일까",
+      "objectives": [
+        "Spot the umbrella topic that covers both speakers' key words",
+        "Talk about seasons, family, hobbies, birthdays, age, jobs, and weather",
+        "Give a reason with -아/어서 and connect nouns with 하고"
+      ],
+      "new_vocabulary": [
+        { "ko": "계절", "en": "season" },
+        { "ko": "여름", "en": "summer" },
+        { "ko": "겨울", "en": "winter" },
+        { "ko": "동생", "en": "younger sibling" },
+        { "ko": "취미", "en": "hobby" },
+        { "ko": "음악", "en": "music" },
+        { "ko": "생일", "en": "birthday" },
+        { "ko": "언제", "en": "when" },
+        { "ko": "나이", "en": "age" },
+        { "ko": "직업", "en": "occupation, job" },
+        { "ko": "날씨", "en": "weather" },
+        { "ko": "내일", "en": "tomorrow" }
+      ],
+      "new_grammar": [
+        { "pattern": "-아/어서", "explanation": "Connects a reason to a result: A-아/어서 B = because A, B.", "example": "너무 더워서 겨울이 더 좋아요." },
+        { "pattern": "N하고 N", "explanation": "Connects two nouns (and); colloquial equivalent of 와/과.", "example": "형하고 누나가 있어요." },
+        { "pattern": "-(으)ㄹ 때", "explanation": "Means 'when (doing/being)': 시간이 있을 때 = when there is time.", "example": "시간이 있을 때 음악을 들어요." }
+      ],
+      "question_ids": ["l-011", "l-012", "l-013", "l-014", "r-001", "r-002", "r-003"],
+      "review": "Topic questions reward the category both sentences share — find what is said, not just which words you heard."
+    },
+    {
+      "id": "c04",
+      "order": 4,
+      "title": "Particles and Word Choice",
+      "title_ko": "조사와 알맞은 말 고르기",
+      "objectives": [
+        "Choose the object marker 을/를 for 좋아하다 and the location marker 에 for 있다/없다",
+        "Pick the verb that collocates with its object (노래를 부르다)",
+        "Connect cause and result with 그래서"
+      ],
+      "new_vocabulary": [
+        { "ko": "좋아하다", "en": "to like" },
+        { "ko": "매일", "en": "every day" },
+        { "ko": "듣다", "en": "to listen" },
+        { "ko": "집", "en": "house, home" },
+        { "ko": "없다", "en": "to not exist, to not be (somewhere)" },
+        { "ko": "학교", "en": "school" },
+        { "ko": "노래", "en": "song" },
+        { "ko": "부르다", "en": "to sing; to call" },
+        { "ko": "피곤하다", "en": "to be tired" },
+        { "ko": "자다", "en": "to sleep" },
+        { "ko": "그래서", "en": "so, therefore" },
+        { "ko": "시간", "en": "time" }
+      ],
+      "new_grammar": [
+        { "pattern": "N을/를 좋아하다", "explanation": "The liked thing is the object of 좋아하다 and takes 을/를.", "example": "한국 음악을 좋아합니다." },
+        { "pattern": "N에 있다/없다", "explanation": "Existence/location uses the particle 에.", "example": "동생은 집에 없습니다." },
+        { "pattern": "N 후에", "explanation": "Marks a point in time after a duration or event.", "example": "두 달 후에 가족이 옵니다." }
+      ],
+      "question_ids": ["r-004", "r-005", "r-007", "r-008", "r-009"],
+      "review": "Match the particle to the verb and the verb to its object — those collocations decide the fill-in-the-blank items."
+    },
+    {
+      "id": "c05",
+      "order": 5,
+      "title": "Shopping and Weather Situations",
+      "title_ko": "쇼핑과 날씨 상황",
+      "objectives": [
+        "Match a dialogue to the right scene, watching who plays which role",
+        "Track each speaker's plan and catch adverbs like 벌써",
+        "Make polite requests (-아/어 주세요) and state obligations (-아/어야 되다)"
+      ],
+      "new_vocabulary": [
+        { "ko": "손님", "en": "customer, guest" },
+        { "ko": "찾다", "en": "to look for" },
+        { "ko": "같이", "en": "together" },
+        { "ko": "공항", "en": "airport" },
+        { "ko": "부모님", "en": "parents" },
+        { "ko": "벌써", "en": "already" },
+        { "ko": "쉬다", "en": "to rest" },
+        { "ko": "제일", "en": "the most" },
+        { "ko": "유명하다", "en": "to be famous" },
+        { "ko": "기다리다", "en": "to wait" },
+        { "ko": "바꾸다", "en": "to exchange, to change" },
+        { "ko": "영수증", "en": "receipt" }
+      ],
+      "new_grammar": [
+        { "pattern": "-아/어 주세요", "explanation": "Requests that someone do an action for the speaker.", "example": "운동화 좀 보여 주세요." },
+        { "pattern": "-아/어야 되다", "explanation": "Expresses necessity or obligation (have to).", "example": "공항에 가야 돼요." },
+        { "pattern": "-(으)ㄹ 거예요", "explanation": "Expresses a future plan or intention.", "example": "제주도에 갈 거예요." }
+      ],
+      "question_ids": ["l-015", "l-016", "l-017", "l-018", "l-019", "l-020", "l-021"],
+      "review": "In situation and detail items, pin down who does what — speaker-swaps and flipped adverbs are the usual traps."
+    },
+    {
+      "id": "c06",
+      "order": 6,
+      "title": "Reading Notices and Tickets",
+      "title_ko": "안내문과 표 읽기",
+      "objectives": [
+        "Read a class notice, store sign, or movie ticket for time, place, and price",
+        "Check each option against the notice when the task asks for what is NOT correct",
+        "Use conditions (-(으)면) and (im)possibility (-(으)ㄹ 수 있다/없다)"
+      ],
+      "new_vocabulary": [
+        { "ko": "교실", "en": "classroom, class" },
+        { "ko": "층", "en": "floor (of a building)" },
+        { "ko": "이상", "en": "or more, and above" },
+        { "ko": "배달하다", "en": "to deliver" },
+        { "ko": "극장", "en": "theater" },
+        { "ko": "자리", "en": "seat" },
+        { "ko": "값", "en": "price" },
+        { "ko": "점검하다", "en": "to inspect, to check" },
+        { "ko": "이용하다", "en": "to use (a service/facility)" },
+        { "ko": "계단", "en": "stairs" },
+        { "ko": "오전", "en": "morning, a.m." },
+        { "ko": "오후", "en": "afternoon, p.m." }
+      ],
+      "new_grammar": [
+        { "pattern": "N 동안", "explanation": "Expresses duration: 두 시간 동안 = for two hours.", "example": "수업은 두 시간 동안 합니다." },
+        { "pattern": "-(으)면", "explanation": "Condition: if/when A, then B.", "example": "만 원 이상 사면 배달해 드립니다." },
+        { "pattern": "-(으)ㄹ 수 있다/없다", "explanation": "Can / cannot do something.", "example": "엘리베이터를 이용할 수 없습니다." }
+      ],
+      "question_ids": ["r-010", "r-011", "r-012", "l-025", "l-026"],
+      "review": "Notices hide the answer in exact numbers — verify floors, prices, and a.m./p.m. character by character."
+    },
+    {
+      "id": "c07",
+      "order": 7,
+      "title": "Opinions and Main Ideas",
+      "title_ko": "의견과 중심 생각",
+      "objectives": [
+        "Find the speaker's overall point, separating it from supporting reasons",
+        "Keep two disagreeing speakers' views apart",
+        "Use concession (-아/어도), comparison (N보다), and nominalization (-는 것)"
+      ],
+      "new_vocabulary": [
+        { "ko": "지하철", "en": "subway" },
+        { "ko": "아침", "en": "morning; breakfast" },
+        { "ko": "꼭", "en": "surely, without fail" },
+        { "ko": "늦잠", "en": "sleeping in" },
+        { "ko": "몸", "en": "body" },
+        { "ko": "달리기", "en": "running" },
+        { "ko": "가볍다", "en": "to be light" },
+        { "ko": "기분", "en": "mood, feeling" },
+        { "ko": "시작하다", "en": "to start" },
+        { "ko": "영화관", "en": "movie theater" },
+        { "ko": "비싸다", "en": "to be expensive" },
+        { "ko": "편지", "en": "letter" }
+      ],
+      "new_grammar": [
+        { "pattern": "-아/어도", "explanation": "Even if/though - concedes a point without changing the conclusion.", "example": "좀 비싸도 영화관에서 봅니다." },
+        { "pattern": "N보다", "explanation": "Comparison particle: than N.", "example": "문자 메시지가 편지보다 빠릅니다." },
+        { "pattern": "V-는 것", "explanation": "Nominalizes a verb: V-ing.", "example": "영화 보는 것을 좋아합니다." }
+      ],
+      "question_ids": ["l-022", "l-023", "l-024", "r-016", "r-017", "r-018"],
+      "review": "The main idea is the conclusion, not the supporting reason — in short essays it is often the last sentence."
+    },
+    {
+      "id": "c08",
+      "order": 8,
+      "title": "Everyday Narratives",
+      "title_ko": "일상 이야기와 순서",
+      "objectives": [
+        "Follow a short personal story and reorder its sentences by time and logic",
+        "Catch the reason someone gives and which person it applies to",
+        "Contrast clauses with -지만 and mark beneficial actions with -아/어 주다"
+      ],
+      "new_vocabulary": [
+        { "ko": "이사하다", "en": "to move (house)" },
+        { "ko": "근처", "en": "vicinity, nearby" },
+        { "ko": "멀다", "en": "to be far" },
+        { "ko": "도와주다", "en": "to help" },
+        { "ko": "방", "en": "room" },
+        { "ko": "모임", "en": "meeting, gathering" },
+        { "ko": "갑자기", "en": "suddenly" },
+        { "ko": "약", "en": "medicine" },
+        { "ko": "먼저", "en": "first" },
+        { "ko": "공원", "en": "park" },
+        { "ko": "요리", "en": "cooking, dish" },
+        { "ko": "만들다", "en": "to make" }
+      ],
+      "new_grammar": [
+        { "pattern": "-지만", "explanation": "Contrast connector (but/although).", "example": "방은 조금 작지만 깨끗해요." },
+        { "pattern": "-아/어 주다", "explanation": "Doing an action for someone's benefit.", "example": "이사할 때 도와줄게요." },
+        { "pattern": "N마다", "explanation": "Attached to a time noun, means 'every': 아침마다, 주말마다.", "example": "아침마다 운동을 합니다." }
+      ],
+      "question_ids": ["l-027", "l-028", "l-029", "l-030", "r-013", "r-014", "r-015", "r-027", "r-028"],
+      "review": "Order a story by its broadest time word first, and remember 그래서 always needs a cause before it."
+    },
+    {
+      "id": "c09",
+      "order": 9,
+      "title": "Longer Reading Passages",
+      "title_ko": "긴 글 읽기",
+      "objectives": [
+        "Read a multi-sentence passage and recognize paraphrases of its facts",
+        "Predict a blank from discourse markers (그런데, 그래서) and the problem→solution arc",
+        "Use decisions (-기로 하다), long negation (-지 않다), and noun-based reasons (N 때문에)"
+      ],
+      "new_vocabulary": [
+        { "ko": "그런데", "en": "but, however" },
+        { "ko": "등산", "en": "hiking" },
+        { "ko": "휴대폰", "en": "mobile phone" },
+        { "ko": "동네", "en": "neighborhood" },
+        { "ko": "숙제", "en": "homework" },
+        { "ko": "목표", "en": "goal" },
+        { "ko": "소설", "en": "novel" },
+        { "ko": "이웃", "en": "neighbor" },
+        { "ko": "돕다", "en": "to help" },
+        { "ko": "건강", "en": "health" },
+        { "ko": "외롭다", "en": "to be lonely" },
+        { "ko": "문화", "en": "culture" }
+      ],
+      "new_grammar": [
+        { "pattern": "-기로 하다", "explanation": "Expresses a decision made about a future action.", "example": "친구하고 등산을 하기로 했습니다." },
+        { "pattern": "-지 않다", "explanation": "Long-form negation of verbs and adjectives.", "example": "이제 한국 생활이 외롭지 않습니다." },
+        { "pattern": "N 때문에", "explanation": "Because of N - noun-based reason, common paraphrase of -아/어서.", "example": "드라마 때문에 한국어를 배웁니다." }
+      ],
+      "question_ids": ["r-019", "r-020", "r-021", "r-022", "r-023", "r-024", "r-025", "r-026", "r-029", "r-030", "r-031", "r-032", "r-033", "r-034", "r-035", "r-036", "r-037", "r-038", "r-039", "r-040"],
+      "review": "Longer passages test paraphrase recognition and the problem→solution arc — the final blank usually resolves the opening problem."
+    }
+  ]
+}

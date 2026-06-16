@@ -1,0 +1,256 @@
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-authentic-mock-04",
+  "title": "TOPIK I Authentic Mock Exam 04 — Guided Course",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01",
+      "order": 1,
+      "title": "Everyday Questions and Replies",
+      "title_ko": "일상 질문과 대답",
+      "objectives": [
+        "Answer yes/no and wh-questions by echoing the right word",
+        "Use set phrases to reply to an apology or thanks"
+      ],
+      "new_vocabulary": [
+        { "ko": "한국 사람", "en": "Korean (person)" },
+        { "ko": "아니다", "en": "to not be (negative copula)" },
+        { "ko": "영화", "en": "movie" },
+        { "ko": "재미있다", "en": "to be fun, interesting" },
+        { "ko": "언제", "en": "when" },
+        { "ko": "여행", "en": "trip, travel" },
+        { "ko": "얼마", "en": "how much" },
+        { "ko": "백화점", "en": "department store" },
+        { "ko": "늦다", "en": "to be late" },
+        { "ko": "미안하다", "en": "to be sorry" },
+        { "ko": "괜찮다", "en": "to be okay, all right" },
+        { "ko": "돕다", "en": "to help" }
+      ],
+      "new_grammar": [
+        { "pattern": "N이/가 아니에요", "explanation": "Polite negation of the copula: denies that something or someone is N.", "example": "아니요, 한국 사람이 아니에요." },
+        { "pattern": "A-아/어요?", "explanation": "Polite question with a descriptive verb; answer by confirming or denying the same descriptive verb.", "example": "영화가 재미있어요? - 네, 재미있어요." },
+        { "pattern": "N에 (time)", "explanation": "Marks the time when an action happens; required in answers to 언제 questions (except with 오늘/내일/어제).", "example": "다음 주에 여행을 가요." }
+      ],
+      "question_ids": ["l-001", "l-002", "l-003", "l-004", "l-005", "l-006"],
+      "review": "You can answer everyday questions with the matching word and reply to thanks and apologies."
+    },
+    {
+      "id": "c02",
+      "order": 2,
+      "title": "Places and Topics",
+      "title_ko": "장소와 화제",
+      "objectives": [
+        "Identify a place from the words spoken there (bank, pharmacy, hotel)",
+        "Name the overall topic of a short exchange"
+      ],
+      "new_vocabulary": [
+        { "ko": "통장", "en": "bank account, bankbook" },
+        { "ko": "신분증", "en": "ID card" },
+        { "ko": "감기약", "en": "cold medicine" },
+        { "ko": "식사", "en": "meal" },
+        { "ko": "자리", "en": "seat" },
+        { "ko": "예약하다", "en": "to reserve, book" },
+        { "ko": "방", "en": "room" },
+        { "ko": "테니스", "en": "tennis" },
+        { "ko": "수영", "en": "swimming" },
+        { "ko": "구경하다", "en": "to look around, sightsee" },
+        { "ko": "바람이 불다", "en": "the wind blows" },
+        { "ko": "값", "en": "price" }
+      ],
+      "new_grammar": [
+        { "pattern": "-고 싶은데요", "explanation": "States a desire while inviting the listener's response; common when making requests at counters.", "example": "통장을 만들고 싶은데요." },
+        { "pattern": "N에 X 번", "explanation": "Expresses frequency per unit of time: 하루에 세 번 = three times a day.", "example": "이 약을 하루에 세 번 드세요." },
+        { "pattern": "N마다", "explanation": "Attaches to time nouns to mean 'every': 토요일마다, 아침마다, 주말마다.", "example": "토요일마다 테니스를 배워요." }
+      ],
+      "question_ids": ["l-007", "l-008", "l-009", "l-010", "l-011", "l-012", "l-013", "l-014"],
+      "review": "You can tell where a conversation happens and state what it is mainly about."
+    },
+    {
+      "id": "c03",
+      "order": 3,
+      "title": "Following Conversations",
+      "title_ko": "대화 따라가기",
+      "objectives": [
+        "Track who does what when a plan changes mid-dialogue",
+        "Catch small words (아직, 처음) that decide the right detail"
+      ],
+      "new_vocabulary": [
+        { "ko": "콘서트", "en": "concert" },
+        { "ko": "표", "en": "ticket" },
+        { "ko": "다치다", "en": "to get hurt, injured" },
+        { "ko": "넘어지다", "en": "to fall down" },
+        { "ko": "맑다", "en": "to be clear (weather)" },
+        { "ko": "돈을 바꾸다", "en": "to exchange money" },
+        { "ko": "아직", "en": "yet, still" },
+        { "ko": "구두", "en": "dress shoes" },
+        { "ko": "마음에 들다", "en": "to be to one's liking" },
+        { "ko": "슬프다", "en": "to be sad" },
+        { "ko": "야구장", "en": "baseball stadium" },
+        { "ko": "처음", "en": "first time" }
+      ],
+      "new_grammar": [
+        { "pattern": "-(으)려고 하다", "explanation": "Expresses what someone intends or is about to do.", "example": "여자가 표를 사려고 합니다." },
+        { "pattern": "-다가", "explanation": "Indicates that something (often an accident) happened in the middle of doing an action.", "example": "농구를 하다가 넘어졌어요." },
+        { "pattern": "-(으)러 가다", "explanation": "States the purpose of going: V-(으)러 가다 = go in order to V.", "example": "주말에 영화를 보러 갈 거예요." }
+      ],
+      "question_ids": ["l-015", "l-016", "l-017", "l-018", "l-019", "l-020", "l-021"],
+      "review": "You can follow a changing plan and pin down the exact detail being asked."
+    },
+    {
+      "id": "c04",
+      "order": 4,
+      "title": "Opinions, Announcements, and Reasons",
+      "title_ko": "생각, 안내 방송, 이유",
+      "objectives": [
+        "Find a speaker's main idea, ignoring the other person's habit",
+        "Catch the key facts and purpose of a public announcement"
+      ],
+      "new_vocabulary": [
+        { "ko": "감기에 걸리다", "en": "to catch a cold" },
+        { "ko": "낫다", "en": "to get better, heal" },
+        { "ko": "비교하다", "en": "to compare" },
+        { "ko": "아끼다", "en": "to save, economize" },
+        { "ko": "등산", "en": "hiking, mountain climbing" },
+        { "ko": "경치", "en": "scenery, view" },
+        { "ko": "매장", "en": "store section, sales floor" },
+        { "ko": "세일", "en": "sale" },
+        { "ko": "선물", "en": "gift, present" },
+        { "ko": "여름휴가", "en": "summer vacation (from work)" },
+        { "ko": "섬", "en": "island" },
+        { "ko": "치과", "en": "dental clinic" }
+      ],
+      "new_grammar": [
+        { "pattern": "-(으)면", "explanation": "Conditional: if/when A, then B. Used for general advice.", "example": "잘 쉬면 감기가 빨리 나아요." },
+        { "pattern": "-기 전에", "explanation": "Before doing V: 약을 먹기 전에 = before taking medicine.", "example": "약을 먹기 전에 물을 많이 마셔요." },
+        { "pattern": "-지만 / 하지만", "explanation": "Concedes one point before asserting the main one: hard, BUT worth it.", "example": "등산은 힘들지만 경치가 아름다워요." }
+      ],
+      "question_ids": ["l-022", "l-023", "l-024", "l-025", "l-026", "l-027", "l-028", "l-029", "l-030"],
+      "review": "You can state a speaker's main idea and read off the facts of an announcement."
+    },
+    {
+      "id": "c05",
+      "order": 5,
+      "title": "Reading Foundations",
+      "title_ko": "읽기 기초",
+      "objectives": [
+        "Choose the topic of two short sentences from their predicates",
+        "Fill a blank with the right particle, verb, adverb, or conjunction"
+      ],
+      "new_vocabulary": [
+        { "ko": "기차", "en": "train" },
+        { "ko": "바다", "en": "sea" },
+        { "ko": "타다", "en": "to ride, take (transport)" },
+        { "ko": "공책", "en": "notebook" },
+        { "ko": "사전", "en": "dictionary" },
+        { "ko": "비싸다", "en": "to be expensive" },
+        { "ko": "산책", "en": "a walk, stroll" },
+        { "ko": "탁구", "en": "table tennis" },
+        { "ko": "그리다", "en": "to draw, paint" },
+        { "ko": "잘하다", "en": "to be good at" },
+        { "ko": "못하다", "en": "to be bad at" },
+        { "ko": "빨리", "en": "quickly" }
+      ],
+      "new_grammar": [
+        { "pattern": "N에서 (action location)", "explanation": "Marks where an action verb happens; required with activity verbs like 산책하다, 운동하다, 먹다.", "example": "공원에서 산책을 합니다." },
+        { "pattern": "N하고 같이", "explanation": "Does an action together with N; 같이 strengthens the companionship reading of 하고.", "example": "친구하고 같이 탁구를 쳤습니다." },
+        { "pattern": "-아/어야 하다", "explanation": "Expresses obligation: 가야 합니다 = must go.", "example": "지금 빨리 가야 합니다." }
+      ],
+      "question_ids": ["r-001", "r-002", "r-003", "r-004", "r-005", "r-006", "r-007", "r-008", "r-009"],
+      "review": "You can pick the topic of a short text and fill blanks with the right small word."
+    },
+    {
+      "id": "c06",
+      "order": 6,
+      "title": "Notices and Short Passages",
+      "title_ko": "안내문과 짧은 글",
+      "objectives": [
+        "Check each statement against a notice and find the one that is false",
+        "Match a short passage to its detail or its main idea"
+      ],
+      "new_vocabulary": [
+        { "ko": "음악회", "en": "concert, recital" },
+        { "ko": "어른", "en": "adult" },
+        { "ko": "어린이", "en": "child" },
+        { "ko": "문을 열다", "en": "to open (for business)" },
+        { "ko": "돈을 찾다", "en": "to withdraw money" },
+        { "ko": "출발", "en": "departure" },
+        { "ko": "도착", "en": "arrival" },
+        { "ko": "평일", "en": "weekday" },
+        { "ko": "모임", "en": "club, gathering" },
+        { "ko": "용돈", "en": "allowance, pocket money" },
+        { "ko": "줄넘기", "en": "jump rope" },
+        { "ko": "노래를 부르다", "en": "to sing a song" }
+      ],
+      "new_grammar": [
+        { "pattern": "N부터 (threshold)", "explanation": "Marks the starting point of a range; with ages it sets the minimum.", "example": "여섯 살부터 들어갈 수 있습니다." },
+        { "pattern": "N 전까지", "explanation": "Deadline before an event: arrive by N before it happens.", "example": "출발 한 시간 전까지 공항에 오세요." },
+        { "pattern": "-(으)면 ... -(으)ㄹ 수 있다", "explanation": "Condition plus ability: if you do A, you can do B - a common main-idea frame.", "example": "돈을 조금씩 모으면 사고 싶은 것을 살 수 있습니다." }
+      ],
+      "question_ids": ["r-010", "r-011", "r-012", "r-013", "r-014", "r-015", "r-016", "r-017", "r-018"],
+      "review": "You can spot a false statement in a notice and read a short passage for detail and main idea."
+    },
+    {
+      "id": "c07",
+      "order": 7,
+      "title": "Paired Passages I",
+      "title_ko": "짝 지문 1",
+      "objectives": [
+        "Match a verb's tense to past time words in a paired passage",
+        "Identify a feeling and the right grammatical form for a blank"
+      ],
+      "new_vocabulary": [
+        { "ko": "고향", "en": "hometown" },
+        { "ko": "눈사람", "en": "snowman" },
+        { "ko": "지갑", "en": "wallet" },
+        { "ko": "잃어버리다", "en": "to lose" },
+        { "ko": "줍다", "en": "to pick up" },
+        { "ko": "기쁘다", "en": "to be glad" },
+        { "ko": "발", "en": "foot" },
+        { "ko": "동안", "en": "during, for (duration)" },
+        { "ko": "요가", "en": "yoga" },
+        { "ko": "소개하다", "en": "to introduce" },
+        { "ko": "태권도", "en": "taekwondo" },
+        { "ko": "합격하다", "en": "to pass (an exam)" }
+      ],
+      "new_grammar": [
+        { "pattern": "-았/었습니다", "explanation": "Formal past tense; required with past time expressions like 지난겨울.", "example": "지난겨울에 처음 눈을 봤습니다." },
+        { "pattern": "-지 말다", "explanation": "Negative command stem: V-지 말다 = do not V; in reported speech, V-지 말라고 하다.", "example": "운동을 하지 말라고 했습니다." },
+        { "pattern": "-(으)ㄹ 수 있다", "explanation": "Ability or possibility: V-(으)ㄹ 수 있다 = can V.", "example": "시험에 합격하면 파란 띠를 받을 수 있습니다." }
+      ],
+      "question_ids": ["r-019", "r-020", "r-021", "r-022", "r-023", "r-024", "r-025", "r-026", "r-029"],
+      "review": "You can keep tenses straight, read a writer's feeling, and choose the correct verb form."
+    },
+    {
+      "id": "c08",
+      "order": 8,
+      "title": "Ordering and Longer Passages",
+      "title_ko": "순서 배열과 긴 글",
+      "objectives": [
+        "Order scrambled sentences using time words and connectives",
+        "Read a longer passage for its purpose and matching detail"
+      ],
+      "new_vocabulary": [
+        { "ko": "갑자기", "en": "suddenly" },
+        { "ko": "그치다", "en": "to stop (rain/snow)" },
+        { "ko": "바뀌다", "en": "to be changed" },
+        { "ko": "극장", "en": "theater" },
+        { "ko": "공공", "en": "public" },
+        { "ko": "이용하다", "en": "to use (a service)" },
+        { "ko": "빌리다", "en": "to borrow, rent" },
+        { "ko": "제철", "en": "in season (best time)" },
+        { "ko": "흔들리다", "en": "to be shaken, blurry" },
+        { "ko": "축제", "en": "festival" },
+        { "ko": "물고기", "en": "fish (live)" },
+        { "ko": "잡다", "en": "to catch" }
+      ],
+      "new_grammar": [
+        { "pattern": "그래서 (result)", "explanation": "Introduces the consequence of the previous sentence; in ordering items it must directly follow its cause.", "example": "비가 왔습니다. 그래서 창문을 닫았습니다." },
+        { "pattern": "-기로 하다", "explanation": "To decide/agree to do; past tense recalls an earlier arrangement.", "example": "토요일에 영화를 보기로 했지요?" },
+        { "pattern": "-거나", "explanation": "Or - connects alternative verbs/adjectives: dark or shaken.", "example": "사진이 어둡거나 흔들렸습니다." }
+      ],
+      "question_ids": ["r-027", "r-028", "r-030", "r-031", "r-032", "r-033", "r-034", "r-035", "r-036", "r-037", "r-038", "r-039", "r-040"],
+      "review": "You can put a story in order and handle a longer passage's purpose and details."
+    }
+  ]
+}

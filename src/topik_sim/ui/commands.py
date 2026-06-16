@@ -65,6 +65,14 @@ COMMANDS: list[Command] = [
         "Examples: /drill · /drill 3",
     ),
     Command(
+        "course", "cmd_course", "/course [pack]", "Study a pack as a guided course: vocab, grammar, then its questions.",
+        category="Take a test",
+        details="Turns an exam pack into a sequence of short lessons. Each course teaches a\n"
+        "bounded set of new vocabulary (flashcards) and grammar (cards), then has you answer\n"
+        "the exam questions it covers. Bare /course picks a pack; finished courses are ticked.\n"
+        "Examples: /course · /course topik-i-authentic-mock-01",
+    ),
+    Command(
         "review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before.",
         category="Take a test",
         details="No argument: starts the one pack with items due, or lists due counts per pack.\n"

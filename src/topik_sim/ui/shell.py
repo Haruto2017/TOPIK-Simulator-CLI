@@ -34,6 +34,8 @@ TYPING = "typing"
 COMPOSE_PICK = "compose_pick"
 COMPOSE_TYPE = "compose_type"
 COMPOSE_GRADE = "compose_grade"
+COURSE_PICK = "course_pick"
+COURSE_STEP = "course_step"
 PICK = "pick"
 PICK_PACK = "pick_pack"
 MENU = "menu"
@@ -117,7 +119,12 @@ class Shell:
         self._facts_rng = random.Random(flashcard_seed)
         self._fact_speech = ""
         from ..compose import DEFAULT_COMPOSE_PATH
+        from ..courses import DEFAULT_COURSES_PATH
 
+        self.courses_path = DEFAULT_COURSES_PATH
+        self._course: dict[str, Any] | None = None
+        self._course_pack: Any = None
+        self._course_list: list[dict[str, Any]] = []
         self.compose_path = Path(compose_path) if compose_path is not None else DEFAULT_COMPOSE_PATH
         self._compose_rng = random.Random(flashcard_seed)
         self._lessons: list[dict[str, Any]] | None = None
@@ -200,6 +207,10 @@ class Shell:
                 self._grade_typing(text)
             else:
                 self.emit("Type the shown text, or /pause to stop.")
+        elif self.state == COURSE_PICK:
+            self._handle_course_pick(text)
+        elif self.state == COURSE_STEP:
+            self._handle_course_step(text)
         elif self.state == COMPOSE_PICK:
             self._handle_lesson_pick(text)
         elif self.state == COMPOSE_TYPE:
@@ -768,7 +779,13 @@ class Shell:
         self.state = IDLE
 
     def _end_minigames(self) -> None:
-        if self.state in {FLASH_FRONT, FLASH_BACK}:
+        if self._course is not None:
+            self._leave_course()
+            return
+        if self.state == COURSE_PICK:
+            self._course_list = []
+            self.state = IDLE
+        elif self.state in {FLASH_FRONT, FLASH_BACK}:
             self._end_flashcards(early=True)
         elif self.state == DICTATION:
             self._end_dictation(early=True)
@@ -975,6 +992,9 @@ class Shell:
         self._flash_index = 0
         self._flash_known = 0
         self._flash_missed = []
+        if self._course is not None and self._course.get("in_sub"):
+            self._course_after_subactivity()
+            return
         self.state = IDLE
 
     def cmd_hint(self, argument: str) -> None:
@@ -1014,6 +1034,14 @@ class Shell:
         self._submit("")
 
     def cmd_pause(self, argument: str) -> None:
+        if self._course is not None:
+            self._leave_course()
+            return
+        if self.state == COURSE_PICK:
+            self.emit("Cancelled.")
+            self._course_list = []
+            self.state = IDLE
+            return
         if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_PICK, COMPOSE_TYPE, COMPOSE_GRADE}:
             self._end_minigames()
             return
@@ -1060,6 +1088,162 @@ class Shell:
         report_path = report_dir / f"{attempt.get('attempt_id', path.stem)}.md"
         report_path.write_text(build_report(attempt, pack), encoding="utf-8")
         self.emit(f"Report written to {report_path}")
+
+    def cmd_course(self, argument: str) -> None:
+        from ..courses import courses_for, load_progress
+
+        if self.session is not None or self._course is not None:
+            self.emit("Finish or /pause the current activity first.")
+            return
+        self._end_minigames()
+        argument = argument.strip()
+        if not argument:
+            if not self._open_course_pack_picker():
+                self.emit("No courses are available yet. Courses ship with the bundled exam packs.")
+            return
+        try:
+            pack = self._resolve_pack(argument)
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            return
+        courses = courses_for(pack.pack_id, self.courses_path)
+        if not courses:
+            self.emit(f"No course is defined for {pack.pack_id}. /packs shows what is available.")
+            return
+        self._course_pack = pack
+        self._course_list = courses
+        done = set((load_progress(self.attempt_dir).get(pack.pack_id) or {}).keys())
+        self.emit(render.course_list(pack.title, courses, done))
+        self.state = COURSE_PICK
+
+    def _open_course_pack_picker(self) -> bool:
+        from ..courses import packs_with_courses
+
+        try:
+            entries = latest_packs(self.library_dir)
+        except (OSError, ValueError, KeyError):
+            entries = []
+        with_courses = packs_with_courses([e["pack_id"] for e in entries], self.courses_path)
+        entries = [e for e in entries if e["pack_id"] in with_courses]
+        if not entries:
+            return False
+        self._pack_pick_refs = [e["pack_id"] for e in entries]
+        self._pack_pick_action = "course"
+        self.emit(render.rule("Pick a pack to study as a course"))
+        for index, entry in enumerate(entries, start=1):
+            n = len(courses_for(entry["pack_id"], self.courses_path))
+            self.emit(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {entry.get('title', entry['pack_id'])}  {ansi.style(f'{n} courses', ansi.GREY)}")
+        self.emit("Type the number, or press Enter to cancel.")
+        self.state = PICK_PACK
+        return True
+
+    def _handle_course_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._course_list = []
+            self.state = IDLE
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._course_list):
+            course = self._course_list[int(text) - 1]
+            self._course_list = []
+            self._start_course(self._course_pack, course)
+            return
+        self.emit(f"Type a number from 1 to {len(self._course_list)}, or press Enter to cancel.")
+
+    def _start_course(self, pack: Any, course: dict[str, Any]) -> None:
+        self._course = {"pack": pack, "course": course, "step": 0, "in_sub": False}
+        self.emit("")
+        self.emit(render.course_intro(course))
+        self.emit(ansi.style("Press Enter to begin step 1 of 3: Vocabulary.", ansi.GREY))
+        self.state = COURSE_STEP
+
+    def _handle_course_step(self, text: str) -> None:
+        if text:
+            self.emit("Press Enter to continue, or /pause to leave the course.")
+            return
+        self._course_run_step()
+
+    COURSE_STEPS = ("Vocabulary", "Grammar", "Exam questions")
+
+    def _course_run_step(self) -> None:
+        course = self._course["course"]
+        step = self._course["step"]
+        if step == 0:
+            vocab = course.get("new_vocabulary", [])
+            if not vocab:
+                self._course_after_subactivity()
+                return
+            deck = [
+                {"front": v.get("ko", ""), "back": v.get("en", ""), "example": "", "speech": v.get("ko", ""), "keys": v.get("ko", "")}
+                for v in vocab
+            ]
+            self._course["in_sub"] = True
+            self._start_cards(deck, "Course vocabulary", f"Vocabulary — {course.get('title', '')}")
+        elif step == 1:
+            grammar = course.get("new_grammar", [])
+            if not grammar:
+                self._course_after_subactivity()
+                return
+            deck = [
+                {"front": g.get("pattern", ""), "back": g.get("explanation", ""), "example": g.get("example", ""),
+                 "speech": g.get("example", ""), "keys": ""}
+                for g in grammar
+            ]
+            self._course["in_sub"] = True
+            self._start_cards(deck, "Course grammar", f"Grammar — {course.get('title', '')}")
+        elif step == 2:
+            try:
+                self.session = ExamSession.start(
+                    self._course["pack"], self.attempt_dir, question_ids=course["question_ids"], activity="course"
+                )
+            except (ValueError, ContentValidationError, OSError) as exc:
+                self.emit(str(exc))
+                self._course_after_subactivity()
+                return
+            self._course["in_sub"] = True
+            self.emit(ansi.style(f"Exam practice — {len(course['question_ids'])} question(s) from this course.", ansi.BOLD))
+            self._present()
+        else:
+            self._finish_course()
+
+    def _course_after_subactivity(self) -> None:
+        if self._course is None:
+            return
+        self._course["in_sub"] = False
+        self._course["step"] += 1
+        step = self._course["step"]
+        if step >= len(self.COURSE_STEPS):
+            self._finish_course()
+            return
+        self.emit(ansi.style(f"Step done. Press Enter for step {step + 1} of 3: {self.COURSE_STEPS[step]}.", ansi.GREY))
+        self.state = COURSE_STEP
+
+    def _finish_course(self) -> None:
+        from ..courses import mark_done
+
+        course = self._course["course"]
+        pack_id = self._course["pack"].pack_id
+        mark_done(self.attempt_dir, pack_id, course["id"])
+        self.emit(render.rule("Course complete"))
+        self.emit(ansi.style(f"✓ {course.get('title', '')}", ansi.BOLD, ansi.GREEN))
+        review = str(course.get("review", "")).strip()
+        if review:
+            self.emit(review)
+        self.emit("/course continues with the next one.")
+        self._course = None
+        self.state = IDLE
+
+    def _leave_course(self) -> None:
+        # Clear the course first so the sub-activity end-hooks go idle instead
+        # of advancing to the next step.
+        self._course = None
+        self._course_list = []
+        if self.state in {FLASH_FRONT, FLASH_BACK}:
+            self._end_flashcards(early=True)
+        elif self.session is not None:
+            self._reset_session()
+        self.emit("Left the course. Finished steps are saved.")
+        self.state = IDLE
 
     def cmd_stats(self, argument: str) -> None:
         from ..stats import collect_stats, format_stats
@@ -1213,6 +1397,8 @@ class Shell:
         self._record_review_queue(attempt)
         self._refresh_recent()
         self._reset_session()
+        if self._course is not None and self._course.get("in_sub"):
+            self._course_after_subactivity()
 
     def _record_review_queue(self, attempt: dict[str, Any]) -> None:
         from .. import srs
@@ -1425,7 +1611,12 @@ class Shell:
             ref = self._pack_pick_refs[int(text) - 1]
             action = self._pack_pick_action
             self._clear_pack_pick()
-            handler = {"take": self.cmd_take, "flashcards": self.cmd_flashcards, "dictation": self.cmd_dictation}[action]
+            handler = {
+                "take": self.cmd_take,
+                "flashcards": self.cmd_flashcards,
+                "dictation": self.cmd_dictation,
+                "course": self.cmd_course,
+            }[action]
             handler(ref)
             return
         if not text.isdigit():
@@ -1590,7 +1781,7 @@ def _make_completer(shell: Shell):
             name = command_token[1:].lower()
             if " " in argument:
                 return
-            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate"}:
+            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate", "course"}:
                 for ref, meta in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(

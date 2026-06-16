@@ -1,0 +1,352 @@
+{
+  "schema_version": "topik-sim.course.v1",
+  "pack_id": "topik-i-authentic-mock-02",
+  "title": "TOPIK I Authentic Mock Exam 02 — Guided Course",
+  "limits": { "max_new_vocab": 12, "max_new_grammar": 3 },
+  "courses": [
+    {
+      "id": "c01",
+      "order": 1,
+      "title": "Answering Simple Questions",
+      "title_ko": "간단한 질문에 대답하기",
+      "objectives": [
+        "Answer yes/no and wh-questions by echoing the question's pattern",
+        "Reply to congratulations and meal invitations with the right set phrase"
+      ],
+      "new_vocabulary": [
+        { "ko": "요리사", "en": "cook, chef" },
+        { "ko": "강아지", "en": "puppy, dog" },
+        { "ko": "있다", "en": "to exist, to have" },
+        { "ko": "없다", "en": "to not exist, to not have" },
+        { "ko": "몇 시", "en": "what time" },
+        { "ko": "일어나다", "en": "to get up, to wake up" },
+        { "ko": "누가", "en": "who (subject form)" },
+        { "ko": "만들다", "en": "to make" },
+        { "ko": "축하하다", "en": "to congratulate" },
+        { "ko": "선물", "en": "present, gift" },
+        { "ko": "드시다", "en": "to eat (honorific)" },
+        { "ko": "음식", "en": "food" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "N이에요/예요?",
+          "explanation": "Polite question asking whether someone or something is N; answer by repeating the noun with 네 or denying it with 아니요, N이/가 아니에요.",
+          "example": "요리사예요? - 네, 요리사예요."
+        },
+        {
+          "pattern": "N에 N이/가 있어요?",
+          "explanation": "Asks whether something exists in a place; the natural negative answer replaces 있어요 with 없어요.",
+          "example": "집에 강아지가 있어요? - 아니요, 없어요."
+        },
+        {
+          "pattern": "-(으)ㄹ게요",
+          "explanation": "Speaker's promise or willingness, directed at the listener; very common when accepting gifts, favors, or tasks.",
+          "example": "선물 고마워요. 잘 쓸게요."
+        }
+      ],
+      "question_ids": ["l-001", "l-002", "l-003", "l-004", "l-005", "l-006"],
+      "review": "You can now answer identity, existence, time, and person questions and reply naturally to gifts and meals."
+    },
+    {
+      "id": "c02",
+      "order": 2,
+      "title": "Where Am I? Places and Topics",
+      "title_ko": "여기는 어디예요? 장소와 화제",
+      "objectives": [
+        "Identify a place from the errand words you hear (post office, bakery, salon, pharmacy)",
+        "Find the topic that covers what both speakers are talking about"
+      ],
+      "new_vocabulary": [
+        { "ko": "소포", "en": "parcel, package" },
+        { "ko": "보내다", "en": "to send" },
+        { "ko": "우체국", "en": "post office" },
+        { "ko": "빵집", "en": "bakery" },
+        { "ko": "미용실", "en": "hair salon" },
+        { "ko": "자르다", "en": "to cut" },
+        { "ko": "약국", "en": "pharmacy" },
+        { "ko": "감기약", "en": "cold medicine" },
+        { "ko": "맵다", "en": "to be spicy" },
+        { "ko": "달다", "en": "to be sweet" },
+        { "ko": "청소", "en": "cleaning" },
+        { "ko": "주말", "en": "weekend" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "-고 싶다",
+          "explanation": "Expresses the speaker's desire to do something; common when stating an errand at a counter.",
+          "example": "소포를 미국까지 보내고 싶어요."
+        },
+        {
+          "pattern": "N하고 N",
+          "explanation": "Joins two nouns (and) when ordering or listing items.",
+          "example": "크림빵 두 개하고 식빵 한 개 주세요."
+        },
+        {
+          "pattern": "N마다",
+          "explanation": "Attaches to a time noun to mean 'every N'; 토요일마다 = every Saturday.",
+          "example": "저는 토요일마다 집 청소를 해요."
+        }
+      ],
+      "question_ids": ["l-007", "l-008", "l-009", "l-010", "l-011", "l-012", "l-013", "l-014"],
+      "review": "You can now pin down a place from its errand words and name the topic that ties a short dialogue together."
+    },
+    {
+      "id": "c03",
+      "order": 3,
+      "title": "Reading Foundations: Topics and Particles",
+      "title_ko": "읽기 기초: 화제와 조사",
+      "objectives": [
+        "Choose the category word that both reading sentences are about",
+        "Pick the right particle for place of action (에서) and contrast (은/는)"
+      ],
+      "new_vocabulary": [
+        { "ko": "김밥", "en": "gimbap (seaweed rice roll)" },
+        { "ko": "라면", "en": "ramyeon (instant noodles)" },
+        { "ko": "아파트", "en": "apartment" },
+        { "ko": "방", "en": "room" },
+        { "ko": "요일", "en": "day of the week" },
+        { "ko": "부엌", "en": "kitchen" },
+        { "ko": "요리하다", "en": "to cook" },
+        { "ko": "우유", "en": "milk" },
+        { "ko": "마시다", "en": "to drink" },
+        { "ko": "그런데", "en": "but, however" },
+        { "ko": "빵", "en": "bread" },
+        { "ko": "그리고", "en": "and, also" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "N에서 V",
+          "explanation": "Marks the place where an action is performed.",
+          "example": "부엌에서 요리를 합니다."
+        },
+        {
+          "pattern": "N은/는 (contrast)",
+          "explanation": "Beyond marking topics, 은/는 contrasts one item against another already mentioned.",
+          "example": "저는 우유를 마십니다. 동생은 안 마십니다."
+        },
+        {
+          "pattern": "ㄹ 불규칙 (-ㅂ니다)",
+          "explanation": "Verbs ending in ㄹ drop the ㄹ before -ㅂ니다: 만들다 → 만듭니다, 살다 → 삽니다.",
+          "example": "주말에 빵을 만듭니다."
+        }
+      ],
+      "question_ids": ["r-001", "r-002", "r-003", "r-004", "r-005", "r-006", "r-007", "r-008", "r-009"],
+      "review": "You can now match a short passage to its topic and choose particles for location and contrast."
+    },
+    {
+      "id": "c04",
+      "order": 4,
+      "title": "Shopping, Gifts, and Notices",
+      "title_ko": "쇼핑, 선물, 안내문",
+      "objectives": [
+        "Track who is buyer and who is seller in a shopping scene",
+        "Read a notice or poster and spot the statement that does not match it"
+      ],
+      "new_vocabulary": [
+        { "ko": "생선", "en": "fish (as food)" },
+        { "ko": "싱싱하다", "en": "to be fresh" },
+        { "ko": "시장", "en": "market" },
+        { "ko": "포장하다", "en": "to wrap, to package" },
+        { "ko": "초대", "en": "invitation" },
+        { "ko": "장소", "en": "place, venue" },
+        { "ko": "평일", "en": "weekday" },
+        { "ko": "대회", "en": "contest, competition" },
+        { "ko": "참가하다", "en": "to participate" },
+        { "ko": "상품권", "en": "gift certificate" },
+        { "ko": "반값", "en": "half price" },
+        { "ko": "이용하다", "en": "to use, to take advantage of" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "V-아/어 주세요",
+          "explanation": "Polite request for the listener to do something for the speaker's benefit.",
+          "example": "예쁘게 포장해 주세요."
+        },
+        {
+          "pattern": "V-아/어도 되다",
+          "explanation": "Grants permission; with 안 before the verb it means 'you may skip doing it'.",
+          "example": "선물은 안 가지고 오셔도 됩니다."
+        },
+        {
+          "pattern": "N부터 N까지",
+          "explanation": "Marks the start and end of a time range.",
+          "example": "일곱 시부터 여덟 시까지 반값에 팝니다."
+        }
+      ],
+      "question_ids": ["l-015", "l-016", "l-025", "l-026", "r-010", "r-011", "r-012"],
+      "review": "You can now follow a shopping exchange and check a notice line by line for the false statement."
+    },
+    {
+      "id": "c05",
+      "order": 5,
+      "title": "Weekend Plans and Family Events",
+      "title_ko": "주말 계획과 가족 행사",
+      "objectives": [
+        "Map each activity to the right day or time slot while listening",
+        "Track who does what when two people split tasks for an event"
+      ],
+      "new_vocabulary": [
+        { "ko": "오전", "en": "morning, a.m." },
+        { "ko": "오후", "en": "afternoon, p.m." },
+        { "ko": "빨래", "en": "laundry" },
+        { "ko": "미역국", "en": "seaweed soup" },
+        { "ko": "끓이다", "en": "to boil, to cook (soup)" },
+        { "ko": "놀이공원", "en": "amusement park" },
+        { "ko": "시험", "en": "exam, test" },
+        { "ko": "결혼기념일", "en": "wedding anniversary" },
+        { "ko": "장미", "en": "rose" },
+        { "ko": "드리다", "en": "to give (humble)" },
+        { "ko": "장갑", "en": "gloves" },
+        { "ko": "파티", "en": "party" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "V-(으)ㄹ까요?",
+          "explanation": "Suggests an action to do together and asks the listener's opinion.",
+          "example": "저녁에 같이 배드민턴 칠까요?"
+        },
+        {
+          "pattern": "V-아/어야 되다",
+          "explanation": "Expresses necessity or obligation: must/have to do something.",
+          "example": "일요일에는 시험 공부를 해야 돼요."
+        },
+        {
+          "pattern": "V-(으)러 가다",
+          "explanation": "States the purpose of going somewhere.",
+          "example": "선물을 사러 백화점에 갔어요."
+        }
+      ],
+      "question_ids": ["l-017", "l-018", "l-019", "l-020", "l-021", "l-027", "l-028"],
+      "review": "You can now keep two-day plans straight and assign each task to the right person in a planning dialogue."
+    },
+    {
+      "id": "c06",
+      "order": 6,
+      "title": "Opinions and Main Ideas",
+      "title_ko": "의견과 중심 생각",
+      "objectives": [
+        "Find the claim a speaker's reasons are supporting, not the reasons themselves",
+        "Read a 'A-지만 B' sentence and take B as the writer's real opinion"
+      ],
+      "new_vocabulary": [
+        { "ko": "도시락", "en": "lunchbox, packed lunch" },
+        { "ko": "몸에 좋다", "en": "to be good for the body/health" },
+        { "ko": "짜다", "en": "to be salty" },
+        { "ko": "가까워지다", "en": "to become close" },
+        { "ko": "메모하다", "en": "to jot down, to make a note" },
+        { "ko": "장을 보다", "en": "to do grocery shopping" },
+        { "ko": "아끼다", "en": "to save, to use sparingly" },
+        { "ko": "기쁘다", "en": "to be glad, joyful" },
+        { "ko": "즐겁다", "en": "to be enjoyable" },
+        { "ko": "일찍", "en": "early" },
+        { "ko": "필요하다", "en": "to be necessary, needed" },
+        { "ko": "먼저", "en": "first, beforehand" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "V-(으)면서",
+          "explanation": "Two actions done at the same time by the same subject: eat while talking.",
+          "example": "밥을 먹으면서 이야기해요."
+        },
+        {
+          "pattern": "V-게 되다",
+          "explanation": "Indicates a result that happens to you rather than by choice: 사게 돼요 = you end up buying.",
+          "example": "메모를 안 하면 필요 없는 것까지 사게 돼요."
+        },
+        {
+          "pattern": "A/V-지만",
+          "explanation": "Concedes one point before stating the opposing, weightier point.",
+          "example": "시간이 많이 걸리지만 정말 기쁩니다."
+        }
+      ],
+      "question_ids": ["l-022", "l-023", "l-024", "r-016", "r-017", "r-018"],
+      "review": "You can now separate reasons from the main point and read concession sentences for the speaker's true stance."
+    },
+    {
+      "id": "c07",
+      "order": 7,
+      "title": "Details, Messages, and Reported Speech",
+      "title_ko": "세부 내용, 메시지, 간접 화법",
+      "objectives": [
+        "Check companion, quantity, and time slots against a passage to catch flipped facts",
+        "Read a short note and state why the writer wrote it"
+      ],
+      "new_vocabulary": [
+        { "ko": "옆집", "en": "the house next door, neighbors" },
+        { "ko": "새벽", "en": "dawn, early morning hours" },
+        { "ko": "사과하다", "en": "to apologize" },
+        { "ko": "만두", "en": "dumpling" },
+        { "ko": "호떡", "en": "hotteok (sweet filled pancake)" },
+        { "ko": "손님", "en": "customer, guest" },
+        { "ko": "키우다", "en": "to raise, to keep (a pet)" },
+        { "ko": "산책하다", "en": "to take a walk" },
+        { "ko": "부탁하다", "en": "to ask a favor" },
+        { "ko": "고향", "en": "hometown" },
+        { "ko": "물을 주다", "en": "to water (plants)" },
+        { "ko": "돌아오다", "en": "to come back" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "A/V-다고 하다",
+          "explanation": "Indirect quotation reporting what someone said.",
+          "example": "옆집 사람도 미안하다고 했어요."
+        },
+        {
+          "pattern": "V-는 법",
+          "explanation": "Noun phrase meaning 'how to V'; often paired with 배우다/가르치다.",
+          "example": "어머니가 만두 만드는 법을 가르쳐 주셨습니다."
+        },
+        {
+          "pattern": "V-아/어 줄 수 있어요?",
+          "explanation": "Polite way to ask whether someone can do a favor.",
+          "example": "꽃에 물을 좀 줄 수 있어요?"
+        }
+      ],
+      "question_ids": ["l-029", "l-030", "r-013", "r-014", "r-015", "r-031", "r-032"],
+      "review": "You can now verify details against the text, read reported speech, and identify the purpose of a short message."
+    },
+    {
+      "id": "c08",
+      "order": 8,
+      "title": "Cooking and Home Stories",
+      "title_ko": "요리와 집 이야기",
+      "objectives": [
+        "Order scrambled sentences using cause words and time clues",
+        "Pick the verb or ending a passage needs, including ability and trying patterns"
+      ],
+      "new_vocabulary": [
+        { "ko": "바꾸다", "en": "to change, to switch" },
+        { "ko": "계획", "en": "plan" },
+        { "ko": "쏟다", "en": "to spill" },
+        { "ko": "더러워지다", "en": "to get dirty" },
+        { "ko": "넣다", "en": "to put in, to add" },
+        { "ko": "마당", "en": "yard" },
+        { "ko": "졸업식", "en": "graduation ceremony" },
+        { "ko": "익히다", "en": "to cook thoroughly" },
+        { "ko": "정리하다", "en": "to tidy up, to organize" },
+        { "ko": "심다", "en": "to plant" },
+        { "ko": "따다", "en": "to pick, to pluck" },
+        { "ko": "깨끗하다", "en": "to be clean" }
+      ],
+      "new_grammar": [
+        {
+          "pattern": "V-기로 하다",
+          "explanation": "Expresses a decision made (often with others) to do something.",
+          "example": "공원에서 자전거를 타기로 했습니다."
+        },
+        {
+          "pattern": "V-아/어 보다",
+          "explanation": "To try doing something, often repeatedly while learning.",
+          "example": "매일 한 가지씩 만들어 봤습니다."
+        },
+        {
+          "pattern": "V-(으)ㄹ 수 있다",
+          "explanation": "Ability/possibility; the verb before 수 must take -(으)ㄹ.",
+          "example": "물건을 빨리 찾을 수 있습니다."
+        }
+      ],
+      "question_ids": ["r-019", "r-020", "r-021", "r-022", "r-023", "r-024", "r-025", "r-026", "r-027", "r-028", "r-029", "r-030", "r-033", "r-034", "r-035", "r-036", "r-037", "r-038", "r-039", "r-040"],
+      "review": "You can now sequence a short narrative and choose the verb forms—ability, trying, and decisions—that cooking and home passages require."
+    }
+  ]
+}
