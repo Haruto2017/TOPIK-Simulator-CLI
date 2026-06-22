@@ -124,7 +124,16 @@ COMMANDS: list[Command] = [
         category="Practice",
         details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"
         "from every imported pack. count: number of items (default 12).\n"
-        "A miss reveals the 두벌식 keystrokes. Examples: /typing · /typing 20 · /typing topik-i-mini-pack 15",
+        "Real pack words reveal their meaning after you answer; a miss also reveals the 두벌식\n"
+        "keystrokes. Examples: /typing · /typing 20 · /typing topik-i-mini-pack 15",
+    ),
+    Command(
+        "numbers", "cmd_numbers", "/numbers [category] [count]", "Practice Korean numbers: write them in Hangul, no digits.", ("num", "number"),
+        category="Practice",
+        details="Drills both number systems and the contexts that pick between them. Answers must\n"
+        "be Korean letters — digits are rejected. category (default mix): sino, native, count\n"
+        "(objects + counter), date, time, money, math, phone, ordinal. count: items (default 10).\n"
+        "/say reads the correct form aloud. Examples: /numbers · /numbers date · /numbers money 15",
     ),
     Command(
         "facts", "cmd_facts", "/facts [category|list]", "Discover a fact about Korea — culture, history, food, and more.", ("fact", "culture"),

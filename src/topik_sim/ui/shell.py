@@ -542,10 +542,44 @@ class Shell:
             count=count,
             library_dir=None if pack else self.library_dir,
         )
-        items = [{"show": target, "accept": [target], "answer": target, "speech": target} for target in targets]
+        meanings = self._typing_meanings(pack)
+        items = []
+        for target in targets:
+            item = {"show": target, "accept": [target], "answer": target, "speech": target}
+            if target in meanings:
+                item["meaning"] = meanings[target]
+            items.append(item)
         title = f"Typing practice: {pack.title}" if pack else "Typing practice"
         self._start_typing(items, label="Typing practice", verb="Typed", title=title,
                            hint="type what you see · /keyboard shows the layout · /pause stops")
+
+    def cmd_numbers(self, argument: str) -> None:
+        from ..numbers import NUMBER_CATEGORIES, build_number_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        category = None
+        count = 10
+        for part in argument.split():
+            if part.isdigit():
+                count = int(part)
+            elif part.lower() in {"mix", "mixed", "all"}:
+                category = "mix"
+            elif part.lower() in NUMBER_CATEGORIES:
+                category = part.lower()
+            else:
+                self.emit(
+                    f"Unknown category: {part}. Choose from {', '.join(NUMBER_CATEGORIES)}, or mix."
+                )
+                return
+        items = build_number_items(seed=self._flashcard_seed, count=count, category=category)
+        scope = "mixed" if category in (None, "mix") else category
+        self._start_typing(
+            items, label="Number practice", verb="Read", title=f"Number practice: {scope}",
+            hint="write the number in Korean letters — no digits · /say reads it · /pause stops",
+        )
 
     def cmd_recall(self, argument: str) -> None:
         from ..flashcards import build_recall_items
@@ -581,6 +615,34 @@ class Shell:
         self._start_typing(items, label="Vocab recall", verb="Recalled", title=title,
                            hint="type the Korean for each English word · /pause stops")
 
+    def _typing_meanings(self, pack: ExamPack | None) -> dict[str, str]:
+        """Map each pack vocabulary word to its gloss, for reveal after typing.
+
+        Words the typing drill invents (jamo, syllables, random fallback pairs)
+        are not in this map, so only real pack vocabulary shows a meaning.
+        """
+        from ..flashcards import build_deck, library_deck
+
+        if pack is not None:
+            cards = build_deck(pack, seed=0)
+        elif self.library_dir is not None:
+            cards = library_deck(self.library_dir)
+        else:
+            cards = []
+        meanings: dict[str, list[str]] = {}
+        for card in cards:
+            ko = str(card.get("ko", "")).strip()
+            gloss = str(card.get("en", "")).strip()
+            if not ko or not gloss:
+                continue
+            note = str(card.get("note", "") or "").strip()
+            if note:
+                gloss = f"{gloss} — {note}"
+            glosses = meanings.setdefault(ko, [])
+            if gloss not in glosses:
+                glosses.append(gloss)
+        return {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
+
     def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str) -> None:
         self._typing_items = items
         self._typing_index = 0
@@ -604,14 +666,23 @@ class Shell:
         from ..typing_drill import normalize_typed
 
         item = self._typing_items[self._typing_index]
-        accepted = {normalize_typed(answer) for answer in item["accept"]}
-        if normalize_typed(typed) in accepted:
+        if item.get("no_digits") and any(ch.isdigit() for ch in typed):
+            self.emit("Write the number in Korean letters (한글), not digits. Try again.")
+            return
+        # Number phrases are spaced (세 시 십오 분); grade them space-insensitively.
+        def _key(text: str) -> str:
+            return normalize_typed(text).replace(" ", "")
+        accepted = {_key(answer) for answer in item["accept"]}
+        if _key(typed) in accepted:
             self._typing_hits += 1
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
             self._typing_missed.append(item["answer"])
             expected = " / ".join(item["accept"])
             self.emit(ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED) + f" — {keystroke_hint(item['answer'])}")
+        meaning = item.get("meaning")
+        if meaning:
+            self.emit(ansi.style(f"  {meaning}", ansi.GREY))
         self._typing_index += 1
         if self._typing_index >= len(self._typing_items):
             self._end_typing()
