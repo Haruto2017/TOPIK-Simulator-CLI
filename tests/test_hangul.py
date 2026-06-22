@@ -158,6 +158,29 @@ class TypingShellTests(unittest.TestCase):
         self.assertTrue(vocab & {item["answer"] for item in shell._typing_items})
         shell.handle_line("/pause")
 
+    def test_typing_reveals_meaning_for_pack_words(self):
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        shell, output = self.make_shell()
+        shell.handle_line("/typing 12")
+        glosses = {
+            "책": "book", "좋다": "to be good", "날씨": "weather",
+            "오늘": "today", "도서관": "library", "읽다": "to read",
+        }
+        # Answer every item; only real pack words carry a meaning, and it matches
+        # the pack gloss. Invented jamo/syllables have no meaning attached.
+        seen_meaning = False
+        while shell.state == TYPING:
+            item = shell._typing_items[shell._typing_index]
+            self.assertEqual("meaning" in item, item["answer"] in glosses)
+            if "meaning" in item:
+                self.assertEqual(item["meaning"], glosses[item["answer"]])
+                seen_meaning = True
+            shell.handle_line(item["answer"])
+        self.assertTrue(seen_meaning)
+        self.assertIn("today", "\n".join(output))
+
     def test_typing_pause_stops_early(self):
         shell, output = self.make_shell()
         shell.handle_line("/typing 4")

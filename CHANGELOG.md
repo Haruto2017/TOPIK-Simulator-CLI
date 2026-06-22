@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Korean number practice**: `/numbers` (aliases `/num`, `/number`) drills both
+  number systems and the contexts that choose between them. A value is shown with
+  Arabic digits and you write its Korean reading in Hangul — answers containing
+  digits are rejected and the item is re-asked, so practice is letters-only;
+  grading ignores spacing. The default `mix` rotates evenly through nine
+  categories: `sino` and `native` cardinals, `count` (native number + counter, in
+  the 한/두/세/네/스무 counter forms), `date` (with the irregular 유월/시월),
+  `time` (native hour + Sino minute, accepting 반 for :30), `money`, `math` (the
+  full equation with 더하기/빼기/곱하기/나누기 and the right 은/는), `phone`
+  (digit-by-digit, 0 → 공), and `ordinal`. Pass one category to focus, and a
+  count to set length. `/say` reads the correct form aloud. New module
+  `src/topik_sim/numbers.py`.
+
 - **Guided courses**: `/course <pack>` turns an exam pack into a textbook-style
   curriculum — a sequence of short lessons, each teaching a bounded set of new
   vocabulary (flashcards) and grammar (cards) before running the exam questions
