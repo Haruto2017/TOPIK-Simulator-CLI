@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Advanced typing mode**: `/typing advanced` (aliases `adv`, `pro`) skips the
+  jamo/syllable warm-up and drills only meaningful items — real vocabulary words
+  plus full sentences pulled from the `/compose` lessons — shuffled together,
+  each revealing its English meaning after you type it. Matching is whitespace-
+  and trailing-punctuation-tolerant, so a sentence is not failed by a missing
+  period or an extra space. A leading `pack` still scopes the words; `count`
+  still sets the length.
+
 - **Korean number practice**: `/numbers` (aliases `/num`, `/number`) drills both
   number systems and the contexts that choose between them. A value is shown with
   Arabic digits and you write its Korean reading in Hangul — answers containing

@@ -516,16 +516,19 @@ class Shell:
         self.emit(render.keyboard_chart())
 
     def cmd_typing(self, argument: str) -> None:
-        from ..typing_drill import build_typing_items
+        from ..typing_drill import build_advanced_typing_items, build_typing_items
 
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
+        advanced = False
         pack = None
         count = 12
         for part in argument.split():
-            if part.isdigit():
+            if part.lower() in {"advanced", "adv", "pro"}:
+                advanced = True
+            elif part.isdigit():
                 count = int(part)
             else:
                 try:
@@ -536,6 +539,21 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
+        if advanced:
+            items = build_advanced_typing_items(
+                pack=pack,
+                library_dir=None if pack else self.library_dir,
+                compose_path=self.compose_path,
+                count=count,
+                seed=self._flashcard_seed,
+            )
+            if not items:
+                self.emit("No words or sentences available for advanced typing. Import a pack, or check content/compose.")
+                return
+            title = f"Advanced typing: {pack.title}" if pack else "Advanced typing"
+            self._start_typing(items, label="Advanced typing", verb="Typed", title=title,
+                               hint="type the Korean word or sentence · the meaning follows · /pause stops")
+            return
         targets = build_typing_items(
             seed=self._flashcard_seed,
             pack=pack,

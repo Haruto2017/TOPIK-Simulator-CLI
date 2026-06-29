@@ -108,6 +108,33 @@ class TypingDrillTests(unittest.TestCase):
         self.assertEqual(normalize_typed(decomposed), composed)
 
 
+class AdvancedTypingTests(unittest.TestCase):
+    def test_normalize_typed_is_tolerant_of_spacing_and_punctuation(self):
+        self.assertEqual(normalize_typed("  안녕하세요. "), "안녕하세요")
+        self.assertEqual(normalize_typed("저는  학교에   가요"), "저는 학교에 가요")
+
+    def test_advanced_items_are_words_and_sentences_with_meaning(self):
+        import json
+
+        from topik_sim.typing_drill import build_advanced_typing_items
+
+        pack = load_pack(SAMPLE_PACK)
+        with tempfile.TemporaryDirectory() as d:
+            compose = Path(d) / "c.json"
+            compose.write_text(json.dumps({"schema_version": "topik-sim.compose.v1", "lessons": [
+                {"id": "l1", "pattern": "-go",
+                 "sentences": [{"english": "I want to go.", "korean": "가고 싶어요.", "accepted": ["가고 싶어요."]}]}
+            ]}, ensure_ascii=False), encoding="utf-8")
+            items = build_advanced_typing_items(pack=pack, compose_path=compose, count=20, seed=0)
+
+        self.assertEqual({i["kind"] for i in items}, {"word", "sentence"})  # no jamo/syllables
+        self.assertTrue(all(i["meaning"] for i in items))
+        sentence = next(i for i in items if i["kind"] == "sentence")
+        self.assertEqual(sentence["show"], "가고 싶어요.")
+        self.assertEqual(sentence["meaning"], "I want to go.")
+        self.assertTrue(next(i for i in items if i["kind"] == "word")["meaning"])
+
+
 class TypingShellTests(unittest.TestCase):
     def setUp(self):
         ansi.set_color_enabled(False)
@@ -186,6 +213,50 @@ class TypingShellTests(unittest.TestCase):
         shell.handle_line("/typing 4")
         shell.handle_line("/pause")
         self.assertIn("stopped after 0/4", "\n".join(output))
+        self.assertEqual(shell.state, IDLE)
+
+    def test_advanced_typing_drills_meaningful_items_and_shows_meaning(self):
+        import json
+
+        from topik_sim.library import import_pack
+
+        import_pack(SAMPLE_PACK, self.temp_dir / "library")
+        compose = self.temp_dir / "compose"
+        compose.mkdir()
+        (compose / "c.json").write_text(json.dumps({"schema_version": "topik-sim.compose.v1", "lessons": [
+            {"id": "l1", "pattern": "-go",
+             "sentences": [{"english": "I want to go.", "korean": "가고 싶어요.", "accepted": ["가고 싶어요."]}]}
+        ]}, ensure_ascii=False), encoding="utf-8")
+        shell, output = self.make_shell()
+        shell.compose_path = compose
+
+        shell.handle_line("/typing advanced 20")
+        self.assertEqual(shell.state, TYPING)
+        self.assertTrue(shell._typing_items)
+        self.assertTrue(all(item.get("meaning") for item in shell._typing_items))
+
+        # Type the sentence WITHOUT its trailing period — still correct — and the meaning is shown.
+        sentence = next(i for i in shell._typing_items if i.get("kind") == "sentence")
+        order = [i["answer"] for i in shell._typing_items]
+        # answer items up to and including the sentence
+        seen_meaning = False
+        for answer in order:
+            before = len(output)
+            typed = answer.rstrip(".") if answer == sentence["answer"] else answer
+            shell.handle_line(typed)
+            chunk = "\n".join(output[before:])
+            if answer == sentence["answer"]:
+                self.assertIn("✓", chunk)
+                self.assertIn("I want to go.", chunk)
+                seen_meaning = True
+                break
+        self.assertTrue(seen_meaning)
+
+    def test_advanced_typing_without_content_reports(self):
+        shell, output = self.make_shell()
+        shell.compose_path = self.temp_dir / "no-compose"
+        shell.handle_line("/typing advanced")
+        self.assertIn("No words or sentences available", "\n".join(output))
         self.assertEqual(shell.state, IDLE)
 
     def test_keyboard_command_chart_and_toggle(self):

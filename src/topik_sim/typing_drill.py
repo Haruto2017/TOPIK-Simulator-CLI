@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 import unicodedata
 from pathlib import Path
+from typing import Any
 
 from .content import ExamPack
 from .flashcards import build_deck
@@ -16,7 +17,15 @@ SIMPLE_TAILS = ["", "", "ㄱ", "ㄴ", "ㄹ", "ㅁ", "ㅂ", "ㅇ"]
 
 
 def normalize_typed(text: str) -> str:
-    return unicodedata.normalize("NFC", text.strip())
+    """NFC-normalize, collapse internal whitespace, and drop trailing sentence
+    punctuation, so typing a word or sentence is not failed by a missing
+    period or an extra space."""
+    collapsed = " ".join(unicodedata.normalize("NFC", text).split())
+    return collapsed.strip().rstrip(".?!").strip()
+
+
+def _has_hangul(text: str) -> bool:
+    return any("가" <= char <= "힣" for char in text)
 
 
 def _random_syllable(rng: random.Random) -> str:
@@ -80,3 +89,49 @@ def build_typing_items(
         words.append(_random_syllable(rng) + _random_syllable(rng))
     items.extend(words[:word_count])
     return items
+
+
+def build_advanced_typing_items(
+    pack: ExamPack | None = None,
+    library_dir: str | Path | None = None,
+    compose_path: str | Path | None = None,
+    count: int = 12,
+    seed: int | None = None,
+) -> list[dict[str, Any]]:
+    """Advanced typing: only meaningful Korean words and full sentences (no
+    jamo/syllable warm-up). Each item carries its English `meaning`, shown
+    after the learner types it.
+
+    Words come from pack/library vocabulary; sentences from the compose
+    lessons. You type the Korean shown; matching is whitespace/punctuation
+    tolerant via ``normalize_typed``.
+    """
+    from .flashcards import build_deck, library_deck
+
+    items: list[dict[str, Any]] = []
+
+    if pack is not None:
+        deck = build_deck(pack, seed=seed)
+    elif library_dir is not None:
+        deck = library_deck(library_dir)
+    else:
+        deck = []
+    for card in deck:
+        ko = str(card.get("ko", "")).strip()
+        en = str(card.get("en", "")).strip()
+        if ko and en and _has_hangul(ko):
+            items.append({"show": ko, "accept": [ko], "answer": ko, "meaning": en, "speech": ko, "kind": "word"})
+
+    if compose_path is not None:
+        from .compose import lesson_sentences, load_lessons
+
+        for lesson in load_lessons(compose_path):
+            for sentence in lesson_sentences(lesson):
+                ko = str(sentence.get("korean", "")).strip()
+                en = str(sentence.get("english", "")).strip()
+                if ko and en:
+                    items.append({"show": ko, "accept": [ko], "answer": ko, "meaning": en, "speech": ko, "kind": "sentence"})
+
+    rng = random.Random(seed)
+    rng.shuffle(items)
+    return items[: max(1, count)]

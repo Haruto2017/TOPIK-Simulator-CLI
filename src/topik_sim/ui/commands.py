@@ -120,12 +120,13 @@ COMMANDS: list[Command] = [
         "Examples: /compose · /compose random · /compose 싶 · /compose past-tense",
     ),
     Command(
-        "typing", "cmd_typing", "/typing [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
+        "typing", "cmd_typing", "/typing [advanced] [pack] [count]", "Practice the Korean keyboard: jamo, syllables, then words.",
         category="Practice",
         details="pack: scope the word items to that pack's vocabulary; without it, words are drawn\n"
-        "from every imported pack. count: number of items (default 12).\n"
-        "Real pack words reveal their meaning after you answer; a miss also reveals the 두벌식\n"
-        "keystrokes. Examples: /typing · /typing 20 · /typing topik-i-mini-pack 15",
+        "from every imported pack. count: number of items (default 12). Real pack words reveal their\n"
+        "meaning after you answer; a miss also reveals the 두벌식 keystrokes.\n"
+        "advanced: skip the jamo/syllable warm-up — drill meaningful words AND full sentences, each with\n"
+        "its English meaning shown after. Examples: /typing · /typing 20 · /typing advanced · /typing advanced 15",
     ),
     Command(
         "numbers", "cmd_numbers", "/numbers [category] [count]", "Practice Korean numbers: write them in Hangul, no digits.", ("num", "number"),
