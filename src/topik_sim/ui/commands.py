@@ -126,7 +126,8 @@ COMMANDS: list[Command] = [
         "from every imported pack. count: number of items (default 12). Real pack words reveal their\n"
         "meaning after you answer; a miss also reveals the 두벌식 keystrokes.\n"
         "advanced: skip the jamo/syllable warm-up — drill meaningful words AND full sentences, each with\n"
-        "its English meaning shown after. Examples: /typing · /typing 20 · /typing advanced · /typing advanced 15",
+        "its English meaning shown after. Naming a pack also bounds the sentences to its TOPIK level.\n"
+        "Examples: /typing · /typing 20 · /typing advanced · /typing advanced topik-i-mini-pack 15",
     ),
     Command(
         "numbers", "cmd_numbers", "/numbers [category] [count]", "Practice Korean numbers: write them in Hangul, no digits.", ("num", "number"),

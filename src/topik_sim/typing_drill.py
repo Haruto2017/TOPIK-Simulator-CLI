@@ -28,6 +28,31 @@ def _has_hangul(text: str) -> bool:
     return any("가" <= char <= "힣" for char in text)
 
 
+def _pack_sentence_level_cap(pack: ExamPack | None) -> int | None:
+    """Highest ``/compose`` lesson ``level`` to admit when scoping sentences to
+    a pack's TOPIK band. ``None`` means no cap (admit every level).
+
+    A TOPIK I pack caps at level 2, dropping the level-3 TOPIK II expression
+    patterns so the sentence difficulty matches the pack. TOPIK II (and an
+    unrecognized or missing band) admits everything.
+    """
+    if pack is None:
+        return None
+    band = str(pack.data.get("topik_level", "")).strip().upper()
+    if "II" in band or band in {"2", "TOPIK2", "TOPIK_2"}:
+        return None
+    if "I" in band or band in {"1", "TOPIK1", "TOPIK_1"}:
+        return 2
+    return None
+
+
+def _lesson_level(lesson: dict[str, Any]) -> int | None:
+    try:
+        return int(lesson.get("level"))
+    except (TypeError, ValueError):
+        return None
+
+
 def _random_syllable(rng: random.Random) -> str:
     return compose_syllable(rng.choice(CONSONANT_POOL), rng.choice(VOWEL_POOL), rng.choice(SIMPLE_TAILS))
 
@@ -105,6 +130,11 @@ def build_advanced_typing_items(
     Words come from pack/library vocabulary; sentences from the compose
     lessons. You type the Korean shown; matching is whitespace/punctuation
     tolerant via ``normalize_typed``.
+
+    Naming a pack scopes the content to that pack: words to its vocabulary, and
+    sentences to its TOPIK level band (a TOPIK I pack drops the level-3 TOPIK II
+    expression patterns). With no pack, words span every imported pack and
+    sentences span every level.
     """
     from .flashcards import build_deck, library_deck
 
@@ -125,7 +155,12 @@ def build_advanced_typing_items(
     if compose_path is not None:
         from .compose import lesson_sentences, load_lessons
 
+        level_cap = _pack_sentence_level_cap(pack)
         for lesson in load_lessons(compose_path):
+            if level_cap is not None:
+                level = _lesson_level(lesson)
+                if level is not None and level > level_cap:
+                    continue
             for sentence in lesson_sentences(lesson):
                 ko = str(sentence.get("korean", "")).strip()
                 en = str(sentence.get("english", "")).strip()

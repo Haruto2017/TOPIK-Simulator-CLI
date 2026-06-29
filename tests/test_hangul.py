@@ -134,6 +134,30 @@ class AdvancedTypingTests(unittest.TestCase):
         self.assertEqual(sentence["meaning"], "I want to go.")
         self.assertTrue(next(i for i in items if i["kind"] == "word")["meaning"])
 
+    def test_advanced_pack_scopes_sentences_to_topik_level_band(self):
+        import json
+
+        from topik_sim.typing_drill import build_advanced_typing_items
+
+        pack = load_pack(SAMPLE_PACK)  # TOPIK I → sentences capped at level 2
+        with tempfile.TemporaryDirectory() as d:
+            compose = Path(d) / "c.json"
+            compose.write_text(json.dumps({"schema_version": "topik-sim.compose.v1", "lessons": [
+                {"id": "easy", "level": 2, "pattern": "-ayo",
+                 "sentences": [{"english": "I go.", "korean": "가요.", "accepted": ["가요."]}]},
+                {"id": "hard", "level": 3, "pattern": "-giro",
+                 "sentences": [{"english": "I decided to go.", "korean": "가기로 했어요.", "accepted": ["가기로 했어요."]}]},
+            ]}, ensure_ascii=False), encoding="utf-8")
+
+            tied = build_advanced_typing_items(pack=pack, compose_path=compose, count=50, seed=0)
+            tied_sentences = {i["show"] for i in tied if i["kind"] == "sentence"}
+            self.assertIn("가요.", tied_sentences)
+            self.assertNotIn("가기로 했어요.", tied_sentences)  # level-3 dropped for a TOPIK I pack
+
+            free = build_advanced_typing_items(pack=None, library_dir=None, compose_path=compose, count=50, seed=0)
+            free_sentences = {i["show"] for i in free if i["kind"] == "sentence"}
+            self.assertIn("가기로 했어요.", free_sentences)  # no pack → every level admitted
+
 
 class TypingShellTests(unittest.TestCase):
     def setUp(self):
