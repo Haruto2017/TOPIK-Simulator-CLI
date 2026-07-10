@@ -321,9 +321,9 @@ class ShellTests(unittest.TestCase):
         shell, output, _ = self.make_shell()
         self.feed(shell, ["/help typing"])
         text = "\n".join(output)
-        self.assertIn("Usage: /typing [pack] [count]", text)
+        self.assertIn("Usage: /typing [advanced] [pack] [count]", text)
         self.assertIn("from every imported pack", text)
-        self.assertIn("/typing topik-i-mini-pack 15", text)
+        self.assertIn("/typing advanced", text)
 
         output.clear()
         self.feed(shell, ["/help kb"])  # aliases resolve too
