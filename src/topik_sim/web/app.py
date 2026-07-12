@@ -142,6 +142,10 @@ class WebApp:
             return 200, self.state()
         if parts == ["packs"] and method == "GET":
             return 200, {"packs": self.packs()}
+        if parts == ["setup"] and method == "POST":
+            from ..workspace import setup_workspace
+
+            return 200, setup_workspace(library_dir=self.library_dir)
         if parts == ["attempts"] and method == "GET":
             return 200, {"attempts": self.attempts()}
         if parts == ["stats"] and method == "GET":
@@ -606,7 +610,17 @@ class WebApp:
         count = int(body.get("count") or 0)
         meta: dict[str, Any] = {}
 
-        if mode == "typing":
+        if mode == "typing" and body.get("advanced"):
+            from ..typing_drill import build_advanced_typing_items
+
+            items = build_advanced_typing_items(
+                pack=pack, library_dir=None if pack else self.library_dir,
+                compose_path=self.compose_path, count=count or 12, seed=self.seed,
+            )
+            if not items:
+                raise ApiError(400, "No words or sentences available for advanced typing yet.")
+            label = "Advanced typing"
+        elif mode == "typing":
             from ..flashcards import gloss_map
             from ..typing_drill import build_typing_items
 
@@ -648,23 +662,11 @@ class WebApp:
             } for text in texts]
             label = "Dictation"
         elif mode == "misses":
-            from ..flashcards import gloss_map
-            from ..practice_log import load_practice_log, weak_items
+            from ..practice_log import build_misses_items
 
-            weak = weak_items(load_practice_log(self.attempt_dir), limit=count or 10)
-            if not weak:
+            items = build_misses_items(self.attempt_dir, self.library_dir, limit=count or 10)
+            if not items:
                 raise ApiError(400, "No missed items recorded yet — practice first, then drill your misses.")
-            glosses = gloss_map(library_dir=self.library_dir)
-            items = []
-            for entry in weak:
-                word = entry["item"]
-                if word in glosses:  # vocabulary: production from the gloss
-                    items.append({"show": f"Type the Korean:  {glosses[word]}",
-                                  "accept": [word], "answer": word, "speech": word,
-                                  "meaning": f"{word} — {glosses[word]}"})
-                else:  # anything else (numbers, phrases): rewrite it correctly
-                    items.append({"show": f"Type it again:  {word}",
-                                  "accept": [word], "answer": word, "speech": word})
             label = "Weak items"
         elif mode == "homework":
             from ..courses import courses_for
@@ -719,9 +721,12 @@ class WebApp:
             item = items[index]
             audio_ok = self._audio_on() and bool(item.get("speech"))
             # Speaking an item whose speech IS the expected answer would give
-            # it away — dictation is the exception (hearing it is the task).
+            # it away — unless that answer is already visible in the prompt
+            # (copy-typing modes), or hearing it is the task (dictation).
             accepted = {_normalize(str(answer)) for answer in item["accept"]}
-            spoils = not item.get("dictation") and _normalize(str(item.get("speech", ""))) in accepted
+            speech_key = _normalize(str(item.get("speech", "")))
+            spoils = (not item.get("dictation") and speech_key in accepted
+                      and speech_key not in _normalize(item["show"]))
             show = item["show"]
             if item.get("dictation") and not audio_ok:
                 show = f"Type this sentence:  {item['answer']}"  # no TTS: stay usable

@@ -53,9 +53,11 @@ GRAMMAR_LEGEND = "Pattern shorthand: N = noun · V = verb stem · A = descriptiv
 # Typed-drill labels → practice-log modes (see practice_log.py).
 TYPING_LABEL_MODES = {
     "Typing practice": "typing",
+    "Advanced typing": "typing",
     "Number practice": "numbers",
     "Vocab recall": "recall",
     "Homework": "homework",
+    "Weak items": "misses",
 }
 
 
@@ -706,6 +708,24 @@ class Shell:
             self.emit(f"  {row['context']:<32} {ansi.style(row['system'], ansi.CYAN)}  {ansi.style(row['example'], ansi.GREY)}")
         self.emit("")
         self.emit("Practice it: /numbers · /numbers count · /numbers date · /say 삼백사십칠 hears any reading.")
+
+    def cmd_misses(self, argument: str) -> None:
+        """Drill the weak list — the same items the web's misses mode uses."""
+        from ..practice_log import build_misses_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        count = int(argument) if argument.strip().isdigit() else 10
+        items = build_misses_items(self.attempt_dir, self.library_dir, limit=count)
+        if not items:
+            self.emit("No missed items recorded yet — practice first (/recall, /typing, /numbers, /homework).")
+            return
+        self._start_typing(
+            items, label="Weak items", verb="Cleared", title="Drill your weak items:",
+            hint="type the answer · /say hears it after grading · /pause stops",
+        )
 
     def cmd_recall(self, argument: str) -> None:
         from ..flashcards import build_recall_items
@@ -1605,6 +1625,7 @@ class Shell:
             if weak:
                 listing = " · ".join(f"{entry['item']} (×{entry['count']})" for entry in weak)
                 self.emit(f"  Weak items: {listing}")
+                self.emit("  /misses drills them until they stop being weak.")
 
     def cmd_facts(self, argument: str) -> None:
         from ..facts import categories, filter_facts, load_facts

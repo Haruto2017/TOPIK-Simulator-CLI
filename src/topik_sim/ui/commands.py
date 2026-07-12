@@ -157,6 +157,14 @@ COMMANDS: list[Command] = [
         "Examples: /numbers learn · /numbers · /numbers date · /numbers money 15",
     ),
     Command(
+        "misses", "cmd_misses", "/misses [count]", "Drill your weak items: the things you keep getting wrong.", ("weak",),
+        category="Practice",
+        details="Rebuilds a typed drill from your most-missed practice items (recorded in the\n"
+        "practice log by every drill and homework run). Vocabulary is asked from its English\n"
+        "gloss; anything else is retyped correctly. Items drop off the weak list once you stop\n"
+        "missing them. count: items (default 10). Examples: /misses · /misses 5",
+    ),
+    Command(
         "lookup", "cmd_lookup", "/lookup <text>", "Search everything your packs teach: vocabulary and grammar.", ("dict", "search"),
         category="Practice",
         details="The 'what was that word again?' command. Searches every imported pack's taught\n"

@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Full CLI↔web learner parity**: a surface audit closed the last gaps in
+  both directions. New shell `/misses [count]` (alias `/weak`) drills the
+  weak-items list exactly like the web's misses mode — both now share one
+  builder in `practice_log.py`. Advanced typing reaches the web (an
+  "Advanced" toggle on the typing drill). An empty library in the web offers
+  one-click bundled-exam import (`POST /api/setup`, idempotent like the CLI
+  `setup`). Pre-answer item audio is now offered whenever it cannot spoil:
+  suppressed only when the speech is the *hidden* expected answer, allowed
+  for copy-typing (the answer is on screen) and dictation. The parity map —
+  including what stays CLI-only by design (content ops, authoring,
+  `review-writing`) — is documented in `CLAUDE.md` for agent-driven
+  debugging.
+
 - **From-scratch student on-ramp**: walking the learner journey exposed that
   the first flashcard assumes you can already read Korean. New `/hangul`
   (aliases `/read`, `/alphabet`) teaches reading from zero — every jamo with

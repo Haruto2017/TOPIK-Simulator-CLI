@@ -289,7 +289,19 @@ async function homeView() {
     el("h2", { text: "Mock exams — your weekly checkpoint" }),
     el("p", { class: "small muted", text: "Sit a full timed exam about once a week to measure progress; study through courses and practice the rest of the time." }),
     data.packs.length ? el("div", { class: "grid" }, packCards)
-      : el("div", { class: "card", text: "No packs imported yet — run `topik-sim setup` in a terminal first." }),
+      : el("div", { class: "card spread" },
+          el("span", { text: "No exams imported yet. The simulator ships six original TOPIK I mock exams." }),
+          el("button", {
+            class: "primary", text: "Import the bundled exams",
+            onclick: async (event) => {
+              event.target.disabled = true;
+              try {
+                const result = await api("POST", "/api/setup");
+                toast(`Imported ${result.imported.length} pack(s).`);
+                homeView();
+              } catch (error) { toast(error.message); event.target.disabled = false; }
+            },
+          })),
   );
 }
 
@@ -689,6 +701,7 @@ async function practiceConfigView(mode) {
   const countInput = el("input", { type: "number", min: "1", placeholder: "default" });
   const categorySelect = mode === "numbers"
     ? el("select", {}, ...NUMBER_CATEGORIES.map((c) => el("option", { value: c, text: c }))) : null;
+  const advancedCheck = mode === "typing" ? el("input", { type: "checkbox" }) : null;
 
   const start = async () => {
     const packValue = packSelect.value || undefined;
@@ -713,6 +726,7 @@ async function practiceConfigView(mode) {
           mode, pack: packValue,
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
+          advanced: advancedCheck && advancedCheck.checked ? true : undefined,
         });
         state.views.set(view.id, view);
         go(`#/drill/${view.id}`);
@@ -753,6 +767,8 @@ async function practiceConfigView(mode) {
       spec.pack !== "none" ? el("label", { class: "field" }, "Pack", packSelect) : null,
       mode !== "flashcards" ? el("label", { class: "field" }, "How many", countInput) : null,
       categorySelect ? el("label", { class: "field" }, "Category", categorySelect) : null,
+      advancedCheck ? el("label", { class: "row" }, advancedCheck,
+        " Advanced — real words and sentences only, meanings revealed after typing") : null,
       el("div", { class: "row" }, el("button", { class: "primary", onclick: start, text: "Start" }))),
     ...extras,
   );

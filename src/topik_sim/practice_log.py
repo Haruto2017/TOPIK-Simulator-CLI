@@ -94,6 +94,35 @@ def weak_items(log: dict[str, Any], limit: int = 20) -> list[dict[str, Any]]:
     return ranked[:limit]
 
 
+def build_misses_items(
+    attempt_dir: str | Path,
+    library_dir: str | Path | None,
+    limit: int = 10,
+) -> list[dict[str, Any]]:
+    """The weak list turned back into a typed drill, shared by shell and web.
+
+    Vocabulary the library knows is asked from its gloss (production);
+    anything else (numbers readings, patterns, phrases) is retyped correctly.
+    """
+    from .flashcards import gloss_map
+
+    weak = weak_items(load_practice_log(attempt_dir), limit=limit)
+    if not weak:
+        return []
+    glosses = gloss_map(library_dir=library_dir) if library_dir else {}
+    items: list[dict[str, Any]] = []
+    for entry in weak:
+        word = entry["item"]
+        if word in glosses:
+            items.append({"show": f"Type the Korean:  {glosses[word]}",
+                          "accept": [word], "answer": word, "speech": word,
+                          "meaning": f"{word} — {glosses[word]}"})
+        else:
+            items.append({"show": f"Type it again:  {word}",
+                          "accept": [word], "answer": word, "speech": word})
+    return items
+
+
 def practice_summary(log: dict[str, Any]) -> dict[str, Any]:
     """Small rollup for status displays: run count, items answered, accuracy."""
     runs = log.get("runs", [])

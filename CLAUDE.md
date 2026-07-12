@@ -35,6 +35,15 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 
 Extension guide for new test formats and learning tools: `docs/FRAMEWORK.md`.
 
+## Surface Parity (CLI ↔ Web)
+
+Every learner-facing feature is drivable without a browser; the web UI is a thin JSON layer over the same core, so agents can experiment and debug entirely from the CLI or from Python:
+
+- **Shell**: drive `Shell.handle_line("<line>")` from a script or test — no terminal, no prompt_toolkit needed. All state transitions go through it.
+- **Web API without HTTP**: call `WebApp.handle(method, path, query, body)` directly — the server in `web/server.py` is just transport. Or curl a running `topik-sim web`.
+- **Parity map** (each exists as a shell command *and* a web endpoint, sharing the same data files): exams (take/resume/drill/review/course) · homework · flashcards · grammar cards · recall · typing (incl. advanced) · numbers (incl. the learn cheat sheet) · dictation · misses/weak-items drill · compose · facts · hangul primer · lookup · hints · transcripts · slow replay · stats + practice log · reports · TTS settings · keyboard chart · doctor · setup.
+- **CLI-only by design** (ops/authoring, not learner flow): `import-pack`, `validate-content`, `validate-library`, `inspect-content`, `hide-pack`/`show-pack`, `audio` cache management (warm/prune/compress/bundle), `review-writing` (essay rubric scoring — no bundled pack ships essay questions), `grade`, `simulate`.
+
 ## Test-Implement Loop
 
 1. Start from a failing or new `unittest` in `tests/` (drive `Shell.handle_line` for shell behavior — no terminal needed).
