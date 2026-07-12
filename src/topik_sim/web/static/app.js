@@ -139,7 +139,10 @@ async function route() {
 
 function render(...nodes) {
   const view = $view();
-  view.replaceChildren(...nodes);
+  view.replaceChildren(...nodes.filter(Boolean));
+  view.classList.remove("view-enter");
+  void view.offsetWidth; // restart the entrance animation
+  view.classList.add("view-enter");
   view.scrollTop = 0;
   window.scrollTo(0, 0);
 }
@@ -768,9 +771,18 @@ function cardsView() {
   function showCard() {
     const card = deck.cards[index];
     let flipped = false;
+    // Two physical faces; flipping rotates the inner wrapper in 3D.
     const face = el("div", { class: "flashcard card" },
-      el("div", {}, el("div", { class: "front ko", text: card.front }),
-        el("div", { class: "small muted", text: "click or press Enter to flip" })));
+      el("div", { class: "flip-inner" },
+        el("div", { class: "flip-face flip-front" },
+          el("div", {},
+            el("div", { class: "front ko", text: card.front }),
+            el("div", { class: "flip-hint", text: "click or press Enter to flip" }))),
+        el("div", { class: "flip-face flip-back" },
+          el("div", {},
+            el("div", { class: "front ko", text: card.front }),
+            el("div", { class: "back-main", text: card.back }),
+            card.example ? el("div", { class: "example ko", text: card.example }) : null))));
     const controls = el("div", { class: "row" },
       el("span", { class: "pill", text: `${index + 1}/${deck.cards.length}` }),
       speakButton(card.speech, "🔊 Speak"));
@@ -778,10 +790,7 @@ function cardsView() {
     const flip = () => {
       if (flipped) return;
       flipped = true;
-      face.replaceChildren(el("div", {},
-        el("div", { class: "front ko", text: card.front }),
-        el("div", { class: "back-main", text: card.back }),
-        card.example ? el("div", { class: "example ko", text: card.example }) : null));
+      face.classList.add("flipped");
       controls.append(
         el("button", { class: "primary", text: "✓ Knew it (y)", onclick: () => gradeCard(true) }),
         el("button", { text: "✗ Again (n)", onclick: () => gradeCard(false) }));

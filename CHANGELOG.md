@@ -54,6 +54,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   visible with your pick and the correct row marked (✗/✓), choice questions
   answer from the keyboard (1–9 or the option letter), and Korean passages
   render larger for comfortable reading practice.
+- **Web visual redesign**: a proper visual system — warm hanji-paper neutrals
+  with a taegeuk-blue accent (red stays reserved for incorrect/status, never
+  decoration), a myeongjo serif voice for Korean display moments (page-title
+  Korean, flashcard fronts, the brand mark), a page-title seal dot, layered
+  elevation with hover lift, gradient primary buttons and progress fills,
+  sidebar icons with an active indicator, a real 3D flashcard flip, quiet
+  staggered view transitions (disabled under `prefers-reduced-motion`), and a
+  designed 한 favicon. Chart colors are untouched — they remain the validated
+  data-viz palette. Also fixes conditional view fragments rendering as literal
+  "null" text.
 
 - **Advanced typing mode**: `/typing advanced` (aliases `adv`, `pro`) skips the
   jamo/syllable warm-up and drills only meaningful items — real vocabulary words
