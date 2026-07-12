@@ -10,7 +10,7 @@ Running `python -m topik_sim` with no arguments opens the interactive shell (see
 
 ## Configuration
 
-Optional workspace defaults live in `topik.config.json` at the repo root (or a file pointed to by the `TOPIK_CONFIG` environment variable). CLI flags always override the config; the config overrides built-in defaults. Sections: `tts` (provider, voice, volume, speed, steps, onnx_provider, device, language, output_dir), `paths` (library, attempts), `shell` (audio, show_transcript). See `examples/topik.config.example.json`.
+Optional workspace defaults live in `topik.config.json` at the repo root (or a file pointed to by the `TOPIK_CONFIG` environment variable). CLI flags always override the config; the config overrides built-in defaults. Sections: `tts` (provider, voice, volume, speed, steps, onnx_provider, device, language, output_dir), `paths` (library, attempts), `shell` (audio, show_transcript), `web` (host, port). See `examples/topik.config.example.json`.
 
 ## `setup`
 
@@ -103,6 +103,23 @@ Behavior:
 - Full-pack attempts are timed against the sections' `time_limit_minutes`: the toolbar counts down and summaries report pace.
 - Completed attempts feed the spaced-repetition queue; the shell reports how many items are due.
 - Falls back to a plain `input()` prompt when `prompt_toolkit` is unavailable.
+
+## `web`
+
+```
+python -m topik_sim web [--host HOST] [--port PORT] [--no-browser] [--library DIR] [--attempt-dir DIR] [--show-transcript] [tts flags]
+```
+
+Serves a local web UI over the same core the shell uses and opens the browser (suppress with `--no-browser`). Binds `127.0.0.1:8765` by default; `web.host` / `web.port` in `topik.config.json` change the default. The server is stdlib-only (`http.server`), fully offline, and single-user: no accounts, no external requests.
+
+Feature parity: taking/resuming/drilling/reviewing attempts (same attempt files — a test paused in the browser resumes in the shell and vice versa), guided courses with per-lesson homework, the practice suite (flashcards, grammar cards, vocab recall, typing, numbers, dictation, sentence writing, facts), progress stats with attempt history and Markdown study reports, and TTS settings applied live.
+
+Contract details, mirroring the shell:
+
+- Question payloads sent to the browser never contain the answer or the explanation; both arrive only in the response to a submitted answer. Listening questions withhold the transcript while audio is available; a transcript endpoint reveals it on request (the `/transcript` command equivalent), and when TTS is off or synthesis fails the transcript is shown up front so listening stays answerable.
+- Exam answers run through the same `ExamSession` state machine: attempts save after every answer, finalizing records the spaced-review queue, and course-scoped runs mark the course done.
+- Typed practice grades server-side with the shell's rules (NFC normalization, whitespace-insensitive comparison, digit rejection for number items re-asks without recording a miss, option numbers accepted for choice items, dictation by diff accuracy). Completed homework runs record to `homework_progress.json`; stopping early records nothing.
+- Listening audio is synthesized on demand through the same content-addressed cache; the browser fetches WAV bytes per part. Audio endpoints return 503 when TTS is unavailable and the UI falls back to transcripts.
 
 ## `drill`
 

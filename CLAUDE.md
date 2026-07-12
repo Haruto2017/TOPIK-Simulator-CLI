@@ -30,6 +30,7 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 - `src/topik_sim/config.py` — `topik.config.json` workspace defaults (flags always win)
 - `src/topik_sim/tts.py`, `audio_cache.py`, `prefetch.py` — providers, content-addressed WAV cache with Opus cold storage, background prefetch (`docs/AUDIO_DESIGN.md`)
 - `src/topik_sim/ui/` — interactive shell (commands registry, renderer, prompt_toolkit frontend with plain fallback)
+- `src/topik_sim/web/` — local web UI: `app.py` is a transport-free JSON API over the same core (unit-tested by calling `handle()` directly, TTS stubbed), `server.py` the stdlib HTTP bridge, `static/` the vanilla-JS single-page app; `python -m topik_sim web`
 - `src/topik_sim/cli.py` — argparse surface; documented in `docs/CLI_CONTRACT.md`
 
 Extension guide for new test formats and learning tools: `docs/FRAMEWORK.md`.

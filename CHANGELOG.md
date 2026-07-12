@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Web UI**: `python -m topik_sim web` serves a local, offline single-page app
+  (stdlib `http.server`, vanilla JS, no external assets) and opens the browser.
+  Everything the shell offers is there: timed exams with listening audio, answer
+  feedback with full teaching notes, resume/drill/spaced review, guided courses
+  with per-lesson homework, the practice suite (flashcards, grammar cards,
+  recall, typing, numbers, dictation, sentence writing, Korea facts), progress
+  stats with accuracy meters and attempt history, Markdown study reports, and
+  live TTS settings. Attempt files, review queue, course progress, and homework
+  scores are shared with the CLI — pause in one, resume in the other. Questions
+  are sent to the browser without answers or explanations (they arrive with the
+  graded response), and listening transcripts stay hidden while audio plays,
+  falling back to visible transcripts when TTS is off or fails. New package
+  `src/topik_sim/web/`; config keys `web.host` / `web.port`.
+
 - **Course homework**: `/homework <pack> [lesson]` (alias `/hw`) gives every
   course lesson a textbook-style assignment that validates exactly the
   vocabulary and grammar it introduced — generated from the lesson itself, no

@@ -43,6 +43,17 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 
 Workspace defaults (TTS voice/volume, directories, shell behavior) can live in `topik.config.json`; see `examples/topik.config.example.json`.
 
+## Web UI
+
+Prefer a browser? The same simulator ships a local web app:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m topik_sim web
+```
+
+Your browser opens at `http://127.0.0.1:8765` with everything the shell has: timed mock exams with listening audio and teaching feedback, resume/drill/spaced review, guided courses with per-lesson homework, the full practice suite (flashcards, grammar, recall, typing, numbers, dictation, sentence writing, Korea facts), progress charts, study reports, and live TTS settings. It shares the shell's attempt files and library — pause a test in one, resume in the other. Local and offline: the server binds to localhost only and makes no external requests.
+
 ## Classic CLI
 
 Run from this folder:

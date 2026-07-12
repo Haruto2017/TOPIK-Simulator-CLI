@@ -645,27 +645,9 @@ class Shell:
         Words the typing drill invents (jamo, syllables, random fallback pairs)
         are not in this map, so only real pack vocabulary shows a meaning.
         """
-        from ..flashcards import build_deck, library_deck
+        from ..flashcards import gloss_map
 
-        if pack is not None:
-            cards = build_deck(pack, seed=0)
-        elif self.library_dir is not None:
-            cards = library_deck(self.library_dir)
-        else:
-            cards = []
-        meanings: dict[str, list[str]] = {}
-        for card in cards:
-            ko = str(card.get("ko", "")).strip()
-            gloss = str(card.get("en", "")).strip()
-            if not ko or not gloss:
-                continue
-            note = str(card.get("note", "") or "").strip()
-            if note:
-                gloss = f"{gloss} — {note}"
-            glosses = meanings.setdefault(ko, [])
-            if gloss not in glosses:
-                glosses.append(gloss)
-        return {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
+        return gloss_map(pack=pack, library_dir=None if pack else self.library_dir)
 
     def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str) -> None:
         self._typing_items = items

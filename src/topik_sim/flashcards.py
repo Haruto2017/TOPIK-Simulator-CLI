@@ -48,6 +48,33 @@ def library_deck(library_dir: str | Path) -> list[dict[str, str]]:
     return deck
 
 
+def gloss_map(pack: ExamPack | None = None, library_dir: str | Path | None = None) -> dict[str, str]:
+    """Korean word → its gloss(es), for revealing meanings after an answer.
+
+    Duplicate glosses across packs merge with ``/``; a card note is appended
+    after an em dash.
+    """
+    if pack is not None:
+        cards = build_deck(pack, seed=0)
+    elif library_dir is not None:
+        cards = library_deck(library_dir)
+    else:
+        cards = []
+    meanings: dict[str, list[str]] = {}
+    for card in cards:
+        ko = str(card.get("ko", "")).strip()
+        gloss = str(card.get("en", "")).strip()
+        if not ko or not gloss:
+            continue
+        note = str(card.get("note", "") or "").strip()
+        if note:
+            gloss = f"{gloss} — {note}"
+        glosses = meanings.setdefault(ko, [])
+        if gloss not in glosses:
+            glosses.append(gloss)
+    return {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
+
+
 def build_recall_items(
     pack: ExamPack | None = None,
     library_dir: str | Path | None = None,

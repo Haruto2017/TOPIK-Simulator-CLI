@@ -144,6 +144,16 @@ def build_parser() -> argparse.ArgumentParser:
     add_tts_arguments(shell_parser)
     shell_parser.set_defaults(handler=handle_shell)
 
+    web = subparsers.add_parser("web", help="Local web UI over the same library, attempts, and TTS (browser opens automatically).")
+    web.add_argument("--host", default=str(config_value(config, "web", "host", "127.0.0.1")), help="Bind address (localhost only by default).")
+    web.add_argument("--port", type=int, default=int(config_value(config, "web", "port", 8765)), help="Port to serve on.")
+    web.add_argument("--no-browser", action="store_true", help="Do not open the browser automatically.")
+    web.add_argument("--library", default=library_default, help="Content library directory.")
+    web.add_argument("--attempt-dir", default=attempts_default, help="Directory for saved attempts.")
+    web.add_argument("--show-transcript", action="store_true", help="Always show listening transcripts.")
+    add_tts_arguments(web)
+    web.set_defaults(handler=handle_web)
+
     drill = subparsers.add_parser("drill", help="Re-practice the questions missed in a completed attempt.")
     drill.add_argument("attempt", help="Path to a completed attempt JSON file.")
     drill.add_argument("--library", default=library_default, help="Content library directory.")
@@ -488,6 +498,21 @@ def handle_shell(args: argparse.Namespace) -> int:
         keyboard_hints=bool(config_value(config, "shell", "keyboard_hints", False)),
         keyboard_pinned=bool(config_value(config, "shell", "keyboard_pinned", False)),
     )
+
+
+def handle_web(args: argparse.Namespace) -> int:
+    from .web.app import WebApp
+    from .web.server import run_server
+
+    config = load_config()
+    app = WebApp(
+        library_dir=args.library,
+        attempt_dir=args.attempt_dir,
+        tts_config=build_tts_config(args),
+        audio_enabled=bool(config_value(config, "shell", "audio", True)),
+        show_transcript=args.show_transcript or bool(config_value(config, "shell", "show_transcript", False)),
+    )
+    return run_server(app, host=args.host, port=args.port, open_browser=not args.no_browser)
 
 
 def handle_drill(args: argparse.Namespace) -> int:
