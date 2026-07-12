@@ -88,7 +88,8 @@ Slash commands:
 - `/skip`: submit a blank answer for the current question.
 - `/pause`: save and leave the current test (or stop flashcards/dictation early).
 - `/status`: progress, running score, and TTS settings.
-- `/stats`: per-skill accuracy and trends across completed attempts.
+- `/stats`: per-skill accuracy and trends across completed attempts, followed by a Practice block — run count, overall practice accuracy, and the current weak items (the most-missed items across recent practice runs).
+- Practice runs from the typed drills (typing, numbers, recall, homework) and dictation — in both the shell and the web UI — are logged to `data/attempts/practice_log.json`: mode, label, score, missed items, and timestamp, capped at the 200 most recent runs. Aggregating the misses across recent runs yields the learner's weak list; an item drops off once runs stop missing it. Stopping a drill early still logs the items that were completed.
 - `/report [n|path]`: write a Markdown study report for a completed attempt (interactive picker like `/resume`).
 - `/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]`: change speech settings mid-session.
 - `/help`, `/quit`.
@@ -120,6 +121,8 @@ Contract details, mirroring the shell:
 - Exam answers run through the same `ExamSession` state machine: attempts save after every answer, finalizing records the spaced-review queue, and course-scoped runs mark the course done.
 - Typed practice grades server-side with the shell's rules (NFC normalization, whitespace-insensitive comparison, digit rejection for number items re-asks without recording a miss, option numbers accepted for choice items, dictation by diff accuracy). Completed homework runs record to `homework_progress.json`; stopping early records nothing.
 - Listening audio is synthesized on demand through the same content-addressed cache; the browser fetches WAV bytes per part. Audio endpoints return 503 when TTS is unavailable and the UI falls back to transcripts.
+- The home page is a study loop in teacher order — 복습 review due → continue an open attempt → the next unfinished lesson (or its missing homework) → short practice — with mock exams presented as the weekly checkpoint below. Choice questions answer from the keyboard (1–9 or the option letter) and, after answering, the options stay on screen with the picked and correct rows marked (the graded response includes `correct_option_id`).
+- The Progress page aggregates the whole local ledger: exam stats, course/homework completion per pack, the practice-run history, and the weak-items list with a one-click `misses` drill (weak vocabulary is asked from its gloss; anything else is retyped correctly).
 
 ## `drill`
 

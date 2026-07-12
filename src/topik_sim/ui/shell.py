@@ -46,6 +46,14 @@ TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
 RECENT_LIMIT = 10
 
+# Typed-drill labels → practice-log modes (see practice_log.py).
+TYPING_LABEL_MODES = {
+    "Typing practice": "typing",
+    "Number practice": "numbers",
+    "Vocab recall": "recall",
+    "Homework": "homework",
+}
+
 
 class Shell:
     """Interactive session: slash input is a command, anything else is an answer.
@@ -721,6 +729,18 @@ class Shell:
                 f" · best {entry.get('best_correct', 0)}/{entry.get('best_total', 0)}"
                 f" · run {entry.get('runs', 1)}"
             )
+        if done:
+            from ..practice_log import record_practice
+
+            record_practice(
+                self.attempt_dir,
+                mode=TYPING_LABEL_MODES.get(self._typing_label, self._typing_label.lower()),
+                label=self._typing_label,
+                hits=self._typing_hits,
+                total=done,
+                missed=list(self._typing_missed),
+                pack_id=homework[0] if homework else None,
+            )
         self._typing_items = []
         self._typing_index = 0
         self._typing_hits = 0
@@ -1038,6 +1058,10 @@ class Shell:
         if done:
             average = self._dictation_total_accuracy / done * 100
             self.emit(f"Average accuracy: {average:.0f}% · perfect {self._dictation_perfect}/{done}")
+            from ..practice_log import record_practice
+
+            record_practice(self.attempt_dir, mode="dictation", label="Dictation",
+                            hits=self._dictation_perfect, total=done)
         self._dictation_texts = []
         self._dictation_index = 0
         self._dictation_total_accuracy = 0.0
@@ -1446,11 +1470,23 @@ class Shell:
         )
 
     def cmd_stats(self, argument: str) -> None:
+        from ..practice_log import load_practice_log, practice_summary, weak_items
         from ..stats import collect_stats, format_stats
 
         self.emit(render.rule("Study stats"))
         for line in format_stats(collect_stats(self.attempt_dir, self.library_dir)):
             self.emit(line)
+        log = load_practice_log(self.attempt_dir)
+        summary = practice_summary(log)
+        if summary["runs"]:
+            accuracy = f" · accuracy {summary['accuracy'] * 100:.0f}%" if summary["accuracy"] is not None else ""
+            self.emit("")
+            self.emit(ansi.style("Practice", ansi.BOLD))
+            self.emit(f"  {summary['runs']} run(s) · {summary['hits']}/{summary['total']} correct{accuracy}")
+            weak = weak_items(log, limit=8)
+            if weak:
+                listing = " · ".join(f"{entry['item']} (×{entry['count']})" for entry in weak)
+                self.emit(f"  Weak items: {listing}")
 
     def cmd_facts(self, argument: str) -> None:
         from ..facts import categories, filter_facts, load_facts

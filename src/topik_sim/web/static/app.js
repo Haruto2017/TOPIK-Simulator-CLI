@@ -160,13 +160,95 @@ function header(title, subtitle) {
 
 /* ----------------------------------------------------------------- home */
 
+function nextLessonInfo(coursePacks) {
+  // The teacher's pointer: first unfinished lesson anywhere; if a lesson is
+  // finished but its homework is not, the homework comes first.
+  for (const pack of coursePacks || []) {
+    for (const lesson of pack.lessons) {
+      if (lesson.done && !lesson.homework) {
+        return { pack, lesson, kind: "homework" };
+      }
+      if (!lesson.done) return { pack, lesson, kind: "study" };
+    }
+  }
+  return null;
+}
+
+function todayStep(number, koLabel, enLabel, body) {
+  return el("div", { class: "today-step" },
+    el("div", { class: "step-badge", text: String(number) }),
+    el("div", { class: "step-main" },
+      el("div", { class: "step-title" }, el("span", { class: "ko", text: koLabel }), ` · ${enLabel}`),
+      body));
+}
+
 async function homeView() {
   const data = await api("GET", "/api/state");
   state.tts = data.tts;
   updateTtsPill();
 
   const inProgress = data.attempts.filter((a) => a.status !== "completed");
-  const dueTotal = Object.values(data.review_due || {}).reduce((a, b) => a + b, 0);
+  const dueByPack = Object.entries(data.review_due || {});
+  const dueTotal = dueByPack.reduce((sum, [, n]) => sum + n, 0);
+  const next = nextLessonInfo(data.courses);
+
+  // --- Step 1: spaced review first — the highest-value minutes of the day.
+  const reviewBody = dueTotal
+    ? el("div", { class: "stack" }, ...dueByPack.slice(0, 3).map(([packId, count]) =>
+        el("div", { class: "spread" },
+          el("span", { class: "small" }, el("strong", { text: String(count) }), ` due · ${packId}`),
+          el("button", { class: "primary", text: "Review", onclick: () => startExam({ pack: packId }, "/api/exam/review") }))))
+    : el("p", { class: "small muted", text: "Nothing due — your review queue is clear. ✓" });
+
+  // --- Step 2: unfinished business before anything new.
+  const continueBody = inProgress.length
+    ? el("div", { class: "stack" }, ...inProgress.slice(0, 3).map((a) =>
+        el("div", { class: "spread" },
+          el("span", { class: "small" }, el("strong", { text: a.pack_id }), ` · ${a.activity} · ${a.progress[0]}/${a.progress[1]} answered`),
+          el("button", { text: "Resume", onclick: () => resumeAttempt(a.file) }))))
+    : el("p", { class: "small muted", text: "No test in progress." });
+
+  // --- Step 3: the next lesson (or its unvalidated homework).
+  let learnBody;
+  if (next && next.kind === "homework") {
+    learnBody = el("div", { class: "spread" },
+      el("span", { class: "small" }, "Lesson ", el("strong", { text: `${next.lesson.order}. ${next.lesson.title}` }),
+        " is done but not validated yet."),
+      el("button", { class: "primary", text: "Do the homework", onclick: () => startHomework(next.pack.pack_id, next.lesson.id) }));
+  } else if (next) {
+    learnBody = el("div", { class: "spread" },
+      el("span", { class: "small" }, "Next: ", el("strong", { text: `${next.lesson.order}. ${next.lesson.title}` }),
+        el("span", { class: "muted", text: ` · ${next.pack.title}` })),
+      el("button", { class: "primary", text: "Study", onclick: () => go(`#/lesson/${next.pack.pack_id}/${next.lesson.id}`) }));
+  } else if ((data.courses || []).length) {
+    learnBody = el("p", { class: "small muted", text: "Every lesson and its homework is complete. 축하합니다!" });
+  } else {
+    learnBody = el("p", { class: "small muted", text: "No courses found — import the bundled packs (topik-sim setup)." });
+  }
+
+  // --- Step 4: short daily output practice — weak items first when any exist.
+  const weak = (data.practice && data.practice.weak) || [];
+  const practiceBody = el("div", { class: "row" },
+    weak.length ? el("button", {
+      class: "primary", text: `Drill your ${weak.length} weak item(s)`,
+      onclick: () => startMissesDrill(),
+    }) : null,
+    el("button", { text: "Dictation (듣기)", onclick: () => go("#/practice/dictation") }),
+    el("button", { text: "Vocab recall (쓰기)", onclick: () => go("#/practice/recall") }),
+    el("button", { class: "ghost", text: "All practice tools →", onclick: () => go("#/practice") }));
+
+  // --- Course progress overview.
+  const courseRows = (data.courses || []).map((pack) => {
+    const done = pack.lessons.filter((l) => l.done).length;
+    const validated = pack.lessons.filter((l) => l.homework).length;
+    return el("div", { class: "spread course-row" },
+      el("span", { class: "small" }, el("strong", { text: pack.title }),
+        el("span", { class: "muted", text: ` · ${done}/${pack.lessons.length} lessons · ${validated} homework done` })),
+      el("div", { class: "row" },
+        el("div", { class: "progressbar slim", role: "img", "aria-label": `${done} of ${pack.lessons.length} lessons` },
+          el("div", { style: `width:${(done / Math.max(1, pack.lessons.length)) * 100}%` })),
+        el("button", { class: "ghost", text: "Open", onclick: () => go("#/courses") })));
+  });
 
   const packCards = data.packs.map((pack) => {
     const best = pack.progress && pack.progress.best;
@@ -176,37 +258,24 @@ async function homeView() {
         el("span", { class: "pill", text: `${pack.question_count ?? "?"} q` })),
       el("div", { class: "small muted", text: [pack.pack_id, pack.difficulty].filter(Boolean).join(" · ") }),
       el("div", { class: "row" },
-        el("button", { class: "primary", onclick: () => startExam({ pack: pack.pack_id }), text: "Take" }),
+        el("button", { onclick: () => startExam({ pack: pack.pack_id }), text: "Take" }),
         best ? el("span", { class: "pill good", text: `best ${best[0]}/${best[1]}` }) : null,
       ));
   });
 
   render(
-    ...header("TOPIK Simulator", "Timed mock exams, guided courses with homework, and practice tools — all offline."),
-    inProgress.length ? el("div", { class: "card stack" },
-      el("h2", { text: "Continue where you left off" }),
-      ...inProgress.slice(0, 4).map((a) => el("div", { class: "spread" },
-        el("span", {}, el("strong", { text: a.pack_id }), ` · ${a.activity} · ${a.progress[0]}/${a.progress[1]} answered`),
-        el("button", { onclick: () => resumeAttempt(a.file), text: "Resume" }))),
-    ) : null,
-    dueTotal ? el("div", { class: "card spread" },
-      el("span", {}, el("strong", { text: `${dueTotal} question(s)` }), " due for spaced review"),
-      el("button", { onclick: () => go("#/take"), text: "Review now" })) : null,
-    el("h2", { text: "Take a mock exam" }),
+    ...header("오늘의 학습 — today's study", "Review first, finish what you started, learn the next lesson, then practice."),
+    el("div", { class: "card stack" },
+      todayStep(1, "복습", "Review", reviewBody),
+      todayStep(2, "이어하기", "Continue", continueBody),
+      todayStep(3, "학습", "Learn", learnBody),
+      todayStep(4, "연습", "Practice", practiceBody)),
+    courseRows.length ? el("div", { class: "card stack" },
+      el("h2", { text: "Course progress" }), ...courseRows) : null,
+    el("h2", { text: "Mock exams — your weekly checkpoint" }),
+    el("p", { class: "small muted", text: "Sit a full timed exam about once a week to measure progress; study through courses and practice the rest of the time." }),
     data.packs.length ? el("div", { class: "grid" }, packCards)
       : el("div", { class: "card", text: "No packs imported yet — run `topik-sim setup` in a terminal first." }),
-    el("h2", { text: "Keep studying" }),
-    el("div", { class: "grid" },
-      el("div", { class: "card stack" }, el("strong", { text: "Courses + homework" }),
-        el("span", { class: "small muted", text: "Lessons that teach vocabulary and grammar, then validate them." }),
-        el("button", { onclick: () => go("#/courses"), text: "Open courses" })),
-      el("div", { class: "card stack" }, el("strong", { text: "Practice" }),
-        el("span", { class: "small muted", text: "Flashcards, dictation, recall, typing, numbers, writing, facts." }),
-        el("button", { onclick: () => go("#/practice"), text: "Open practice" })),
-      el("div", { class: "card stack" }, el("strong", { text: "Progress" }),
-        el("span", { class: "small muted", text: "Accuracy by skill, attempt history, study reports." }),
-        el("button", { onclick: () => go("#/progress"), text: "See progress" })),
-    ),
   );
 }
 
@@ -351,25 +420,63 @@ async function examView(id) {
   }
 
   const inputArea = el("div", { class: "stack" });
-  body.append(inputArea);
+  const feedbackSlot = el("div", { class: "stack" });
+  body.append(inputArea, feedbackSlot);
+  let answered = false;
+  const optionButtons = new Map();
 
   const submit = async (value) => {
+    if (answered) return;
     let result;
     try { result = await api("POST", `/api/activity/${id}/answer`, { value }); }
     catch (error) { toast(error.message); return; }
+    answered = true;
     state.views.delete(id);
-    renderExamFeedback(id, view, question, result, inputArea);
+    // Error analysis in place: keep the options on screen, mark what was
+    // picked and what was right, then teach below.
+    for (const [optionId, button] of optionButtons) {
+      button.disabled = true;
+      if (result.correct_option_id && optionId === result.correct_option_id) button.classList.add("is-correct");
+      else if (optionId === value && !result.correct) button.classList.add("is-picked-wrong");
+    }
+    const skipRow = inputArea.querySelector(".skip-row");
+    if (skipRow) skipRow.remove();
+    inputArea.querySelectorAll("textarea, .answer-actions button").forEach((n) => { n.disabled = true; });
+    renderExamFeedback(id, view, question, result, feedbackSlot);
   };
 
   if (question.options && question.options.length) {
     inputArea.append(el("div", { class: "options" },
-      ...question.options.map((option) => el("button", { onclick: () => submit(option.id) },
-        el("span", { class: "opt-id", text: option.id }), el("span", { class: "ko", text: option.text })))));
-    inputArea.append(el("div", { class: "row" },
+      ...question.options.map((option, index) => {
+        const showKeyHint = String(option.id) !== String(index + 1);
+        const button = el("button", { onclick: () => submit(option.id) },
+          el("span", { class: "opt-id", text: option.id }),
+          el("span", { class: "ko opt-text", text: option.text }),
+          showKeyHint ? el("span", { class: "opt-key small muted", text: String(index + 1) }) : null);
+        optionButtons.set(option.id, button);
+        return button;
+      })));
+    inputArea.append(el("div", { class: "row skip-row" },
       el("button", { class: "ghost", onclick: () => submit(""), text: "Skip (counts as wrong)" })));
+
+    // Answer from the keyboard: 1–9 by position, or the option letter itself.
+    const keyHandler = (event) => {
+      if (answered || event.metaKey || event.ctrlKey || event.altKey) return;
+      const tag = event.target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      const byNumber = Number(event.key);
+      if (byNumber >= 1 && byNumber <= question.options.length) {
+        submit(question.options[byNumber - 1].id);
+        return;
+      }
+      const byLetter = question.options.find((o) => String(o.id).toLowerCase() === event.key.toLowerCase());
+      if (byLetter) submit(byLetter.id);
+    };
+    document.addEventListener("keydown", keyHandler);
+    onCleanup(() => document.removeEventListener("keydown", keyHandler));
   } else {
     const box = el("textarea", { placeholder: "Type your answer in Korean…", lang: "ko" });
-    inputArea.append(box, el("div", { class: "row" },
+    inputArea.append(box, el("div", { class: "row answer-actions" },
       el("button", { class: "primary", onclick: () => submit(box.value), text: "Submit" }),
       el("button", { class: "ghost", onclick: () => submit(""), text: "Skip" })));
     box.focus();
@@ -868,6 +975,14 @@ async function startHomework(packId, courseId) {
   } catch (error) { toast(error.message); }
 }
 
+async function startMissesDrill() {
+  try {
+    const view = await api("POST", "/api/drill/start", { mode: "misses" });
+    state.views.set(view.id, view);
+    go(`#/drill/${view.id}`);
+  } catch (error) { toast(error.message); }
+}
+
 async function lessonView(packId, courseId) {
   const data = await api("GET", `/api/courses/lesson/${courseId}?pack=${encodeURIComponent(packId)}`);
   const lesson = data.lesson;
@@ -935,7 +1050,12 @@ function lessonComplete() {
 /* -------------------------------------------------------------- progress */
 
 async function progressView() {
-  const [stats, attemptsData] = await Promise.all([api("GET", "/api/stats"), api("GET", "/api/attempts")]);
+  const [stats, attemptsData, practice, coursesData] = await Promise.all([
+    api("GET", "/api/stats"),
+    api("GET", "/api/attempts"),
+    api("GET", "/api/practice/log"),
+    api("GET", "/api/courses"),
+  ]);
   const attempts = attemptsData.attempts;
 
   const skillRows = Object.entries(stats.skills || {}).map(([skill, s]) => {
@@ -977,18 +1097,60 @@ async function progressView() {
       a.status === "completed" ? el("a", { class: "btn ghost", href: `#/report/${a.file}`, text: "Report" }) : null,
     ))));
 
+  // --- Course & homework ledger: what has been taught vs. validated.
+  const courseLedger = (coursesData.packs || []).map((pack) => {
+    const done = pack.lessons.filter((l) => l.done).length;
+    const withHw = pack.lessons.filter((l) => l.homework);
+    const hwNote = withHw.length
+      ? `${withHw.length} homework · avg best ${Math.round(
+          (withHw.reduce((s, l) => s + l.homework.best_correct / Math.max(1, l.homework.best_total), 0) / withHw.length) * 100)}%`
+      : "no homework yet";
+    return el("div", { class: "meter-row" },
+      el("span", { class: "small", text: pack.title }),
+      el("div", { class: "meter", role: "img", "aria-label": `${done} of ${pack.lessons.length} lessons finished` },
+        el("div", { style: `width:${(done / Math.max(1, pack.lessons.length)) * 100}%` })),
+      el("span", { class: "val", text: `${done}/${pack.lessons.length}` }),
+      el("span", { class: "small muted", text: hwNote }));
+  });
+
+  // --- Practice ledger: the runs that used to vanish.
+  const practiceSummary = practice.summary || {};
+  const practiceRows = (practice.runs || []).slice(0, 12).map((run) => el("tr", {},
+    el("td", { text: (run.at || "").slice(0, 10) }),
+    el("td", { text: run.label }),
+    el("td", { text: `${run.hits}/${run.total}` }),
+    el("td", { class: "small muted ko", text: (run.missed || []).slice(0, 4).join(" · ") })));
+
+  const weakChips = (practice.weak || []).map((entry) =>
+    el("span", { class: "chip ko", title: `missed ${entry.count}×`, text: `${entry.item} ×${entry.count}` }));
+
   render(
-    ...header("Progress", "Every completed attempt counts — exams, drills, reviews, and course questions."),
+    ...header("Progress", "Exams, courses, homework, and practice — the whole ledger, kept locally."),
     el("div", { class: "tiles" },
       el("div", { class: "tile" }, el("div", { class: "n", text: String(stats.attempt_count || 0) }), el("div", { class: "t", text: "completed attempts" })),
-      ...Object.entries(stats.packs || {}).slice(0, 3).map(([packId, p]) =>
+      el("div", { class: "tile" }, el("div", { class: "n", text: String(practiceSummary.runs || 0) }), el("div", { class: "t", text: "practice runs" })),
+      practiceSummary.accuracy !== null && practiceSummary.accuracy !== undefined
+        ? el("div", { class: "tile" }, el("div", { class: "n", text: `${Math.round(practiceSummary.accuracy * 100)}%` }), el("div", { class: "t", text: "practice accuracy" })) : null,
+      ...Object.entries(stats.packs || {}).slice(0, 2).map(([packId, p]) =>
         el("div", { class: "tile" }, el("div", { class: "n", text: `${p.best[0]}/${p.best[1]}` }), el("div", { class: "t", text: `best · ${packId}` }))),
     ),
     skillRows.length ? el("div", { class: "card" }, el("h2", { text: "Accuracy by skill" }), ...skillRows) : null,
+    courseLedger.length ? el("div", { class: "card" }, el("h2", { text: "Courses & homework" }), ...courseLedger) : null,
+    (practice.weak || []).length ? el("div", { class: "card stack" },
+      el("div", { class: "spread" },
+        el("h2", { text: "Weak items — 자주 틀리는 것" }),
+        el("button", { class: "primary", text: "Drill these now", onclick: () => startMissesDrill() })),
+      el("div", { class: "chips" }, ...weakChips),
+      el("p", { class: "small muted", text: "Counted from your recent practice misses. Items drop off once you stop missing them." })) : null,
     trend.length ? el("div", { class: "card" },
       el("h2", { text: "Recent attempts (score)" }),
       el("div", { class: "trend" }, ...trendBars),
       el("p", { class: "small muted", text: "Hover a bar for the pack and date. Full detail in the table below." })) : null,
+    practiceRows.length ? el("div", { class: "card" },
+      el("h2", { text: "Practice history" }),
+      el("table", { class: "list" },
+        el("tr", {}, el("th", { text: "when" }), el("th", { text: "what" }), el("th", { text: "score" }), el("th", { text: "missed" })),
+        ...practiceRows)) : null,
     el("h2", { text: "Attempts" }),
     attempts.length ? el("table", { class: "list" },
       el("tr", {}, el("th", { text: "pack" }), el("th", { text: "activity" }), el("th", { text: "progress" }), el("th", { text: "status" }), el("th", { text: "" })),

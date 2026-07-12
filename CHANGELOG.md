@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Practice log and weak-items tracking**: every typed drill and dictation run
+  (shell and web alike) now records to `data/attempts/practice_log.json` —
+  mode, score, and which items were missed. `/stats` gains a Practice block;
+  the web Progress page shows course/homework completion, practice history,
+  and the weak-items list (most-missed across recent runs, dropping off once
+  you stop missing them) with a one-click drill that asks weak vocabulary from
+  its gloss. The web home nudges toward weak items in the daily practice step.
+  New module `src/topik_sim/practice_log.py`.
+
 - **Web UI**: `python -m topik_sim web` serves a local, offline single-page app
   (stdlib `http.server`, vanilla JS, no external assets) and opens the browser.
   Everything the shell offers is there: timed exams with listening audio, answer
@@ -33,6 +42,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   per lesson (best score kept); `/course` shows each lesson's homework score,
   and finishing a course lesson points at its homework. New module
   `src/topik_sim/homework.py`.
+
+### Changed
+
+- **Web home is now a study loop, not a pack list**: 오늘의 학습 orders the day
+  the way a teacher would — spaced review due, continue an open attempt, the
+  next unfinished lesson (or its missing homework), then short practice — with
+  course progress bars beneath and mock exams reframed as the weekly
+  checkpoint.
+- **Web exam room teaches from mistakes**: after answering, the options stay
+  visible with your pick and the correct row marked (✗/✓), choice questions
+  answer from the keyboard (1–9 or the option letter), and Korean passages
+  render larger for comfortable reading practice.
 
 - **Advanced typing mode**: `/typing advanced` (aliases `adv`, `pro`) skips the
   jamo/syllable warm-up and drills only meaningful items — real vocabulary words

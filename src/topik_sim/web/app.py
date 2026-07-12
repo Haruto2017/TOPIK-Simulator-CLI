@@ -138,6 +138,15 @@ class WebApp:
             from ..stats import collect_stats
 
             return 200, collect_stats(self.attempt_dir, self.library_dir)
+        if parts == ["practice", "log"] and method == "GET":
+            from ..practice_log import load_practice_log, practice_summary, weak_items
+
+            log = load_practice_log(self.attempt_dir)
+            return 200, {
+                "runs": list(reversed(log["runs"][-30:])),
+                "weak": weak_items(log),
+                "summary": practice_summary(log),
+            }
         if parts == ["doctor"] and method == "GET":
             from ..doctor import run_checks
 
@@ -260,13 +269,16 @@ class WebApp:
 
     def state(self) -> dict[str, Any]:
         from .. import srs
+        from ..practice_log import load_practice_log, practice_summary, weak_items
 
         queue = srs.load_queue(srs.queue_path_for(self.attempt_dir))
+        log = load_practice_log(self.attempt_dir)
         return {
             "packs": self.packs(),
             "attempts": self.attempts()[:10],
             "courses": self.courses(),
             "review_due": srs.due_counts_by_pack(queue),
+            "practice": {"summary": practice_summary(log), "weak": weak_items(log, limit=10)},
             "tts": self.tts_state(),
         }
 
@@ -470,6 +482,9 @@ class WebApp:
             "explanation": question.get("explanation", {}) or {},
             "finished": not session.has_remaining(),
         }
+        correct_option = (question.get("answer") or {}).get("correct_option_id")
+        if correct_option is not None:  # lets the client mark the option rows
+            response["correct_option_id"] = str(correct_option)
         if is_listening_question(question):
             response["transcript"] = transcript_text(question)
         if response["finished"]:
@@ -521,8 +536,10 @@ class WebApp:
             session: ExamSession = activity["session"]
             return {"paused": True, "attempt_file": session.attempt_path.name}
         done = activity.get("index", 0)
+        if done:  # stopped-early runs still count as practice done today
+            self._record_drill(activity, done=done)
         return {"paused": True, "completed_items": done,
-                "hits": activity.get("hits", 0), "recorded": False}
+                "hits": activity.get("hits", 0), "recorded": bool(done)}
 
     # ------------------------------------------------------------- practice
 
@@ -573,6 +590,25 @@ class WebApp:
                 "accept": [text], "answer": text, "speech": text, "dictation": True,
             } for text in texts]
             label = "Dictation"
+        elif mode == "misses":
+            from ..flashcards import gloss_map
+            from ..practice_log import load_practice_log, weak_items
+
+            weak = weak_items(load_practice_log(self.attempt_dir), limit=count or 10)
+            if not weak:
+                raise ApiError(400, "No missed items recorded yet — practice first, then drill your misses.")
+            glosses = gloss_map(library_dir=self.library_dir)
+            items = []
+            for entry in weak:
+                word = entry["item"]
+                if word in glosses:  # vocabulary: production from the gloss
+                    items.append({"show": f"Type the Korean:  {glosses[word]}",
+                                  "accept": [word], "answer": word, "speech": word,
+                                  "meaning": f"{word} — {glosses[word]}"})
+                else:  # anything else (numbers, phrases): rewrite it correctly
+                    items.append({"show": f"Type it again:  {word}",
+                                  "accept": [word], "answer": word, "speech": word})
+            label = "Weak items"
         elif mode == "homework":
             from ..courses import courses_for
             from ..homework import build_homework
@@ -686,8 +722,24 @@ class WebApp:
             entry = record_homework(self.attempt_dir, meta["pack_id"], meta["course_id"],
                                     activity["hits"], len(activity["items"]))
             summary["homework"] = entry
+        self._record_drill(activity, done=len(activity["items"]))
         self._activities.pop(activity["id"], None)
         return summary
+
+    def _record_drill(self, activity: dict[str, Any], done: int) -> None:
+        if done <= 0:
+            return
+        from ..practice_log import record_practice
+
+        record_practice(
+            self.attempt_dir,
+            mode=activity["mode"],
+            label=activity["label"],
+            hits=activity["hits"],
+            total=done,
+            missed=list(activity["missed"]),
+            pack_id=activity["meta"].get("pack_id"),
+        )
 
     # -------------------------------------------------------------- courses
 
