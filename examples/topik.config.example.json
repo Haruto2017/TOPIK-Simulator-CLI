@@ -14,6 +14,10 @@
     "library": "content/library",
     "attempts": "data/attempts"
   },
+  "web": {
+    "host": "127.0.0.1",
+    "port": 8765
+  },
   "shell": {
     "audio": true,
     "show_transcript": false,

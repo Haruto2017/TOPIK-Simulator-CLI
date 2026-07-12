@@ -8,7 +8,7 @@ No programming knowledge needed:
 
 1. **Install Python 3.9 or newer** — from [python.org/downloads](https://www.python.org/downloads/) (tick *"Add python.exe to PATH"* during setup) or from the Microsoft Store.
 2. **Optional, recommended:** open a terminal and run `pip install prompt_toolkit` for the nicer shell (autocompletion, status toolbar). Everything also works without it.
-3. **Launch:** double-click `topik.cmd` in this folder, or run `.\topik.cmd` from a terminal (PowerShell users can also run `.\topik.ps1`). The launcher works from any directory — no `PYTHONPATH`, no module syntax.
+3. **Launch:** double-click `topik.cmd` in this folder, or run `.\topik.cmd` from a terminal (PowerShell users can also run `.\topik.ps1`). The launcher works from any directory — no `PYTHONPATH`, no module syntax. **macOS/Linux:** there is no launcher — run `pip install -e ".[shell]"` once from this folder, then launch with `topik-sim` (or `PYTHONPATH=src python3 -m topik_sim` without installing). TTS setup on macOS/Linux: create a venv and `pip install -r requirements-tts.txt` into it as `.venv-tts` (the PowerShell script's steps, run by hand).
 4. **First run:** say yes when the shell offers to import the bundled mock exams.
 5. **Press Enter** at the prompt to open the guided menu (Take a test / Practice / Progress / Settings).
 6. **Optional — spoken listening audio:** run `.\setup-tts.ps1` once (see *Korean speech* below). Exams work without it; transcripts are shown instead of audio.
@@ -48,8 +48,12 @@ Workspace defaults (TTS voice/volume, directories, shell behavior) can live in `
 Prefer a browser? The same simulator ships a local web app:
 
 ```powershell
-$env:PYTHONPATH = "src"
+$env:PYTHONPATH = "src"          # Windows PowerShell
 python -m topik_sim web
+```
+
+```bash
+PYTHONPATH=src python3 -m topik_sim web    # macOS / Linux (or just: topik-sim web)
 ```
 
 Your browser opens at `http://127.0.0.1:8765` with everything the shell has: timed mock exams with listening audio and teaching feedback, resume/drill/spaced review, guided courses with per-lesson homework, the full practice suite (flashcards, grammar, recall, typing, numbers, dictation, sentence writing, Korea facts), progress charts, study reports, and live TTS settings. It shares the shell's attempt files and library — pause a test in one, resume in the other. Local and offline: the server binds to localhost only and makes no external requests.

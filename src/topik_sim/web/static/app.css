@@ -300,6 +300,13 @@ label.field { display: grid; gap: 5px; font-size: 13px; color: var(--ink-2); fon
 .options button.is-picked-wrong::after { content: "✗ your answer"; margin-left: auto; color: var(--bad); font-size: 12px; font-weight: 750; }
 .options button.is-correct .opt-key, .options button.is-picked-wrong .opt-key { display: none; }
 
+.hints:not(:empty) { margin: 2px 0 6px; }
+.hint-line {
+  margin: 0; padding: 8px 12px; font-size: 14px;
+  background: var(--accent-soft); color: var(--accent);
+  border-radius: 8px; font-weight: 550;
+}
+
 .verdict { font-weight: 750; display: flex; align-items: center; gap: 8px; font-size: 16px; }
 .verdict.ok { color: var(--good); }
 .verdict.no { color: var(--bad); }
@@ -400,6 +407,22 @@ table.list td { padding: 9px 12px 9px 0; border-top: 1px solid var(--border); }
 .lesson-mark { flex: none; width: 22px; text-align: center; color: var(--good); font-weight: 750; }
 .lesson-main { flex: 1; min-width: 0; }
 .lesson-title { font-weight: 650; }
+
+/* -------------------------------------------------------- keyboard chart */
+.kbd { display: grid; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.kbd-row { display: flex; gap: 6px; }
+.kbd-row:nth-child(2) { padding-left: 14px; }
+.kbd-row:nth-child(3) { padding-left: 34px; }
+.keycap {
+  position: relative; width: 44px; height: 44px; flex: none;
+  background: var(--surface-2); border: 1px solid var(--border-strong);
+  border-radius: 8px; box-shadow: inset 0 -2px 0 var(--border);
+  display: grid; place-items: center;
+}
+.keycap-jamo { font-size: 17px; font-weight: 650; line-height: 1; margin-top: 4px; }
+.keycap-shift { position: absolute; top: 3px; right: 5px; font-size: 10px; color: var(--accent); font-weight: 650; }
+.keycap-key { position: absolute; top: 2px; left: 5px; font-size: 9px; color: var(--ink-3); font-weight: 700; }
+.kbd-gap { width: 20px; flex: none; }
 
 #toast {
   position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);

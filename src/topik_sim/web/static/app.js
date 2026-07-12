@@ -422,9 +422,19 @@ async function examView(id) {
     playAll();
   }
 
+  const hintSlot = el("div", { class: "stack hints" });
+  const hintButton = el("button", {
+    class: "ghost", text: "💡 Hint",
+    onclick: async () => {
+      const data = await api("POST", `/api/activity/${id}/hint`).catch((e) => ({ hint: null, message: e.message }));
+      if (!data.hint) { toast(data.message || "No hints."); hintButton.disabled = true; return; }
+      hintSlot.append(el("p", { class: "hint-line ko", text: `Hint ${data.shown}/${data.total}: ${data.hint}` }));
+      if (data.shown >= data.total) hintButton.disabled = true;
+    },
+  });
   const inputArea = el("div", { class: "stack" });
   const feedbackSlot = el("div", { class: "stack" });
-  body.append(inputArea, feedbackSlot);
+  body.append(el("div", { class: "row" }, hintButton), hintSlot, inputArea, feedbackSlot);
   let answered = false;
   const optionButtons = new Map();
 
@@ -434,6 +444,7 @@ async function examView(id) {
     try { result = await api("POST", `/api/activity/${id}/answer`, { value }); }
     catch (error) { toast(error.message); return; }
     answered = true;
+    hintButton.disabled = true;
     state.views.delete(id);
     // Error analysis in place: keep the options on screen, mark what was
     // picked and what was right, then teach below.
@@ -708,6 +719,7 @@ async function drillView(id) {
     if (result.accuracy !== undefined) nodes.push(el("p", { class: "small muted", text: `Accuracy ${(result.accuracy * 100).toFixed(0)}%` }));
     if (result.feedback) nodes.push(el("div", { class: "diff", text: result.feedback.join("\n") }));
     if (result.meaning) nodes.push(el("p", { class: "muted ko", text: result.meaning }));
+    if (result.speech) nodes.push(el("div", { class: "row" }, speakButton(result.speech, "🔊 Hear it")));
     if (result.keys) nodes.push(el("p", { class: "keys", text: result.keys }));
 
     if (result.finished) {
@@ -1197,9 +1209,18 @@ function updateTtsPill() {
 }
 
 async function settingsView() {
-  const [tts, doctor] = await Promise.all([api("GET", "/api/tts"), api("GET", "/api/doctor")]);
+  const [tts, doctor, keyboard] = await Promise.all([
+    api("GET", "/api/tts"), api("GET", "/api/doctor"), api("GET", "/api/keyboard")]);
   state.tts = tts;
   updateTtsPill();
+
+  const keyboardRows = keyboard.rows.map((row) => el("div", { class: "kbd-row" },
+    ...row.map((cell) => cell === null
+      ? el("span", { class: "kbd-gap" })
+      : el("span", { class: "keycap" },
+          el("span", { class: "keycap-jamo ko", text: cell.jamo }),
+          cell.shift ? el("span", { class: "keycap-shift ko", text: cell.shift }) : null,
+          el("span", { class: "keycap-key", text: cell.key })))));
 
   const enabled = el("input", { type: "checkbox" });
   enabled.checked = tts.enabled;
@@ -1232,7 +1253,13 @@ async function settingsView() {
       el("div", { class: "row" }, el("button", { class: "primary", onclick: apply, text: "Apply" })),
       el("div", { class: "answer-row" }, sayBox, el("button", { text: "🔊 Speak", onclick: () => say(sayBox.value) }))),
     el("div", { class: "card stack" },
-      el("h2", { text: "Environment check" }),
+      el("h2", { text: "Korean keyboard (두벌식)" }),
+      el("p", { class: "small muted", text: "The standard Dubeolsik layout — top-right jamo need Shift. macOS: add the '2-Set Korean' input source to type Hangul." }),
+      el("div", { class: "kbd" }, ...keyboardRows)),
+    el("div", { class: "card stack" },
+      el("div", { class: "spread" },
+        el("h2", { text: "Environment check" }),
+        el("span", { class: "pill", text: `topik-sim v${doctor.version || "?"}` })),
       el("table", { class: "list" }, ...doctor.checks.map((check) => el("tr", {},
         el("td", {}, el("span", { class: `pill ${check.status === "PASS" ? "good" : check.status === "FAIL" ? "bad" : ""}`, text: check.status })),
         el("td", { text: check.name }),

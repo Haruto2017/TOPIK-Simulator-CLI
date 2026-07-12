@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-12
+
 ### Added
+
+- **Web exam hints and keyboard chart**: the exam room gains the shell's
+  `/hint` — one vocabulary hint per click, resetting with each question — and
+  Settings shows the 두벌식 keyboard chart (with an input-source tip), closing
+  the last shell/web parity gaps.
 
 - **Practice log and weak-items tracking**: every typed drill and dictation run
   (shell and web alike) now records to `data/attempts/practice_log.json` —
@@ -42,28 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   per lesson (best score kept); `/course` shows each lesson's homework score,
   and finishing a course lesson points at its homework. New module
   `src/topik_sim/homework.py`.
-
-### Changed
-
-- **Web home is now a study loop, not a pack list**: 오늘의 학습 orders the day
-  the way a teacher would — spaced review due, continue an open attempt, the
-  next unfinished lesson (or its missing homework), then short practice — with
-  course progress bars beneath and mock exams reframed as the weekly
-  checkpoint.
-- **Web exam room teaches from mistakes**: after answering, the options stay
-  visible with your pick and the correct row marked (✗/✓), choice questions
-  answer from the keyboard (1–9 or the option letter), and Korean passages
-  render larger for comfortable reading practice.
-- **Web visual redesign**: a proper visual system — warm hanji-paper neutrals
-  with a taegeuk-blue accent (red stays reserved for incorrect/status, never
-  decoration), a myeongjo serif voice for Korean display moments (page-title
-  Korean, flashcard fronts, the brand mark), a page-title seal dot, layered
-  elevation with hover lift, gradient primary buttons and progress fills,
-  sidebar icons with an active indicator, a real 3D flashcard flip, quiet
-  staggered view transitions (disabled under `prefers-reduced-motion`), and a
-  designed 한 favicon. Chart colors are untouched — they remain the validated
-  data-viz palette. Also fixes conditional view fragments rendering as literal
-  "null" text.
 
 - **Advanced typing mode**: `/typing advanced` (aliases `adv`, `pro`) skips the
   jamo/syllable warm-up and drills only meaningful items — real vocabulary words
@@ -108,6 +93,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   obligation, requests, time relations, comparison) plus common exam
   expression patterns (-기 시작하다, -게 되다, -(으)ㄴ/는 것 같다, reported
   speech, -자마자, -기 위해서, and more). `/compose random` picks one at random.
+
+### Changed
+
+- **Web home is now a study loop, not a pack list**: 오늘의 학습 orders the day
+  the way a teacher would — spaced review due, continue an open attempt, the
+  next unfinished lesson (or its missing homework), then short practice — with
+  course progress bars beneath and mock exams reframed as the weekly
+  checkpoint.
+- **Web exam room teaches from mistakes**: after answering, the options stay
+  visible with your pick and the correct row marked (✗/✓), choice questions
+  answer from the keyboard (1–9 or the option letter), and Korean passages
+  render larger for comfortable reading practice.
+- The `web` config section (`host`, `port`) is documented in
+  `examples/topik.config.example.json`; the README quickstart covers
+  macOS/Linux; `/api/state` and `/api/doctor` report the app version (shown in
+  web Settings).
+- **Web visual redesign**: a proper visual system — warm hanji-paper neutrals
+  with a taegeuk-blue accent (red stays reserved for incorrect/status, never
+  decoration), a myeongjo serif voice for Korean display moments (page-title
+  Korean, flashcard fronts, the brand mark), a page-title seal dot, layered
+  elevation with hover lift, gradient primary buttons and progress fills,
+  sidebar icons with an active indicator, a real 3D flashcard flip, quiet
+  staggered view transitions (disabled under `prefers-reduced-motion`), and a
+  designed 한 favicon. Chart colors are untouched — they remain the validated
+  data-viz palette.
+
+### Fixed
+
+- Homework "meaning" questions record the missed **Korean word** — not its
+  English gloss — in the practice log and end-of-run review, so the weak-items
+  list and the misses drill stay in Korean.
+- Practice drills no longer offer to speak an item whose audio would give the
+  answer away (recall, numbers, homework choice items); the answer's audio
+  moves into the post-answer feedback ("Hear it") where it teaches. Dictation
+  keeps pre-answer audio — hearing it is the task.
+- The web server serializes state-changing requests, so a double-click can
+  never submit the same exam answer twice.
+- Conditional view fragments no longer render as literal "null" text in the
+  web UI.
 
 ## [1.1.0] - 2026-06-13
 

@@ -22,9 +22,12 @@ Design rules, mirroring the shell:
 
 import json
 import re
+import threading
 import unicodedata
 from pathlib import Path
 from typing import Any
+
+from .. import __version__
 
 from ..activities import missed_question_ids
 from ..attempts import save_attempt_to_dir
@@ -107,6 +110,9 @@ class WebApp:
         self._activities: dict[str, dict[str, Any]] = {}
         self._next_id = 0
         self._audio_failed = False
+        # ThreadingHTTPServer runs requests concurrently; serialize state
+        # mutations so a double-click can never submit an answer twice.
+        self._write_lock = threading.Lock()
 
     # ------------------------------------------------------------ plumbing
 
@@ -114,8 +120,12 @@ class WebApp:
                body: dict[str, Any] | None = None) -> tuple[int, Any]:
         query = query or {}
         body = body or {}
+        method = method.upper()
         try:
-            return self._route(method.upper(), path.rstrip("/") or "/", query, body)
+            if method == "POST":
+                with self._write_lock:
+                    return self._route(method, path.rstrip("/") or "/", query, body)
+            return self._route(method, path.rstrip("/") or "/", query, body)
         except ApiError as exc:
             return exc.status, {"error": str(exc)}
         except (ValueError, KeyError, OSError, ContentValidationError) as exc:
@@ -151,7 +161,8 @@ class WebApp:
             from ..doctor import run_checks
 
             checks = run_checks(library_dir=self.library_dir)
-            return 200, {"checks": [{"status": c[0], "name": c[1], "detail": c[2]} for c in checks]}
+            return 200, {"version": __version__,
+                         "checks": [{"status": c[0], "name": c[1], "detail": c[2]} for c in checks]}
         if parts == ["report"] and method == "GET":
             return 200, {"markdown": self.report(query.get("file", ""))}
         if parts == ["tts"]:
@@ -160,6 +171,12 @@ class WebApp:
             return 200, self.tts_state()
         if parts == ["say"] and method == "GET":
             return self._audio_response(query.get("text", ""))
+        if parts == ["keyboard"] and method == "GET":
+            from ..hangul import LAYOUT_ROWS
+
+            rows = [[None if cell is None else {"key": cell[0], "jamo": cell[1], "shift": cell[2]}
+                     for cell in row] for row in LAYOUT_ROWS]
+            return 200, {"rows": rows}
 
         if parts == ["exam", "start"] and method == "POST":
             return 200, self.start_exam(body)
@@ -234,6 +251,8 @@ class WebApp:
             return 200, self.pause(activity_id)
         if rest == ["transcript"] and method == "POST":
             return 200, self.reveal_transcript(activity_id)
+        if rest == ["hint"] and method == "POST":
+            return 200, self.exam_hint(activity_id)
         if rest == ["audio"] and method == "GET":
             return self.activity_audio(activity_id, int(query.get("part", 0)))
         if rest == ["say"] and method == "GET":
@@ -274,6 +293,7 @@ class WebApp:
         queue = srs.load_queue(srs.queue_path_for(self.attempt_dir))
         log = load_practice_log(self.attempt_dir)
         return {
+            "version": __version__,
             "packs": self.packs(),
             "attempts": self.attempts()[:10],
             "courses": self.courses(),
@@ -452,6 +472,7 @@ class WebApp:
             if activity.get("presented_qid") != question.get("question_id"):
                 session.mark_presented()
                 activity["presented_qid"] = question.get("question_id")
+                activity["hint_index"] = 0  # hints restart with each question
         return view
 
     def activity_view(self, activity_id: str) -> dict[str, Any]:
@@ -517,6 +538,29 @@ class WebApp:
             "activity": session.activity,
             "course_completed": bool(course),
             "review_due": len(srs.due_items(queue)),
+        }
+
+    def exam_hint(self, activity_id: str) -> dict[str, Any]:
+        """One vocabulary hint per call, like the shell's /hint."""
+        activity = self._activities[activity_id]
+        if activity["kind"] != "exam":
+            raise ApiError(400, "Hints only apply to exam questions.")
+        question = activity["session"].current_question()
+        if question is None:
+            raise ApiError(400, "No question is awaiting an answer.")
+        vocabulary = (question.get("explanation") or {}).get("vocabulary", [])
+        index = int(activity.get("hint_index", 0))
+        if not vocabulary:
+            return {"hint": None, "message": "No hints are available for this question."}
+        if index >= len(vocabulary):
+            return {"hint": None, "message": "No more hints — you have seen them all."}
+        item = vocabulary[index]
+        activity["hint_index"] = index + 1
+        note = f" ({item['note']})" if item.get("note") else ""
+        return {
+            "hint": f"{item.get('ko', '?')} — {item.get('en', '?')}{note}",
+            "shown": index + 1,
+            "total": len(vocabulary),
         }
 
     def reveal_transcript(self, activity_id: str) -> dict[str, Any]:
@@ -661,6 +705,10 @@ class WebApp:
         if index < len(items):
             item = items[index]
             audio_ok = self._audio_on() and bool(item.get("speech"))
+            # Speaking an item whose speech IS the expected answer would give
+            # it away — dictation is the exception (hearing it is the task).
+            accepted = {_normalize(str(answer)) for answer in item["accept"]}
+            spoils = not item.get("dictation") and _normalize(str(item.get("speech", ""))) in accepted
             show = item["show"]
             if item.get("dictation") and not audio_ok:
                 show = f"Type this sentence:  {item['answer']}"  # no TTS: stay usable
@@ -672,7 +720,7 @@ class WebApp:
                 "options": item.get("options"),
                 "dictation": bool(item.get("dictation")),
                 "no_digits": bool(item.get("no_digits")),
-                "audio": audio_ok,
+                "audio": audio_ok and not spoils,
             }
         return view
 
@@ -695,6 +743,8 @@ class WebApp:
             correct = _normalize(value) in accepted
         response["correct"] = correct
         response["expected"] = item.get("reveal") or " / ".join(item["accept"])
+        if self._audio_on() and item.get("speech"):
+            response["speech"] = item["speech"]  # hear the answer after grading
         if item.get("meaning"):
             response["meaning"] = item["meaning"]
         if not correct and not item.get("options"):
@@ -702,7 +752,7 @@ class WebApp:
         if correct:
             activity["hits"] += 1
         else:
-            activity["missed"].append(item["answer"])
+            activity["missed"].append(item.get("miss_key") or item["answer"])
         activity["index"] += 1
         response["finished"] = activity["index"] >= len(activity["items"])
         if response["finished"]:

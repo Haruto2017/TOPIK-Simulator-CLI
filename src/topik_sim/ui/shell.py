@@ -691,7 +691,7 @@ class Shell:
             self._typing_hits += 1
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
-            self._typing_missed.append(item["answer"])
+            self._typing_missed.append(item.get("miss_key") or item["answer"])
             expected = item.get("reveal") or " / ".join(item["accept"])
             line = ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED)
             if not item.get("options"):

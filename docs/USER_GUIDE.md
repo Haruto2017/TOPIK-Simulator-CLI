@@ -4,7 +4,9 @@
 
 The TOPIK simulator is a study environment for the TOPIK I exam that runs on your own computer, in your terminal. You sit full-length timed mock exams — 듣기 (listening) with spoken Korean audio and 읽기 (reading) — answer question by question, and get instant grading with teaching feedback: the correct answer, why it is correct, and the vocabulary and grammar behind it.
 
-Around the exams sits a complete study loop. Every question you miss is remembered: you can drill the misses from any exam, review them on a spaced-repetition schedule, and watch your accuracy trend over weeks. There are also focused practice tools — vocabulary flashcards, grammar pattern cards, type-the-Korean recall, listen-and-type dictation, and a Korean keyboard trainer. Everything works offline, and your progress saves itself after every single answer.
+Around the exams sits a complete study loop. Every question you miss is remembered: you can drill the misses from any exam, review them on a spaced-repetition schedule, and watch your accuracy trend over weeks. There are also focused practice tools — vocabulary flashcards, grammar pattern cards, type-the-Korean recall, listen-and-type dictation, Korean number practice, guided courses with per-lesson homework, and a Korean keyboard trainer. Everything works offline, and your progress saves itself after every single answer.
+
+Prefer a browser to a terminal? Run `topik-sim web` (or `python -m topik_sim web` with `PYTHONPATH=src`) — the same simulator opens as a local web app at `http://127.0.0.1:8765` with every feature above, sharing your exams and progress with the terminal shell: pause a test in one, resume in the other. Its home page plans your day teacher-style — review due, continue, next lesson, practice — and its Progress page keeps the whole ledger, including your most-missed items with a one-click drill.
 
 ## Install & first launch
 

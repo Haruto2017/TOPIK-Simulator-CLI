@@ -146,7 +146,9 @@ def build_homework(
         if len(options) < 2:
             continue
         item = _choice_item(f"Which meaning matches:  {entry['ko']}", options, entry["en"], rng)
-        item.update({"kind": "meaning", "speech": entry["ko"], "meaning": f"{entry['ko']} — {entry['en']}"})
+        # A miss should resurface the Korean word, not its English gloss.
+        item.update({"kind": "meaning", "speech": entry["ko"], "miss_key": entry["ko"],
+                     "meaning": f"{entry['ko']} — {entry['en']}"})
         items.append(item)
 
     # --- grammar: match the pattern to what it does

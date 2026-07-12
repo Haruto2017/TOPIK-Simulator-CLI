@@ -55,6 +55,13 @@ class BuildHomeworkTests(unittest.TestCase):
             self.assertIn(item["answer"], item["accept"])
             self.assertIn("meaning", item)
 
+    def test_meaning_items_carry_a_korean_miss_key(self):
+        items = [i for i in build_homework(LESSON, seed=0) if i["kind"] == "meaning"]
+        self.assertTrue(items)
+        vocab = {entry["ko"] for entry in LESSON["new_vocabulary"]}
+        for item in items:
+            self.assertIn(item["miss_key"], vocab)
+
     def test_choice_items_accept_number_and_text(self):
         pack = load_pack(SAMPLE_PACK)
         choices = [i for i in build_homework(LESSON, pack=pack, seed=0) if i.get("options")]

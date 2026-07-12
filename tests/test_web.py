@@ -290,6 +290,68 @@ class DrillFlowTests(WebAppTestCase):
         self.assertFalse(view["question"]["transcript_hidden"])
 
 
+class ReleasePatchTests(WebAppTestCase):
+    def test_exam_hint_walks_vocabulary_then_exhausts_and_resets(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/exam/start",
+                                  body={"pack": "topik-i-mini-pack", "section": "reading"})
+        activity = view["id"]
+        status, first = app.handle("POST", f"/api/activity/{activity}/hint")
+        self.assertEqual(status, 200)
+        self.assertTrue(first["hint"])
+        self.assertEqual(first["shown"], 1)
+        total = first["total"]
+        for _ in range(total - 1):
+            status, last = app.handle("POST", f"/api/activity/{activity}/hint")
+        status, done = app.handle("POST", f"/api/activity/{activity}/hint")
+        self.assertIsNone(done["hint"])
+        self.assertIn("No more hints", done["message"])
+        # Answering and moving on resets the hint counter.
+        app.handle("POST", f"/api/activity/{activity}/answer", body={"value": "A"})
+        status, view = app.handle("GET", f"/api/activity/{activity}")
+        status, again = app.handle("POST", f"/api/activity/{activity}/hint")
+        self.assertEqual(again.get("shown"), 1)
+
+    def test_drill_audio_never_spoils_the_answer(self):
+        app = self.make_app(audio_enabled=True, synthesizer=fake_synthesizer(self.temp_dir))
+        status, view = app.handle("POST", "/api/drill/start", body={"mode": "numbers", "count": 2})
+        self.assertFalse(view["item"]["audio"])  # speech == expected answer
+        activity = view["id"]
+        status, result = app.handle("POST", f"/api/activity/{activity}/answer", body={"value": "영"})
+        self.assertIn("speech", result)  # the answer's audio arrives with grading
+
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "dictation", "pack": "listen-pack", "count": 1})
+        self.assertTrue(view["item"]["audio"])  # hearing it IS the task
+
+    def test_homework_meaning_miss_records_korean_not_gloss(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "homework", "pack": "topik-i-mini-pack", "course_id": "c01"})
+        activity = view["id"]
+        while True:
+            status, result = app.handle("POST", f"/api/activity/{activity}/answer",
+                                        body={"value": "완전오답"})
+            if result.get("finished"):
+                break
+        glosses = {"today", "weather", "to be good", "library", "book", "to read"}
+        for item in result["summary"]["missed"]:
+            self.assertNotIn(item, glosses,
+                             f"missed list leaked an English gloss: {item!r}")
+
+    def test_keyboard_chart_and_version(self):
+        app = self.make_app(audio_enabled=False)
+        status, keyboard = app.handle("GET", "/api/keyboard")
+        self.assertEqual(status, 200)
+        flat = [cell for row in keyboard["rows"] for cell in row if cell]
+        self.assertIn(("Q", "ㅂ", "ㅃ"), [(c["key"], c["jamo"], c["shift"]) for c in flat])
+        self.assertIn(None, keyboard["rows"][0])  # the hand-split gap survives
+        status, state = app.handle("GET", "/api/state")
+        self.assertRegex(state["version"], r"^\d+\.\d+\.\d+$")
+        status, doctor = app.handle("GET", "/api/doctor")
+        self.assertEqual(doctor["version"], state["version"])
+
+
 class ContentEndpointTests(WebAppTestCase):
     def test_decks_report_stats_doctor(self):
         app = self.make_app(audio_enabled=False)
