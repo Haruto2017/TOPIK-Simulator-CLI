@@ -35,7 +35,8 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 - `/review` — spaced-repetition session over everything you have missed before
 - `/homework <pack> [lesson]` — textbook-style homework for each course lesson, auto-generated from what it taught: recall, meaning and pattern multiple choice, and fill-the-blank; best scores tracked per lesson
 - `/flashcards <pack>`, `/grammar`, `/recall`, `/dictation <pack>` — vocabulary cards, grammar patterns, type-the-Korean recall, listen-and-type practice
-- `/numbers [category]` — Korean number practice across both systems (Sino- and native-Korean): dates, counting objects, money, time, math, phone numbers, ordinals — every answer typed in Hangul, no digits
+- `/hangul` — learn to *read* Korean from zero: letter sounds, syllable blocks, 받침, and worked examples; `/lookup 학생` searches everything your packs teach
+- `/numbers [category]` — Korean number practice across both systems (Sino- and native-Korean): dates, counting objects, money, time, math, phone numbers, ordinals — every answer typed in Hangul, no digits; `/numbers learn` shows the tables first
 - `/typing`, `/keyboard on` — Korean keyboard trainer and 두벌식 layout chart with keystroke hints everywhere you type
 - `/stats`, `/report` — accuracy trends and a Markdown study sheet
 - `/tts volume 0.8`, `/tts off` — change speech settings live

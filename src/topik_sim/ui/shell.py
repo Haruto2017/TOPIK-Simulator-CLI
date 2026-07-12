@@ -46,6 +46,10 @@ TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
 RECENT_LIMIT = 10
 
+# Shorthand used across grammar patterns; shown wherever patterns appear so a
+# first-time student can decode "N이에요/예요?".
+GRAMMAR_LEGEND = "Pattern shorthand: N = noun · V = verb stem · A = descriptive-verb stem · (으) = added after a final consonant"
+
 # Typed-drill labels → practice-log modes (see practice_log.py).
 TYPING_LABEL_MODES = {
     "Typing practice": "typing",
@@ -501,6 +505,68 @@ class Shell:
             return
         self._speak([argument], playback=True)
 
+    def cmd_hangul(self, argument: str) -> None:
+        """Read Hangul from zero: jamo sounds, block composition, batchim."""
+        from ..hangul_guide import guide
+
+        data = guide()
+        self.emit(render.rule("Read Hangul — 한글 읽기"))
+        self.emit(data["how_blocks_work"])
+        self.emit("")
+        self.emit(ansi.style("Consonants", ansi.BOLD))
+        for row in data["consonants"]:
+            self.emit(f"  {row['jamo']}  {row['name']:<16} {row['sound']}")
+        self.emit(ansi.style("Tense consonants", ansi.BOLD))
+        for row in data["tense_consonants"]:
+            self.emit(f"  {row['jamo']}  {row['name']:<16} {row['sound']}")
+        self.emit(ansi.style("Vowels", ansi.BOLD))
+        for row in data["vowels"]:
+            self.emit(f"  {row['jamo']}  {row['sound']}")
+        self.emit(ansi.style("Compound vowels", ansi.BOLD))
+        self.emit("  " + " · ".join(f"{row['jamo']} {row['sound']}" for row in data["compound_vowels"]))
+        self.emit("")
+        self.emit(ansi.style("Sounding out blocks", ansi.BOLD))
+        for example in data["walkthroughs"]:
+            self.emit(f"  {example['word']}  =  {example['parts']}  →  {example['reading']}")
+            self.emit(ansi.style(f"     {example['note']}", ansi.GREY))
+        self.emit("")
+        self.emit(data["batchim"])
+        self.emit(ansi.style(data["romanization"], ansi.DIM))
+        self.emit("")
+        grid = data["syllable_grid"]
+        self.emit(ansi.style("Reading practice — say each block aloud:", ansi.BOLD))
+        self.emit("     " + "  ".join(grid["vowels"]))
+        for lead, row in zip([r["jamo"] for r in data["consonants"]], grid["rows"]):
+            self.emit(f"  {lead}  " + "  ".join(row))
+        self.emit("")
+        self.emit("Next: /say 안녕하세요 hears any text · /typing drills the keyboard · /keyboard shows where keys are.")
+
+    def cmd_lookup(self, argument: str) -> None:
+        """Search everything the packs teach — the 'what was that word?' command."""
+        from ..lookup import search_library
+
+        query = argument.strip()
+        if not query:
+            self.emit("Usage: /lookup <Korean or English> — searches every imported pack's vocabulary and grammar.")
+            return
+        results = search_library(query, self.library_dir)
+        vocabulary = results["vocabulary"]
+        grammar = results["grammar"]
+        if not vocabulary and not grammar:
+            self.emit(f"Nothing taught in your packs matches {query!r}.")
+            return
+        self.emit(render.rule(f"Lookup · {query}"))
+        for card in vocabulary:
+            note = f" — {card['note']}" if card.get("note") else ""
+            source = ansi.style(f"({card['pack_id']})", ansi.GREY)
+            self.emit(f"  {ansi.style(card['ko'], ansi.BOLD)}  {card['en']}{note}  {source}")
+        for point in grammar:
+            source = ansi.style(f"({point['pack_id']})", ansi.GREY)
+            self.emit(f"  {ansi.style(point['pattern'], ansi.BOLD, ansi.CYAN)}  {point['explanation']}  {source}")
+            if point.get("example"):
+                self.emit(ansi.style(f"     예: {point['example']}", ansi.GREY))
+        self.emit("Bare /say speaks nothing here — use /say <text> to hear any of these aloud.")
+
     def cmd_keyboard(self, argument: str) -> None:
         key = argument.strip().lower()
         if key == "on":
@@ -595,6 +661,9 @@ class Shell:
         category = None
         count = 10
         for part in argument.split():
+            if part.lower() in {"learn", "guide", "table", "tables"}:
+                self._show_numbers_guide()
+                return
             if part.isdigit():
                 count = int(part)
             elif part.lower() in {"mix", "mixed", "all"}:
@@ -603,15 +672,40 @@ class Shell:
                 category = part.lower()
             else:
                 self.emit(
-                    f"Unknown category: {part}. Choose from {', '.join(NUMBER_CATEGORIES)}, or mix."
+                    f"Unknown category: {part}. Choose from {', '.join(NUMBER_CATEGORIES)}, mix, or learn."
                 )
                 return
         items = build_number_items(seed=self._flashcard_seed, count=count, category=category)
         scope = "mixed" if category in (None, "mix") else category
         self._start_typing(
             items, label="Number practice", verb="Read", title=f"Number practice: {scope}",
-            hint="write the number in Korean letters — no digits · /say reads it · /pause stops",
+            hint="write the number in Korean letters — no digits · new to the systems? /pause then"
+                 " /numbers learn · /say reads it",
         )
+
+    def _show_numbers_guide(self) -> None:
+        """The two number systems as tables — learn before being drilled."""
+        from ..numbers import cheat_sheet
+
+        sheet = cheat_sheet()
+        self.emit(render.rule("Korean numbers — the two systems"))
+        self.emit(ansi.style("Sino-Korean (일 이 삼 …) — dates, money, minutes, phone, floors, math", ansi.BOLD))
+        self.emit("  " + " · ".join(f"{row['n']} {row['reading']}" for row in sheet["sino"][:10]))
+        self.emit("  " + " · ".join(f"{row['n']:,} {row['reading']}" for row in sheet["sino"][10:]))
+        self.emit("")
+        self.emit(ansi.style("Native Korean (하나 둘 셋 …) — counting things, age, the hour (1–99 only)", ansi.BOLD))
+        self.emit("  " + " · ".join(f"{row['n']} {row['reading']}" for row in sheet["native"]))
+        counter_forms = [f"{row['reading']} → {row['counter_form']}" for row in sheet["native"] if row.get("counter_form")]
+        self.emit(f"  Before a counter, short forms: {' · '.join(counter_forms)}")
+        self.emit("")
+        self.emit(ansi.style("Common counters", ansi.BOLD))
+        self.emit("  " + " · ".join(f"{row['counter']} {row['meaning']}" for row in sheet["counters"]))
+        self.emit("")
+        self.emit(ansi.style("Which system?", ansi.BOLD))
+        for row in sheet["usage"]:
+            self.emit(f"  {row['context']:<32} {ansi.style(row['system'], ansi.CYAN)}  {ansi.style(row['example'], ansi.GREY)}")
+        self.emit("")
+        self.emit("Practice it: /numbers · /numbers count · /numbers date · /say 삼백사십칠 hears any reading.")
 
     def cmd_recall(self, argument: str) -> None:
         from ..flashcards import build_recall_items
@@ -990,6 +1084,8 @@ class Shell:
         self._flash_label = label
         self.emit(ansi.style(title, ansi.BOLD))
         self.emit(f"{len(deck)} card(s) · Enter flips · y/n grades · /say hears it · /pause stops")
+        if "grammar" in label.lower():
+            self.emit(ansi.style(GRAMMAR_LEGEND, ansi.DIM))
         self._present_card()
 
     def cmd_dictation(self, argument: str) -> None:
@@ -1134,11 +1230,31 @@ class Shell:
         self.emit(f"Hint {self._hint_index}/{len(vocabulary)}: {item.get('ko', '?')}: {item.get('en', '?')}{note}")
 
     def cmd_replay(self, argument: str) -> None:
+        if argument.strip().lower() in {"slow", "slower", "s"}:
+            self._replay_slow()
+            return
         if not self.current_audio:
             self.emit("No question audio is available to replay.")
             return
         for path in self.current_audio:
             play_audio(path, volume=self.tts_config.volume)
+
+    def _replay_slow(self) -> None:
+        """Re-synthesize the current audio at 3/4 speed — the student's
+        'could you say that more slowly?'."""
+        texts: list[str] = []
+        if self._active_question is not None and is_listening_question(self._active_question):
+            texts = collect_question_speech_texts(self._active_question, include_prompt=False)
+        elif self.state == DICTATION and self._dictation_texts:
+            texts = [self._dictation_texts[self._dictation_index]]
+        if not texts or not self.audio_enabled:
+            self.emit("No question audio is available to replay.")
+            return
+        config = replace(self.tts_config, speed=max(0.4, self.tts_config.speed * 0.75), playback=True)
+        try:
+            synthesize_many(texts, config)
+        except RuntimeError as exc:
+            self.emit(f"TTS unavailable: {exc}")
 
     def cmd_transcript(self, argument: str) -> None:
         if self._active_question is None:
@@ -1464,6 +1580,8 @@ class Shell:
         self.emit(ansi.style(header, ansi.BOLD, ansi.CYAN))
         for objective in course.get("objectives", []):
             self.emit(f"  • {objective}")
+        if any(item.get("kind") == "pattern" for item in items):
+            self.emit(ansi.style(GRAMMAR_LEGEND, ansi.DIM))
         self._start_typing(
             items, label="Homework", verb="Solved", title="Validate what this lesson taught:",
             hint="type the answer — options take their number · /say speaks it · /pause stops",

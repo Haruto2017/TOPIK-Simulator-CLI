@@ -139,12 +139,30 @@ COMMANDS: list[Command] = [
         "Examples: /typing · /typing 20 · /typing advanced · /typing advanced topik-i-mini-pack 15",
     ),
     Command(
+        "hangul", "cmd_hangul", "/hangul", "Learn to read Hangul from zero: letters, sounds, and blocks.", ("read", "alphabet"),
+        category="Practice",
+        details="The from-scratch on-ramp: every consonant and vowel with its sound, how jamo\n"
+        "stack into syllable blocks, the 받침 rule, and worked examples (한 → han, 학생 →\n"
+        "hak-saeng) plus a reading-practice grid. Romanization appears only here, as training\n"
+        "wheels. Follow with /typing to practice and /say <text> to hear anything aloud.",
+    ),
+    Command(
         "numbers", "cmd_numbers", "/numbers [category] [count]", "Practice Korean numbers: write them in Hangul, no digits.", ("num", "number"),
         category="Practice",
         details="Drills both number systems and the contexts that pick between them. Answers must\n"
         "be Korean letters — digits are rejected. category (default mix): sino, native, count\n"
         "(objects + counter), date, time, money, math, phone, ordinal. count: items (default 10).\n"
-        "/say reads the correct form aloud. Examples: /numbers · /numbers date · /numbers money 15",
+        "/numbers learn shows both systems as tables (with counters and which-system-when)\n"
+        "before you drill. /say reads the correct form aloud.\n"
+        "Examples: /numbers learn · /numbers · /numbers date · /numbers money 15",
+    ),
+    Command(
+        "lookup", "cmd_lookup", "/lookup <text>", "Search everything your packs teach: vocabulary and grammar.", ("dict", "search"),
+        category="Practice",
+        details="The 'what was that word again?' command. Searches every imported pack's taught\n"
+        "vocabulary (Korean, English, notes) and grammar patterns by substring, and names the\n"
+        "pack each hit comes from. Works any time, even mid-question.\n"
+        "Examples: /lookup 학생 · /lookup weather · /lookup 에서",
     ),
     Command(
         "facts", "cmd_facts", "/facts [category|list]", "Discover a fact about Korea — culture, history, food, and more.", ("fact", "culture"),
@@ -214,9 +232,11 @@ COMMANDS: list[Command] = [
         "without giving the answer away. Stops when all items are shown.",
     ),
     Command(
-        "replay", "cmd_replay", "/replay", "Play the current question audio again.", ("r",),
+        "replay", "cmd_replay", "/replay [slow]", "Play the current question audio again; 'slow' at 3/4 speed.", ("r",),
         category="While answering",
-        details="Replays the active question or dictation audio at the current /tts volume.",
+        details="Replays the active question or dictation audio at the current /tts volume.\n"
+        "/replay slow re-speaks it at three-quarter speed — the 'could you say that again,\n"
+        "slowly?' every listening student needs. Examples: /replay · /replay slow",
     ),
     Command(
         "transcript", "cmd_transcript", "/transcript", "Reveal the transcript of the current listening question.", ("t",),

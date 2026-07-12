@@ -170,13 +170,25 @@ class WebApp:
                 self.update_tts(body)
             return 200, self.tts_state()
         if parts == ["say"] and method == "GET":
-            return self._audio_response(query.get("text", ""))
+            return self._audio_response(query.get("text", ""), slow=query.get("slow") == "1")
         if parts == ["keyboard"] and method == "GET":
             from ..hangul import LAYOUT_ROWS
 
             rows = [[None if cell is None else {"key": cell[0], "jamo": cell[1], "shift": cell[2]}
                      for cell in row] for row in LAYOUT_ROWS]
             return 200, {"rows": rows}
+        if parts == ["hangul"] and method == "GET":
+            from ..hangul_guide import guide
+
+            return 200, guide()
+        if parts == ["numbers", "guide"] and method == "GET":
+            from ..numbers import cheat_sheet
+
+            return 200, cheat_sheet()
+        if parts == ["lookup"] and method == "GET":
+            from ..lookup import search_library
+
+            return 200, search_library(query.get("q", ""), self.library_dir)
 
         if parts == ["exam", "start"] and method == "POST":
             return 200, self.start_exam(body)
@@ -254,7 +266,8 @@ class WebApp:
         if rest == ["hint"] and method == "POST":
             return 200, self.exam_hint(activity_id)
         if rest == ["audio"] and method == "GET":
-            return self.activity_audio(activity_id, int(query.get("part", 0)))
+            return self.activity_audio(activity_id, int(query.get("part", 0)),
+                                       slow=query.get("slow") == "1")
         if rest == ["say"] and method == "GET":
             return self.activity_say(activity_id)
         raise ApiError(404, f"Unknown activity action: {'/'.join(rest)}")
@@ -850,28 +863,33 @@ class WebApp:
             return []
         return collect_question_speech_texts(question, include_prompt=False)
 
-    def _synthesize(self, text: str) -> Path:
+    def _synthesize(self, text: str, slow: bool = False) -> Path:
         if not text.strip():
             raise ApiError(400, "Nothing to speak.")
         if not self._audio_on():
             raise ApiError(503, "TTS is disabled or unavailable.")
+        from dataclasses import replace
+
+        config = self.tts_config
+        if slow:  # 'say that again, slowly' — 3/4 speed, cached separately
+            config = replace(config, speed=max(0.4, config.speed * 0.75))
         try:
             if self._synthesizer is not None:
-                return Path(self._synthesizer(text, self.tts_config))
+                return Path(self._synthesizer(text, config))
             from ..tts import synthesize_many
 
-            return synthesize_many([text], self.tts_config)[0]
+            return synthesize_many([text], config)[0]
         except ApiError:
             raise
         except Exception as exc:  # engine/model/subprocess failures
             self._audio_failed = True
             raise ApiError(503, f"TTS failed: {exc}") from exc
 
-    def _audio_response(self, text: str) -> tuple[int, Any]:
-        path = self._synthesize(text)
+    def _audio_response(self, text: str, slow: bool = False) -> tuple[int, Any]:
+        path = self._synthesize(text, slow=slow)
         return 200, (path.read_bytes(), "audio/wav")
 
-    def activity_audio(self, activity_id: str, part: int) -> tuple[int, Any]:
+    def activity_audio(self, activity_id: str, part: int, slow: bool = False) -> tuple[int, Any]:
         activity = self._activities[activity_id]
         if activity["kind"] == "exam":
             question = activity["session"].current_question()
@@ -880,9 +898,9 @@ class WebApp:
             texts = self._question_speech_texts(question)
             if not texts or part >= len(texts):
                 raise ApiError(404, "No audio for this question.")
-            return self._audio_response(texts[part])
+            return self._audio_response(texts[part], slow=slow)
         item = self._current_item(activity)
-        return self._audio_response(str(item.get("speech", "")))
+        return self._audio_response(str(item.get("speech", "")), slow=slow)
 
     def activity_say(self, activity_id: str) -> tuple[int, Any]:
         return self.activity_audio(activity_id, 0)

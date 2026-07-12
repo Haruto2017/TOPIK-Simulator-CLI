@@ -49,6 +49,8 @@ async function api(method, path, body) {
   return data;
 }
 
+const GRAMMAR_LEGEND = "Pattern shorthand: N = noun · V = verb stem · A = descriptive-verb stem · (으) = added after a final consonant";
+
 const state = {
   tts: { enabled: false, volume: 1 },
   views: new Map(),      // activity id -> last view payload
@@ -266,8 +268,17 @@ async function homeView() {
       ));
   });
 
+  // A true beginner (nothing attempted, nothing studied) needs to learn to
+  // read before any card makes sense.
+  const brandNew = !data.attempts.length &&
+    !(data.courses || []).some((pack) => pack.lessons.some((lesson) => lesson.done));
+
   render(
     ...header("오늘의 학습 — today's study", "Review first, finish what you started, learn the next lesson, then practice."),
+    brandNew ? el("div", { class: "card spread" },
+      el("span", {}, el("strong", { text: "New to Korean? " }),
+        "Learn to read Hangul first — 15 minutes, and every flashcard after it makes sense."),
+      el("button", { class: "primary", text: "한글 Start here", onclick: () => go("#/practice/hangul") })) : null,
     el("div", { class: "card stack" },
       todayStep(1, "복습", "Review", reviewBody),
       todayStep(2, "이어하기", "Continue", continueBody),
@@ -410,6 +421,10 @@ async function examView(id) {
     };
     body.append(el("div", { class: "audio-row row" },
       el("button", { onclick: playAll, text: "▶ Play audio" }),
+      el("button", {
+        title: "Play again at 3/4 speed", text: "🐢 Slower",
+        onclick: () => playUrls(urls.map((u) => `${u}&slow=1`)),
+      }),
       el("button", {
         class: "ghost", text: "Show transcript",
         onclick: async (e) => {
@@ -573,6 +588,7 @@ function renderExamFeedback(id, view, question, result, container) {
 /* -------------------------------------------------------------- practice */
 
 const PRACTICE_MODES = [
+  { key: "hangul", name: "Read Hangul · 한글", desc: "Start here: every letter's sound and how blocks compose.", pack: "none" },
   { key: "flashcards", name: "Flashcards", desc: "Vocabulary cards from a pack's teaching notes.", pack: "required" },
   { key: "grammar", name: "Grammar cards", desc: "Pattern on the front, what it does on the back.", pack: "optional" },
   { key: "recall", name: "Vocab recall", desc: "See the English, type the Korean.", pack: "optional" },
@@ -584,19 +600,83 @@ const PRACTICE_MODES = [
 ];
 
 async function practiceView() {
+  // "What was that word again?" — search everything the packs teach.
+  const searchInput = el("input", { type: "text", lang: "ko", placeholder: "Look something up: 학생, weather, 에서 …" });
+  const resultsSlot = el("div", { class: "stack" });
+  let searchTimer = null;
+  const runLookup = async () => {
+    const query = searchInput.value.trim();
+    if (!query) { resultsSlot.replaceChildren(); return; }
+    const data = await api("GET", `/api/lookup?q=${encodeURIComponent(query)}`).catch(() => null);
+    if (!data) return;
+    const nodes = [];
+    for (const card of data.vocabulary) {
+      nodes.push(el("div", { class: "spread lookup-row" },
+        el("span", {}, el("strong", { class: "ko", text: card.ko }), `  ${card.en}${card.note ? " — " + card.note : ""}`,
+          el("span", { class: "small muted", text: `  · ${card.pack_id}` })),
+        speakButton(card.ko)));
+    }
+    for (const point of data.grammar) {
+      nodes.push(el("div", { class: "lookup-row" },
+        el("div", {}, el("strong", { class: "ko", text: point.pattern }), `  ${point.explanation}`,
+          el("span", { class: "small muted", text: `  · ${point.pack_id}` })),
+        point.example ? el("div", { class: "small muted ko" }, `예: ${point.example}`, speakButton(point.example)) : null));
+    }
+    resultsSlot.replaceChildren(nodes.length ? el("div", { class: "card stack" }, ...nodes)
+      : el("p", { class: "small muted", text: "Nothing taught in your packs matches that." }));
+  };
+  searchInput.addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(runLookup, 250); });
+
   render(
     ...header("Practice", "Short focused tools around the same content as the exams."),
+    searchInput, resultsSlot,
     el("div", { class: "grid" }, ...PRACTICE_MODES.map((mode) =>
       el("div", { class: "card stack" },
         el("strong", { text: mode.name }),
         el("span", { class: "small muted", text: mode.desc }),
         el("button", { onclick: () => go(`#/practice/${mode.key}`), text: "Start" })))),
   );
+  searchInput.focus();
 }
 
 const NUMBER_CATEGORIES = ["mix", "sino", "native", "count", "money", "date", "time", "math", "phone", "ordinal"];
 
+async function hangulView() {
+  const data = await api("GET", "/api/hangul");
+  const jamoRow = (row) => el("div", { class: "spread lookup-row" },
+    el("span", {}, el("strong", { class: "ko jamo-big", text: row.jamo }),
+      row.name ? el("span", { class: "muted ko", text: `  ${row.name}` }) : null,
+      `  ${row.sound}`));
+  render(
+    ...header("Read Hangul — 한글 읽기", "The from-zero on-ramp: sounds, blocks, and reading practice."),
+    el("div", { class: "card stack" }, el("p", { text: data.how_blocks_work })),
+    el("div", { class: "card stack" }, el("h2", { text: "Sounding out blocks" }),
+      ...data.walkthroughs.map((example) => el("div", { class: "lookup-row" },
+        el("div", { class: "row" },
+          el("strong", { class: "ko jamo-big", text: example.word }),
+          el("span", { class: "muted", text: `${example.parts}  →  ${example.reading}` }),
+          speakButton(example.word)),
+        el("div", { class: "small muted", text: example.note })))),
+    el("div", { class: "card stack" }, el("h2", { text: "Consonants" }), ...data.consonants.map(jamoRow),
+      el("h2", { text: "Tense consonants" }), ...data.tense_consonants.map(jamoRow)),
+    el("div", { class: "card stack" }, el("h2", { text: "Vowels" }), ...data.vowels.map(jamoRow),
+      el("h2", { text: "Compound vowels" }),
+      el("p", { class: "ko", text: data.compound_vowels.map((v) => `${v.jamo} ${v.sound}`).join(" · ") })),
+    el("div", { class: "card stack" },
+      el("h2", { text: "Reading practice — click a block to hear it" }),
+      el("div", { class: "syllable-grid" },
+        ...data.syllable_grid.rows.flat().map((syllable) =>
+          el("button", { class: "syllable-cell ko", text: syllable, onclick: () => say(syllable) }))),
+      el("p", { class: "small muted", text: data.batchim }),
+      el("p", { class: "small muted", text: data.romanization })),
+    el("div", { class: "row" },
+      el("button", { class: "primary", text: "Practice typing these →", onclick: () => go("#/practice/typing") }),
+      el("button", { text: "Back to practice", onclick: () => go("#/practice") })),
+  );
+}
+
 async function practiceConfigView(mode) {
+  if (mode === "hangul") return hangulView();
   if (mode === "compose") return composeView();
   if (mode === "facts") return factsView();
   const spec = PRACTICE_MODES.find((m) => m.key === mode);
@@ -640,6 +720,33 @@ async function practiceConfigView(mode) {
     } catch (error) { toast(error.message); }
   };
 
+  const extras = [];
+  if (mode === "numbers") {
+    // Learn before being drilled: both systems as tables, on demand.
+    const sheetSlot = el("div");
+    extras.push(el("div", { class: "row" },
+      el("button", {
+        text: "📖 Learn the two systems first",
+        onclick: async (event) => {
+          const sheet = await api("GET", "/api/numbers/guide");
+          event.target.remove();
+          sheetSlot.replaceChildren(el("div", { class: "card stack" },
+            el("h2", { text: "Sino-Korean (일 이 삼 …) — dates, money, minutes, phone, math" }),
+            el("p", { class: "ko", text: sheet.sino.map((r) => `${r.n.toLocaleString()} ${r.reading}`).join(" · ") }),
+            el("h2", { text: "Native Korean (하나 둘 셋 …) — counting, age, the hour (1–99)" }),
+            el("p", { class: "ko", text: sheet.native.map((r) => `${r.n} ${r.reading}`).join(" · ") }),
+            el("p", { class: "small muted ko", text: "Before a counter: " + sheet.native.filter((r) => r.counter_form).map((r) => `${r.reading} → ${r.counter_form}`).join(" · ") }),
+            el("h2", { text: "Common counters" }),
+            el("p", { class: "ko", text: sheet.counters.map((c) => `${c.counter} ${c.meaning}`).join(" · ") }),
+            el("h2", { text: "Which system?" }),
+            el("table", { class: "list" }, ...sheet.usage.map((row) => el("tr", {},
+              el("td", { text: row.context }),
+              el("td", {}, el("span", { class: "pill on", text: row.system })),
+              el("td", { class: "small muted ko", text: row.example }))))));
+        },
+      })), sheetSlot);
+  }
+
   render(
     ...header(spec.name, spec.desc),
     el("div", { class: "card stack" },
@@ -647,6 +754,7 @@ async function practiceConfigView(mode) {
       mode !== "flashcards" ? el("label", { class: "field" }, "How many", countInput) : null,
       categorySelect ? el("label", { class: "field" }, "Category", categorySelect) : null,
       el("div", { class: "row" }, el("button", { class: "primary", onclick: start, text: "Start" }))),
+    ...extras,
   );
 }
 
@@ -689,8 +797,15 @@ async function drillView(id) {
   if (item.audio) {
     container.append(el("div", { class: "row" },
       el("button", { onclick: () => playUrls([`/api/activity/${id}/audio`]), text: "▶ Play" }),
+      item.dictation ? el("button", {
+        title: "Play again at 3/4 speed", text: "🐢 Slower",
+        onclick: () => playUrls([`/api/activity/${id}/audio?slow=1`]),
+      }) : null,
       item.dictation ? el("span", { class: "small muted", text: "Listen, then type what you heard." }) : null));
     if (item.dictation) playUrls([`/api/activity/${id}/audio`]);
+  }
+  if (item.kind === "pattern") {
+    container.append(el("p", { class: "small muted", text: GRAMMAR_LEGEND }));
   }
 
   const input = el("input", { type: "text", lang: "ko", placeholder: item.options ? "Type the number of your choice (or the answer)" : "Type your answer…" });
@@ -777,6 +892,7 @@ function cardsView() {
     el("div", { class: "spread" },
       el("strong", { text: deck.title }),
       el("button", { class: "ghost", text: "Stop", onclick: () => finish(true) })),
+    deck.kind === "grammar" ? el("p", { class: "small muted", text: GRAMMAR_LEGEND }) : null,
     container,
   );
 
