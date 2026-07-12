@@ -241,7 +241,12 @@ def fact_card(fact: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def course_list(pack_title: str, courses: list[dict[str, Any]], done: set[str]) -> str:
+def course_list(
+    pack_title: str,
+    courses: list[dict[str, Any]],
+    done: set[str],
+    homework: dict[str, str] | None = None,
+) -> str:
     lines = [rule(f"Course · {pack_title}")]
     for index, course in enumerate(courses, start=1):
         mark = ansi.style("✓", ansi.GREEN) if course.get("id") in done else " "
@@ -251,7 +256,11 @@ def course_list(pack_title: str, courses: list[dict[str, Any]], done: set[str]) 
         title = str(course.get("title", course.get("id", "?")))
         title_ko = str(course.get("title_ko", "")).strip()
         ko = f"  {ansi.style(title_ko, ansi.DIM)}" if title_ko else ""
-        meta = ansi.style(f"{nv} words · {ng} grammar · {nq} questions", ansi.GREY)
+        meta_text = f"{nv} words · {ng} grammar · {nq} questions"
+        hw_note = (homework or {}).get(str(course.get("id")))
+        if hw_note:
+            meta_text += f" · homework {hw_note}"
+        meta = ansi.style(meta_text, ansi.GREY)
         lines.append(f"  {mark} {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {title}{ko}  {meta}")
     lines.append("Type a number to start a course, or press Enter to cancel.")
     return "\n".join(lines)

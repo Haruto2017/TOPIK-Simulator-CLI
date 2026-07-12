@@ -73,6 +73,15 @@ COMMANDS: list[Command] = [
         "Examples: /course · /course topik-i-authentic-mock-01",
     ),
     Command(
+        "homework", "cmd_homework", "/homework [pack] [lesson]", "Do the homework for a course lesson: validate its vocab and grammar.", ("hw",),
+        category="Take a test",
+        details="Each course lesson gets an auto-generated assignment from exactly what it taught:\n"
+        "type the Korean for a gloss, pick meanings and grammar patterns from options (answer\n"
+        "with the number), and fill blanks in the example sentences. Scores are saved per lesson\n"
+        "(best kept); /course shows them next to each lesson. Bare /homework picks a pack;\n"
+        "with a pack it lists lessons. Examples: /homework · /homework topik-i-mini-pack · /homework topik-i-mini-pack 1",
+    ),
+    Command(
         "review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before.",
         category="Take a test",
         details="No argument: starts the one pack with items due, or lists due counts per pack.\n"

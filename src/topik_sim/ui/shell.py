@@ -36,6 +36,7 @@ COMPOSE_TYPE = "compose_type"
 COMPOSE_GRADE = "compose_grade"
 COURSE_PICK = "course_pick"
 COURSE_STEP = "course_step"
+HOMEWORK_PICK = "homework_pick"
 PICK = "pick"
 PICK_PACK = "pick_pack"
 MENU = "menu"
@@ -125,6 +126,9 @@ class Shell:
         self._course: dict[str, Any] | None = None
         self._course_pack: Any = None
         self._course_list: list[dict[str, Any]] = []
+        self._homework_pack: Any = None
+        self._homework_courses: list[dict[str, Any]] = []
+        self._typing_homework: tuple[str, str] | None = None
         self.compose_path = Path(compose_path) if compose_path is not None else DEFAULT_COMPOSE_PATH
         self._compose_rng = random.Random(flashcard_seed)
         self._lessons: list[dict[str, Any]] | None = None
@@ -211,6 +215,8 @@ class Shell:
             self._handle_course_pick(text)
         elif self.state == COURSE_STEP:
             self._handle_course_step(text)
+        elif self.state == HOMEWORK_PICK:
+            self._handle_homework_pick(text)
         elif self.state == COMPOSE_PICK:
             self._handle_lesson_pick(text)
         elif self.state == COMPOSE_TYPE:
@@ -696,8 +702,11 @@ class Shell:
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
             self._typing_missed.append(item["answer"])
-            expected = " / ".join(item["accept"])
-            self.emit(ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED) + f" — {keystroke_hint(item['answer'])}")
+            expected = item.get("reveal") or " / ".join(item["accept"])
+            line = ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED)
+            if not item.get("options"):
+                line += f" — {keystroke_hint(item['answer'])}"
+            self.emit(line)
         meaning = item.get("meaning")
         if meaning:
             self.emit(ansi.style(f"  {meaning}", ansi.GREY))
@@ -718,6 +727,18 @@ class Shell:
         if self._typing_missed:
             review = " · ".join(f"{item} ({keystrokes(item)})" for item in dict.fromkeys(self._typing_missed))
             self.emit(f"Practice again: {review}")
+        homework = self._typing_homework
+        self._typing_homework = None
+        if homework is not None and done and not early:
+            from ..homework import record_homework
+
+            pack_id, course_id = homework
+            entry = record_homework(self.attempt_dir, pack_id, course_id, self._typing_hits, done)
+            self.emit(
+                f"Homework saved: {self._typing_hits}/{done}"
+                f" · best {entry.get('best_correct', 0)}/{entry.get('best_total', 0)}"
+                f" · run {entry.get('runs', 1)}"
+            )
         self._typing_items = []
         self._typing_index = 0
         self._typing_hits = 0
@@ -873,6 +894,10 @@ class Shell:
             return
         if self.state == COURSE_PICK:
             self._course_list = []
+            self.state = IDLE
+        elif self.state == HOMEWORK_PICK:
+            self._homework_courses = []
+            self._homework_pack = None
             self.state = IDLE
         elif self.state in {FLASH_FRONT, FLASH_BACK}:
             self._end_flashcards(early=True)
@@ -1202,10 +1227,18 @@ class Shell:
         self._course_pack = pack
         self._course_list = courses
         done = set((load_progress(self.attempt_dir).get(pack.pack_id) or {}).keys())
-        self.emit(render.course_list(pack.title, courses, done))
+        from ..homework import homework_entry, load_homework_progress
+
+        hw_progress = load_homework_progress(self.attempt_dir)
+        homework = {}
+        for course in courses:
+            entry = homework_entry(hw_progress, pack.pack_id, str(course.get("id")))
+            if entry:
+                homework[str(course.get("id"))] = f"{entry.get('best_correct', 0)}/{entry.get('best_total', 0)}"
+        self.emit(render.course_list(pack.title, courses, done, homework))
         self.state = COURSE_PICK
 
-    def _open_course_pack_picker(self) -> bool:
+    def _open_course_pack_picker(self, action: str = "course") -> bool:
         from ..courses import packs_with_courses
 
         try:
@@ -1217,8 +1250,9 @@ class Shell:
         if not entries:
             return False
         self._pack_pick_refs = [e["pack_id"] for e in entries]
-        self._pack_pick_action = "course"
-        self.emit(render.rule("Pick a pack to study as a course"))
+        self._pack_pick_action = action
+        label = "Pick a pack to study as a course" if action == "course" else "Pick a pack to do homework for"
+        self.emit(render.rule(label))
         for index, entry in enumerate(entries, start=1):
             n = len(courses_for(entry["pack_id"], self.courses_path))
             self.emit(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {entry.get('title', entry['pack_id'])}  {ansi.style(f'{n} courses', ansi.GREY)}")
@@ -1318,7 +1352,10 @@ class Shell:
         review = str(course.get("review", "")).strip()
         if review:
             self.emit(review)
-        self.emit("/course continues with the next one.")
+        self.emit(
+            f"Solidify it: /homework {pack_id} {course.get('order', 1)} validates this lesson's"
+            " vocabulary and grammar. /course continues with the next one."
+        )
         self._course = None
         self.state = IDLE
 
@@ -1333,6 +1370,98 @@ class Shell:
             self._reset_session()
         self.emit("Left the course. Finished steps are saved.")
         self.state = IDLE
+
+    def cmd_homework(self, argument: str) -> None:
+        from ..courses import courses_for
+        from ..homework import homework_entry, load_homework_progress
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        pack_ref: str | None = None
+        lesson_num: int | None = None
+        for part in argument.split():
+            if part.isdigit():
+                lesson_num = int(part)
+            elif pack_ref is None:
+                pack_ref = part
+        if pack_ref is None:
+            if lesson_num is not None:
+                self.emit("Name the pack first: /homework <pack> [lesson]")
+                return
+            if not self._open_course_pack_picker("homework"):
+                self.emit("No courses are available yet. Courses ship with the bundled exam packs.")
+            return
+        try:
+            pack = self._resolve_pack(pack_ref)
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            return
+        courses = courses_for(pack.pack_id, self.courses_path)
+        if not courses:
+            self.emit(f"No course is defined for {pack.pack_id}, so there is no homework yet.")
+            return
+        if lesson_num is not None:
+            if not 1 <= lesson_num <= len(courses):
+                self.emit(f"Pick a lesson from 1 to {len(courses)}.")
+                return
+            self._start_homework(pack, courses[lesson_num - 1])
+            return
+        self._homework_pack = pack
+        self._homework_courses = courses
+        progress = load_homework_progress(self.attempt_dir)
+        self.emit(render.rule(f"Homework · {pack.title}"))
+        for index, course in enumerate(courses, start=1):
+            entry = homework_entry(progress, pack.pack_id, str(course.get("id")))
+            if entry:
+                mark = ansi.style("✓", ansi.GREEN)
+                note = f"best {entry.get('best_correct', 0)}/{entry.get('best_total', 0)} · {entry.get('runs', 1)} run(s)"
+            else:
+                mark = " "
+                note = "not done"
+            title = str(course.get("title", course.get("id", "?")))
+            self.emit(
+                f"  {mark} {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {title}"
+                f"  {ansi.style(note, ansi.GREY)}"
+            )
+        self.emit("Type a number to start that lesson's homework, or press Enter to cancel.")
+        self.state = HOMEWORK_PICK
+
+    def _handle_homework_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._homework_courses = []
+            self._homework_pack = None
+            self.state = IDLE
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._homework_courses):
+            course = self._homework_courses[int(text) - 1]
+            pack = self._homework_pack
+            self._homework_courses = []
+            self._homework_pack = None
+            self._start_homework(pack, course)
+            return
+        self.emit(f"Type a number from 1 to {len(self._homework_courses)}, or press Enter to cancel.")
+
+    def _start_homework(self, pack: Any, course: dict[str, Any]) -> None:
+        from ..homework import build_homework
+
+        items = build_homework(course, pack=pack, seed=self._flashcard_seed)
+        if not items:
+            self.emit("This lesson has no vocabulary or grammar to practice yet.")
+            return
+        self._typing_homework = (pack.pack_id, str(course.get("id")))
+        self.emit(render.rule(f"Homework · Lesson {course.get('order', '?')}"))
+        title_ko = str(course.get("title_ko", "")).strip()
+        header = str(course.get("title", "")) + (ansi.style(f"  ({title_ko})", ansi.DIM) if title_ko else "")
+        self.emit(ansi.style(header, ansi.BOLD, ansi.CYAN))
+        for objective in course.get("objectives", []):
+            self.emit(f"  • {objective}")
+        self._start_typing(
+            items, label="Homework", verb="Solved", title="Validate what this lesson taught:",
+            hint="type the answer — options take their number · /say speaks it · /pause stops",
+        )
 
     def cmd_stats(self, argument: str) -> None:
         from ..stats import collect_stats, format_stats
@@ -1705,6 +1834,7 @@ class Shell:
                 "flashcards": self.cmd_flashcards,
                 "dictation": self.cmd_dictation,
                 "course": self.cmd_course,
+                "homework": self.cmd_homework,
             }[action]
             handler(ref)
             return
@@ -1870,7 +2000,7 @@ def _make_completer(shell: Shell):
             name = command_token[1:].lower()
             if " " in argument:
                 return
-            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate", "course"}:
+            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate", "course", "homework", "hw"}:
                 for ref, meta in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(

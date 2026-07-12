@@ -23,6 +23,7 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 - `src/topik_sim/grading.py` — scoring + teaching feedback assembly
 - `src/topik_sim/attempts.py` / `session.py` — attempt persistence, timing, and the present→submit→advance→finalize state machine
 - `src/topik_sim/activities.py` / `srs.py` — attempt builders (exam, drill) and the spaced-repetition review queue
+- `src/topik_sim/courses.py` / `homework.py` — guided courses over a pack and per-lesson auto-generated homework (recall, meaning/pattern choice, cloze) with saved best scores
 - `src/topik_sim/flashcards.py` / `dictation.py` / `numbers.py` — shell-side practice modes (`numbers.py` renders Sino/native Korean numbers and builds the `/numbers` drill)
 - `src/topik_sim/stats.py` / `report.py` — cross-attempt accuracy stats and Markdown study reports
 - `src/topik_sim/library.py` — versioned content library with checksums

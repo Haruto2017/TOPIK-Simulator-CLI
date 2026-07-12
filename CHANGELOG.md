@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Course homework**: `/homework <pack> [lesson]` (alias `/hw`) gives every
+  course lesson a textbook-style assignment that validates exactly the
+  vocabulary and grammar it introduced — generated from the lesson itself, no
+  authored content needed. Exercise kinds: type the Korean for a gloss, pick a
+  word's meaning from options, match a grammar pattern to its explanation, and
+  fill the blanked word in the pattern's example sentence. Multiple-choice
+  answers accept the option number or the full text. Completed runs are saved
+  per lesson (best score kept); `/course` shows each lesson's homework score,
+  and finishing a course lesson points at its homework. New module
+  `src/topik_sim/homework.py`.
+
 - **Advanced typing mode**: `/typing advanced` (aliases `adv`, `pro`) skips the
   jamo/syllable warm-up and drills only meaningful items — real vocabulary words
   plus full sentences pulled from the `/compose` lessons — shuffled together,
