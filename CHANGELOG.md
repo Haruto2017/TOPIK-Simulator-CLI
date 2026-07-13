@@ -87,7 +87,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   vocabulary and grammar it introduced — generated from the lesson itself, no
   authored content needed. Six exercise kinds: type the Korean for a gloss,
   pick a word's meaning from options, match a grammar pattern to its
-  explanation, fill the blanked word in the pattern's example sentence,
+  explanation, **conjugate the verb that fills a grammar example's blank** (the
+  conjugated verb is blanked at every occurrence; the prompt gives its
+  dictionary form and the target ending, so the answer is a transformation the
+  learner applies — never a random word copied back),
   **write a full sentence** using the lesson's pattern (pulled from the
   compose corpus, most-specific structure wins, accepted variants honored,
   punctuation-tolerant grading), and **conjugate the lesson's own verbs** with

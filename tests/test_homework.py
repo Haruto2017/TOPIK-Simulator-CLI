@@ -113,13 +113,27 @@ class BuildHomeworkTests(unittest.TestCase):
             for option in item["options"]:
                 self.assertIn(option, item["show"])
 
-    def test_cloze_blanks_a_vocabulary_word_inside_the_example(self):
+    def test_cloze_asks_the_learner_to_conjugate_the_blanked_verb(self):
+        from topik_sim.conjugation import formal_polite
+
         items = [i for i in build_homework(LESSON, seed=0) if i["kind"] == "cloze"]
-        self.assertEqual(len(items), 2)
+        self.assertTrue(items)
         for item in items:
             self.assertIn("____", item["show"])
-            self.assertNotIn(item["answer"], item["show"].split("____")[0].split(":")[-1] + item["show"].split("____")[-1])
-            self.assertIn(item["answer"], {"날씨", "도서관", "책", "읽다", "오늘", "좋다"})
+            self.assertIn("conjugate", item["show"].lower())
+            # The answer is a conjugated form (a transformation), not the
+            # dictionary word copied verbatim, and reinserting it rebuilds the
+            # original example sentence.
+            answer = item["answer"]
+            self.assertTrue(answer.endswith(("요", "다", "니다")))
+            example = item["speech"]
+            sentence = item["show"].split("  ", 1)[1]
+            # No leak: the answer never remains visible in the blanked sentence.
+            self.assertNotIn(answer, sentence)
+            self.assertEqual(sentence.replace("____", answer), example)
+            # the dictionary form named in the prompt really conjugates to it
+            dict_form = item["show"].split("conjugate ", 1)[1].split(" (", 1)[0]
+            self.assertEqual(formal_polite(dict_form), answer)
 
     def test_empty_lesson_yields_no_items(self):
         self.assertEqual(build_homework({"id": "x", "new_vocabulary": [], "new_grammar": []}), [])

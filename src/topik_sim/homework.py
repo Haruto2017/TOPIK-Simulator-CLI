@@ -12,7 +12,9 @@ Six exercise kinds are generated per lesson:
 - ``recall``      — the English gloss is shown, the Korean word is typed.
 - ``meaning``     — a Korean word is shown, its gloss is picked from options.
 - ``pattern``     — a grammar explanation is shown, its pattern is picked.
-- ``cloze``       — a grammar example with one word blanked out is completed.
+- ``cloze``       — a grammar example with its verb blanked out; the learner
+  conjugates the given dictionary form to fill it (only when the example
+  contains a conjugated lesson verb, so the answer is always a transformation).
 - ``compose``     — a full English sentence is written in Korean, pulled from
   the compose corpus for the lesson's own patterns (usage as real sentences).
 - ``conjugation`` — lesson verbs are conjugated with the ending the lesson
@@ -36,15 +38,8 @@ from pathlib import Path
 from typing import Any
 
 from .content import ExamPack
-from .hangul import decompose_syllable
 
 HOMEWORK_FILE = "homework_progress.json"
-
-_PUNCT = ".,!?…\"'()[]{}:;-—~"
-
-
-def _is_hangul_word(word: str) -> bool:
-    return bool(word) and all(decompose_syllable(char) is not None for char in word)
 
 
 def _lesson_vocab(course: dict[str, Any]) -> list[dict[str, str]]:
@@ -100,20 +95,59 @@ def _choice_item(show: str, options: list[str], answer: str, rng: random.Random)
     }
 
 
-def _cloze(example: str, vocab_words: list[str], rng: random.Random) -> tuple[str, str] | None:
-    """Blank one word in the example: a lesson vocabulary word when one occurs
-    (particles attach directly, so substring replacement is safe), otherwise
-    the longest pure-Hangul token."""
-    hits = sorted((w for w in vocab_words if w and w in example), key=len, reverse=True)
-    if hits:
-        word = rng.choice(hits[: min(3, len(hits))])
-        return example.replace(word, "____", 1), word
-    tokens = [token.strip(_PUNCT) for token in example.split()]
-    tokens = [t for t in tokens if len(t) >= 2 and _is_hangul_word(t)]
-    if not tokens:
+def _conjugation_cloze(
+    point: dict[str, str],
+    vocab: list[dict[str, str]],
+    used: set[str],
+    rng: random.Random,
+) -> dict[str, Any] | None:
+    """Blank a conjugated verb in the grammar example; the learner conjugates
+    the given dictionary form to fill it.
+
+    A meaningful cloze requires a transformation: we look for a lesson verb
+    whose conjugation — in the ending this pattern teaches, or the everyday
+    polite levels — actually appears in the example, blank that form, and hand
+    back the dictionary form plus the target ending. If nothing traces back to
+    a lesson verb, there is no cloze for this point (we never blank a random
+    word to be copied).
+    """
+    from .conjugation import DRILL_FORMS, is_conjugatable, match_ending
+
+    example = point.get("example", "")
+    if not example:
         return None
-    word = max(tokens, key=len)
-    return example.replace(word, "____", 1), word
+    verbs = [(v["ko"], v["en"]) for v in vocab if is_conjugatable(v["ko"], v["en"])]
+    if not verbs:
+        return None
+
+    # Prefer the ending this grammar point teaches, then the common polite
+    # levels; each candidate is (short label, form builder).
+    candidates: list[tuple[str, Any]] = []
+    spec = match_ending(point.get("pattern", ""))
+    if spec is not None:
+        candidates.append((spec["display"].split(" (")[0], spec["form"]))
+    candidates.extend((form["display"].split(" (")[0], form["form"]) for form in DRILL_FORMS)
+
+    rng.shuffle(verbs)
+    # Prefer a verb not already blanked in another point this session.
+    for ko, en in sorted(verbs, key=lambda pair: pair[0] in used):
+        for short, form in candidates:
+            conjugated = form(ko)
+            if conjugated and conjugated in example:
+                used.add(ko)
+                # Blank *every* occurrence so a repeated form (e.g. a Q and its
+                # echoed answer) never leaves the answer visible in the sentence.
+                blanked = example.replace(conjugated, "____")
+                return {
+                    "kind": "cloze",
+                    "show": f"Fill the blank — conjugate {ko} ({en}) to {short}:  " + blanked,
+                    "accept": [conjugated],
+                    "answer": conjugated,
+                    "speech": example,
+                    "miss_key": conjugated,
+                    "meaning": f"{ko} → {conjugated}  ·  {example}",
+                }
+    return None
 
 
 def _compose_items(
@@ -274,23 +308,12 @@ def build_homework(
                      "meaning": point["example"]})
         items.append(item)
 
-    # --- grammar in context: fill the blank in the example sentence
-    vocab_words = [entry["ko"] for entry in vocab]
+    # --- grammar in context: conjugate the verb that fills the example's blank
+    blanked_verbs: set[str] = set()
     for point in grammar:
-        if not point["example"]:
-            continue
-        blanked = _cloze(point["example"], vocab_words, rng)
-        if blanked is None:
-            continue
-        sentence, word = blanked
-        items.append({
-            "kind": "cloze",
-            "show": f"Fill the blank ({point['pattern']}):  {sentence}",
-            "accept": [word],
-            "answer": word,
-            "speech": point["example"],
-            "meaning": point["example"],
-        })
+        cloze = _conjugation_cloze(point, vocab, blanked_verbs, rng)
+        if cloze is not None:
+            items.append(cloze)
 
     # --- conjugation: apply the lesson's ending to the lesson's own verbs
     items.extend(_conjugation_items(grammar, vocab, rng))
