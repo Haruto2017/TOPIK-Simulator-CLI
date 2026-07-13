@@ -262,8 +262,14 @@ def build_homework(
     max_meaning: int = 4,
     compose_path: Any = None,
 ) -> list[dict[str, Any]]:
-    """The assignment for one course lesson, deterministic per lesson."""
-    rng = random.Random(f"{course.get('id', '')}:{seed}")
+    """A fresh assignment for one course lesson, drawn from what it taught.
+
+    With no seed (the normal case) each run re-rolls: a different fair cut of
+    the lesson's own vocabulary and grammar, so re-doing homework validates the
+    lesson rather than one memorized set. Passing an explicit ``seed`` makes it
+    reproducible (tests, and any "give me that exact assignment again" caller).
+    """
+    rng = random.Random(f"{course.get('id', '')}:{seed}") if seed is not None else random.Random()
     vocab = _lesson_vocab(course)
     grammar = _lesson_grammar(course)
     items: list[dict[str, Any]] = []

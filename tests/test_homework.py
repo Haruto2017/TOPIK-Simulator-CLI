@@ -138,6 +138,17 @@ class BuildHomeworkTests(unittest.TestCase):
     def test_empty_lesson_yields_no_items(self):
         self.assertEqual(build_homework({"id": "x", "new_vocabulary": [], "new_grammar": []}), [])
 
+    def test_unseeded_runs_reroll_but_seeded_runs_reproduce(self):
+        pack = load_pack(SAMPLE_PACK)
+        # No seed → each run is a fresh cut of the lesson's pool.
+        runs = {tuple(i["show"] for i in build_homework(LESSON, pack=pack)) for _ in range(6)}
+        self.assertGreater(len(runs), 1, "homework should re-roll when unseeded")
+        # An explicit seed pins it (so tests and re-fetches are reproducible).
+        self.assertEqual(
+            [i["show"] for i in build_homework(LESSON, pack=pack, seed=7)],
+            [i["show"] for i in build_homework(LESSON, pack=pack, seed=7)],
+        )
+
 
 class HomeworkProgressTests(unittest.TestCase):
     def test_record_keeps_best_and_counts_runs(self):
