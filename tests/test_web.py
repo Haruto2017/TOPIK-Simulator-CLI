@@ -364,6 +364,19 @@ class ReleasePatchTests(WebAppTestCase):
         self.assertTrue(saw_compose)
         self.assertEqual(result["summary"]["hits"], result["summary"]["total"])
 
+    def test_conjugation_forms_and_drill_across_tenses(self):
+        app = self.make_app(audio_enabled=False)
+        status, forms = app.handle("GET", "/api/conjugation/forms")
+        self.assertEqual(status, 200)
+        keys = {f["key"] for f in forms["forms"]}
+        self.assertTrue({"aeo", "seumnida", "past", "future", "if"} <= keys)
+        for form in ("past", "future", "if"):
+            status, view = app.handle("POST", "/api/drill/start",
+                                      body={"mode": "conjugate", "form": form, "pack": "topik-i-mini-pack"})
+            self.assertEqual(status, 200, form)
+            self.assertEqual(view["label"], "Conjugation")
+            self.assertIn("→", view["item"]["show"])
+
     def test_keyboard_chart_and_version(self):
         app = self.make_app(audio_enabled=False)
         status, keyboard = app.handle("GET", "/api/keyboard")

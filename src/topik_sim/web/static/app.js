@@ -604,7 +604,7 @@ const PRACTICE_MODES = [
   { key: "flashcards", name: "Flashcards", desc: "Vocabulary cards from a pack's teaching notes.", pack: "required" },
   { key: "grammar", name: "Grammar cards", desc: "Pattern on the front, what it does on the back.", pack: "optional" },
   { key: "recall", name: "Vocab recall", desc: "See the English, type the Korean.", pack: "optional" },
-  { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs into -아/어요 or -습니다; irregulars handled.", pack: "optional" },
+  { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs across tenses, connectives & modals; irregulars handled.", pack: "optional" },
   { key: "typing", name: "Typing", desc: "Korean keyboard trainer: jamo → syllables → words.", pack: "optional" },
   { key: "numbers", name: "Numbers", desc: "Sino & native numbers: dates, money, time, math — no digits.", pack: "none" },
   { key: "dictation", name: "Dictation", desc: "Listen and type what you hear.", pack: "required" },
@@ -703,10 +703,11 @@ async function practiceConfigView(mode) {
   const categorySelect = mode === "numbers"
     ? el("select", {}, ...NUMBER_CATEGORIES.map((c) => el("option", { value: c, text: c }))) : null;
   const advancedCheck = mode === "typing" ? el("input", { type: "checkbox" }) : null;
-  const formSelect = mode === "conjugate"
-    ? el("select", {},
-        el("option", { value: "aeo", text: "-아/어요 (informal polite)" }),
-        el("option", { value: "seumnida", text: "-습니다 (formal polite)" })) : null;
+  let formSelect = null;
+  if (mode === "conjugate") {
+    const forms = (await api("GET", "/api/conjugation/forms")).forms;
+    formSelect = el("select", {}, ...forms.map((f) => el("option", { value: f.key, text: f.display })));
+  }
 
   const start = async () => {
     const packValue = packSelect.value || undefined;

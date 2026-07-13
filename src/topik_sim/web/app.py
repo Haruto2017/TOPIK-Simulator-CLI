@@ -193,6 +193,10 @@ class WebApp:
             from ..numbers import cheat_sheet
 
             return 200, cheat_sheet()
+        if parts == ["conjugation", "forms"] and method == "GET":
+            from ..conjugation import DRILL_FORMS
+
+            return 200, {"forms": [{"key": s["key"], "display": s["display"]} for s in DRILL_FORMS]}
         if parts == ["lookup"] and method == "GET":
             from ..lookup import search_library
 

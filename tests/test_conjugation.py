@@ -33,14 +33,17 @@ class AttachAndMatchingTests(unittest.TestCase):
         self.assertEqual(attach("읽다", "지 않아요"), "읽지 않아요")
         self.assertIsNone(attach("우산", "고 싶어요"))
 
-    def test_match_ending_finds_supported_patterns_only(self):
-        self.assertIsNotNone(match_ending("-습니다"))
-        self.assertIsNotNone(match_ending("V-ㅂ니다/습니다"))
-        self.assertIsNotNone(match_ending("V-고 싶다"))
-        self.assertIsNotNone(match_ending("-지 않다"))
+    def test_match_ending_finds_supported_patterns(self):
+        self.assertEqual(match_ending("-습니다")["key"], "seumnida")
+        self.assertEqual(match_ending("V-고 싶다")["key"], "want")
+        self.assertEqual(match_ending("-지 않다")["key"], "not")
+        self.assertEqual(match_ending("-았/었어요")["key"], "past")
+        self.assertEqual(match_ending("-(으)ㄹ 거예요")["key"], "future")
+        self.assertEqual(match_ending("-(으)세요")["key"], "honorific")
+        self.assertEqual(match_ending("-(으)면")["key"], "if")
+        # Noun patterns and non-final forms still match nothing.
         self.assertIsNone(match_ending("N이에요/예요?"))
         self.assertIsNone(match_ending("N에서"))
-        self.assertIsNone(match_ending("-(으)세요"))  # irregular-sensitive: unsupported
         self.assertIsNone(match_ending("주시겠습니까"))  # 습니까 is not 습니다
 
     def test_is_conjugatable_requires_dictionary_form_and_verb_gloss(self):
@@ -48,6 +51,72 @@ class AttachAndMatchingTests(unittest.TestCase):
         self.assertTrue(is_conjugatable("좋다", "to be good"))
         self.assertFalse(is_conjugatable("우산", "umbrella"))
         self.assertFalse(is_conjugatable("바다", "sea"))  # ends in 다 but not a verb gloss
+
+
+class BroadEndingTests(unittest.TestCase):
+    """The class engine across tense, connectives, and modality — one hand-
+    verified value per (verb class, ending), spanning every irregular class."""
+
+    def check(self, rows):
+        from topik_sim.conjugation import conjugate
+        for word, form_key, expected in rows:
+            self.assertEqual(conjugate(word, form_key), expected, f"{word} [{form_key}]")
+
+    def test_past_tense_all_classes(self):
+        self.check([
+            ("먹다", "past", "먹었어요"), ("가다", "past", "갔어요"), ("하다", "past", "했어요"),
+            ("살다", "past", "살았어요"), ("듣다", "past", "들었어요"), ("춥다", "past", "추웠어요"),
+            ("짓다", "past", "지었어요"), ("쓰다", "past", "썼어요"), ("모르다", "past", "몰랐어요"),
+            ("그렇다", "past", "그랬어요"), ("마시다", "past", "마셨어요"),
+            ("먹다", "past_formal", "먹었습니다"), ("가다", "past_formal", "갔습니다"),
+        ])
+
+    def test_future_and_can_add_l_with_irregulars(self):
+        self.check([
+            ("먹다", "future", "먹을 거예요"), ("가다", "future", "갈 거예요"),
+            ("살다", "future", "살 거예요"), ("만들다", "future", "만들 거예요"),
+            ("듣다", "future", "들을 거예요"), ("춥다", "future", "추울 거예요"),
+            ("짓다", "future", "지을 거예요"), ("쓰다", "future", "쓸 거예요"),
+            ("먹다", "can", "먹을 수 있어요"), ("듣다", "can", "들을 수 있어요"),
+        ])
+
+    def test_eu_family_and_rieul_drop(self):
+        self.check([
+            ("먹다", "if", "먹으면"), ("가다", "if", "가면"), ("살다", "if", "살면"),
+            ("듣다", "if", "들으면"), ("춥다", "if", "추우면"), ("짓다", "if", "지으면"),
+            ("그렇다", "if", "그러면"), ("쓰다", "if", "쓰면"),
+            ("살다", "because", "사니까"), ("살다", "honorific", "사세요"),
+            ("만들다", "honorific", "만드세요"), ("먹다", "honorific", "먹으세요"),
+            ("듣다", "honorific", "들으세요"), ("춥다", "honorific", "추우세요"),
+        ])
+
+    def test_connectives_and_modals(self):
+        self.check([
+            ("먹다", "so", "먹어서"), ("가다", "so", "가서"), ("하다", "so", "해서"),
+            ("먹다", "must", "먹어야 해요"), ("가다", "must", "가야 해요"),
+            ("먹다", "want", "먹고 싶어요"), ("먹다", "not", "먹지 않아요"),
+            ("먹다", "progressive", "먹고 있어요"), ("먹다", "but", "먹지만"),
+            ("듣다", "want", "듣고 싶어요"),  # bare stem: no ㄷ→ㄹ before 고
+        ])
+
+    def test_never_guesses_an_irregular_stem(self):
+        from topik_sim.conjugation import conjugate, DRILL_FORMS
+
+        # Copulas conjugate to nothing at all.
+        for spec in DRILL_FORMS:
+            self.assertIsNone(conjugate("이다", spec["key"]), spec["key"])
+
+        # An unlisted ㅅ/르 irregular: every form built on the 아/어 or 으 stem
+        # is declined (never a wrong 긋어요/구르어요) — the engine only offers
+        # forms that need no irregular knowledge (formal polite, bare-stem
+        # concatenatives), and those are correct.
+        stem_dependent = {"aeo", "past", "past_formal", "future", "can",
+                          "if", "because", "so", "must", "honorific"}
+        for word in ("긋다", "구르다"):
+            for key in stem_dependent:
+                self.assertIsNone(conjugate(word, key), f"{word} [{key}]")
+        self.assertEqual(conjugate("긋다", "seumnida"), "긋습니다")   # safe, correct
+        self.assertEqual(conjugate("긋다", "want"), "긋고 싶어요")   # safe, correct
 
 
 class InformalPoliteTests(unittest.TestCase):

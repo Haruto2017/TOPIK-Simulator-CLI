@@ -710,9 +710,19 @@ class Shell:
         self.emit("")
         self.emit("Practice it: /numbers · /numbers count · /numbers date · /say 삼백사십칠 hears any reading.")
 
+    # Friendly words the learner can type → conjugation form keys.
+    _CONJUGATE_ALIASES = {
+        "polite": "aeo", "informal": "aeo", "해요": "aeo", "aeo": "aeo",
+        "formal": "seumnida", "습니다": "seumnida", "seumnida": "seumnida", "seum": "seumnida",
+        "past": "past", "past-formal": "past_formal", "pastformal": "past_formal",
+        "future": "future", "will": "future", "can": "can", "if": "if", "because": "because",
+        "so": "so", "must": "must", "honorific": "honorific", "please": "honorific",
+        "want": "want", "not": "not", "negation": "not",
+    }
+
     def cmd_conjugate(self, argument: str) -> None:
-        """Conjugate dictionary-form verbs into the polite speech levels."""
-        from ..conjugation import build_conjugation_items
+        """Conjugate dictionary-form verbs into a chosen ending."""
+        from ..conjugation import DRILL_FORMS, build_conjugation_items
 
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
@@ -721,14 +731,18 @@ class Shell:
         pack = None
         count = 12
         form_key = "aeo"
+        valid = {spec["key"] for spec in DRILL_FORMS}
         for part in argument.split():
             low = part.lower()
             if part.isdigit():
                 count = int(part)
-            elif low in {"formal", "seumnida", "습니다", "seum"}:
-                form_key = "seumnida"
-            elif low in {"polite", "informal", "해요", "aeo"}:
-                form_key = "aeo"
+            elif low == "list":
+                self.emit("Forms: " + " · ".join(f"{s['key']} = {s['display']}" for s in DRILL_FORMS))
+                return
+            elif low in self._CONJUGATE_ALIASES:
+                form_key = self._CONJUGATE_ALIASES[low]
+            elif low in valid:
+                form_key = low
             else:
                 try:
                     pack = self._resolve_pack(part)
@@ -742,11 +756,11 @@ class Shell:
         if not items:
             self.emit("No conjugatable verbs found. Import a pack, or name one: /conjugate <pack>")
             return
-        level = "informal polite (-아/어요)" if form_key == "aeo" else "formal polite (-습니다)"
+        display = next(s["display"] for s in DRILL_FORMS if s["key"] == form_key)
         self._start_typing(
             items, label="Conjugation", verb="Conjugated",
-            title=f"Conjugate to {level}:",
-            hint="type the conjugated form · the answer's reading follows · /pause stops",
+            title=f"Conjugate to {display}:",
+            hint="type the conjugated form · /conjugate list shows all forms · /pause stops",
         )
 
     def cmd_misses(self, argument: str) -> None:

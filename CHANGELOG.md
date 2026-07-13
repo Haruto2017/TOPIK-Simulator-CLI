@@ -11,18 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Conjugation practice with a real irregular-verb engine**: `/conjugate
-  [pack] [form] [count]` (alias `/conj`) and a web "Conjugation" practice mode
-  drill turning dictionary forms into the polite speech levels — `-아/어요`
-  (해요체, default) or `-습니다`. The new `src/topik_sim/conjugation.py` does
-  `-아/어요` properly: a regular algorithm handles vowel harmony, vowel
-  contractions (가→가요, 오→와요, 주→줘요, 마시→마셔요, 되→돼요), 하다→해요, and
-  safe consonant finals, while all five irregular classes (ㅂ 춥다→추워요, ㄷ
-  듣다→들어요, ㅅ 짓다→지어요, 르 모르다→몰라요, 으 쓰다→써요, ㅎ 그렇다→그래요)
-  come from a curated table. Anything the algorithm cannot prove and the table
-  does not know is skipped, so the drill never asks for a form the tool is
-  unsure of. Course homework's `conjugation` items gain `-아/어요` too. Verified
-  against 41 hand-checked forms.
+- **Conjugation practice — textbook-broad, rule-based**: `/conjugate [pack]
+  [form] [count]` (alias `/conj`) and a web "Conjugation" practice mode drill
+  turning dictionary forms into **16 endings** across tense, politeness,
+  connectives, and modality: present `-아/어요` and `-습니다`, past `-았/었어요`
+  and `-았/었습니다`, future `-(으)ㄹ 거예요`, `-지 않아요`, `-고 싶어요`,
+  `-(으)ㄹ 수 있어요`, `-(으)면`, `-(으)니까`, `-아서/어서`, `-아야/어야 해요`,
+  `-(으)세요`, `-고`, `-고 있어요`, `-지만`. `src/topik_sim/conjugation.py` is
+  now a class engine the way a textbook teaches: it classifies each verb
+  (하다/vowel/ㄹ/regular + the ㅂ/ㄷ/ㅅ/ㅎ/르/으 irregular classes) and derives
+  the 아/어 and 으 stems by rule, so it conjugates irregulars *correctly*
+  (듣다→들어요/들을 거예요/들으면, 춥다→추워요/추울 거예요, 살다→살아요/사세요/삽니다,
+  모르다→몰라요) rather than guessing. Ambiguous finals it cannot resolve with
+  certainty are skipped, never mis-conjugated. Verified against 120+
+  hand-checked forms spanning every class × ending. `/conjugate list` shows the
+  menu; the web offers a form selector (`GET /api/conjugation/forms`). Course
+  homework's `conjugation` and `cloze` items ride the same engine.
 
 - **Full CLI↔web learner parity**: a surface audit closed the last gaps in
   both directions. New shell `/misses [count]` (alias `/weak`) drills the

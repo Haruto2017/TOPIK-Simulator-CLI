@@ -1,23 +1,25 @@
 from __future__ import annotations
 
-"""Deterministic Korean conjugation for practice drills.
+"""Korean conjugation engine — textbook-broad, and never a guessed form.
 
-A learning tool must never teach a wrong form, so every conjugation here is
-either produced by an exception-free rule or read from a curated table — never
-guessed. Two speech levels are covered:
+A textbook does not memorize every conjugated word; it *classifies* a verb and
+applies the rules for that class. This module does the same:
 
-- **Formal polite** ``-습니다/-ㅂ니다`` — fully regular (consonant/vowel stems
-  plus the ㄹ-drop), no verb-class exceptions.
-- **Informal polite** ``-아/어요`` (해요체) — the everyday speech level, and the
-  hard one: vowel harmony, vowel contractions, and five irregular verb classes
-  (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ). The regular algorithm runs only on the *provably*
-  safe cases (하다, vowel stems, and consonant stems whose final can never be
-  irregular); anything ending in ㄷ/ㅂ/ㅅ/ㅎ or the ㅡ vowel is resolved from
-  ``KNOWN_AEO`` or skipped. So a verb the table does not know and the algorithm
-  cannot prove is simply left out of the drill (``conjugate`` returns None).
+1. ``_classify`` sorts a dictionary form into one class — HADA, VOWEL, RIEUL
+   (ㄹ-final), REGULAR (a consonant final that is never irregular), or one of
+   the five irregular classes B/D/S/H (ㅂ/ㄷ/ㅅ/ㅎ), REU (르), EU (으). The
+   ambiguous finals ㄷ/ㅂ/ㅅ/ㅎ and the bare ㅡ vowel cannot be told apart by
+   spelling, so those verbs must appear in ``CLASS_OVERRIDES``; anything
+   ambiguous and unlisted classifies as None and is simply skipped.
 
-Also the concatenative endings (``-고 싶어요`` etc.) that attach to the bare
-stem with no sound change.
+2. Two "magic stems" are built per class — the 아/어 stem (해요체) and the 으
+   stem — and from them ~16 endings across tense, politeness, connectives, and
+   modality are assembled mechanically. Every ending returns None whenever the
+   stem cannot be formed, so no wrong form is ever produced.
+
+The public surface (``formal_polite``, ``informal_polite``, ``attach``,
+``conjugate``, ``build_conjugation_items``, ``match_ending``,
+``SUPPORTED_ENDINGS``, ``DRILL_FORMS``, ``is_conjugatable``) is unchanged.
 """
 
 import random
@@ -28,23 +30,45 @@ from typing import Any, Callable
 from .content import ExamPack
 from .hangul import compose_syllable, decompose_syllable
 
-BRIGHT_VOWELS = {"ㅏ", "ㅗ"}          # take 아; everything else takes 어
-RISKY_FINALS = {"ㄷ", "ㅂ", "ㅅ", "ㅎ"}  # can be regular OR irregular — table only
-COPULAS = {"이다", "아니다"}          # 이에요/예요 — not drilled as plain verbs
+BRIGHT_VOWELS = {"ㅏ", "ㅗ"}
+RISKY_FINALS = {"ㄷ", "ㅂ", "ㅅ", "ㅎ"}
+COPULAS = {"이다", "아니다"}
 
-# Vowel-ending stem vowel + harmony vowel → the contracted vowel (가 + 아 → 가).
-_CONTRACTIONS = {
-    ("ㅏ", "ㅏ"): "ㅏ",  # 가 → 가요
-    ("ㅗ", "ㅏ"): "ㅘ",  # 오 → 와요, 보 → 봐요
-    ("ㅓ", "ㅓ"): "ㅓ",  # 서 → 서요, 건너 → 건너요
-    ("ㅜ", "ㅓ"): "ㅝ",  # 주 → 줘요, 배우 → 배워요
-    ("ㅣ", "ㅓ"): "ㅕ",  # 마시 → 마셔요, 기다리 → 기다려요
-    ("ㅐ", "ㅓ"): "ㅐ",  # 보내 → 보내요
-    ("ㅔ", "ㅓ"): "ㅔ",  # 세 → 세요
-    ("ㅚ", "ㅓ"): "ㅙ",  # 되 → 돼요
-    ("ㅕ", "ㅓ"): "ㅕ",  # 켜 → 켜요
+# Conjugation classes.
+HADA, VOWEL, RIEUL, REGULAR = "hada", "vowel", "rieul", "regular"
+B, D, S, H, REU, EU = "b", "d", "s", "h", "reu", "eu"
+
+# Verbs whose class cannot be read off the spelling (ambiguous ㄷ/ㅂ/ㅅ/ㅎ finals
+# and the bare ㅡ vowel). Regular risky-final verbs are listed as REGULAR so the
+# classifier knows they are safe; everything else here names its irregular class.
+CLASS_OVERRIDES: dict[str, str] = {
+    # ㅂ irregular
+    **{w: B for w in ("춥다", "덥다", "쉽다", "어렵다", "무겁다", "가볍다", "맵다",
+                       "뜨겁다", "차갑다", "아름답다", "반갑다", "고맙다", "즐겁다",
+                       "귀엽다", "눕다", "굽다", "돕다", "곱다")},
+    # ㅂ regular
+    **{w: REGULAR for w in ("입다", "잡다", "좁다", "씹다", "넓다")},
+    # ㄷ irregular
+    **{w: D for w in ("듣다", "걷다", "묻다", "싣다", "깨닫다")},
+    # ㄷ regular
+    **{w: REGULAR for w in ("닫다", "받다", "믿다", "얻다")},
+    # ㅅ irregular
+    **{w: S for w in ("짓다", "낫다", "붓다", "젓다")},
+    # ㅅ regular
+    **{w: REGULAR for w in ("웃다", "씻다", "벗다")},
+    # ㅎ irregular
+    **{w: H for w in ("그렇다", "어떻다", "이렇다", "저렇다", "빨갛다", "파랗다",
+                      "노랗다", "까맣다", "하얗다")},
+    # ㅎ regular
+    **{w: REGULAR for w in ("좋다", "놓다", "넣다", "낳다", "닿다")},
+    # 으 irregular (bare ㅡ, incl. 르-ending 으-irregulars 따르다/치르다/들르다)
+    **{w: EU for w in ("쓰다", "크다", "끄다", "뜨다", "바쁘다", "아프다", "고프다",
+                       "슬프다", "예쁘다", "기쁘다", "나쁘다", "모으다", "담그다",
+                       "따르다", "치르다", "들르다")},
+    # 르 irregular
+    **{w: REU for w in ("모르다", "다르다", "빠르다", "부르다", "고르다", "자르다",
+                        "흐르다", "오르다", "기르다", "누르다", "서두르다")},
 }
-_APPEND_VOWELS = {"ㅟ", "ㅢ"}  # 쉬 → 쉬어요, 뛰 → 뛰어요 (no contraction)
 
 
 def _stem(word: str) -> str | None:
@@ -58,13 +82,137 @@ def _stem(word: str) -> str | None:
     return stem
 
 
-def formal_polite(word: str) -> str | None:
-    """-습니다 / -ㅂ니다: 읽다 → 읽습니다, 가다 → 갑니다, 살다 → 삽니다.
+def _harmony(vowel: str) -> str:
+    return "ㅏ" if vowel in BRIGHT_VOWELS else "ㅓ"
 
-    Consonant stems take 습니다; vowel stems take ㅂ as the final consonant
-    plus 니다; ㄹ-final stems drop the ㄹ and do the same. No verb-class
-    exceptions apply to this ending.
-    """
+
+def _classify(word: str) -> str | None:
+    if word in COPULAS:
+        return None
+    stem = _stem(word)
+    if stem is None:
+        return None
+    if word in CLASS_OVERRIDES:
+        return CLASS_OVERRIDES[word]
+    if stem.endswith("하"):
+        return HADA
+    _, vowel, tail = decompose_syllable(stem[-1])
+    if tail == "":
+        if vowel == "ㅡ":       # 으/르 irregular — needs an override
+            return None
+        return VOWEL
+    if tail == "ㄹ":
+        return RIEUL
+    if tail in RISKY_FINALS:    # ambiguous, and no override — do not guess
+        return None
+    return REGULAR
+
+
+# Vowel-ending stem vowel + harmony vowel → contracted vowel.
+_CONTRACTIONS = {
+    ("ㅏ", "ㅏ"): "ㅏ", ("ㅗ", "ㅏ"): "ㅘ", ("ㅓ", "ㅓ"): "ㅓ", ("ㅜ", "ㅓ"): "ㅝ",
+    ("ㅣ", "ㅓ"): "ㅕ", ("ㅐ", "ㅓ"): "ㅐ", ("ㅔ", "ㅓ"): "ㅔ", ("ㅚ", "ㅓ"): "ㅙ",
+    ("ㅕ", "ㅓ"): "ㅕ",
+}
+_APPEND_VOWELS = {"ㅟ", "ㅢ"}
+
+
+def _aeo_stem(word: str) -> str | None:
+    """The 아/어 stem — the 해요체 form without 요 (가→가, 먹→먹어, 춥→추워)."""
+    cls = _classify(word)
+    if cls is None:
+        return None
+    stem = _stem(word)
+    lead, vowel, tail = decompose_syllable(stem[-1])
+    harmony = _harmony(vowel)
+    if cls == HADA:
+        return stem[:-1] + "해"
+    if cls == VOWEL:
+        if vowel == "ㅡ":
+            return None
+        combined = _CONTRACTIONS.get((vowel, harmony))
+        if combined is not None:
+            return stem[:-1] + compose_syllable(lead, combined)
+        if vowel in _APPEND_VOWELS:
+            return stem + compose_syllable("ㅇ", harmony)
+        return None
+    if cls in (REGULAR, RIEUL):
+        return stem + compose_syllable("ㅇ", harmony)
+    if cls == B:
+        base = stem[:-1] + compose_syllable(lead, vowel)
+        return base + ("와" if word in ("돕다", "곱다") else "워")
+    if cls == D:
+        return stem[:-1] + compose_syllable(lead, vowel, "ㄹ") + compose_syllable("ㅇ", harmony)
+    if cls == S:
+        return stem[:-1] + compose_syllable(lead, vowel) + compose_syllable("ㅇ", harmony)
+    if cls == H:
+        new_vowel = "ㅒ" if vowel == "ㅑ" else "ㅐ"
+        return stem[:-1] + compose_syllable(lead, new_vowel)
+    if cls == REU:
+        prev_lead, prev_vowel, _ = decompose_syllable(stem[-2])
+        return (stem[:-2] + compose_syllable(prev_lead, prev_vowel, "ㄹ")
+                + compose_syllable("ㄹ", _harmony(prev_vowel)))
+    if cls == EU:
+        prev_vowel = decompose_syllable(stem[-2])[1] if len(stem) >= 2 else "ㅓ"
+        return stem[:-1] + compose_syllable(lead, _harmony(prev_vowel))
+    return None
+
+
+def _eu_stem(word: str, drop_l: bool = False) -> str | None:
+    """The 으 stem: consonant stems add 으, vowel/ㄹ/ㅡ stems do not, and each
+    irregular class rewrites its final. ``drop_l`` removes a ㄹ-final's ㄹ, for
+    endings that begin with ㄴ/ㅂ/ㅅ (사세요, 사니까)."""
+    cls = _classify(word)
+    if cls is None:
+        return None
+    stem = _stem(word)
+    lead, vowel, tail = decompose_syllable(stem[-1])
+    if cls in (HADA, VOWEL, REU, EU):
+        return stem
+    if cls == RIEUL:
+        return stem[:-1] + compose_syllable(lead, vowel) if drop_l else stem
+    if cls == REGULAR:
+        return stem + compose_syllable("ㅇ", "ㅡ")
+    if cls == B:
+        return stem[:-1] + compose_syllable(lead, vowel) + "우"
+    if cls == D:
+        return stem[:-1] + compose_syllable(lead, vowel, "ㄹ") + compose_syllable("ㅇ", "ㅡ")
+    if cls == S:
+        return stem[:-1] + compose_syllable(lead, vowel) + compose_syllable("ㅇ", "ㅡ")
+    if cls == H:
+        return stem[:-1] + compose_syllable(lead, vowel)
+    return None
+
+
+def _past_stem(word: str) -> str | None:
+    """The 았/었 stem: the 아/어 stem with ㅆ closing its last syllable."""
+    aeo = _aeo_stem(word)
+    if aeo is None:
+        return None
+    lead, vowel, tail = decompose_syllable(aeo[-1])
+    if tail:
+        return None
+    return aeo[:-1] + compose_syllable(lead, vowel, "ㅆ")
+
+
+def _add_l(stem: str | None) -> str | None:
+    """Add the (으)ㄹ future/relative ㄹ to a 으 stem (먹으→먹을, 가→갈, 살→살)."""
+    if not stem:
+        return None
+    lead, vowel, tail = decompose_syllable(stem[-1])
+    if tail == "":
+        return stem[:-1] + compose_syllable(lead, vowel, "ㄹ")
+    if tail == "ㄹ":
+        return stem
+    return stem + "을"
+
+
+def _cat(stem: str | None, suffix: str) -> str | None:
+    return stem + suffix if stem else None
+
+
+def formal_polite(word: str) -> str | None:
+    """-습니다 / -ㅂ니다 (formal polite present)."""
     if word in COPULAS:
         return None
     stem = _stem(word)
@@ -76,133 +224,96 @@ def formal_polite(word: str) -> str | None:
     return stem + "습니다"
 
 
-# Curated -아/어요 forms: every verb whose final is ㄷ/ㅂ/ㅅ/ㅎ (ambiguous —
-# regular vs. irregular cannot be told from spelling) or whose stem vowel is ㅡ
-# (으/르 irregulars), plus the ㅎ-irregular adjectives and 되다/뵈다. Regular
-# risky-final verbs are listed too, because the algorithm refuses to guess them.
-KNOWN_AEO = {
-    # ㅂ irregular (ㅂ → 우 + 어 → 워)
-    "춥다": "추워요", "덥다": "더워요", "쉽다": "쉬워요", "어렵다": "어려워요",
-    "무겁다": "무거워요", "가볍다": "가벼워요", "맵다": "매워요", "뜨겁다": "뜨거워요",
-    "차갑다": "차가워요", "아름답다": "아름다워요", "반갑다": "반가워요", "고맙다": "고마워요",
-    "즐겁다": "즐거워요", "귀엽다": "귀여워요", "눕다": "누워요", "굽다": "구워요",
-    "돕다": "도와요", "곱다": "고와요",  # ㅂ → 오 (only these two)
-    # ㅂ regular
-    "입다": "입어요", "잡다": "잡아요", "좁다": "좁아요", "씹다": "씹어요",
-    # ㄷ irregular (ㄷ → ㄹ)
-    "듣다": "들어요", "걷다": "걸어요", "묻다": "물어요", "싣다": "실어요",
-    # ㄷ regular
-    "닫다": "닫아요", "받다": "받아요", "믿다": "믿어요", "얻다": "얻어요",
-    # ㅅ irregular (ㅅ drops, vowels stay uncontracted)
-    "짓다": "지어요", "낫다": "나아요", "붓다": "부어요", "젓다": "저어요",
-    # ㅅ regular
-    "웃다": "웃어요", "씻다": "씻어요", "벗다": "벗어요",
-    # ㅎ irregular (adjectives): stem ㅎ drops, vowel → ㅐ (ㅑ → ㅒ)
-    "그렇다": "그래요", "어떻다": "어때요", "이렇다": "이래요", "저렇다": "저래요",
-    "빨갛다": "빨개요", "파랗다": "파래요", "노랗다": "노래요", "까맣다": "까매요",
-    "하얗다": "하얘요",
-    # ㅎ regular
-    "좋다": "좋아요", "놓다": "놓아요", "넣다": "넣어요", "낳다": "낳아요", "닿다": "닿아요",
-    # 으 irregular (ㅡ drops; harmony from the syllable before)
-    "쓰다": "써요", "크다": "커요", "끄다": "꺼요", "뜨다": "떠요",
-    "바쁘다": "바빠요", "아프다": "아파요", "고프다": "고파요", "슬프다": "슬퍼요",
-    "예쁘다": "예뻐요", "기쁘다": "기뻐요", "나쁘다": "나빠요",
-    "모으다": "모아요", "담그다": "담가요",
-    "따르다": "따라요", "치르다": "치러요", "들르다": "들러요",  # 르-ending but 으-irregular
-    # 르 irregular (ㄹㄹ)
-    "모르다": "몰라요", "다르다": "달라요", "빠르다": "빨라요", "부르다": "불러요",
-    "고르다": "골라요", "자르다": "잘라요", "흐르다": "흘러요", "오르다": "올라요",
-    "기르다": "길러요", "누르다": "눌러요", "서두르다": "서둘러요",
-    # special vowel contractions worth pinning
-    "되다": "돼요", "뵈다": "봬요",
-}
-
-
 def informal_polite(word: str) -> str | None:
-    """-아/어요 (해요체). Returns None for any verb it cannot resolve safely."""
-    if word in COPULAS:
-        return None
-    stem = _stem(word)
-    if stem is None:
-        return None
-    if stem.endswith("하"):          # 하다 → 해요 (invariant)
-        return stem[:-1] + "해요"
-    if word in KNOWN_AEO:            # irregulars & risky-final regulars
-        return KNOWN_AEO[word]
-    lead, vowel, tail = decompose_syllable(stem[-1])
-    harmony = "ㅏ" if vowel in BRIGHT_VOWELS else "ㅓ"
-    if tail == "":                  # vowel-ending stem
-        if vowel == "ㅡ":           # 으/르 irregular — must be in the table
-            return None
-        combined = _CONTRACTIONS.get((vowel, harmony))
-        if combined is not None:
-            return stem[:-1] + compose_syllable(lead, combined) + "요"
-        if vowel in _APPEND_VOWELS:
-            return stem + compose_syllable("ㅇ", harmony) + "요"
-        return None                 # an uncommon vowel we will not guess
-    if tail in RISKY_FINALS:        # ㄷ/ㅂ/ㅅ/ㅎ not in the table — skip
-        return None
-    return stem + compose_syllable("ㅇ", harmony) + "요"
+    """-아/어요 (해요체 present)."""
+    return _cat(_aeo_stem(word), "요")
 
 
 def attach(word: str, suffix: str) -> str | None:
-    """Endings that join the stem unchanged: 읽다 + 고 싶어요 → 읽고 싶어요."""
+    """Endings that join the bare stem unchanged (읽다 + 고 → 읽고)."""
     if word in COPULAS:
         return None
-    stem = _stem(word)
-    if stem is None:
-        return None
-    return stem + suffix
+    return _cat(_stem(word), suffix)
 
 
 def _despace(text: str) -> str:
     return "".join(unicodedata.normalize("NFC", text).split())
 
 
-# Each supported ending: the despaced keys that identify it inside a lesson's
-# grammar pattern, a display name for the drill prompt, and the form builder.
-# Order matters — match_ending returns the first hit, so specific endings
-# precede the catch-all -아/어요.
-SUPPORTED_ENDINGS: list[dict[str, Any]] = [
-    {"keys": ["습니다", "ㅂ니다"], "display": "-습니다/-ㅂ니다 (formal polite)", "form": formal_polite},
-    {"keys": ["고싶"], "display": "-고 싶어요 (want to)", "form": lambda w: attach(w, "고 싶어요")},
-    {"keys": ["지않"], "display": "-지 않아요 (does not)", "form": lambda w: attach(w, "지 않아요")},
-    {"keys": ["지만"], "display": "-지만 (but)", "form": lambda w: attach(w, "지만")},
-    {"keys": ["아/어요", "아요/어요", "어요/아요", "해요체"], "display": "-아/어요 (informal polite)", "form": informal_polite},
+# The ending catalogue. Each entry drives both the standalone /conjugate drill
+# (all of them) and homework's grammar-pattern matching (those with match keys).
+# ``match`` keys are distinctive despaced substrings; order below is the
+# match precedence, so specific endings win over general ones.
+ENDINGS: list[dict[str, Any]] = [
+    {"key": "past", "display": "-았/었어요 (past)", "match": ["았어요", "었어요", "았/어요", "았/었어"],
+     "form": lambda w: _cat(_past_stem(w), "어요")},
+    {"key": "past_formal", "display": "-았/었습니다 (past formal)", "match": ["았습니다", "었습니다"],
+     "form": lambda w: _cat(_past_stem(w), "습니다")},
+    {"key": "seumnida", "display": "-습니다/-ㅂ니다 (formal polite)", "match": ["습니다", "ㅂ니다"],
+     "form": formal_polite},
+    {"key": "future", "display": "-(으)ㄹ 거예요 (will / intend to)", "match": ["ㄹ거예요", "ㄹ거에요", "(으)ㄹ거"],
+     "form": lambda w: _cat(_add_l(_eu_stem(w)), " 거예요")},
+    {"key": "can", "display": "-(으)ㄹ 수 있어요 (can)", "match": ["ㄹ수있", "ㄹ수없"],
+     "form": lambda w: _cat(_add_l(_eu_stem(w)), " 수 있어요")},
+    {"key": "honorific", "display": "-(으)세요 (honorific / please)", "match": ["(으)세요", "으세요"],
+     "form": lambda w: _cat(_eu_stem(w, drop_l=True), "세요")},
+    {"key": "if", "display": "-(으)면 (if / when)", "match": ["(으)면", "으면"],
+     "form": lambda w: _cat(_eu_stem(w), "면")},
+    {"key": "because", "display": "-(으)니까 (because)", "match": ["(으)니까", "으니까"],
+     "form": lambda w: _cat(_eu_stem(w, drop_l=True), "니까")},
+    {"key": "so", "display": "-아서/어서 (so / and then)", "match": ["아서", "어서", "아/어서"],
+     "form": lambda w: _cat(_aeo_stem(w), "서")},
+    {"key": "must", "display": "-아야/어야 해요 (must)", "match": ["아야", "어야", "아/어야"],
+     "form": lambda w: _cat(_aeo_stem(w), "야 해요")},
+    {"key": "want", "display": "-고 싶어요 (want to)", "match": ["고싶"],
+     "form": lambda w: attach(w, "고 싶어요")},
+    {"key": "progressive", "display": "-고 있어요 (be ...-ing)", "match": ["고있"],
+     "form": lambda w: attach(w, "고 있어요")},
+    {"key": "not", "display": "-지 않아요 (does not)", "match": ["지않"],
+     "form": lambda w: attach(w, "지 않아요")},
+    {"key": "but", "display": "-지만 (but)", "match": ["지만"],
+     "form": lambda w: attach(w, "지만")},
+    {"key": "and", "display": "-고 (and)", "match": [],
+     "form": lambda w: attach(w, "고")},
+    {"key": "aeo", "display": "-아/어요 (informal polite)", "match": ["아/어요", "아요/어요", "어요/아요", "해요체"],
+     "form": informal_polite},
 ]
+
+_BY_KEY = {spec["key"]: spec for spec in ENDINGS}
+
+# Endings matched from a lesson's grammar pattern (those with match keys),
+# in precedence order.
+SUPPORTED_ENDINGS: list[dict[str, Any]] = [spec for spec in ENDINGS if spec["match"]]
 
 
 def match_ending(pattern: str) -> dict[str, Any] | None:
-    """The supported ending taught by this grammar pattern, if any.
-
-    Keys are specific despaced substrings of the pattern text, so noun
-    patterns (N이에요, N에서 …) and example sentences that merely happen to end
-    in -어요 never match — the -아/어요 key requires the 아/어 alternation.
-    """
+    """The supported ending taught by this grammar pattern, if any."""
     haystack = _despace(pattern)
     for spec in SUPPORTED_ENDINGS:
-        if any(key in haystack for key in spec["keys"]):
+        if any(key in haystack for key in spec["match"]):
             return spec
     return None
 
 
 def is_conjugatable(ko: str, en: str) -> bool:
-    """Lesson/pack vocabulary that can safely feed a conjugation drill: a
-    Hangul dictionary form (…다) glossed as a verb/adjective ("to …"), and not
-    the copulas."""
+    """Vocabulary that can safely feed a conjugation drill: a Hangul dictionary
+    form (…다) glossed as a verb/adjective ("to …"), and not a copula."""
     return ko not in COPULAS and _stem(ko) is not None and en.strip().lower().startswith("to ")
 
 
-# Speech levels a standalone /conjugate drill can target.
-DRILL_FORMS: list[dict[str, Any]] = [
-    {"key": "aeo", "display": "-아/어요 (informal polite)", "form": informal_polite},
-    {"key": "seumnida", "display": "-습니다/-ㅂ니다 (formal polite)", "form": formal_polite},
-]
-
-
 def conjugate(word: str, form_key: str) -> str | None:
-    spec = next((f for f in DRILL_FORMS if f["key"] == form_key), None)
+    spec = _BY_KEY.get(form_key)
     return spec["form"](word) if spec else None
+
+
+# Speech-level / ending menu offered by the standalone /conjugate drill, in a
+# teaching-friendly order.
+DRILL_FORMS: list[dict[str, Any]] = [
+    _BY_KEY[key] for key in (
+        "aeo", "seumnida", "past", "past_formal", "future",
+        "not", "want", "can", "if", "because", "so", "must", "honorific",
+    )
+]
 
 
 def build_conjugation_items(
@@ -212,15 +323,11 @@ def build_conjugation_items(
     count: int = 10,
     form_key: str = "aeo",
 ) -> list[dict[str, Any]]:
-    """Drill items: show a dictionary form, type its conjugation.
-
-    Verbs come from the pack (or the whole library); only those the conjugator
-    can resolve safely are included, so the drill never asks for a form the
-    tool is unsure of.
-    """
+    """Drill items: show a dictionary form, type its conjugation. Only verbs the
+    engine can resolve safely are included."""
     from .flashcards import build_deck, library_deck
 
-    spec = next((f for f in DRILL_FORMS if f["key"] == form_key), DRILL_FORMS[0])
+    spec = _BY_KEY.get(form_key, _BY_KEY["aeo"])
     if pack is not None:
         deck = build_deck(pack, seed=0)
     elif library_dir is not None:

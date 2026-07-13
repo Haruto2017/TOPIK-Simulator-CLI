@@ -77,9 +77,9 @@ COMMANDS: list[Command] = [
         category="Take a test",
         details="Each course lesson gets an auto-generated assignment from exactly what it taught:\n"
         "type the Korean for a gloss, pick meanings and grammar patterns from options (answer\n"
-        "with the number), fill blanks in the example sentences, write full sentences with the\n"
-        "lesson's patterns, and conjugate the lesson's verbs with the ending it taught (only\n"
-        "endings with exception-free rules). Scores are saved per lesson (best kept); /course\n"
+        "with the number), conjugate the verb that fills a sentence's blank, write full\n"
+        "sentences with the lesson's patterns, and conjugate the lesson's verbs with the\n"
+        "ending it taught. Scores are saved per lesson (best kept); /course\n"
         "shows them next to each lesson. Bare /homework picks a pack; with a pack it lists\n"
         "lessons. Examples: /homework · /homework topik-i-mini-pack · /homework topik-i-mini-pack 1",
     ),
@@ -141,13 +141,14 @@ COMMANDS: list[Command] = [
         "Examples: /typing · /typing 20 · /typing advanced · /typing advanced topik-i-mini-pack 15",
     ),
     Command(
-        "conjugate", "cmd_conjugate", "/conjugate [pack] [form] [count]", "Practice conjugating verbs into the polite speech levels.", ("conj",),
+        "conjugate", "cmd_conjugate", "/conjugate [pack] [form] [count]", "Practice conjugating verbs across tenses, connectives, and modals.", ("conj",),
         category="Practice",
-        details="Shows a dictionary-form verb (읽다) and you type its conjugation. form: 'polite'\n"
-        "for -아/어요 (default, the everyday 해요체) or 'formal' for -습니다. Verbs come from a\n"
-        "named pack, or every imported pack. Only verbs whose form is certain are asked — the\n"
-        "irregular classes (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) are handled from a curated table, never\n"
-        "guessed. count: items (default 12). Examples: /conjugate · /conjugate formal · /conjugate topik-i-mini-pack 15",
+        details="Shows a dictionary-form verb (읽다) and you type its conjugation. form (default\n"
+        "polite -아/어요): also formal (-습니다), past, past-formal, future, negation, want, can,\n"
+        "if, because, so, must, honorific — /conjugate list shows them all. Verbs come from a\n"
+        "named pack or every imported pack. Only verbs whose form is certain are asked: the\n"
+        "irregular classes (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) are conjugated by rule, never guessed.\n"
+        "Examples: /conjugate · /conjugate past · /conjugate future topik-i-mini-pack 15 · /conjugate list",
     ),
     Command(
         "hangul", "cmd_hangul", "/hangul", "Learn to read Hangul from zero: letters, sounds, and blocks.", ("read", "alphabet"),
