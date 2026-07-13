@@ -45,7 +45,44 @@ class BuildHomeworkTests(unittest.TestCase):
         second = build_homework(LESSON, pack=pack, seed=0)
         self.assertEqual(first, second)
         kinds = {item["kind"] for item in first}
-        self.assertEqual(kinds, {"recall", "meaning", "pattern", "cloze"})
+        # -습니다 grammar + verbs → conjugation; N에서 matches the compose corpus.
+        self.assertEqual(kinds, {"recall", "meaning", "pattern", "cloze", "conjugation", "compose"})
+
+    def test_conjugation_items_use_the_lessons_own_verbs(self):
+        items = [i for i in build_homework(LESSON, seed=0) if i["kind"] == "conjugation"]
+        self.assertTrue(items)
+        answers = {item["answer"] for item in items}
+        self.assertTrue(answers <= {"좋습니다", "읽습니다"})
+        for item in items:
+            self.assertIn("→", item["meaning"])  # dictionary form → conjugated form
+
+    def test_no_conjugation_for_noun_only_grammar(self):
+        lesson = {
+            "id": "n1",
+            "new_vocabulary": [{"ko": "만나다", "en": "to meet"}, {"ko": "우산", "en": "umbrella"}],
+            "new_grammar": [{"pattern": "N이/가 있어요?", "explanation": "existence", "example": "우산이 있어요?"}],
+            "question_ids": [],
+        }
+        kinds = {i["kind"] for i in build_homework(lesson, seed=0)}
+        self.assertNotIn("conjugation", kinds)
+
+    def test_compose_items_pick_the_most_specific_structure(self):
+        lesson = {
+            "id": "w1",
+            "new_vocabulary": [{"ko": "먹다", "en": "to eat"}],
+            "new_grammar": [
+                {"pattern": "V-고 싶다", "explanation": "want to", "example": "부산에 가고 싶어요."},
+                {"pattern": "-지 않다", "explanation": "negation", "example": "멀지 않아요."},
+            ],
+            "question_ids": [],
+        }
+        compose = [i for i in build_homework(lesson, seed=0) if i["kind"] == "compose"]
+        self.assertEqual(len(compose), 2)
+        self.assertIn("-고 싶다", compose[0]["show"])  # not the bare -고
+        self.assertIn("-지 않다", compose[1]["show"])
+        for item in compose:
+            self.assertGreater(len(item["accept"]), 1)  # accepted variants travel along
+            self.assertEqual(item["miss_key"], item["answer"])
 
     def test_recall_items_type_the_korean(self):
         items = [i for i in build_homework(LESSON, seed=0) if i["kind"] == "recall"]

@@ -7,12 +7,16 @@ exam questions. Homework closes that gap the way a textbook does: each lesson
 gets a short assignment that validates exactly the knowledge it introduced,
 generated from the lesson itself — no separate content authoring.
 
-Four exercise kinds are generated per lesson:
+Six exercise kinds are generated per lesson:
 
-- ``recall``  — the English gloss is shown, the Korean word is typed.
-- ``meaning`` — a Korean word is shown, its gloss is picked from options.
-- ``pattern`` — a grammar explanation is shown, its pattern is picked.
-- ``cloze``   — a grammar example with one word blanked out is completed.
+- ``recall``      — the English gloss is shown, the Korean word is typed.
+- ``meaning``     — a Korean word is shown, its gloss is picked from options.
+- ``pattern``     — a grammar explanation is shown, its pattern is picked.
+- ``cloze``       — a grammar example with one word blanked out is completed.
+- ``compose``     — a full English sentence is written in Korean, pulled from
+  the compose corpus for the lesson's own patterns (usage as real sentences).
+- ``conjugation`` — lesson verbs are conjugated with the ending the lesson
+  taught, only for endings whose rules are exception-free (see conjugation.py).
 
 Item dicts plug straight into the shell's typed-drill lifecycle (``show``,
 ``accept``, ``answer``, ``speech``), extended with ``options`` for the
@@ -112,12 +116,117 @@ def _cloze(example: str, vocab_words: list[str], rng: random.Random) -> tuple[st
     return example.replace(word, "____", 1), word
 
 
+def _compose_items(
+    grammar: list[dict[str, str]],
+    compose_path: Any,
+    rng: random.Random,
+    limit: int = 2,
+) -> list[dict[str, Any]]:
+    """Full-sentence writing for the lesson's own patterns.
+
+    The compose corpus tags each structure with despaced ``match`` keys; a
+    corpus lesson applies when one of its keys occurs in a grammar point's
+    pattern or example. One sentence per matched structure, accepted variants
+    included, graded like /compose (whitespace/trailing-punctuation tolerant).
+    """
+    from .compose import _despace, accepted_answers, lesson_sentences, load_lessons
+
+    corpus = load_lessons(compose_path)
+    items: list[dict[str, Any]] = []
+    used_structures: set[str] = set()
+    for point in grammar:
+        if len(items) >= limit:
+            break
+        pattern_hay = _despace(point["pattern"])
+        example_hay = _despace(point["example"])
+        # One sentence per grammar point: the corpus structure whose longest
+        # key matches wins (so V-고 싶다 picks -고 싶다, not the bare -고).
+        # Single-character keys (particles like 도) are too greedy for the
+        # example text — they must occur in the pattern itself.
+        best = None
+        best_score = (0, 0)
+        for lesson in corpus:
+            structure_id = str(lesson.get("id", ""))
+            if structure_id in used_structures or not lesson_sentences(lesson):
+                continue
+            keys = [_despace(k) for k in lesson.get("match", []) if str(k).strip()]
+            if not keys:
+                keys = [_despace(str(lesson.get("pattern", "")))]
+            matched = [key for key in keys
+                       if key and (key in pattern_hay or (len(key) >= 2 and key in example_hay))]
+            if not matched:
+                continue
+            # Tiebreak on the structure's own pattern being contained in the
+            # taught pattern: V-고 싶다 must pick -고 싶다, not the bare -고.
+            structure_pattern = _despace(str(lesson.get("pattern", "")))
+            containment = len(structure_pattern) if structure_pattern and structure_pattern in pattern_hay else 0
+            score = (max(map(len, matched)), containment)
+            if score > best_score:
+                best = lesson
+                best_score = score
+        if best is None:
+            continue
+        used_structures.add(str(best.get("id", "")))
+        sentence = rng.choice(lesson_sentences(best))
+        items.append({
+            "kind": "compose",
+            "show": f"Write it in Korean ({best.get('pattern', '')}):  {sentence['english']}",
+            "accept": accepted_answers(sentence),
+            "answer": str(sentence.get("korean", "")),
+            "speech": str(sentence.get("korean", "")),
+            "miss_key": str(sentence.get("korean", "")),
+            "meaning": f"{best.get('pattern', '')} — {best.get('meaning', '')}",
+        })
+    return items
+
+
+def _conjugation_items(
+    grammar: list[dict[str, str]],
+    vocab: list[dict[str, str]],
+    rng: random.Random,
+    limit: int = 4,
+) -> list[dict[str, Any]]:
+    """Conjugate the lesson's own verbs with the ending the lesson taught.
+
+    Generated only when a grammar pattern matches a supported, exception-free
+    ending AND the lesson vocabulary contains conjugatable dictionary forms —
+    the "if applicable" rule.
+    """
+    from .conjugation import is_conjugatable, match_ending
+
+    verbs = [entry for entry in vocab if is_conjugatable(entry["ko"], entry["en"])]
+    if not verbs:
+        return []
+    items: list[dict[str, Any]] = []
+    for point in grammar:
+        spec = match_ending(point["pattern"])
+        if spec is None:
+            continue
+        chosen = rng.sample(verbs, min(2, len(verbs)))
+        for entry in chosen:
+            if len(items) >= limit:
+                return items
+            answer = spec["form"](entry["ko"])
+            if not answer:
+                continue
+            items.append({
+                "kind": "conjugation",
+                "show": f"Conjugate with {spec['display']}:  {entry['ko']} → ?",
+                "accept": [answer],
+                "answer": answer,
+                "speech": answer,
+                "meaning": f"{entry['ko']} ({entry['en']}) → {answer}",
+            })
+    return items
+
+
 def build_homework(
     course: dict[str, Any],
     pack: ExamPack | None = None,
     seed: int | None = None,
     max_recall: int = 6,
     max_meaning: int = 4,
+    compose_path: Any = None,
 ) -> list[dict[str, Any]]:
     """The assignment for one course lesson, deterministic per lesson."""
     rng = random.Random(f"{course.get('id', '')}:{seed}")
@@ -182,6 +291,16 @@ def build_homework(
             "speech": point["example"],
             "meaning": point["example"],
         })
+
+    # --- conjugation: apply the lesson's ending to the lesson's own verbs
+    items.extend(_conjugation_items(grammar, vocab, rng))
+
+    # --- production: write full sentences with the lesson's patterns
+    if compose_path is None:
+        from .compose import DEFAULT_COMPOSE_PATH
+
+        compose_path = DEFAULT_COMPOSE_PATH
+    items.extend(_compose_items(grammar, compose_path, rng))
 
     return items
 

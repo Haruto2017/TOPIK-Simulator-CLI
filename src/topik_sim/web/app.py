@@ -52,7 +52,11 @@ class ApiError(Exception):
 
 
 def _normalize(text: str) -> str:
-    return unicodedata.normalize("NFC", text.strip()).replace(" ", "")
+    """Match the shell's typed-drill key: NFC, whitespace-insensitive, and
+    trailing sentence punctuation dropped (a sentence answer must not fail on
+    a missing period)."""
+    collapsed = " ".join(unicodedata.normalize("NFC", text).split())
+    return collapsed.strip().rstrip(".?!").strip().replace(" ", "")
 
 
 def _public_question(question: dict[str, Any], number: int, total: int,
@@ -679,7 +683,8 @@ class WebApp:
                            if str(c.get("id")) == course_id), None)
             if course is None:
                 raise ApiError(404, f"No course {course_id!r} for {pack.pack_id}.")
-            items = build_homework(course, pack=pack, seed=self.seed)
+            items = build_homework(course, pack=pack, seed=self.seed,
+                                   compose_path=self.compose_path)
             if not items:
                 raise ApiError(400, "This lesson has no vocabulary or grammar to practice yet.")
             label = "Homework"

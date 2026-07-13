@@ -1589,7 +1589,8 @@ class Shell:
     def _start_homework(self, pack: Any, course: dict[str, Any]) -> None:
         from ..homework import build_homework
 
-        items = build_homework(course, pack=pack, seed=self._flashcard_seed)
+        items = build_homework(course, pack=pack, seed=self._flashcard_seed,
+                               compose_path=self.compose_path)
         if not items:
             self.emit("This lesson has no vocabulary or grammar to practice yet.")
             return

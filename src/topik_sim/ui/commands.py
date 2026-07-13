@@ -77,9 +77,11 @@ COMMANDS: list[Command] = [
         category="Take a test",
         details="Each course lesson gets an auto-generated assignment from exactly what it taught:\n"
         "type the Korean for a gloss, pick meanings and grammar patterns from options (answer\n"
-        "with the number), and fill blanks in the example sentences. Scores are saved per lesson\n"
-        "(best kept); /course shows them next to each lesson. Bare /homework picks a pack;\n"
-        "with a pack it lists lessons. Examples: /homework · /homework topik-i-mini-pack · /homework topik-i-mini-pack 1",
+        "with the number), fill blanks in the example sentences, write full sentences with the\n"
+        "lesson's patterns, and conjugate the lesson's verbs with the ending it taught (only\n"
+        "endings with exception-free rules). Scores are saved per lesson (best kept); /course\n"
+        "shows them next to each lesson. Bare /homework picks a pack; with a pack it lists\n"
+        "lessons. Examples: /homework · /homework topik-i-mini-pack · /homework topik-i-mini-pack 1",
     ),
     Command(
         "review", "cmd_review", "/review [pack]", "Spaced-repetition review of questions you have missed before.",

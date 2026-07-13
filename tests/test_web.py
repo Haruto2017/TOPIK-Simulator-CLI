@@ -339,6 +339,31 @@ class ReleasePatchTests(WebAppTestCase):
             self.assertNotIn(item, glosses,
                              f"missed list leaked an English gloss: {item!r}")
 
+    def test_homework_compose_item_tolerates_missing_period(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "homework", "pack": "topik-i-mini-pack", "course_id": "c01"})
+        activity = view["id"]
+        saw_compose = False
+        while True:
+            item = view["item"]
+            if item["kind"] == "compose":
+                saw_compose = True
+                # The model answer ends with a period; typing without it passes.
+                expected = app._activities[activity]["items"][view["progress"][0]]["answer"]
+                status, result = app.handle("POST", f"/api/activity/{activity}/answer",
+                                            body={"value": expected.rstrip(".?!")})
+                self.assertTrue(result["correct"], expected)
+            else:
+                accept = app._activities[activity]["items"][view["progress"][0]]["accept"][0]
+                status, result = app.handle("POST", f"/api/activity/{activity}/answer",
+                                            body={"value": accept})
+            if result.get("finished"):
+                break
+            status, view = app.handle("GET", f"/api/activity/{activity}")
+        self.assertTrue(saw_compose)
+        self.assertEqual(result["summary"]["hits"], result["summary"]["total"])
+
     def test_keyboard_chart_and_version(self):
         app = self.make_app(audio_enabled=False)
         status, keyboard = app.handle("GET", "/api/keyboard")
