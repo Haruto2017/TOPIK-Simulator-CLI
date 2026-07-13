@@ -122,6 +122,15 @@ COMMANDS: list[Command] = [
         "count: number of words (default 10). Examples: /recall · /recall topik-i-authentic-mock-02 15",
     ),
     Command(
+        "dialogue", "cmd_dialogue", "/dialogue [id]", "Play a real-life conversation and produce your own lines.", ("talk", "convo"),
+        category="Practice",
+        details="Communicative practice: a situation runs turn by turn — the partner's lines are\n"
+        "shown (and spoken), and on your turns you type the Korean for a stated intent. An exact\n"
+        "match passes; otherwise the model line is revealed and you self-rate. Scenarios cover\n"
+        "self-introduction, restaurant, shopping, directions, and phone calls. /say hears the\n"
+        "model line. Bare /dialogue lists scenarios. Examples: /dialogue · /dialogue restaurant",
+    ),
+    Command(
         "compose", "cmd_compose", "/compose [structure]", "Learn a grammar structure, then write sentences with it.", ("write",),
         category="Practice",
         details="Sentence-writing grounded in grammar. Pick a structure (e.g. -고 싶다); it is taught\n"
@@ -151,6 +160,15 @@ COMMANDS: list[Command] = [
         "Examples: /conjugate · /conjugate past · /conjugate future topik-i-mini-pack 15 · /conjugate list",
     ),
     Command(
+        "sounds", "cmd_sounds", "/sounds [drill] [rule] [count]", "Korean sound-change rules: why speech differs from spelling.", ("pronounce", "pronunciation"),
+        category="Practice",
+        details="Bare /sounds is the reference — the seven rules (연음, 경음화, 비음화, 유음화,\n"
+        "격음화, 구개음화, ㅎ-weakening) with spelled→spoken examples. /sounds drill practices\n"
+        "them: a word is shown and you type how it is actually pronounced (책상 → 책쌍), then\n"
+        "/say reads the sound. Add a rule id to focus (e.g. /sounds drill gyeongeum).\n"
+        "Examples: /sounds · /sounds drill · /sounds drill yeoneum 8",
+    ),
+    Command(
         "hangul", "cmd_hangul", "/hangul", "Learn to read Hangul from zero: letters, sounds, and blocks.", ("read", "alphabet"),
         category="Practice",
         details="The from-scratch on-ramp: every consonant and vowel with its sound, how jamo\n"
@@ -167,6 +185,14 @@ COMMANDS: list[Command] = [
         "/numbers learn shows both systems as tables (with counters and which-system-when)\n"
         "before you drill. /say reads the correct form aloud.\n"
         "Examples: /numbers learn · /numbers · /numbers date · /numbers money 15",
+    ),
+    Command(
+        "vocab", "cmd_vocab", "/vocab [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
+        category="Practice",
+        details="A true spaced-repetition schedule over every word your packs teach: due words come\n"
+        "back first, then a few new ones are introduced each session. A correct answer pushes the\n"
+        "word further out (box 1→5, up to ~35 days); a miss brings it back tomorrow. Progress is\n"
+        "saved in data/attempts/vocab_review.json. count: session size (default 15). Example: /vocab · /vocab 25",
     ),
     Command(
         "misses", "cmd_misses", "/misses [count]", "Drill your weak items: the things you keep getting wrong.", ("weak",),

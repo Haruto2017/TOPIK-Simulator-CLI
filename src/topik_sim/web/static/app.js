@@ -198,12 +198,19 @@ async function homeView() {
   const next = nextLessonInfo(data.courses);
 
   // --- Step 1: spaced review first — the highest-value minutes of the day.
-  const reviewBody = dueTotal
-    ? el("div", { class: "stack" }, ...dueByPack.slice(0, 3).map(([packId, count]) =>
-        el("div", { class: "spread" },
-          el("span", { class: "small" }, el("strong", { text: String(count) }), ` due · ${packId}`),
-          el("button", { class: "primary", text: "Review", onclick: () => startExam({ pack: packId }, "/api/exam/review") }))))
-    : el("p", { class: "small muted", text: "Nothing due — your review queue is clear. ✓" });
+  const vocabDue = data.vocab_due || 0;
+  const reviewRows = dueByPack.slice(0, 3).map(([packId, count]) =>
+    el("div", { class: "spread" },
+      el("span", { class: "small" }, el("strong", { text: String(count) }), ` question(s) · ${packId}`),
+      el("button", { class: "primary", text: "Review", onclick: () => startExam({ pack: packId }, "/api/exam/review") })));
+  if (vocabDue) {
+    reviewRows.unshift(el("div", { class: "spread" },
+      el("span", { class: "small" }, el("strong", { text: String(vocabDue) }), " vocabulary word(s) due"),
+      el("button", { class: "primary", text: "Review vocab", onclick: () => startVocab() })));
+  }
+  const reviewBody = reviewRows.length
+    ? el("div", { class: "stack" }, ...reviewRows)
+    : el("p", { class: "small muted", text: "Nothing due — your review queue is clear. ✓ Start new vocab with the button below." });
 
   // --- Step 2: unfinished business before anything new.
   const continueBody = inProgress.length
@@ -601,13 +608,16 @@ function renderExamFeedback(id, view, question, result, container) {
 
 const PRACTICE_MODES = [
   { key: "hangul", name: "Read Hangul · 한글", desc: "Start here: every letter's sound and how blocks compose.", pack: "none" },
+  { key: "sounds", name: "Sound changes · 발음", desc: "Why speech differs from spelling: 연음, 경음화, and more — with a drill.", pack: "none" },
   { key: "flashcards", name: "Flashcards", desc: "Vocabulary cards from a pack's teaching notes.", pack: "required" },
   { key: "grammar", name: "Grammar cards", desc: "Pattern on the front, what it does on the back.", pack: "optional" },
+  { key: "vocab", name: "Vocabulary review (SRS)", desc: "Spaced repetition: due words plus a few new, scheduled by your answers.", pack: "none" },
   { key: "recall", name: "Vocab recall", desc: "See the English, type the Korean.", pack: "optional" },
   { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs across tenses, connectives & modals; irregulars handled.", pack: "optional" },
   { key: "typing", name: "Typing", desc: "Korean keyboard trainer: jamo → syllables → words.", pack: "optional" },
   { key: "numbers", name: "Numbers", desc: "Sino & native numbers: dates, money, time, math — no digits.", pack: "none" },
   { key: "dictation", name: "Dictation", desc: "Listen and type what you hear.", pack: "required" },
+  { key: "dialogue", name: "Conversation · 대화", desc: "Play a real-life scene and produce your own lines.", pack: "none" },
   { key: "compose", name: "Sentence writing", desc: "Learn a grammar structure, then write with it.", pack: "none" },
   { key: "facts", name: "Korea facts", desc: "Culture, history, food — with a Korean phrase.", pack: "none" },
 ];
@@ -688,8 +698,144 @@ async function hangulView() {
   );
 }
 
+async function soundsView() {
+  const data = await api("GET", "/api/sounds");
+  render(
+    ...header("Sound changes — 발음 규칙", "Learn these and native speech gets much clearer."),
+    el("div", { class: "card stack" }, el("p", { text: data.intro }),
+      el("div", { class: "row" },
+        el("button", { class: "primary", text: "Practice all", onclick: () => startSoundsDrill() }))),
+    ...data.rules.map((r) => el("div", { class: "card stack" },
+      el("div", { class: "spread" },
+        el("h2", { text: r.name }),
+        el("button", { class: "ghost", text: "Drill this", onclick: () => startSoundsDrill(r.id) })),
+      el("p", { class: "small muted", text: r.explain }),
+      ...r.examples.map((ex) => el("div", { class: "spread lookup-row" },
+        el("span", { class: "ko" }, el("strong", { text: ex.written }), " → ",
+          el("span", { class: "muted", text: `[${ex.spoken}]` }), `  ${ex.gloss}`),
+        speakButton(ex.spoken))))),
+  );
+}
+
+async function startSoundsDrill(rule) {
+  try {
+    const view = await api("POST", "/api/drill/start", { mode: "sounds", rule });
+    state.views.set(view.id, view);
+    go(`#/drill/${view.id}`);
+  } catch (error) { toast(error.message); }
+}
+
+function dialogueNormalize(text) {
+  return text.normalize("NFC").split(/\s+/).join(" ").trim().replace(/[.?!~]+$/, "").trim();
+}
+
+async function dialogueView() {
+  const data = await api("GET", "/api/dialogues");
+  if (!data.dialogues.length) {
+    render(...header("Conversations", "Situational speaking-into-writing practice."),
+      el("p", { class: "muted", text: "No conversations found (content/dialogues)." }));
+    return;
+  }
+  render(
+    ...header("Conversations — 대화", "Play a real-life scene; the partner speaks, you produce your lines."),
+    ...data.dialogues.map((d) => el("div", { class: "card spread" },
+      el("div", {},
+        el("div", {}, el("strong", { text: d.title }),
+          d.title_ko ? el("span", { class: "muted ko", text: `  ${d.title_ko}` }) : null,
+          d.level ? el("span", { class: "pill", text: `TOPIK ${d.level}` }) : null),
+        el("div", { class: "small muted", text: d.situation || "" })),
+      el("button", { class: "primary", text: "Start", onclick: () => runDialogue(d) }))),
+  );
+}
+
+function runDialogue(dialogue) {
+  const turns = dialogue.turns;
+  const learnerTotal = turns.filter((t) => t.accepted || t.learner).length;
+  let index = 0;
+  let hits = 0;
+  const log = el("div", { class: "stack dialogue-log" });
+  const active = el("div", { class: "stack" });
+  render(
+    el("div", { class: "spread" },
+      el("strong", {}, dialogue.title, dialogue.title_ko ? el("span", { class: "muted ko", text: `  ${dialogue.title_ko}` }) : null),
+      el("button", { class: "ghost", text: "Stop", onclick: () => go("#/practice/dialogue") })),
+    el("p", { class: "small muted", text: dialogue.situation || "" }),
+    log, active,
+  );
+
+  function bubble(speaker, ko, en, mine) {
+    return el("div", { class: `bubble ${mine ? "mine" : "theirs"}` },
+      el("div", { class: "bubble-speaker", text: speaker || (mine ? "You" : "") }),
+      el("div", { class: "ko bubble-ko" }, ko, speakButton(ko)),
+      en ? el("div", { class: "small muted", text: en }) : null);
+  }
+
+  function step() {
+    if (index >= turns.length) {
+      active.replaceChildren(el("div", { class: "card stack" },
+        el("h2", { text: "Conversation complete" }),
+        el("p", {}, el("strong", { text: `${hits}/${learnerTotal}` }), " of your lines correct."),
+        el("div", { class: "row" },
+          el("button", { class: "primary", text: "Another conversation", onclick: () => go("#/practice/dialogue") }))));
+      return;
+    }
+    const turn = turns[index];
+    const mine = Boolean(turn.accepted || turn.learner);
+    if (!mine) {
+      log.append(bubble(turn.speaker, turn.ko, turn.en, false));
+      if (state.tts.enabled) playUrls([`/api/say?text=${encodeURIComponent(turn.ko)}`]);
+      index += 1;
+      step();
+      return;
+    }
+    const input = el("input", { type: "text", lang: "ko", placeholder: "Type your line in Korean…" });
+    const slot = el("div", { class: "stack" });
+    active.replaceChildren(el("div", { class: "card stack" },
+      el("div", { class: "your-turn" }, el("strong", { text: `${turn.speaker || "You"} — your line` }),
+        el("div", { class: "prompt", text: turn.en })),
+      el("div", { class: "answer-row" }, input, el("button", { class: "primary", text: "Say it", onclick: check })),
+      slot));
+    input.focus();
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
+
+    function check() {
+      const typed = dialogueNormalize(input.value);
+      if (!typed) return;
+      const accepted = (turn.accepted && turn.accepted.length ? turn.accepted : [turn.ko]);
+      const exact = accepted.some((a) => dialogueNormalize(a) === typed);
+      input.disabled = true;
+      if (exact) {
+        hits += 1;
+        log.append(bubble(turn.speaker, turn.ko, null, true));
+        active.replaceChildren();
+        index += 1;
+        step();
+      } else {
+        slot.replaceChildren(
+          el("p", {}, "Model: ", el("strong", { class: "ko", text: turn.ko }), speakButton(turn.ko)),
+          accepted.length > 1 ? el("p", { class: "small muted ko", text: "Also fine: " + accepted.slice(1).join(" / ") }) : null,
+          el("p", { class: "muted", text: "Was your line right?" }),
+          el("div", { class: "row" },
+            el("button", { class: "primary", text: "Yes (y)", onclick: () => { hits += 1; accept(); } }),
+            el("button", { text: "No (n)", onclick: accept })));
+        const yes = slot.querySelector("button.primary");
+        if (yes) yes.focus();
+      }
+      function accept() {
+        log.append(bubble(turn.speaker, turn.ko, null, true));
+        active.replaceChildren();
+        index += 1;
+        step();
+      }
+    }
+  }
+  step();
+}
+
 async function practiceConfigView(mode) {
   if (mode === "hangul") return hangulView();
+  if (mode === "sounds") return soundsView();
+  if (mode === "dialogue") return dialogueView();
   if (mode === "compose") return composeView();
   if (mode === "facts") return factsView();
   const spec = PRACTICE_MODES.find((m) => m.key === mode);
@@ -1139,6 +1285,14 @@ async function startHomework(packId, courseId) {
 async function startMissesDrill() {
   try {
     const view = await api("POST", "/api/drill/start", { mode: "misses" });
+    state.views.set(view.id, view);
+    go(`#/drill/${view.id}`);
+  } catch (error) { toast(error.message); }
+}
+
+async function startVocab() {
+  try {
+    const view = await api("POST", "/api/drill/start", { mode: "vocab" });
     state.views.set(view.id, view);
     go(`#/drill/${view.id}`);
   } catch (error) { toast(error.message); }

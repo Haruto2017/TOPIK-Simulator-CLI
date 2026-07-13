@@ -1,0 +1,79 @@
+{
+  "schema_version": "topik-sim.dialogue.v1",
+  "dialogues": [
+    {
+      "id": "self-intro",
+      "title": "Meeting someone new",
+      "title_ko": "처음 만나기",
+      "situation": "You meet a Korean classmate for the first time and introduce yourself.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "안녕하세요? 처음 뵙겠습니다.", "en": "Hello. Nice to meet you." },
+        { "speaker": "나", "en": "Say hello and that you're glad to meet them too.", "ko": "안녕하세요? 만나서 반갑습니다.", "accepted": ["안녕하세요? 만나서 반갑습니다.", "안녕하세요. 만나서 반가워요.", "만나서 반갑습니다."] },
+        { "speaker": "친구", "ko": "이름이 뭐예요?", "en": "What's your name?" },
+        { "speaker": "나", "en": "Say your name is Minu (제 이름은 …).", "ko": "제 이름은 민우예요.", "accepted": ["제 이름은 민우예요.", "제 이름은 민우입니다.", "민우예요.", "저는 민우예요."] },
+        { "speaker": "친구", "ko": "어느 나라에서 왔어요?", "en": "Which country are you from?" },
+        { "speaker": "나", "en": "Say you came from America (미국).", "ko": "미국에서 왔어요.", "accepted": ["미국에서 왔어요.", "저는 미국에서 왔어요.", "미국에서 왔습니다."] }
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "Ordering at a restaurant",
+      "title_ko": "식당에서 주문하기",
+      "situation": "You are at a Korean restaurant and order a meal.",
+      "level": 1,
+      "turns": [
+        { "speaker": "점원", "ko": "어서 오세요. 몇 분이세요?", "en": "Welcome. How many people?" },
+        { "speaker": "나", "en": "Say two people (두 명).", "ko": "두 명이에요.", "accepted": ["두 명이에요.", "두 명입니다.", "두 명이요."] },
+        { "speaker": "점원", "ko": "뭐 드릴까요?", "en": "What would you like?" },
+        { "speaker": "나", "en": "Order one bibimbap, please (비빔밥 하나 주세요).", "ko": "비빔밥 하나 주세요.", "accepted": ["비빔밥 하나 주세요.", "비빔밥 한 개 주세요.", "비빔밥 주세요."] },
+        { "speaker": "점원", "ko": "음료수는요?", "en": "And to drink?" },
+        { "speaker": "나", "en": "Say water is fine (물 주세요).", "ko": "물 주세요.", "accepted": ["물 주세요.", "물 좀 주세요.", "그냥 물 주세요."] }
+      ]
+    },
+    {
+      "id": "shopping",
+      "title": "Buying something",
+      "title_ko": "물건 사기",
+      "situation": "You buy fruit at a market and ask the price.",
+      "level": 1,
+      "turns": [
+        { "speaker": "주인", "ko": "뭐 찾으세요?", "en": "What are you looking for?" },
+        { "speaker": "나", "en": "Ask if they have apples (사과 있어요?).", "ko": "사과 있어요?", "accepted": ["사과 있어요?", "사과 있어요", "사과 있습니까?"] },
+        { "speaker": "주인", "ko": "네, 있어요. 한 개에 천 원이에요.", "en": "Yes. One is 1,000 won." },
+        { "speaker": "나", "en": "Ask for three (세 개 주세요).", "ko": "세 개 주세요.", "accepted": ["세 개 주세요.", "사과 세 개 주세요.", "세 개 주세요"] },
+        { "speaker": "주인", "ko": "삼천 원입니다.", "en": "That's 3,000 won." },
+        { "speaker": "나", "en": "Say here you are / here's the money (여기 있어요).", "ko": "여기 있어요.", "accepted": ["여기 있어요.", "여기요.", "여기 있습니다."] }
+      ]
+    },
+    {
+      "id": "directions",
+      "title": "Asking for directions",
+      "title_ko": "길 묻기",
+      "situation": "You're lost and ask a passer-by how to get to the subway station.",
+      "level": 1,
+      "turns": [
+        { "speaker": "나", "en": "Ask excuse me, where is the subway station? (지하철역이 어디예요?).", "ko": "실례합니다. 지하철역이 어디예요?", "accepted": ["실례합니다. 지하철역이 어디예요?", "지하철역이 어디예요?", "지하철역이 어디에 있어요?"] },
+        { "speaker": "행인", "ko": "쭉 가세요. 그리고 왼쪽으로 가세요.", "en": "Go straight, then turn left." },
+        { "speaker": "나", "en": "Ask if it's far (멀어요?).", "ko": "멀어요?", "accepted": ["멀어요?", "여기서 멀어요?", "많이 멀어요?"] },
+        { "speaker": "행인", "ko": "아니요, 가까워요. 오 분쯤 걸려요.", "en": "No, it's close. About five minutes." },
+        { "speaker": "나", "en": "Thank them (감사합니다).", "ko": "감사합니다.", "accepted": ["감사합니다.", "고맙습니다.", "감사해요."] }
+      ]
+    },
+    {
+      "id": "phone",
+      "title": "Making a phone call",
+      "title_ko": "전화하기",
+      "situation": "You call a friend to make plans for the weekend.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "여보세요?", "en": "Hello? (on the phone)" },
+        { "speaker": "나", "en": "Ask what they're doing this weekend (주말에 뭐 해요?).", "ko": "주말에 뭐 해요?", "accepted": ["주말에 뭐 해요?", "이번 주말에 뭐 해요?", "주말에 뭐 하세요?"] },
+        { "speaker": "친구", "ko": "아직 계획이 없어요. 왜요?", "en": "No plans yet. Why?" },
+        { "speaker": "나", "en": "Suggest watching a movie together (같이 영화 볼까요?).", "ko": "같이 영화 볼까요?", "accepted": ["같이 영화 볼까요?", "같이 영화 봐요.", "우리 같이 영화 볼까요?"] },
+        { "speaker": "친구", "ko": "좋아요! 토요일 어때요?", "en": "Sounds good! How about Saturday?" },
+        { "speaker": "나", "en": "Agree and say let's meet at 2 o'clock (두 시에 만나요).", "ko": "네, 두 시에 만나요.", "accepted": ["네, 두 시에 만나요.", "두 시에 만나요.", "좋아요, 두 시에 만나요."] }
+      ]
+    }
+  ]
+}

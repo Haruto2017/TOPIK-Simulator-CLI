@@ -25,6 +25,9 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 - `src/topik_sim/activities.py` / `srs.py` — attempt builders (exam, drill) and the spaced-repetition review queue
 - `src/topik_sim/courses.py` / `homework.py` — guided courses over a pack and per-lesson auto-generated homework (recall, meaning/pattern choice, cloze, sentence composing, conjugation) with saved best scores
 - `src/topik_sim/conjugation.py` — a class-based Korean conjugation engine (classify verb → derive 아/어 and 으 stems → assemble 16 endings across tense/politeness/connectives/modality, all irregular classes handled by rule); powers `/conjugate`, the web Conjugation mode, and homework conjugation/cloze items. Never guesses: verbs it cannot resolve with certainty are skipped.
+- `src/topik_sim/vocab_srs.py` — spaced-repetition scheduler for vocabulary (Leitner boxes, `vocab_review.json`); the `/vocab` review session and web Vocabulary-review mode. Distinct from `srs.py`, which schedules missed exam questions.
+- `src/topik_sim/pronunciation.py` — curated sound-change rules (연음/경음화/비음화/유음화/격음화/구개음화/ㅎ) with spelled→spoken examples; `/sounds` reference + drill.
+- `src/topik_sim/dialogues.py` — situational conversation practice loaded from `content/dialogues/`; `/dialogue` produce-your-line flow (self-graded like `/compose`).
 - `src/topik_sim/flashcards.py` / `dictation.py` / `numbers.py` — shell-side practice modes (`numbers.py` renders Sino/native Korean numbers and builds the `/numbers` drill)
 - `src/topik_sim/stats.py` / `report.py` — cross-attempt accuracy stats and Markdown study reports
 - `src/topik_sim/library.py` — versioned content library with checksums

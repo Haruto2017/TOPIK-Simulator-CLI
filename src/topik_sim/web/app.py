@@ -99,6 +99,7 @@ class WebApp:
     ) -> None:
         from ..compose import DEFAULT_COMPOSE_PATH
         from ..courses import DEFAULT_COURSES_PATH
+        from ..dialogues import DEFAULT_DIALOGUES_PATH
         from ..facts import DEFAULT_FACTS_PATH
 
         self.library_dir = Path(library_dir)
@@ -110,6 +111,7 @@ class WebApp:
         self.courses_path = DEFAULT_COURSES_PATH
         self.facts_path = DEFAULT_FACTS_PATH
         self.compose_path = DEFAULT_COMPOSE_PATH
+        self.dialogues_path = DEFAULT_DIALOGUES_PATH
         self._synthesizer = synthesizer  # tests inject a fake; None = real TTS
         self._activities: dict[str, dict[str, Any]] = {}
         self._next_id = 0
@@ -189,6 +191,10 @@ class WebApp:
             from ..hangul_guide import guide
 
             return 200, guide()
+        if parts == ["sounds"] and method == "GET":
+            from ..pronunciation import guide
+
+            return 200, guide()
         if parts == ["numbers", "guide"] and method == "GET":
             from ..numbers import cheat_sheet
 
@@ -244,6 +250,10 @@ class WebApp:
                  "level": lesson.get("level"), "sentences": lesson_sentences(lesson)}
                 for lesson in lessons
             ]}
+        if parts == ["dialogues"] and method == "GET":
+            from ..dialogues import load_dialogues
+
+            return 200, {"dialogues": load_dialogues(self.dialogues_path)}
         if parts == ["facts"] and method == "GET":
             from ..facts import filter_facts, load_facts
 
@@ -312,7 +322,7 @@ class WebApp:
     # ------------------------------------------------------------ overview
 
     def state(self) -> dict[str, Any]:
-        from .. import srs
+        from .. import srs, vocab_srs
         from ..practice_log import load_practice_log, practice_summary, weak_items
 
         queue = srs.load_queue(srs.queue_path_for(self.attempt_dir))
@@ -323,6 +333,7 @@ class WebApp:
             "attempts": self.attempts()[:10],
             "courses": self.courses(),
             "review_due": srs.due_counts_by_pack(queue),
+            "vocab_due": vocab_srs.due_count(vocab_srs.load_deck(self.attempt_dir)),
             "practice": {"summary": practice_summary(log), "weak": weak_items(log, limit=10)},
             "tts": self.tts_state(),
         }
@@ -650,6 +661,12 @@ class WebApp:
             items = build_number_items(seed=self.seed, count=count or 10,
                                        category=body.get("category") or None)
             label = "Number practice"
+        elif mode == "sounds":
+            from ..pronunciation import build_pronunciation_items
+
+            items = build_pronunciation_items(seed=self.seed, count=count or 10,
+                                              rule_id=body.get("rule") or None)
+            label = "Pronunciation"
         elif mode == "conjugate":
             from ..conjugation import build_conjugation_items
 
@@ -666,6 +683,24 @@ class WebApp:
             items = build_recall_items(pack=pack, library_dir=None if pack else self.library_dir,
                                        seed=self.seed, count=count or 10)
             label = "Vocab recall"
+        elif mode == "vocab":
+            from .. import vocab_srs
+            from ..flashcards import gloss_map
+
+            glosses = gloss_map(library_dir=self.library_dir)
+            if not glosses:
+                raise ApiError(400, "No vocabulary found. Import a pack first.")
+            deck = vocab_srs.load_deck(self.attempt_dir)
+            session = vocab_srs.build_session(deck, glosses, count=count or 15)
+            if not session:
+                raise ApiError(400, "Nothing due for review right now — come back later.")
+            items = [{
+                "show": f"Type the Korean:  {c['en']}",
+                "accept": [c["ko"]], "answer": c["ko"], "speech": c["ko"],
+                "meaning": f"{c['ko']} — {c['en']}", "srs_key": c["ko"], "srs_en": c["en"],
+            } for c in session]
+            label = "Vocabulary review"
+            meta = {"srs": True}
         elif mode == "dictation":
             from ..dictation import collect_dictation_texts
 
@@ -709,11 +744,13 @@ class WebApp:
 
         if not items:
             raise ApiError(400, "No practice items found. Import a pack first.")
-        activity_id = self._register({
+        activity: dict[str, Any] = {
             "kind": "drill", "mode": mode, "label": label, "items": items,
             "index": 0, "hits": 0, "missed": [], "meta": meta,
-        })
-        return self._drill_view(activity_id)
+        }
+        if mode == "vocab":
+            activity["deck"] = deck  # the SRS deck to reschedule as answers land
+        return self._drill_view(self._register(activity))
 
     def _current_item(self, activity: dict[str, Any]) -> dict[str, Any]:
         items = activity["items"]
@@ -790,6 +827,11 @@ class WebApp:
             activity["hits"] += 1
         else:
             activity["missed"].append(item.get("miss_key") or item["answer"])
+        if activity.get("deck") is not None and item.get("srs_key"):
+            from .. import vocab_srs
+
+            vocab_srs.record(activity["deck"], item["srs_key"], item.get("srs_en", ""), correct)
+            vocab_srs.save_deck(activity["deck"], self.attempt_dir)
         activity["index"] += 1
         response["finished"] = activity["index"] >= len(activity["items"])
         if response["finished"]:

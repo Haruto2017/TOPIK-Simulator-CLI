@@ -11,6 +11,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Vocabulary spaced repetition**: `/vocab` (alias `/v`) and a web "Vocabulary
+  review (SRS)" mode run a real Leitner schedule over every word the packs
+  teach — due words resurface first, a few new ones are introduced each
+  session, a correct answer pushes a word out (boxes 1→5, ~1 to ~35 days), a
+  miss brings it back tomorrow. State lives in `data/attempts/vocab_review.json`
+  and the Home "review" step shows the due count. This is the spacing the SLA
+  research calls for, and complements the existing question-only review queue.
+  New module `src/topik_sim/vocab_srs.py`.
+
+- **Pronunciation & sound-change lessons**: `/sounds` (aliases `/pronounce`,
+  `/pronunciation`) and a web "Sound changes" page teach the seven rules that
+  make spoken Korean differ from its spelling — 연음, 경음화, 비음화, 유음화,
+  격음화, 구개음화, ㅎ-weakening — each with worked spelled→spoken examples.
+  `/sounds drill` (and the web drill) show a word and ask how it is actually
+  pronounced (책상 → 책쌍), then speak the sound. Examples are curated (never
+  algorithmically guessed). New module `src/topik_sim/pronunciation.py`.
+
+- **Situational conversations**: `/dialogue` (aliases `/talk`, `/convo`) and a
+  web "Conversation" mode play a real-life scene turn by turn — the partner's
+  lines are shown and spoken, and on your turns you produce the Korean for a
+  stated intent (exact match passes; otherwise the model is revealed and you
+  self-rate, like `/compose`). Five TOPIK I scenarios ship — self-introduction,
+  restaurant, shopping, directions, phone call — in the editable
+  `content/dialogues/` directory. This is the communicative, production-in-
+  context practice the textbook research centers; note it cannot auto-score
+  *spoken* output (that needs speech recognition, out of scope for an offline
+  tool) — it trains producing the right line, with model audio to shadow. New
+  module `src/topik_sim/dialogues.py`.
+
 - **Conjugation practice — textbook-broad, rule-based**: `/conjugate [pack]
   [form] [count]` (alias `/conj`) and a web "Conjugation" practice mode drill
   turning dictionary forms into **16 endings** across tense, politeness,

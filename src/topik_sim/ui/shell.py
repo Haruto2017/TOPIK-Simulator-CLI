@@ -34,6 +34,9 @@ TYPING = "typing"
 COMPOSE_PICK = "compose_pick"
 COMPOSE_TYPE = "compose_type"
 COMPOSE_GRADE = "compose_grade"
+DIALOGUE_PICK = "dialogue_pick"
+DIALOGUE_TYPE = "dialogue_type"
+DIALOGUE_GRADE = "dialogue_grade"
 COURSE_PICK = "course_pick"
 COURSE_STEP = "course_step"
 HOMEWORK_PICK = "homework_pick"
@@ -59,6 +62,8 @@ TYPING_LABEL_MODES = {
     "Homework": "homework",
     "Weak items": "misses",
     "Conjugation": "conjugate",
+    "Vocabulary review": "vocab",
+    "Pronunciation": "sounds",
 }
 
 
@@ -83,6 +88,7 @@ class Shell:
         keyboard_pinned: bool = False,
         facts_path: str | Path | None = None,
         compose_path: str | Path | None = None,
+        dialogues_path: str | Path | None = None,
     ) -> None:
         self.library_dir = Path(library_dir)
         self.attempt_dir = Path(attempt_dir)
@@ -144,6 +150,8 @@ class Shell:
         self._homework_pack: Any = None
         self._homework_courses: list[dict[str, Any]] = []
         self._typing_homework: tuple[str, str] | None = None
+        self._typing_srs: bool = False
+        self._vocab_deck: dict[str, Any] | None = None
         self.compose_path = Path(compose_path) if compose_path is not None else DEFAULT_COMPOSE_PATH
         self._compose_rng = random.Random(flashcard_seed)
         self._lessons: list[dict[str, Any]] | None = None
@@ -153,6 +161,14 @@ class Shell:
         self._compose_index = 0
         self._compose_hits = 0
         self._compose_missed: list[dict[str, Any]] = []
+        from ..dialogues import DEFAULT_DIALOGUES_PATH
+
+        self.dialogues_path = Path(dialogues_path) if dialogues_path is not None else DEFAULT_DIALOGUES_PATH
+        self._dialogue: dict[str, Any] | None = None
+        self._dialogue_index = 0
+        self._dialogue_hits = 0
+        self._dialogue_total = 0
+        self._dialogue_pick: list[dict[str, Any]] = []
 
     # ------------------------------------------------------------- plumbing
 
@@ -246,6 +262,20 @@ class Shell:
                 self._selfgrade_compose(False)
             else:
                 self.emit("y if your sentence was right, n if not.")
+        elif self.state == DIALOGUE_PICK:
+            self._handle_dialogue_pick(text)
+        elif self.state == DIALOGUE_TYPE:
+            if text:
+                self._grade_dialogue(text)
+            else:
+                self.emit("Type your Korean line, or /pause to leave the conversation.")
+        elif self.state == DIALOGUE_GRADE:
+            if text.lower() in {"y", "yes"}:
+                self._selfgrade_dialogue(True)
+            elif text.lower() in {"n", "no"}:
+                self._selfgrade_dialogue(False)
+            else:
+                self.emit("y if your line was right, n if not.")
         elif self.state == PICK:
             self._handle_pick(text)
         elif self.state == PICK_PACK:
@@ -500,6 +530,9 @@ class Shell:
         if not argument and self.state in {COMPOSE_TYPE, COMPOSE_GRADE} and self._compose_items:
             self._speak([self._compose_items[self._compose_index]["korean"]], playback=True)
             return
+        if not argument and self.state in {DIALOGUE_TYPE, DIALOGUE_GRADE} and self._dialogue:
+            self._speak([self._dialogue["turns"][self._dialogue_index].get("ko", "")], playback=True)
+            return
         if not argument and self.state == IDLE and self._fact_speech:
             self._speak([self._fact_speech], playback=True)
             return
@@ -543,6 +576,39 @@ class Shell:
             self.emit(f"  {lead}  " + "  ".join(row))
         self.emit("")
         self.emit("Next: /say 안녕하세요 hears any text · /typing drills the keyboard · /keyboard shows where keys are.")
+
+    def cmd_sounds(self, argument: str) -> None:
+        """Korean sound-change rules — reference, or a spelled→spoken drill."""
+        from ..pronunciation import RULES, build_pronunciation_items, guide
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        arg = argument.strip().lower()
+        rule_ids = {r["id"] for r in RULES}
+        # Bare or "list": show the reference. "drill [rule] [count]": practice.
+        if arg in {"", "list", "rules"}:
+            data = guide()
+            self.emit(render.rule("Korean sound changes — 발음 규칙"))
+            self.emit(data["intro"])
+            for r in data["rules"]:
+                self.emit("")
+                self.emit(ansi.style(r["name"], ansi.BOLD, ansi.CYAN))
+                self.emit(f"  {r['explain']}")
+                for ex in r["examples"]:
+                    self.emit(f"    {ex['written']} → {ansi.style('[' + ex['spoken'] + ']', ansi.GREY)}  {ex['gloss']}")
+            self.emit("")
+            self.emit("Practice: /sounds drill · /sounds drill gyeongeum · /say reads any word aloud.")
+            return
+        self._end_minigames()
+        parts = arg.split()
+        rule_id = next((p for p in parts if p in rule_ids), None)
+        count = next((int(p) for p in parts if p.isdigit()), 10)
+        items = build_pronunciation_items(seed=self._flashcard_seed, count=count, rule_id=rule_id)
+        self._start_typing(
+            items, label="Pronunciation", verb="Read", title="Type how each word is pronounced:",
+            hint="write the spoken form in Hangul · /say hears it after grading · /pause stops",
+        )
 
     def cmd_lookup(self, argument: str) -> None:
         """Search everything the packs teach — the 'what was that word?' command."""
@@ -763,6 +829,41 @@ class Shell:
             hint="type the conjugated form · /conjugate list shows all forms · /pause stops",
         )
 
+    def cmd_vocab(self, argument: str) -> None:
+        """Spaced vocabulary review — due words plus a few new ones each session."""
+        from .. import vocab_srs
+        from ..flashcards import gloss_map
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        count = int(argument) if argument.strip().isdigit() else 15
+        glosses = gloss_map(library_dir=self.library_dir)
+        if not glosses:
+            self.emit("No vocabulary found. Import a pack first (topik-sim setup).")
+            return
+        deck = vocab_srs.load_deck(self.attempt_dir)
+        session = vocab_srs.build_session(deck, glosses, count=count)
+        if not session:
+            summary = vocab_srs.summary(deck)
+            self.emit(f"Nothing due right now — {summary['learning']} words in review, "
+                      f"{summary['mastered']} mastered. Come back later, or study a pack's flashcards.")
+            return
+        items = [{
+            "show": f"Type the Korean:  {c['en']}",
+            "accept": [c["ko"]], "answer": c["ko"], "speech": c["ko"],
+            "meaning": f"{c['ko']} — {c['en']}", "srs_key": c["ko"], "srs_en": c["en"],
+        } for c in session]
+        self._vocab_deck = deck
+        self._typing_srs = True
+        new_count = sum(1 for c in session if c.get("new"))
+        self.emit(ansi.style(f"Spaced vocabulary review · {len(session) - new_count} due, {new_count} new", ansi.BOLD))
+        self._start_typing(
+            items, label="Vocabulary review", verb="Reviewed", title="See the meaning, type the Korean:",
+            hint="each answer reschedules the word · /say hears it after grading · /pause stops",
+        )
+
     def cmd_misses(self, argument: str) -> None:
         """Drill the weak list — the same items the web's misses mode uses."""
         from ..practice_log import build_misses_items
@@ -855,7 +956,8 @@ class Shell:
         def _key(text: str) -> str:
             return normalize_typed(text).replace(" ", "")
         accepted = {_key(answer) for answer in item["accept"]}
-        if _key(typed) in accepted:
+        correct = _key(typed) in accepted
+        if correct:
             self._typing_hits += 1
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
@@ -865,6 +967,11 @@ class Shell:
             if not item.get("options"):
                 line += f" — {keystroke_hint(item['answer'])}"
             self.emit(line)
+        if self._typing_srs and item.get("srs_key") and self._vocab_deck is not None:
+            from .. import vocab_srs
+
+            vocab_srs.record(self._vocab_deck, item["srs_key"], item.get("srs_en", ""), correct)
+            vocab_srs.save_deck(self._vocab_deck, self.attempt_dir)
         meaning = item.get("meaning")
         if meaning:
             self.emit(ansi.style(f"  {meaning}", ansi.GREY))
@@ -909,6 +1016,13 @@ class Shell:
                 missed=list(self._typing_missed),
                 pack_id=homework[0] if homework else None,
             )
+        if self._typing_srs and self._vocab_deck is not None:
+            from .. import vocab_srs
+
+            self.emit(f"Scheduled · {vocab_srs.due_count(self._vocab_deck)} still due · "
+                      f"{vocab_srs.summary(self._vocab_deck)['learning']} words in review.")
+        self._typing_srs = False
+        self._vocab_deck = None
         self._typing_items = []
         self._typing_index = 0
         self._typing_hits = 0
@@ -1058,6 +1172,126 @@ class Shell:
         self._compose_missed = []
         self.state = IDLE
 
+    # ------------------------------------------------------------- dialogues
+
+    def cmd_dialogue(self, argument: str) -> None:
+        """Situational conversation: partner lines play, you produce yours."""
+        from ..dialogues import find_dialogue, load_dialogues
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        dialogues = load_dialogues(self.dialogues_path)
+        if not dialogues:
+            self.emit(f"No conversations found (looked in {self.dialogues_path}).")
+            return
+        arg = argument.strip()
+        if arg:
+            dialogue = find_dialogue(arg, self.dialogues_path)
+            if dialogue is None:
+                self.emit(f"No conversation '{arg}'. Bare /dialogue lists them.")
+                return
+            self._start_dialogue(dialogue)
+            return
+        self._dialogue_pick = dialogues
+        self.emit(render.rule("Pick a conversation"))
+        for index, dialogue in enumerate(dialogues, start=1):
+            level = f"TOPIK {dialogue.get('level')}" if dialogue.get("level") else ""
+            ko = dialogue.get("title_ko", "")
+            self.emit(f"  {ansi.style(str(index), ansi.BOLD, ansi.CYAN)}. {dialogue['title']}"
+                      f"  {ansi.style(ko, ansi.DIM)}  {ansi.style(level, ansi.GREY)}")
+            self.emit(ansi.style(f"     {dialogue.get('situation', '')}", ansi.GREY))
+        self.emit("Type a number, or press Enter to cancel.")
+        self.state = DIALOGUE_PICK
+
+    def _handle_dialogue_pick(self, text: str) -> None:
+        if not text:
+            self.emit("Cancelled.")
+            self._dialogue_pick = []
+            self.state = IDLE
+            return
+        if text.isdigit() and 1 <= int(text) <= len(self._dialogue_pick):
+            dialogue = self._dialogue_pick[int(text) - 1]
+            self._dialogue_pick = []
+            self._start_dialogue(dialogue)
+            return
+        self.emit(f"Type a number from 1 to {len(self._dialogue_pick)}, or press Enter to cancel.")
+
+    def _start_dialogue(self, dialogue: dict[str, Any]) -> None:
+        from ..dialogues import is_learner_turn
+
+        self._dialogue = dialogue
+        self._dialogue_index = 0
+        self._dialogue_hits = 0
+        self._dialogue_total = sum(1 for turn in dialogue["turns"] if is_learner_turn(turn))
+        self.emit("")
+        self.emit(render.rule(dialogue.get("title", "Conversation")))
+        self.emit(dialogue.get("situation", ""))
+        self.emit(ansi.style("On your turns, type the Korean for the intent shown. "
+                             "/say hears the model line · /pause stops.", ansi.GREY))
+        self._present_dialogue()
+
+    def _present_dialogue(self) -> None:
+        from ..dialogues import is_learner_turn
+
+        turns = self._dialogue["turns"]
+        while self._dialogue_index < len(turns):
+            turn = turns[self._dialogue_index]
+            if is_learner_turn(turn):
+                self.emit("")
+                self.emit(ansi.style(f"{turn.get('speaker', '나')} — your line:", ansi.BOLD))
+                self.emit(ansi.style(f"  → {turn['en']}", ansi.CYAN))
+                self.state = DIALOGUE_TYPE
+                return
+            self.emit("")
+            self.emit(f"{ansi.style(turn.get('speaker', ''), ansi.BOLD)}:  {turn.get('ko', '')}")
+            self.emit(ansi.style(f"   {turn.get('en', '')}", ansi.GREY))
+            if self.audio_enabled and turn.get("ko"):
+                self._speak([turn["ko"]], playback=True)
+            self._dialogue_index += 1
+        self._end_dialogue()
+
+    def _grade_dialogue(self, typed: str) -> None:
+        from ..dialogues import accepted_answers, is_correct
+
+        turn = self._dialogue["turns"][self._dialogue_index]
+        model = str(turn.get("ko", ""))
+        if is_correct(turn, typed):
+            self._dialogue_hits += 1
+            self.emit(ansi.style(f"✓ {model}", ansi.BOLD, ansi.GREEN))
+            self._dialogue_index += 1
+            self._present_dialogue()
+            return
+        self.emit(ansi.style(f"Model: {model}", ansi.CYAN))
+        others = [a for a in accepted_answers(turn) if a != model]
+        if others:
+            self.emit(ansi.style("Also fine: " + " / ".join(others), ansi.DIM))
+        self.emit(ansi.style("Was your line right? y / n", ansi.GREY))
+        self.state = DIALOGUE_GRADE
+
+    def _selfgrade_dialogue(self, correct: bool) -> None:
+        if correct:
+            self._dialogue_hits += 1
+        self._dialogue_index += 1
+        self._present_dialogue()
+
+    def _end_dialogue(self, early: bool = False) -> None:
+        if early:
+            self.emit("Left the conversation.")
+        elif self._dialogue_total:
+            self.emit("")
+            self.emit(f"Conversation complete · you produced {self._dialogue_hits}/{self._dialogue_total} lines correctly.")
+            from ..practice_log import record_practice
+
+            record_practice(self.attempt_dir, mode="dialogue", label="Conversation",
+                            hits=self._dialogue_hits, total=self._dialogue_total)
+        self._dialogue = None
+        self._dialogue_index = 0
+        self._dialogue_hits = 0
+        self._dialogue_total = 0
+        self.state = IDLE
+
     def _end_minigames(self) -> None:
         if self._course is not None:
             self._leave_course()
@@ -1079,6 +1313,11 @@ class Shell:
             self._end_compose(early=True)
         elif self.state == COMPOSE_PICK:
             self._lesson_pick = []
+            self.state = IDLE
+        elif self.state in {DIALOGUE_TYPE, DIALOGUE_GRADE}:
+            self._end_dialogue(early=True)
+        elif self.state == DIALOGUE_PICK:
+            self._dialogue_pick = []
             self.state = IDLE
 
     def cmd_flashcards(self, argument: str) -> None:
@@ -1352,7 +1591,9 @@ class Shell:
             self._course_list = []
             self.state = IDLE
             return
-        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_PICK, COMPOSE_TYPE, COMPOSE_GRADE}:
+        if self.state in {FLASH_FRONT, FLASH_BACK, DICTATION, TYPING, COMPOSE_PICK,
+                          COMPOSE_TYPE, COMPOSE_GRADE, DIALOGUE_PICK, DIALOGUE_TYPE,
+                          DIALOGUE_GRADE, HOMEWORK_PICK}:
             self._end_minigames()
             return
         if self.session is None:
