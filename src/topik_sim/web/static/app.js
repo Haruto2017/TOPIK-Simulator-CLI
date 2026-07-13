@@ -604,6 +604,7 @@ const PRACTICE_MODES = [
   { key: "flashcards", name: "Flashcards", desc: "Vocabulary cards from a pack's teaching notes.", pack: "required" },
   { key: "grammar", name: "Grammar cards", desc: "Pattern on the front, what it does on the back.", pack: "optional" },
   { key: "recall", name: "Vocab recall", desc: "See the English, type the Korean.", pack: "optional" },
+  { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs into -아/어요 or -습니다; irregulars handled.", pack: "optional" },
   { key: "typing", name: "Typing", desc: "Korean keyboard trainer: jamo → syllables → words.", pack: "optional" },
   { key: "numbers", name: "Numbers", desc: "Sino & native numbers: dates, money, time, math — no digits.", pack: "none" },
   { key: "dictation", name: "Dictation", desc: "Listen and type what you hear.", pack: "required" },
@@ -702,6 +703,10 @@ async function practiceConfigView(mode) {
   const categorySelect = mode === "numbers"
     ? el("select", {}, ...NUMBER_CATEGORIES.map((c) => el("option", { value: c, text: c }))) : null;
   const advancedCheck = mode === "typing" ? el("input", { type: "checkbox" }) : null;
+  const formSelect = mode === "conjugate"
+    ? el("select", {},
+        el("option", { value: "aeo", text: "-아/어요 (informal polite)" }),
+        el("option", { value: "seumnida", text: "-습니다 (formal polite)" })) : null;
 
   const start = async () => {
     const packValue = packSelect.value || undefined;
@@ -727,6 +732,7 @@ async function practiceConfigView(mode) {
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
           advanced: advancedCheck && advancedCheck.checked ? true : undefined,
+          form: formSelect ? formSelect.value : undefined,
         });
         state.views.set(view.id, view);
         go(`#/drill/${view.id}`);
@@ -767,6 +773,7 @@ async function practiceConfigView(mode) {
       spec.pack !== "none" ? el("label", { class: "field" }, "Pack", packSelect) : null,
       mode !== "flashcards" ? el("label", { class: "field" }, "How many", countInput) : null,
       categorySelect ? el("label", { class: "field" }, "Category", categorySelect) : null,
+      formSelect ? el("label", { class: "field" }, "Speech level", formSelect) : null,
       advancedCheck ? el("label", { class: "row" }, advancedCheck,
         " Advanced — real words and sentences only, meanings revealed after typing") : null,
       el("div", { class: "row" }, el("button", { class: "primary", onclick: start, text: "Start" }))),

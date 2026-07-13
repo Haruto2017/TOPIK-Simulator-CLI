@@ -50,5 +50,72 @@ class AttachAndMatchingTests(unittest.TestCase):
         self.assertFalse(is_conjugatable("바다", "sea"))  # ends in 다 but not a verb gloss
 
 
+class InformalPoliteTests(unittest.TestCase):
+    def check(self, cases):
+        from topik_sim.conjugation import informal_polite
+        for word, expected in cases.items():
+            self.assertEqual(informal_polite(word), expected, word)
+
+    def test_regular_consonant_harmony(self):
+        self.check({"먹다": "먹어요", "읽다": "읽어요", "앉다": "앉아요",
+                    "살다": "살아요", "놀다": "놀아요", "있다": "있어요",
+                    "없다": "없어요", "많다": "많아요"})
+
+    def test_hada_and_vowel_contractions(self):
+        self.check({"공부하다": "공부해요", "하다": "해요",
+                    "가다": "가요", "오다": "와요", "보다": "봐요", "주다": "줘요",
+                    "배우다": "배워요", "마시다": "마셔요", "기다리다": "기다려요",
+                    "서다": "서요", "보내다": "보내요", "되다": "돼요",
+                    "만나다": "만나요", "쉬다": "쉬어요"})
+
+    def test_b_irregular_and_regular(self):
+        self.check({"춥다": "추워요", "덥다": "더워요", "돕다": "도와요",
+                    "어렵다": "어려워요", "입다": "입어요", "잡다": "잡아요"})
+
+    def test_d_irregular_and_regular(self):
+        self.check({"듣다": "들어요", "걷다": "걸어요", "묻다": "물어요",
+                    "닫다": "닫아요", "받다": "받아요", "믿다": "믿어요"})
+
+    def test_s_irregular_and_regular(self):
+        self.check({"짓다": "지어요", "낫다": "나아요", "붓다": "부어요",
+                    "웃다": "웃어요", "씻다": "씻어요", "벗다": "벗어요"})
+
+    def test_eu_and_reu_irregular(self):
+        self.check({"쓰다": "써요", "크다": "커요", "바쁘다": "바빠요",
+                    "아프다": "아파요", "예쁘다": "예뻐요",
+                    "모르다": "몰라요", "부르다": "불러요", "빠르다": "빨라요",
+                    "따르다": "따라요"})  # 으-irregular 르-ending, not ㄹㄹ
+
+    def test_h_irregular_and_regular(self):
+        self.check({"그렇다": "그래요", "빨갛다": "빨개요", "어떻다": "어때요",
+                    "좋다": "좋아요", "놓다": "놓아요", "넣다": "넣어요"})
+
+    def test_unknown_risky_verbs_and_copulas_return_none(self):
+        from topik_sim.conjugation import informal_polite
+        for word in ("긋다", "뜯다", "구르다", "이다", "아니다", "우산"):
+            self.assertIsNone(informal_polite(word), word)
+
+
+class ConjugationDrillTests(unittest.TestCase):
+    def test_build_items_are_safe_and_deterministic(self):
+        import tempfile
+        from pathlib import Path
+        from topik_sim.conjugation import build_conjugation_items, informal_polite
+        from topik_sim.library import import_pack
+
+        with tempfile.TemporaryDirectory() as temp:
+            library = Path(temp) / "library"
+            import_pack(SAMPLE_PACK := Path(__file__).resolve().parents[1] / "examples" / "content" / "topik_i_mini_pack.json", library)
+            first = build_conjugation_items(library_dir=library, seed=0, count=5)
+            second = build_conjugation_items(library_dir=library, seed=0, count=5)
+            self.assertEqual(first, second)
+            for item in first:
+                self.assertEqual(item["kind"], "conjugation")
+                self.assertEqual(item["accept"], [item["answer"]])
+                # every produced answer is exactly what the conjugator returns
+                verb = item["show"].split(":", 1)[1].strip().split(" ")[0]
+                self.assertEqual(informal_polite(verb), item["answer"])
+
+
 if __name__ == "__main__":
     unittest.main()

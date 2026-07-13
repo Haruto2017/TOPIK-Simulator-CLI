@@ -58,6 +58,7 @@ TYPING_LABEL_MODES = {
     "Vocab recall": "recall",
     "Homework": "homework",
     "Weak items": "misses",
+    "Conjugation": "conjugate",
 }
 
 
@@ -708,6 +709,45 @@ class Shell:
             self.emit(f"  {row['context']:<32} {ansi.style(row['system'], ansi.CYAN)}  {ansi.style(row['example'], ansi.GREY)}")
         self.emit("")
         self.emit("Practice it: /numbers · /numbers count · /numbers date · /say 삼백사십칠 hears any reading.")
+
+    def cmd_conjugate(self, argument: str) -> None:
+        """Conjugate dictionary-form verbs into the polite speech levels."""
+        from ..conjugation import build_conjugation_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        pack = None
+        count = 12
+        form_key = "aeo"
+        for part in argument.split():
+            low = part.lower()
+            if part.isdigit():
+                count = int(part)
+            elif low in {"formal", "seumnida", "습니다", "seum"}:
+                form_key = "seumnida"
+            elif low in {"polite", "informal", "해요", "aeo"}:
+                form_key = "aeo"
+            else:
+                try:
+                    pack = self._resolve_pack(part)
+                except (ValueError, ContentValidationError, OSError) as exc:
+                    self.emit(str(exc))
+                    return
+        items = build_conjugation_items(
+            pack=pack, library_dir=None if pack else self.library_dir,
+            seed=self._flashcard_seed, count=count, form_key=form_key,
+        )
+        if not items:
+            self.emit("No conjugatable verbs found. Import a pack, or name one: /conjugate <pack>")
+            return
+        level = "informal polite (-아/어요)" if form_key == "aeo" else "formal polite (-습니다)"
+        self._start_typing(
+            items, label="Conjugation", verb="Conjugated",
+            title=f"Conjugate to {level}:",
+            hint="type the conjugated form · the answer's reading follows · /pause stops",
+        )
 
     def cmd_misses(self, argument: str) -> None:
         """Drill the weak list — the same items the web's misses mode uses."""
@@ -2158,7 +2198,7 @@ def _make_completer(shell: Shell):
             name = command_token[1:].lower()
             if " " in argument:
                 return
-            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate", "course", "homework", "hw"}:
+            if name in {"take", "flashcards", "cards", "dictation", "typing", "grammar", "gram", "recall", "translate", "course", "homework", "hw", "conjugate", "conj"}:
                 for ref, meta in shell.pack_completions():
                     if ref.startswith(argument):
                         yield Completion(

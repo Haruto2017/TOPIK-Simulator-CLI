@@ -141,6 +141,15 @@ COMMANDS: list[Command] = [
         "Examples: /typing · /typing 20 · /typing advanced · /typing advanced topik-i-mini-pack 15",
     ),
     Command(
+        "conjugate", "cmd_conjugate", "/conjugate [pack] [form] [count]", "Practice conjugating verbs into the polite speech levels.", ("conj",),
+        category="Practice",
+        details="Shows a dictionary-form verb (읽다) and you type its conjugation. form: 'polite'\n"
+        "for -아/어요 (default, the everyday 해요체) or 'formal' for -습니다. Verbs come from a\n"
+        "named pack, or every imported pack. Only verbs whose form is certain are asked — the\n"
+        "irregular classes (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) are handled from a curated table, never\n"
+        "guessed. count: items (default 12). Examples: /conjugate · /conjugate formal · /conjugate topik-i-mini-pack 15",
+    ),
+    Command(
         "hangul", "cmd_hangul", "/hangul", "Learn to read Hangul from zero: letters, sounds, and blocks.", ("read", "alphabet"),
         category="Practice",
         details="The from-scratch on-ramp: every consonant and vowel with its sound, how jamo\n"

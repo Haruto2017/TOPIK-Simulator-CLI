@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Conjugation practice with a real irregular-verb engine**: `/conjugate
+  [pack] [form] [count]` (alias `/conj`) and a web "Conjugation" practice mode
+  drill turning dictionary forms into the polite speech levels — `-아/어요`
+  (해요체, default) or `-습니다`. The new `src/topik_sim/conjugation.py` does
+  `-아/어요` properly: a regular algorithm handles vowel harmony, vowel
+  contractions (가→가요, 오→와요, 주→줘요, 마시→마셔요, 되→돼요), 하다→해요, and
+  safe consonant finals, while all five irregular classes (ㅂ 춥다→추워요, ㄷ
+  듣다→들어요, ㅅ 짓다→지어요, 르 모르다→몰라요, 으 쓰다→써요, ㅎ 그렇다→그래요)
+  come from a curated table. Anything the algorithm cannot prove and the table
+  does not know is skipped, so the drill never asks for a form the tool is
+  unsure of. Course homework's `conjugation` items gain `-아/어요` too. Verified
+  against 41 hand-checked forms.
+
 - **Full CLI↔web learner parity**: a surface audit closed the last gaps in
   both directions. New shell `/misses [count]` (alias `/weak`) drills the
   weak-items list exactly like the web's misses mode — both now share one

@@ -646,6 +646,16 @@ class WebApp:
             items = build_number_items(seed=self.seed, count=count or 10,
                                        category=body.get("category") or None)
             label = "Number practice"
+        elif mode == "conjugate":
+            from ..conjugation import build_conjugation_items
+
+            items = build_conjugation_items(
+                pack=pack, library_dir=None if pack else self.library_dir,
+                seed=self.seed, count=count or 12, form_key=body.get("form") or "aeo",
+            )
+            if not items:
+                raise ApiError(400, "No conjugatable verbs found. Import a pack first.")
+            label = "Conjugation"
         elif mode == "recall":
             from ..flashcards import build_recall_items
 
