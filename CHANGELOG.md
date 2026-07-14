@@ -181,6 +181,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Conjugation practice defaults to mixed, interleaved endings**: `/conjugate`
+  and the web Conjugation mode now give each verb a *random* ending by default
+  (`mix`) — the prompt names each verb's target, so the session stays
+  unambiguous — instead of drilling one fixed form. Interleaved practice beats
+  blocked practice for retention, and it exercises all 16 endings in one
+  session. Naming a form (`/conjugate past`, or the web selector) still focuses
+  a single ending. With no seed the mix re-rolls each run.
 - **Homework re-rolls each session**: a lesson's homework used to be pinned to
   one fixed set of questions (the RNG was seeded on the lesson id). It now draws
   a fresh, fair cut of the lesson's own vocabulary and grammar every run — a

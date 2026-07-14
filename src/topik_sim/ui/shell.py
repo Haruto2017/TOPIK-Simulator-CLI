@@ -778,6 +778,7 @@ class Shell:
 
     # Friendly words the learner can type → conjugation form keys.
     _CONJUGATE_ALIASES = {
+        "mix": "mix", "mixed": "mix", "random": "mix", "all": "mix",
         "polite": "aeo", "informal": "aeo", "해요": "aeo", "aeo": "aeo",
         "formal": "seumnida", "습니다": "seumnida", "seumnida": "seumnida", "seum": "seumnida",
         "past": "past", "past-formal": "past_formal", "pastformal": "past_formal",
@@ -796,14 +797,15 @@ class Shell:
         self._end_minigames()
         pack = None
         count = 12
-        form_key = "aeo"
+        form_key = "mix"  # interleaved endings by default; name a form to focus
         valid = {spec["key"] for spec in DRILL_FORMS}
         for part in argument.split():
             low = part.lower()
             if part.isdigit():
                 count = int(part)
             elif low == "list":
-                self.emit("Forms: " + " · ".join(f"{s['key']} = {s['display']}" for s in DRILL_FORMS))
+                self.emit("Forms: mix = every ending, interleaved · "
+                          + " · ".join(f"{s['key']} = {s['display']}" for s in DRILL_FORMS))
                 return
             elif low in self._CONJUGATE_ALIASES:
                 form_key = self._CONJUGATE_ALIASES[low]
@@ -822,7 +824,8 @@ class Shell:
         if not items:
             self.emit("No conjugatable verbs found. Import a pack, or name one: /conjugate <pack>")
             return
-        display = next(s["display"] for s in DRILL_FORMS if s["key"] == form_key)
+        display = ("mixed endings (each verb a different one)" if form_key == "mix"
+                   else next(s["display"] for s in DRILL_FORMS if s["key"] == form_key))
         self._start_typing(
             items, label="Conjugation", verb="Conjugated",
             title=f"Conjugate to {display}:",

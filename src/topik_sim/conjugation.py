@@ -316,18 +316,29 @@ DRILL_FORMS: list[dict[str, Any]] = [
 ]
 
 
+MIX_KEY = "mix"
+
+
 def build_conjugation_items(
     pack: ExamPack | None = None,
     library_dir: str | Path | None = None,
     seed: int | None = None,
     count: int = 10,
-    form_key: str = "aeo",
+    form_key: str = MIX_KEY,
 ) -> list[dict[str, Any]]:
-    """Drill items: show a dictionary form, type its conjugation. Only verbs the
-    engine can resolve safely are included."""
+    """Drill items: show a dictionary form, type its conjugation.
+
+    ``form_key`` is one of the DRILL_FORMS keys, or ``"mix"`` (the default) to
+    interleave — each verb gets a random ending it can safely take, which is
+    more effective study than blocking on one form. The prompt always names the
+    target ending, so a mixed session is never ambiguous. Only verbs the engine
+    can resolve are included; with no seed each session re-rolls.
+    """
     from .flashcards import build_deck, library_deck
 
-    spec = _BY_KEY.get(form_key, _BY_KEY["aeo"])
+    mixed = form_key == MIX_KEY
+    fixed = None if mixed else _BY_KEY.get(form_key, _BY_KEY["aeo"])
+    rng = random.Random(seed)
     if pack is not None:
         deck = build_deck(pack, seed=0)
     elif library_dir is not None:
@@ -342,6 +353,13 @@ def build_conjugation_items(
         en = str(card.get("en", "")).strip()
         if ko in seen or not is_conjugatable(ko, en):
             continue
+        if mixed:
+            options = [spec for spec in DRILL_FORMS if spec["form"](ko)]
+            if not options:
+                continue
+            spec = rng.choice(options)
+        else:
+            spec = fixed
         answer = spec["form"](ko)
         if not answer:
             continue
@@ -354,7 +372,7 @@ def build_conjugation_items(
             "meaning": f"{ko} ({en}) → {answer}",
             "kind": "conjugation",
         })
-    random.Random(seed).shuffle(items)
+    rng.shuffle(items)
     return items[: max(1, count)]
 
 

@@ -38,7 +38,7 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 - `/vocab` — spaced-repetition vocabulary review over everything your packs teach (due words resurface, new ones drip in, schedule adapts to your answers)
 - `/dialogue` — situational conversations (restaurant, phone, shopping, directions, self-intro): the partner speaks, you produce your lines
 - `/sounds` — Korean sound-change rules (연음, 경음화, …) with a spelled-vs-spoken listening drill
-- `/conjugate [form]` — practice conjugating verbs across 16 endings (present/past/future, -(으)면, -(으)ㄹ 수 있어요, -고 싶어요, honorific, …); a rule-based class engine conjugates every irregular class (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) correctly, never guessed
+- `/conjugate [form]` — conjugation practice across 16 endings (present/past/future, -(으)면, -(으)ㄹ 수 있어요, -고 싶어요, honorific, …), interleaved at random by default (name a form to focus one); a rule-based class engine conjugates every irregular class (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) correctly, never guessed
 - `/hangul` — learn to *read* Korean from zero: letter sounds, syllable blocks, 받침, and worked examples; `/lookup 학생` searches everything your packs teach
 - `/numbers [category]` — Korean number practice across both systems (Sino- and native-Korean): dates, counting objects, money, time, math, phone numbers, ordinals — every answer typed in Hangul, no digits; `/numbers learn` shows the tables first
 - `/typing`, `/keyboard on` — Korean keyboard trainer and 두벌식 layout chart with keystroke hints everywhere you type

@@ -202,7 +202,9 @@ class WebApp:
         if parts == ["conjugation", "forms"] and method == "GET":
             from ..conjugation import DRILL_FORMS
 
-            return 200, {"forms": [{"key": s["key"], "display": s["display"]} for s in DRILL_FORMS]}
+            forms = [{"key": "mix", "display": "Mixed — random endings"}]
+            forms += [{"key": s["key"], "display": s["display"]} for s in DRILL_FORMS]
+            return 200, {"forms": forms}
         if parts == ["lookup"] and method == "GET":
             from ..lookup import search_library
 
@@ -672,7 +674,7 @@ class WebApp:
 
             items = build_conjugation_items(
                 pack=pack, library_dir=None if pack else self.library_dir,
-                seed=self.seed, count=count or 12, form_key=body.get("form") or "aeo",
+                seed=self.seed, count=count or 12, form_key=body.get("form") or "mix",
             )
             if not items:
                 raise ApiError(400, "No conjugatable verbs found. Import a pack first.")

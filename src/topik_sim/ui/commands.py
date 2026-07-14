@@ -152,11 +152,12 @@ COMMANDS: list[Command] = [
     Command(
         "conjugate", "cmd_conjugate", "/conjugate [pack] [form] [count]", "Practice conjugating verbs across tenses, connectives, and modals.", ("conj",),
         category="Practice",
-        details="Shows a dictionary-form verb (읽다) and you type its conjugation. form (default\n"
-        "polite -아/어요): also formal (-습니다), past, past-formal, future, negation, want, can,\n"
-        "if, because, so, must, honorific — /conjugate list shows them all. Verbs come from a\n"
-        "named pack or every imported pack. Only verbs whose form is certain are asked: the\n"
-        "irregular classes (ㅂ, ㄷ, ㅅ, 르, 으, ㅎ) are conjugated by rule, never guessed.\n"
+        details="Shows a dictionary-form verb (읽다) and you type its conjugation. form defaults to\n"
+        "mix — every ending interleaved, a different one per verb (the prompt names each target).\n"
+        "Name a form to focus: polite (-아/어요), formal (-습니다), past, past-formal, future,\n"
+        "negation, want, can, if, because, so, must, honorific — /conjugate list shows them all.\n"
+        "Verbs come from a named pack or every imported pack; irregular classes (ㅂ, ㄷ, ㅅ, 르,\n"
+        "으, ㅎ) are conjugated by rule, never guessed.\n"
         "Examples: /conjugate · /conjugate past · /conjugate future topik-i-mini-pack 15 · /conjugate list",
     ),
     Command(

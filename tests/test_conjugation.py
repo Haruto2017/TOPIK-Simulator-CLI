@@ -175,15 +175,38 @@ class ConjugationDrillTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             library = Path(temp) / "library"
             import_pack(SAMPLE_PACK := Path(__file__).resolve().parents[1] / "examples" / "content" / "topik_i_mini_pack.json", library)
-            first = build_conjugation_items(library_dir=library, seed=0, count=5)
-            second = build_conjugation_items(library_dir=library, seed=0, count=5)
+            # A focused session: every answer is exactly that form's output.
+            first = build_conjugation_items(library_dir=library, seed=0, count=5, form_key="aeo")
+            second = build_conjugation_items(library_dir=library, seed=0, count=5, form_key="aeo")
             self.assertEqual(first, second)
             for item in first:
                 self.assertEqual(item["kind"], "conjugation")
                 self.assertEqual(item["accept"], [item["answer"]])
-                # every produced answer is exactly what the conjugator returns
                 verb = item["show"].split(":", 1)[1].strip().split(" ")[0]
                 self.assertEqual(informal_polite(verb), item["answer"])
+
+    def test_mix_interleaves_endings_and_stays_correct(self):
+        import tempfile
+        from pathlib import Path
+
+        from topik_sim.conjugation import DRILL_FORMS, build_conjugation_items
+        from topik_sim.library import import_pack
+
+        pack_file = Path(__file__).resolve().parents[1] / "examples" / "content" / "topik_i_mini_pack.json"
+        displays = {d["display"]: d for d in DRILL_FORMS}
+        with tempfile.TemporaryDirectory() as temp:
+            library = Path(temp) / "library"
+            import_pack(pack_file, library)
+            items = build_conjugation_items(library_dir=library, seed=0, count=6, form_key="mix")
+            for item in items:
+                ending = item["show"].split("Conjugate to ", 1)[1].split(":", 1)[0]
+                verb = item["show"].split(":", 1)[1].strip().split(" ")[0]
+                self.assertIn(ending, displays)
+                # the ending named in the prompt really produces the answer
+                self.assertEqual(displays[ending]["form"](verb), item["answer"])
+            # reproducible under a seed
+            self.assertEqual(
+                items, build_conjugation_items(library_dir=library, seed=0, count=6, form_key="mix"))
 
 
 if __name__ == "__main__":
