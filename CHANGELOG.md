@@ -195,6 +195,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   per pattern, and verbs to conjugate — so re-doing homework (best score kept)
   validates the lesson instead of rewarding memorization of one assignment.
   Passing an explicit seed to `build_homework` keeps it reproducible for tests.
+  The composing budget also rotates across the lesson's matchable patterns
+  (previously a fixed allocation order meant a third matching pattern could
+  never appear — true for 14 of the 35 bundled lessons).
 - **Web home is now a study loop, not a pack list**: 오늘의 학습 orders the day
   the way a teacher would — spaced review due, continue an open attempt, the
   next unfinished lesson (or its missing homework), then short practice — with

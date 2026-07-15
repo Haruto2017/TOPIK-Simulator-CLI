@@ -78,8 +78,12 @@ class BuildHomeworkTests(unittest.TestCase):
         }
         compose = [i for i in build_homework(lesson, seed=0) if i["kind"] == "compose"]
         self.assertEqual(len(compose), 2)
-        self.assertIn("-고 싶다", compose[0]["show"])  # not the bare -고
-        self.assertIn("-지 않다", compose[1]["show"])
+        # Allocation order is shuffled per run, so assert set membership:
+        # each point picked its most-specific structure (never the bare -고).
+        shows = " ".join(i["show"] for i in compose)
+        self.assertIn("-고 싶다", shows)
+        self.assertIn("-지 않다", shows)
+        self.assertNotIn("(-고)", shows)
         for item in compose:
             self.assertGreater(len(item["accept"]), 1)  # accepted variants travel along
             self.assertEqual(item["miss_key"], item["answer"])
@@ -137,6 +141,28 @@ class BuildHomeworkTests(unittest.TestCase):
 
     def test_empty_lesson_yields_no_items(self):
         self.assertEqual(build_homework({"id": "x", "new_vocabulary": [], "new_grammar": []}), [])
+
+    def test_compose_budget_rotates_across_matchable_patterns(self):
+        # Three matchable structures, budget of two: over unseeded runs every
+        # pattern must eventually get a turn (a fixed order starved the third).
+        lesson = {
+            "id": "rot",
+            "new_vocabulary": [{"ko": "먹다", "en": "to eat"}],
+            "new_grammar": [
+                {"pattern": "V-고 싶다", "explanation": "want to", "example": "가고 싶어요."},
+                {"pattern": "-지 않다", "explanation": "negation", "example": "멀지 않아요."},
+                {"pattern": "N에서", "explanation": "place", "example": "집에서 쉬어요."},
+            ],
+            "question_ids": [],
+        }
+        seen = set()
+        for _ in range(40):
+            for item in build_homework(lesson):
+                if item["kind"] == "compose":
+                    seen.add(item["show"].split("(", 1)[1].split(")", 1)[0])
+            if len(seen) >= 3:
+                break
+        self.assertGreaterEqual(len(seen), 3, f"only saw {seen}")
 
     def test_unseeded_runs_reroll_but_seeded_runs_reproduce(self):
         pack = load_pack(SAMPLE_PACK)

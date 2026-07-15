@@ -168,7 +168,13 @@ def _compose_items(
     corpus = load_lessons(compose_path)
     items: list[dict[str, Any]] = []
     used_structures: set[str] = set()
-    for point in grammar:
+    # Rotate which grammar points get the budget: with more matchable
+    # structures than `limit`, a fixed order would starve the same pattern
+    # forever. The structure per point stays the deterministic best match;
+    # only the allocation (and the sentence within a structure) varies.
+    points = list(grammar)
+    rng.shuffle(points)
+    for point in points:
         if len(items) >= limit:
             break
         pattern_hay = _despace(point["pattern"])
