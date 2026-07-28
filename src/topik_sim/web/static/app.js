@@ -94,7 +94,12 @@ function speakButton(text, label = "🔊") {
 
 /* --------------------------------------------------------------- router */
 
-function go(hash) { location.hash = hash; }
+function go(hash) {
+  // Setting an unchanged hash fires no hashchange event, which left in-place
+  // runners (compose, dialogue) with dead Stop/finish buttons — route directly.
+  if (location.hash === hash) { route(); return; }
+  location.hash = hash;
+}
 
 const routes = [
   [/^#?\/?$/, () => homeView()],
