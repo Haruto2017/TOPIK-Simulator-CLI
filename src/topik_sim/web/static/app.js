@@ -92,6 +92,30 @@ function speakButton(text, label = "🔊") {
   return el("button", { class: "ghost", title: "Speak", onclick: (e) => { e.stopPropagation(); say(text); } }, label);
 }
 
+function selfGrade(slot, { model, also, question, onYes, onNo }) {
+  // A self-rating must be a deliberate choice: neither button is focused (so a
+  // stray Enter cannot silently mark a wrong answer correct) and y/n keys work.
+  const keyHandler = (event) => {
+    const tag = event.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.key === "y" || event.key === "Y") { event.preventDefault(); finish(true); }
+    else if (event.key === "n" || event.key === "N") { event.preventDefault(); finish(false); }
+  };
+  const finish = (ok) => {
+    document.removeEventListener("keydown", keyHandler);
+    (ok ? onYes : onNo)();
+  };
+  document.addEventListener("keydown", keyHandler);
+  onCleanup(() => document.removeEventListener("keydown", keyHandler));
+  slot.replaceChildren(
+    el("p", {}, "Model: ", el("strong", { class: "ko", text: model }), speakButton(model)),
+    also && also.length ? el("p", { class: "small muted ko", text: "Also fine: " + also.join(" / ") }) : null,
+    el("p", { class: "muted", text: `${question}  (y / n)` }),
+    el("div", { class: "row" },
+      el("button", { text: "Yes — I had it right (y)", onclick: () => finish(true) }),
+      el("button", { text: "No — count it wrong (n)", onclick: () => finish(false) })));
+}
+
 /* --------------------------------------------------------------- router */
 
 function go(hash) {
@@ -816,15 +840,13 @@ function runDialogue(dialogue) {
         index += 1;
         step();
       } else {
-        slot.replaceChildren(
-          el("p", {}, "Model: ", el("strong", { class: "ko", text: turn.ko }), speakButton(turn.ko)),
-          accepted.length > 1 ? el("p", { class: "small muted ko", text: "Also fine: " + accepted.slice(1).join(" / ") }) : null,
-          el("p", { class: "muted", text: "Was your line right?" }),
-          el("div", { class: "row" },
-            el("button", { class: "primary", text: "Yes (y)", onclick: () => { hits += 1; accept(); } }),
-            el("button", { text: "No (n)", onclick: accept })));
-        const yes = slot.querySelector("button.primary");
-        if (yes) yes.focus();
+        selfGrade(slot, {
+          model: turn.ko,
+          also: accepted.slice(1),
+          question: "Was your line right?",
+          onYes: () => { hits += 1; accept(); },
+          onNo: accept,
+        });
       }
       function accept() {
         log.append(bubble(turn.speaker, turn.ko, null, true));
@@ -1195,27 +1217,32 @@ function runCompose(lesson) {
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
 
     function check() {
+      if (input.disabled) return;
       const typed = composeNormalize(input.value);
+      if (!typed) return;
       const accepted = (sentence.accepted && sentence.accepted.length ? sentence.accepted : [sentence.korean]);
       const exact = accepted.some((a) => composeNormalize(a) === typed);
       input.disabled = true;
       if (exact) {
         hits += 1;
+        const next = el("button", { class: "primary", text: "Next →", onclick: () => { index += 1; ask(); } });
         slot.replaceChildren(
           el("div", { class: "verdict ok", text: "✓ Correct" },),
           el("p", { class: "ko" }, sentence.korean, speakButton(sentence.korean)),
-          el("button", { class: "primary", text: "Next →", onclick: () => { index += 1; ask(); } }));
+          next);
+        next.focus();
       } else {
-        slot.replaceChildren(
-          el("p", {}, "Model: ", el("strong", { class: "ko", text: sentence.korean }), speakButton(sentence.korean)),
-          accepted.length > 1 ? el("p", { class: "small muted ko", text: "Also fine: " + accepted.slice(1).join(" / ") }) : null,
-          el("p", { class: "muted", text: "Was your sentence right?" }),
-          el("div", { class: "row" },
-            el("button", { class: "primary", text: "Yes (y)", onclick: () => { hits += 1; index += 1; ask(); } }),
-            el("button", { text: "No (n)", onclick: () => { index += 1; ask(); } })));
+        // Self-grade must be a deliberate choice: no button is focused (a
+        // stray Enter must not silently mark it correct) and the promised
+        // y/n keys work.
+        selfGrade(slot, {
+          model: sentence.korean,
+          also: accepted.slice(1),
+          question: "Was your sentence right?",
+          onYes: () => { hits += 1; index += 1; ask(); },
+          onNo: () => { index += 1; ask(); },
+        });
       }
-      const focusTarget = slot.querySelector("button.primary");
-      if (focusTarget) focusTarget.focus();
     }
   }
   ask();
