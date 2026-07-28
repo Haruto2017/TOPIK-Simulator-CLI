@@ -1,0 +1,261 @@
+{
+  "schema_version": "topik-sim.curriculum.v1",
+  "id": "topik1-path",
+  "title": "TOPIK I Study Path",
+  "note": "Two levels of ten units plus a Hangul stage, staged after the unit progression of the Yonsei Korean 1-2 curriculum (user-licensed copies in this repo). Every description here is original text; no book content is reproduced. Units name their communicative goals and grammar scope; the simulator links them to its own courses, homework, writing, dialogues, and drills at runtime.",
+  "units": [
+    {
+      "id": "hangul",
+      "level": 0,
+      "order": 0,
+      "title": "Read Hangul first",
+      "title_ko": "한글",
+      "scope": "Read syllable blocks, know every letter's sound, and type on the 두벌식 keyboard.",
+      "tasks": ["Sound out any syllable block", "Type jamo and simple words", "Hear how spelling and sound differ"],
+      "grammar": [],
+      "vocab_domains": ["the alphabet"],
+      "drills": [
+        {"mode": "hangul", "label": "Read Hangul primer"},
+        {"mode": "typing", "label": "Keyboard trainer"},
+        {"mode": "sounds", "label": "Sound-change rules"}
+      ]
+    },
+    {
+      "id": "greetings",
+      "level": 1,
+      "order": 1,
+      "title": "Greetings & introductions",
+      "title_ko": "인사",
+      "scope": "Introduce yourself politely: name, nationality, and occupation.",
+      "tasks": ["Say your name and ask someone's", "Say where you are from", "Say what you do", "Exchange basic greetings"],
+      "grammar": ["N입니다/입니까?", "은/는", "이/가 아니다", "-습니다/-ㅂ니다"],
+      "vocab_domains": ["names", "countries", "occupations"],
+      "dialogues": ["self-intro"],
+      "drills": [{"mode": "conjugate", "form": "seumnida", "label": "Formal polite endings"}]
+    },
+    {
+      "id": "school-home",
+      "level": 1,
+      "order": 2,
+      "title": "School & home",
+      "title_ko": "학교와 집",
+      "scope": "Name everyday objects and say where places and things are.",
+      "tasks": ["Ask what something is", "Say what a room contains", "Ask where a place is", "Describe where you live"],
+      "grammar": ["이/가", "이, 그, 저", "도", "있다/없다", "N에 (location)", "하고"],
+      "vocab_domains": ["classroom objects", "places", "position words"],
+      "drills": [{"mode": "recall", "label": "Vocabulary recall"}]
+    },
+    {
+      "id": "family-friends",
+      "level": 1,
+      "order": 3,
+      "title": "Family & friends",
+      "title_ko": "가족과 친구",
+      "scope": "Talk about people: what they are doing, who they are, where they study or work.",
+      "tasks": ["Say what you are doing now", "Introduce your family", "Describe your hometown", "Say what a friend studies"],
+      "grammar": ["을/를", "-(으)시-", "-고 (listing)", "N에서 (place of action)"],
+      "vocab_domains": ["family terms", "honorific words", "majors", "native numbers 1-10"]
+    },
+    {
+      "id": "food",
+      "level": 1,
+      "order": 4,
+      "title": "Food & eating out",
+      "title_ko": "음식",
+      "scope": "Suggest going out, talk about food you like, and order a meal.",
+      "tasks": ["Suggest eating together", "Say which foods you like", "Say what you want to eat", "Order politely"],
+      "grammar": ["에 가다", "-(으)ㄹ까요?", "-(으)ㅂ시다", "-지 않다", "무슨", "-고 싶다", "-(으)십시오"],
+      "vocab_domains": ["dishes", "tastes", "food counters", "sino numbers 1-10"],
+      "dialogues": ["restaurant"],
+      "drills": [{"mode": "numbers", "category": "count", "label": "Counting with counters"}]
+    },
+    {
+      "id": "daily-life",
+      "level": 1,
+      "order": 5,
+      "title": "Time & daily life",
+      "title_ko": "하루 생활",
+      "scope": "Tell the time and date, describe your routine, and talk about yesterday.",
+      "tasks": ["Say what time it is", "Give today's date and day", "Describe your daily routine", "Say what you did"],
+      "grammar": ["-아/어요", "까지", "-지요?", "-(으)세요", "부터 ~ 까지", "-았/었어요"],
+      "vocab_domains": ["time words", "dates and days", "daily verbs"],
+      "drills": [
+        {"mode": "numbers", "category": "time", "label": "Telling the time"},
+        {"mode": "numbers", "category": "date", "label": "Dates"},
+        {"mode": "conjugate", "form": "past", "label": "Past tense"}
+      ]
+    },
+    {
+      "id": "shopping",
+      "level": 1,
+      "order": 6,
+      "title": "Shopping",
+      "title_ko": "물건 사기",
+      "scope": "Buy things: describe them, ask prices, and ask for a better deal.",
+      "tasks": ["Say what you are going to buy", "Describe quality and size", "Ask how much something is", "Ask for a discount"],
+      "grammar": ["-(으)러 가다", "과/와", "-지만", "-(으)ㄴ (modifier)", "-아/어 주다", "에게"],
+      "vocab_domains": ["shops", "unit nouns", "money"],
+      "dialogues": ["shopping"],
+      "drills": [{"mode": "numbers", "category": "money", "label": "Prices in won"}]
+    },
+    {
+      "id": "transport",
+      "level": 1,
+      "order": 7,
+      "title": "Getting around",
+      "title_ko": "교통",
+      "scope": "Ask the way, choose transport, and take a taxi.",
+      "tasks": ["Ask where something is and how to get there", "Say how long a trip takes", "Choose bus or subway", "Direct a taxi"],
+      "grammar": ["(으)로 (direction/means)", "에서 ~ 까지", "-아/어서", "-(으)니까", "-지 말다"],
+      "vocab_domains": ["directions", "transport", "taxi phrases"],
+      "dialogues": ["directions"]
+    },
+    {
+      "id": "phone",
+      "level": 1,
+      "order": 8,
+      "title": "On the phone",
+      "title_ko": "전화",
+      "scope": "Exchange phone numbers, make a call, and arrange to meet.",
+      "tasks": ["Say and ask phone numbers", "Open a phone call", "Arrange a meeting time", "Ask for someone"],
+      "grammar": ["-(으)ㄹ게요", "이나", "-는데요/-(으)ㄴ데요", "-(으)면", "-(으)ㄹ 거예요"],
+      "vocab_domains": ["phone phrases", "appointments"],
+      "dialogues": ["phone"],
+      "drills": [{"mode": "numbers", "category": "phone", "label": "Phone numbers"}]
+    },
+    {
+      "id": "weather",
+      "level": 1,
+      "order": 9,
+      "title": "Weather & seasons",
+      "title_ko": "날씨와 계절",
+      "scope": "Talk about seasons and weather, compare them, and guess what is coming.",
+      "tasks": ["Say which season you like and why", "Describe today's weather", "Compare weather", "Say what people are doing"],
+      "grammar": ["-(으)ㄴ데/-는데", "-(으)ㄹ 수 있다", "-(으)ㄴ 후에", "보다", "-(으)ㄹ 것 같다", "-고 있다"],
+      "vocab_domains": ["seasons", "weather", "seasonal activities"],
+      "drills": [{"mode": "conjugate", "form": "can", "label": "-(으)ㄹ 수 있어요"}]
+    },
+    {
+      "id": "holidays",
+      "level": 1,
+      "order": 10,
+      "title": "Holidays & plans",
+      "title_ko": "휴일과 방학",
+      "scope": "Talk about plans, hobbies, and how you spent the weekend.",
+      "tasks": ["Say what you plan to do", "Talk about hobbies", "Say what you cannot do often", "Describe your weekend"],
+      "grammar": ["-(으)려고 하다", "동안", "-(으)ㄹ 때", "중에서 제일", "못", "-기 전에", "-지 못하다"],
+      "vocab_domains": ["holidays", "hobbies", "weekend activities"],
+      "drills": [{"mode": "conjugate", "form": "future", "label": "Future & intentions"}]
+    },
+    {
+      "id": "introductions-2",
+      "level": 2,
+      "order": 11,
+      "title": "Introductions, formal & casual",
+      "title_ko": "소개",
+      "scope": "Introduce yourself and others in formal settings, and talk about adjusting to life in Korea.",
+      "tasks": ["Introduce yourself formally", "Introduce friends and family", "Say how long you have done something", "Describe your hometown in detail"],
+      "grammar": ["-기 때문에", "이든지", "-(으)ㄴ 지", "-아/어지다", "-아/어하다"],
+      "vocab_domains": ["workplace", "majors", "relatives"]
+    },
+    {
+      "id": "korean-food",
+      "level": 2,
+      "order": 12,
+      "title": "Korean food in depth",
+      "title_ko": "한국 음식",
+      "scope": "Talk about dishes you have tried, explain how to eat and cook them, and follow table manners.",
+      "tasks": ["Say what you have tried", "Explain how to eat a dish", "Describe a simple recipe", "State table etiquette"],
+      "grammar": ["-아/어 보다", "-아/어야 하다", "-(으)ㄴ 적이 있다", "부터", "-게", "-아/어도 되다", "-(으)면 안 되다"],
+      "vocab_domains": ["dishes", "cooking verbs", "table setting"]
+    },
+    {
+      "id": "market",
+      "level": 2,
+      "order": 13,
+      "title": "Markets & buying smart",
+      "title_ko": "시장",
+      "scope": "Shop at department stores, markets, and supermarkets — try things, pay, and order goods.",
+      "tasks": ["Weigh price against quality", "Ask to try something on", "Pay by card", "Order from an ad"],
+      "grammar": ["-(으)ㄹ까 하다", "-기는 하지만", "-아/어 보다 (attempt)", "-아/어도", "-았/었으면 좋겠다"],
+      "vocab_domains": ["clothing", "daily necessities", "gifts"]
+    },
+    {
+      "id": "invitations",
+      "level": 2,
+      "order": 14,
+      "title": "Invitations & casual speech",
+      "title_ko": "초대",
+      "scope": "Invite friends to birthdays, housewarmings, and gatherings — and start using casual speech (반말).",
+      "tasks": ["Invite a friend casually", "Decide whom to invite", "Talk about a wedding", "Offer to bring something"],
+      "grammar": ["반말 -아/어", "이야", "-지 마", "-(으)ㄹ지", "-자", "-기로 하다", "-아/어 가지고"],
+      "vocab_domains": ["parties", "housewarming", "weddings"]
+    },
+    {
+      "id": "transport-2",
+      "level": 2,
+      "order": 15,
+      "title": "Transport like a local",
+      "title_ko": "교통 심화",
+      "scope": "Ask about routes, pick the right bus or line, and handle transfers.",
+      "tasks": ["Ask if someone knows the way", "Ask which bus to take", "Handle a transfer", "Judge whether to walk or ride"],
+      "grammar": ["-는지 알다/모르다", "-(으)려면", "-았/었다가", "-나요?", "-아/어 보이다", "-다가"],
+      "vocab_domains": ["bus", "subway", "road signs"]
+    },
+    {
+      "id": "public-offices",
+      "level": 2,
+      "order": 16,
+      "title": "Public offices",
+      "title_ko": "공공 기관",
+      "scope": "Use the library, bank, post office, and immigration office.",
+      "tasks": ["Borrow and return books", "Handle a bank errand", "Send a package", "Extend a visa"],
+      "grammar": ["에 대해서", "-(으)ㄹ지 모르겠다", "에 비해서", "-는 동안", "-거나", "-아/어 있다", "-지 않으면 안 되다"],
+      "vocab_domains": ["library", "bank", "post office", "immigration"]
+    },
+    {
+      "id": "phone-2",
+      "level": 2,
+      "order": 17,
+      "title": "Phone & reported speech",
+      "title_ko": "전화 심화",
+      "scope": "Make arrangements by phone and pass messages along — reporting what others said.",
+      "tasks": ["Arrange plans by phone", "Relay what someone said", "Cancel an appointment", "Leave and pass on a message"],
+      "grammar": ["-자고 하다", "-(느)ㄴ다고 하다", "-(으)냐고 하다", "-(으)라고 하다", "-아/어야겠다", "-게 되다", "-는 대로", "-아/어 달라고 하다"],
+      "vocab_domains": ["calls", "messages", "appointments"]
+    },
+    {
+      "id": "hospital",
+      "level": 2,
+      "order": 18,
+      "title": "At the hospital",
+      "title_ko": "병원",
+      "scope": "Describe symptoms, see a doctor, and buy medicine at the pharmacy.",
+      "tasks": ["Describe stomach symptoms", "Describe a cold", "Get a prescription filled", "Talk about a busy clinic"],
+      "grammar": ["에다가", "-는 데다가", "-지 말고", "-기 위해서", "아무", "-나 보다"],
+      "vocab_domains": ["symptoms", "medicine", "clinic"]
+    },
+    {
+      "id": "travel",
+      "level": 2,
+      "order": 19,
+      "title": "Travel",
+      "title_ko": "여행",
+      "scope": "Share travel memories, plan and book a trip, and recommend places.",
+      "tasks": ["Tell a travel memory", "Plan a trip", "Book a hotel", "Recommend a destination"],
+      "grammar": ["밖에", "-았/었던", "-던", "만에", "만큼", "-아/어서 그런지", "-더군요"],
+      "vocab_domains": ["trip types", "preparation", "booking", "sights"]
+    },
+    {
+      "id": "housework",
+      "level": 2,
+      "order": 20,
+      "title": "Housing & housework",
+      "title_ko": "집안일",
+      "scope": "Find a place to live, plan a move, and handle everyday chores.",
+      "tasks": ["Compare housing offers", "Plan a move", "Talk about chores", "Use the laundry"],
+      "grammar": ["-(으)면 -(으)ㄹ수록", "-는 줄 알다", "처럼", "덕분에", "-(으)면서", "-(으)ㄹ 테니까"],
+      "vocab_domains": ["housing", "moving", "chores", "laundry"]
+    }
+  ]
+}

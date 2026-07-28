@@ -541,6 +541,85 @@ class Shell:
             return
         self._speak([argument], playback=True)
 
+    def cmd_path(self, argument: str) -> None:
+        """The staged study path: what to learn at which stage, with links."""
+        from ..compose import DEFAULT_COMPOSE_PATH
+        from ..curriculum import (
+            DEFAULT_CURRICULUM_PATH, load_curriculum, resolve_units, unit_status,
+        )
+        from ..dialogues import DEFAULT_DIALOGUES_PATH
+
+        units = load_curriculum(DEFAULT_CURRICULUM_PATH)
+        if not units:
+            self.emit("No study path found (content/curriculum).")
+            return
+        resolved = resolve_units(units, self.library_dir, self.courses_path,
+                                 self.compose_path, DEFAULT_DIALOGUES_PATH)
+        arg = argument.strip().lower()
+        if arg:
+            unit = next((u for u in resolved
+                         if str(u.get("order")) == arg or str(u.get("id")).lower() == arg), None)
+            if unit is None:
+                self.emit(f"No unit {arg!r}. Bare /path lists all stages.")
+                return
+            self._show_path_unit(unit)
+            return
+        marks = {"done": ansi.style("✓", ansi.GREEN), "started": ansi.style("◐", ansi.CYAN),
+                 "practiced": ansi.style("◐", ansi.CYAN), "new": "·"}
+        self.emit(render.rule("Study path — TOPIK I"))
+        current_level = None
+        for unit in resolved:
+            if unit.get("level") != current_level:
+                current_level = unit.get("level")
+                label = {0: "Start here", 1: "Level 1 · 1급", 2: "Level 2 · 2급"}.get(current_level, f"Level {current_level}")
+                self.emit("")
+                self.emit(ansi.style(label, ansi.BOLD))
+            status = unit_status(unit, self.attempt_dir)
+            mark = marks.get(status["state"], "·")
+            progress = f"{status['lessons_done']}/{status['lessons_total']} lessons" if status["lessons_total"] else ""
+            self.emit(f"  {mark} {ansi.style(str(unit.get('order')), ansi.BOLD, ansi.CYAN)}. "
+                      f"{unit['title']}  {ansi.style(unit.get('title_ko', ''), ansi.DIM)}  "
+                      f"{ansi.style(progress, ansi.GREY)}")
+            self.emit(ansi.style(f"      {unit.get('scope', '')}", ansi.GREY))
+        self.emit("")
+        self.emit("/path <n> shows a stage's full scope and the commands that teach it.")
+
+    def _show_path_unit(self, unit: dict[str, Any]) -> None:
+        from ..curriculum import unit_status
+
+        status = unit_status(unit, self.attempt_dir)
+        self.emit(render.rule(f"Stage {unit.get('order')} · {unit['title']}"))
+        self.emit(unit.get("scope", ""))
+        for task in unit.get("tasks", []):
+            self.emit(f"  • {task}")
+        if unit.get("grammar"):
+            self.emit(ansi.style("Grammar in scope: ", ansi.BOLD) + " · ".join(unit["grammar"]))
+        if unit.get("vocab_domains"):
+            self.emit(ansi.style("Vocabulary: ", ansi.BOLD) + ", ".join(unit["vocab_domains"]))
+        self.emit("")
+        self.emit(ansi.style("Learn and validate it:", ansi.BOLD))
+        for course in unit.get("courses", []):
+            self.emit(f"  /course {course['pack_id']}  → lesson {course['order']} ({course['title']})"
+                      f"   · then /homework {course['pack_id']} {course['order']}")
+        for structure in unit.get("compose_structures", []):
+            self.emit(f"  /compose {structure['id']}   — write with {structure['pattern']}")
+        for dialogue in unit.get("dialogues", []):
+            self.emit(f"  /dialogue {dialogue}")
+        for form in unit.get("conjugation", []):
+            self.emit(f"  /conjugate {form['form']}   — {form['display']}")
+        for drill in unit.get("drills", []):
+            command = {"hangul": "/hangul", "sounds": "/sounds", "typing": "/typing"}.get(drill.get("mode"))
+            if command is None:
+                command = f"/{drill.get('mode')}" + (f" {drill.get('category')}" if drill.get("category") else "") \
+                          + (f" {drill.get('form')}" if drill.get("form") else "")
+            self.emit(f"  {command}   — {drill.get('label', '')}")
+        self.emit("  /vocab   — keep the stage's words on the spaced schedule")
+        progress = (f"{status['lessons_done']}/{status['lessons_total']} lessons · "
+                    f"{status['homework_done']}/{status['lessons_total']} homework"
+                    if status["lessons_total"] else ("practiced" if status["practiced"] else "not started"))
+        self.emit("")
+        self.emit(ansi.style(f"Progress: {progress}", ansi.GREY))
+
     def cmd_hangul(self, argument: str) -> None:
         """Read Hangul from zero: jamo sounds, block composition, batchim."""
         from ..hangul_guide import guide

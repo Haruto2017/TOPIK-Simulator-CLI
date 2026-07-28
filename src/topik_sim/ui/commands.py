@@ -42,6 +42,16 @@ def commands_by_category(commands: list[Command]) -> list[tuple[str, list[Comman
 
 COMMANDS: list[Command] = [
     Command(
+        "path", "cmd_path", "/path [unit]", "The staged study path: what to learn at which stage.", ("study", "curriculum"),
+        category="Take a test",
+        details="A textbook-style scope and sequence for TOPIK I: a Hangul stage, then two levels\n"
+        "of ten units, each naming its communicative goals, grammar scope, and vocabulary.\n"
+        "Units link to the tool's own courses, homework, writing structures, dialogues, and\n"
+        "drills, with your progress marked (✓ done · ◐ in progress). /path <n> (or an id like\n"
+        "'food') shows one stage with the exact commands that teach it.\n"
+        "Examples: /path · /path 4 · /path shopping",
+    ),
+    Command(
         "take", "cmd_take", "/take [pack] [section] [limit]", "Start a test from the library or a pack file.",
         category="Take a test",
         details="pack: a library id (Tab completes), a pinned id@version, or a JSON file path.\n"

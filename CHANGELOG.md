@@ -11,6 +11,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Staged study path**: `/path` (aliases `/study`, `/curriculum`) and a web
+  "Study path" page give the whole journey a textbook's shape — a Hangul
+  stage, then two levels of ten units (greetings → school & home → family →
+  food → daily life → shopping → transport → phone → weather → holidays, and a
+  second level from formal introductions through casual speech, reported
+  speech, hospital, travel, and housing), staged after the unit progression of
+  the learner-licensed Yonsei Korean 1-2 volumes in this repo. Only the
+  scope-and-sequence was used; every description is original and no book text
+  is reproduced. Units are data (`content/curriculum/topik1.json`) naming
+  tasks, grammar scope, and vocabulary domains; `src/topik_sim/curriculum.py`
+  resolves each unit at runtime to the tool's own content (course lessons by
+  grammar overlap, compose structures by match keys, dialogues, drills,
+  conjugation forms) and derives progress from the existing trackers, so the
+  path shows ✓/◐ per stage and links straight into study.
+
 - **Vocabulary spaced repetition**: `/vocab` (alias `/v`) and a web "Vocabulary
   review (SRS)" mode run a real Leitner schedule over every word the packs
   teach — due words resurface first, a few new ones are introduced each

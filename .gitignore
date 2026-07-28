@@ -14,3 +14,6 @@ data/
 content/library/
 exports/
 tools/runtime/
+
+# Personal licensed textbook copies — never commit
+*.pdf

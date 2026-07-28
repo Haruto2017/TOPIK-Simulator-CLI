@@ -127,6 +127,7 @@ function go(hash) {
 
 const routes = [
   [/^#?\/?$/, () => homeView()],
+  [/^#\/study$/, () => studyPathView()],
   [/^#\/take$/, () => takeView()],
   [/^#\/exam\/([\w-]+)$/, (m) => examView(m[1])],
   [/^#\/drill\/([\w-]+)$/, (m) => drillView(m[1])],
@@ -342,6 +343,88 @@ async function homeView() {
 }
 
 /* ------------------------------------------------------------ take/exam */
+
+async function startComposeById(structureId) {
+  const data = await api("GET", "/api/compose/lessons").catch(() => null);
+  const lesson = data && data.lessons.find((l) => l.id === structureId);
+  if (lesson) runCompose(lesson);
+  else go("#/practice/compose");
+}
+
+async function startDrill(body) {
+  try {
+    const view = await api("POST", "/api/drill/start", body);
+    state.views.set(view.id, view);
+    go(`#/drill/${view.id}`);
+  } catch (error) { toast(error.message); }
+}
+
+const LEVEL_LABELS = { 0: "Start here", 1: "Level 1 · 1급", 2: "Level 2 · 2급" };
+const STATE_PILLS = {
+  done: ["✓ done", "good"], started: ["◐ in progress", "on"],
+  practiced: ["◐ practiced", "on"], new: ["not started", ""],
+};
+
+async function studyPathView() {
+  const data = await api("GET", "/api/path");
+  if (!data.units.length) {
+    render(...header("Study path", ""), el("p", { class: "muted", text: "No curriculum found (content/curriculum)." }));
+    return;
+  }
+  const nodes = [...header("Study path — TOPIK I",
+    "A textbook-style scope and sequence: each stage names what you learn, and links straight to the lessons, homework, writing, and drills that teach it.")];
+  let currentLevel = null;
+  for (const unit of data.units) {
+    if (unit.level !== currentLevel) {
+      currentLevel = unit.level;
+      nodes.push(el("h2", { text: LEVEL_LABELS[currentLevel] || `Level ${currentLevel}` }));
+    }
+    const [stateText, stateClass] = STATE_PILLS[unit.status.state] || STATE_PILLS.new;
+    const buttons = [];
+    const course = unit.courses[0];
+    if (course) {
+      buttons.push(el("button", { class: "primary", text: `Study lesson`, onclick: () => go(`#/lesson/${course.pack_id}/${course.course_id}`) }));
+      buttons.push(el("button", { text: "Homework", onclick: () => startHomework(course.pack_id, course.course_id) }));
+    }
+    for (const dialogueId of unit.dialogues) {
+      buttons.push(el("button", { text: `Talk: ${dialogueId}`, onclick: async () => {
+        const dialogues = await api("GET", "/api/dialogues");
+        const found = dialogues.dialogues.find((d) => d.id === dialogueId);
+        if (found) runDialogue(found); else go("#/practice/dialogue");
+      } }));
+    }
+    if (unit.compose_structures.length) {
+      buttons.push(el("button", { text: "Write", onclick: () => startComposeById(unit.compose_structures[0].id) }));
+    }
+    for (const form of unit.conjugation.slice(0, 2)) {
+      buttons.push(el("button", { class: "ghost", text: `Conjugate ${form.form}`, onclick: () => startDrill({ mode: "conjugate", form: form.form }) }));
+    }
+    for (const drill of (unit.drills || []).slice(0, 3)) {
+      if (drill.mode === "hangul") buttons.push(el("button", { class: "ghost", text: "Read Hangul", onclick: () => go("#/practice/hangul") }));
+      else if (drill.mode === "sounds") buttons.push(el("button", { class: "ghost", text: "Sound changes", onclick: () => go("#/practice/sounds") }));
+      else if (drill.mode === "typing") buttons.push(el("button", { class: "ghost", text: "Typing", onclick: () => go("#/practice/typing") }));
+      else if (drill.mode !== "conjugate") {
+        buttons.push(el("button", { class: "ghost", text: drill.label || drill.mode,
+          onclick: () => startDrill({ mode: drill.mode, category: drill.category, form: drill.form }) }));
+      }
+    }
+    const progress = unit.status.lessons_total
+      ? `${unit.status.lessons_done}/${unit.status.lessons_total} lessons · ${unit.status.homework_done}/${unit.status.lessons_total} homework`
+      : "";
+    nodes.push(el("div", { class: "card stack" },
+      el("div", { class: "spread" },
+        el("div", {}, el("strong", { text: `${unit.order}. ${unit.title}` }),
+          unit.title_ko ? el("span", { class: "muted ko", text: `  ${unit.title_ko}` }) : null),
+        el("div", { class: "row" },
+          progress ? el("span", { class: "small muted", text: progress }) : null,
+          el("span", { class: `pill ${stateClass}`, text: stateText }))),
+      el("p", { class: "small muted", text: unit.scope }),
+      unit.grammar.length ? el("div", { class: "chips" },
+        ...unit.grammar.map((g) => el("span", { class: "chip ko", text: g }))) : null,
+      el("div", { class: "row" }, ...buttons)));
+  }
+  render(...nodes);
+}
 
 async function takeView() {
   const [packsData, due] = await Promise.all([api("GET", "/api/packs"), api("GET", "/api/review/due")]);

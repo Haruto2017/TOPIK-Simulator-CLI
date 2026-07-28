@@ -264,6 +264,16 @@ class WebApp:
                 facts = filter_facts(facts, query["query"])
             return 200, {"facts": facts}
 
+        if parts == ["path"] and method == "GET":
+            from ..curriculum import (
+                DEFAULT_CURRICULUM_PATH, load_curriculum, resolve_units, unit_status,
+            )
+
+            units = resolve_units(load_curriculum(DEFAULT_CURRICULUM_PATH), self.library_dir,
+                                  self.courses_path, self.compose_path, self.dialogues_path)
+            return 200, {"units": [
+                {**unit, "status": unit_status(unit, self.attempt_dir)} for unit in units
+            ]}
         if parts == ["courses"] and method == "GET":
             return 200, {"packs": self.courses()}
         if len(parts) == 3 and parts[:2] == ["courses", "lesson"] and method == "GET":

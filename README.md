@@ -33,6 +33,7 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 - `/replay`, `/transcript`, `/skip`
 - `/drill` — re-practice the questions you missed in your last completed attempt
 - `/review` — spaced-repetition session over everything you have missed before
+- `/path` — the staged study path: a Hangul stage plus two textbook-style levels of ten units, each naming its scope and linking to the lessons, homework, writing, dialogues, and drills that teach it
 - `/homework <pack> [lesson]` — textbook-style homework for each course lesson, auto-generated from what it taught: recall, meaning and pattern multiple choice, and fill-the-blank; best scores tracked per lesson
 - `/flashcards <pack>`, `/grammar`, `/recall`, `/dictation <pack>` — vocabulary cards, grammar patterns, type-the-Korean recall, listen-and-type practice
 - `/vocab` — spaced-repetition vocabulary review over everything your packs teach (due words resurface, new ones drip in, schedule adapts to your answers)
