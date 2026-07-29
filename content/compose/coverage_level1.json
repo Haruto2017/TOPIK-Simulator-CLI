@@ -1,0 +1,107 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "dem-i-geu-jeo",
+      "pattern": "이/그/저 N",
+      "meaning": "this / that / that over there (demonstratives)",
+      "example": "이 책은 제 책이에요.",
+      "example_en": "This book is my book.",
+      "note": "**이** points to something near the speaker, **그** to something near the listener, and **저** to something far from both. They come directly before a noun: 이 사람, 그 가방, 저 건물.",
+      "match": ["이, 그, 저", "그, 저"],
+      "level": 1,
+      "sentences": [
+        { "english": "This book is interesting.", "korean": "이 책이 재미있어요.", "accepted": ["이 책이 재미있어요.", "이 책은 재미있어요.", "이 책이 재미있습니다."] },
+        { "english": "That bag (near you) is pretty.", "korean": "그 가방이 예뻐요.", "accepted": ["그 가방이 예뻐요.", "그 가방은 예뻐요.", "그 가방이 예쁩니다."] },
+        { "english": "That building over there is a hospital.", "korean": "저 건물은 병원이에요.", "accepted": ["저 건물은 병원이에요.", "저 건물이 병원이에요.", "저 건물은 병원입니다."] },
+        { "english": "This coffee is delicious.", "korean": "이 커피가 맛있어요.", "accepted": ["이 커피가 맛있어요.", "이 커피는 맛있어요.", "이 커피가 맛있습니다."] },
+        { "english": "Who is that person (near you)?", "korean": "그 사람은 누구예요?", "accepted": ["그 사람은 누구예요?", "그 사람이 누구예요?", "그 사람은 누구입니까?"] }
+      ]
+    },
+    {
+      "id": "formal-command-sipsio",
+      "pattern": "-(으)십시오",
+      "meaning": "formal polite command (please do)",
+      "example": "여기에 앉으십시오.",
+      "example_en": "Please sit here.",
+      "note": "**-(으)십시오** is the formal command ending heard in announcements and from staff: **-십시오** after a vowel stem (가다 → 가십시오), **-으십시오** after a consonant (읽다 → 읽으십시오). ㄷ-irregulars change: 듣다 → 들으십시오.",
+      "match": ["십시오"],
+      "level": 1,
+      "sentences": [
+        { "english": "Please come in.", "korean": "들어오십시오.", "accepted": ["들어오십시오.", "어서 들어오십시오."] },
+        { "english": "Please read this book.", "korean": "이 책을 읽으십시오.", "accepted": ["이 책을 읽으십시오.", "이 책을 읽어 주십시오."] },
+        { "english": "Please wait a moment.", "korean": "잠깐 기다리십시오.", "accepted": ["잠깐 기다리십시오.", "잠시 기다리십시오.", "잠깐만 기다리십시오."] },
+        { "english": "Please close the door.", "korean": "문을 닫으십시오.", "accepted": ["문을 닫으십시오.", "문을 닫아 주십시오."] },
+        { "english": "Please listen carefully.", "korean": "잘 들으십시오.", "accepted": ["잘 들으십시오.", "잘 들어 주십시오."] }
+      ]
+    },
+    {
+      "id": "range-buteo-kkaji",
+      "pattern": "N부터 N까지",
+      "meaning": "from ~ until (a time range)",
+      "example": "아침 9시부터 오후 6시까지 일해요.",
+      "example_en": "I work from 9 in the morning until 6 in the evening.",
+      "note": "**부터** marks the starting time and **까지** the ending time: 월요일부터 금요일까지, 1시부터 3시까지. For a range of places, use 에서 ~ 까지 instead.",
+      "match": ["부터 ~ 까지", "시부터"],
+      "level": 1,
+      "sentences": [
+        { "english": "I study from 1 o'clock until 3 o'clock.", "korean": "1시부터 3시까지 공부해요.", "accepted": ["1시부터 3시까지 공부해요.", "한 시부터 세 시까지 공부해요.", "1시부터 3시까지 공부합니다."] },
+        { "english": "I work from Monday until Friday.", "korean": "월요일부터 금요일까지 일해요.", "accepted": ["월요일부터 금요일까지 일해요.", "월요일부터 금요일까지 일합니다."] },
+        { "english": "The vacation is from tomorrow until Sunday.", "korean": "방학은 내일부터 일요일까지예요.", "accepted": ["방학은 내일부터 일요일까지예요.", "방학이 내일부터 일요일까지예요.", "방학은 내일부터 일요일까지입니다."] },
+        { "english": "The store is open from 10 o'clock until 8 o'clock.", "korean": "가게는 10시부터 8시까지 문을 열어요.", "accepted": ["가게는 10시부터 8시까지 문을 열어요.", "가게는 10시부터 8시까지 열어요.", "가게는 10시부터 8시까지 문을 엽니다."] },
+        { "english": "I slept from 11 o'clock until 7 o'clock.", "korean": "11시부터 7시까지 잤어요.", "accepted": ["11시부터 7시까지 잤어요.", "열한 시부터 일곱 시까지 잤어요.", "11시부터 7시까지 잤습니다."] }
+      ]
+    },
+    {
+      "id": "adj-modifier-eun",
+      "pattern": "A-(으)ㄴ N",
+      "meaning": "adjective modifying a noun (a big bag, good weather)",
+      "example": "큰 가방을 샀어요.",
+      "example_en": "I bought a big bag.",
+      "note": "To put an adjective in front of a noun, add **-ㄴ** to a vowel stem (크다 → 큰) and **-은** to a consonant stem (작다 → 작은). ㅂ-irregulars change their stem: 춥다 → 추운, 쉽다 → 쉬운.",
+      "match": ["-(으)ㄴ (modifier)", "(으)ㄴ (modifier)", "A-(으)ㄴ"],
+      "level": 1,
+      "sentences": [
+        { "english": "I bought small shoes.", "korean": "작은 신발을 샀어요.", "accepted": ["작은 신발을 샀어요.", "작은 신발을 샀습니다."] },
+        { "english": "I like warm coffee.", "korean": "따뜻한 커피를 좋아해요.", "accepted": ["따뜻한 커피를 좋아해요.", "저는 따뜻한 커피를 좋아해요.", "따뜻한 커피를 좋아합니다."] },
+        { "english": "It is a pretty flower.", "korean": "예쁜 꽃이에요.", "accepted": ["예쁜 꽃이에요.", "그것은 예쁜 꽃이에요.", "예쁜 꽃입니다."] },
+        { "english": "I live in a big city.", "korean": "큰 도시에서 살아요.", "accepted": ["큰 도시에서 살아요.", "큰 도시에 살아요.", "큰 도시에서 삽니다."] },
+        { "english": "Today is a busy day.", "korean": "오늘은 바쁜 날이에요.", "accepted": ["오늘은 바쁜 날이에요.", "오늘은 바쁜 날입니다."] }
+      ]
+    },
+    {
+      "id": "part-euro-direction",
+      "pattern": "N(으)로",
+      "meaning": "toward (direction) / by means of",
+      "example": "지하철로 학교에 가요.",
+      "example_en": "I go to school by subway.",
+      "note": "Use **로** after a vowel or ㄹ and **으로** after other consonants. It marks a direction (오른쪽으로 가세요) or a means and tool (버스로, 한국어로, 펜으로).",
+      "match": ["(으)로"],
+      "level": 1,
+      "sentences": [
+        { "english": "I go to work by bus.", "korean": "버스로 회사에 가요.", "accepted": ["버스로 회사에 가요.", "버스로 회사에 갑니다."] },
+        { "english": "Please go to the right.", "korean": "오른쪽으로 가세요.", "accepted": ["오른쪽으로 가세요.", "오른쪽으로 가십시오."] },
+        { "english": "I write a letter with a pen.", "korean": "펜으로 편지를 써요.", "accepted": ["펜으로 편지를 써요.", "펜으로 편지를 씁니다."] },
+        { "english": "Please speak in Korean.", "korean": "한국어로 말하세요.", "accepted": ["한국어로 말하세요.", "한국어로 말해 주세요.", "한국어로 이야기하세요."] },
+        { "english": "I go home by subway.", "korean": "지하철로 집에 가요.", "accepted": ["지하철로 집에 가요.", "지하철로 집에 갑니다."] }
+      ]
+    },
+    {
+      "id": "part-ina-or",
+      "pattern": "N(이)나 N",
+      "meaning": "or (between nouns) / as many as",
+      "example": "주스나 물을 주세요.",
+      "example_en": "Please give me juice or water.",
+      "note": "**이나** comes after a consonant and **나** after a vowel: 빵이나 밥, 커피나 차. After a number it means 'as many as', showing surprise: 세 시간이나 기다렸어요.",
+      "match": ["이나", "(이)나"],
+      "level": 1,
+      "sentences": [
+        { "english": "I drink coffee or tea.", "korean": "커피나 차를 마셔요.", "accepted": ["커피나 차를 마셔요.", "커피나 차를 마십니다."] },
+        { "english": "I eat bread or rice in the morning.", "korean": "아침에 빵이나 밥을 먹어요.", "accepted": ["아침에 빵이나 밥을 먹어요.", "아침에는 빵이나 밥을 먹어요."] },
+        { "english": "Let's meet on Saturday or Sunday.", "korean": "토요일이나 일요일에 만나요.", "accepted": ["토요일이나 일요일에 만나요.", "토요일이나 일요일에 만납시다."] },
+        { "english": "I waited as many as two hours.", "korean": "두 시간이나 기다렸어요.", "accepted": ["두 시간이나 기다렸어요.", "두 시간이나 기다렸습니다."] },
+        { "english": "On the weekend I read a book or a magazine.", "korean": "주말에 책이나 잡지를 읽어요.", "accepted": ["주말에 책이나 잡지를 읽어요.", "주말에는 책이나 잡지를 읽어요."] }
+      ]
+    }
+  ]
+}

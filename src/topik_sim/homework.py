@@ -23,8 +23,8 @@ Six exercise kinds are generated per lesson:
 Item dicts plug straight into the shell's typed-drill lifecycle (``show``,
 ``accept``, ``answer``, ``speech``), extended with ``options`` for the
 multiple-choice kinds and ``meaning`` for the after-answer teaching line.
-Generation is deterministic per lesson, so re-running the homework repeats
-the same assignment.
+With no seed each run re-rolls a fresh cut of the lesson's pool; an explicit
+seed reproduces an assignment exactly (tests).
 
 Results persist in ``homework_progress.json`` next to the course progress
 file: last and best score per lesson, so course lists can show what has been
@@ -246,7 +246,9 @@ def _conjugation_items(
         for entry in chosen:
             if len(items) >= limit:
                 return items
-            answer = spec["form"](entry["ko"])
+            # The gloss lets kind-gated endings (quotes, -나요, …) resolve
+            # action vs. descriptive; unresolvable words yield None and skip.
+            answer = spec["form"](entry["ko"], entry.get("en", ""))
             if not answer:
                 continue
             items.append({

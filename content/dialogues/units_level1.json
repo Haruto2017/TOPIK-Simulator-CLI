@@ -1,0 +1,90 @@
+{
+  "schema_version": "topik-sim.dialogue.v1",
+  "dialogues": [
+    {
+      "id": "dorm-room",
+      "title": "Showing your room",
+      "title_ko": "제 방이에요",
+      "situation": "A classmate visits your dorm room for the first time and asks what is in it.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "여기가 민우 씨 방이에요?", "en": "Is this your room, Minu?" },
+        { "speaker": "나", "en": "Say yes, this is my room (여기가 제 방이에요).", "ko": "네, 여기가 제 방이에요.", "accepted": ["네, 여기가 제 방이에요.", "네, 제 방이에요.", "여기가 제 방이에요."] },
+        { "speaker": "친구", "ko": "와, 방에 뭐가 있어요?", "en": "Wow, what do you have in the room?" },
+        { "speaker": "나", "en": "Say there is a desk and a bed (책상하고 침대).", "ko": "책상하고 침대가 있어요.", "accepted": ["책상하고 침대가 있어요.", "방에 책상하고 침대가 있어요.", "책상하고 침대 있어요."] },
+        { "speaker": "친구", "ko": "텔레비전도 있어요?", "en": "Do you have a TV too?" },
+        { "speaker": "나", "en": "Say no, there is no TV (텔레비전은 없어요).", "ko": "아니요, 텔레비전은 없어요.", "accepted": ["아니요, 텔레비전은 없어요.", "아니요, 없어요.", "텔레비전은 없어요."] },
+        { "speaker": "친구", "ko": "저 사진은 뭐예요?", "en": "What is that photo over there?" },
+        { "speaker": "나", "en": "Say that one is a family photo (저것은 가족 사진).", "ko": "저것은 가족 사진이에요.", "accepted": ["저것은 가족 사진이에요.", "저건 가족 사진이에요.", "가족 사진이에요."] }
+      ]
+    },
+    {
+      "id": "family-photo",
+      "title": "Talking about family",
+      "title_ko": "우리 가족",
+      "situation": "A friend sees you looking at a photo and asks about your family.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "지금 뭐 해요?", "en": "What are you doing now?" },
+        { "speaker": "나", "en": "Say you are looking at a family photo (가족 사진을 봐요).", "ko": "가족 사진을 봐요.", "accepted": ["가족 사진을 봐요.", "가족 사진 봐요.", "가족 사진을 보고 있어요."] },
+        { "speaker": "친구", "ko": "가족이 몇 명이에요?", "en": "How many people are in your family?" },
+        { "speaker": "나", "en": "Say four: father, mother, older sister, and you (네 명이에요).", "ko": "네 명이에요. 아버지, 어머니, 누나하고 저예요.", "accepted": ["네 명이에요. 아버지, 어머니, 누나하고 저예요.", "아버지, 어머니, 누나하고 저, 네 명이에요.", "네 명이에요."] },
+        { "speaker": "친구", "ko": "아버지는 무슨 일을 하세요?", "en": "What does your father do?" },
+        { "speaker": "나", "en": "Say your father works at a bank (은행에서 일하세요).", "ko": "아버지는 은행에서 일하세요.", "accepted": ["아버지는 은행에서 일하세요.", "은행에서 일하세요.", "아버지는 은행에서 일하십니다."] },
+        { "speaker": "친구", "ko": "누나도 일해요?", "en": "Does your sister work too?" },
+        { "speaker": "나", "en": "Say no, your sister studies history at university (대학교에서 역사를 공부해요).", "ko": "아니요, 누나는 대학교에서 역사를 공부해요.", "accepted": ["아니요, 누나는 대학교에서 역사를 공부해요.", "누나는 대학교에서 역사를 공부해요.", "아니요, 누나는 대학교에서 공부해요."] }
+      ]
+    },
+    {
+      "id": "daily-routine",
+      "title": "Talking about your day",
+      "title_ko": "하루 이야기",
+      "situation": "A friend asks about your daily schedule and what you did yesterday.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "보통 몇 시에 일어나요?", "en": "What time do you usually get up?" },
+        { "speaker": "나", "en": "Say you get up at seven (일곱 시에 일어나요).", "ko": "일곱 시에 일어나요.", "accepted": ["일곱 시에 일어나요.", "보통 일곱 시에 일어나요.", "아침 일곱 시에 일어나요."] },
+        { "speaker": "친구", "ko": "수업은 몇 시부터 몇 시까지예요?", "en": "From what time to what time is class?" },
+        { "speaker": "나", "en": "Say class runs from nine to one (아홉 시부터 한 시까지).", "ko": "아홉 시부터 한 시까지 수업이 있어요.", "accepted": ["아홉 시부터 한 시까지 수업이 있어요.", "수업은 아홉 시부터 한 시까지예요.", "아홉 시부터 한 시까지예요."] },
+        { "speaker": "친구", "ko": "어제 수업 후에 뭐 했어요?", "en": "What did you do after class yesterday?" },
+        { "speaker": "나", "en": "Say you did homework at the library (도서관에서 숙제를 했어요).", "ko": "도서관에서 숙제를 했어요.", "accepted": ["도서관에서 숙제를 했어요.", "어제 도서관에서 숙제를 했어요.", "도서관에서 숙제했어요."] },
+        { "speaker": "친구", "ko": "오늘도 바쁘지요?", "en": "You're busy today too, right?" },
+        { "speaker": "나", "en": "Say yes, you study Korean until the evening (저녁까지 한국어를 공부해요).", "ko": "네, 저녁까지 한국어를 공부해요.", "accepted": ["네, 저녁까지 한국어를 공부해요.", "네, 바빠요. 저녁까지 한국어를 공부해요.", "저녁까지 한국어를 공부해요."] }
+      ]
+    },
+    {
+      "id": "weather-talk",
+      "title": "Talking about the weather",
+      "title_ko": "날씨 이야기",
+      "situation": "You chat with a friend about today's rain and your favorite season.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "밖에 날씨가 어때요?", "en": "How is the weather outside?" },
+        { "speaker": "나", "en": "Say it is raining right now (비가 오고 있어요).", "ko": "지금 비가 오고 있어요.", "accepted": ["지금 비가 오고 있어요.", "비가 오고 있어요.", "지금 비가 와요."] },
+        { "speaker": "친구", "ko": "그래요? 아침에는 맑았는데요.", "en": "Really? It was clear this morning." },
+        { "speaker": "나", "en": "Say it seems it will rain tomorrow too (내일도 비가 올 것 같아요).", "ko": "내일도 비가 올 것 같아요.", "accepted": ["내일도 비가 올 것 같아요.", "내일도 올 것 같아요.", "내일도 비가 올 것 같은데요."] },
+        { "speaker": "친구", "ko": "무슨 계절을 좋아해요?", "en": "Which season do you like?" },
+        { "speaker": "나", "en": "Say you like winter more than summer (여름보다 겨울).", "ko": "여름보다 겨울을 더 좋아해요.", "accepted": ["여름보다 겨울을 더 좋아해요.", "저는 여름보다 겨울을 좋아해요.", "겨울을 더 좋아해요."] },
+        { "speaker": "친구", "ko": "왜요?", "en": "Why?" },
+        { "speaker": "나", "en": "Say you can ski in winter (스키를 탈 수 있어요).", "ko": "겨울에는 스키를 탈 수 있어요.", "accepted": ["겨울에는 스키를 탈 수 있어요.", "겨울에 스키를 탈 수 있어요.", "스키를 탈 수 있어요."] }
+      ]
+    },
+    {
+      "id": "vacation-plans",
+      "title": "Vacation plans",
+      "title_ko": "방학 계획",
+      "situation": "A friend asks about your plans for the school vacation.",
+      "level": 1,
+      "turns": [
+        { "speaker": "친구", "ko": "방학 때 뭐 할 거예요?", "en": "What will you do during the vacation?" },
+        { "speaker": "나", "en": "Say you plan to take a trip to Busan (부산에 여행을 가려고 해요).", "ko": "부산에 여행을 가려고 해요.", "accepted": ["부산에 여행을 가려고 해요.", "부산으로 여행을 가려고 해요.", "부산에 가려고 해요."] },
+        { "speaker": "친구", "ko": "좋겠어요! 얼마 동안 있을 거예요?", "en": "Nice! How long will you stay?" },
+        { "speaker": "나", "en": "Say you will stay for a week (일주일 동안).", "ko": "일주일 동안 있을 거예요.", "accepted": ["일주일 동안 있을 거예요.", "일주일 동안 있으려고 해요.", "일주일 있을 거예요."] },
+        { "speaker": "친구", "ko": "평소에도 여행을 자주 해요?", "en": "Do you travel often normally?" },
+        { "speaker": "나", "en": "Say no, you are busy so you cannot travel often (자주 못 해요).", "ko": "아니요, 바빠서 여행을 자주 못 해요.", "accepted": ["아니요, 바빠서 여행을 자주 못 해요.", "바빠서 자주 못 해요.", "아니요, 자주 못 해요."] },
+        { "speaker": "친구", "ko": "부산에 가기 전에 뭐 준비할 거예요?", "en": "What will you prepare before going to Busan?" },
+        { "speaker": "나", "en": "Say you will buy a train ticket before you go (가기 전에 기차표를 살 거예요).", "ko": "가기 전에 기차표를 살 거예요.", "accepted": ["가기 전에 기차표를 살 거예요.", "부산에 가기 전에 기차표를 살 거예요.", "기차표를 먼저 살 거예요."] }
+      ]
+    }
+  ]
+}

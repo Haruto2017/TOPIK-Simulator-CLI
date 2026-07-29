@@ -52,7 +52,9 @@ def gloss_map(pack: ExamPack | None = None, library_dir: str | Path | None = Non
     """Korean word → its gloss(es), for revealing meanings after an answer.
 
     Duplicate glosses across packs merge with ``/``; a card note is appended
-    after an em dash.
+    after an em dash. The library-wide map also folds in curriculum wordlists
+    (the ``vocabulary/`` directory beside the library): pack-taught glosses
+    win on conflict, wordlist entries fill in the rest.
     """
     if pack is not None:
         cards = build_deck(pack, seed=0)
@@ -72,7 +74,13 @@ def gloss_map(pack: ExamPack | None = None, library_dir: str | Path | None = Non
         glosses = meanings.setdefault(ko, [])
         if gloss not in glosses:
             glosses.append(gloss)
-    return {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
+    result = {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
+    if pack is None and library_dir is not None:
+        from .wordlists import wordlist_dir_for, wordlist_glosses
+
+        for ko, gloss in wordlist_glosses(wordlist_dir_for(library_dir)).items():
+            result.setdefault(ko, gloss)
+    return result
 
 
 def build_recall_items(

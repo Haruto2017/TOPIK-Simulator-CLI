@@ -56,4 +56,21 @@ def search_library(
                     result["grammar"].append({**point, "pack_id": pack.pack_id})
                     if len(result["grammar"]) >= limit:
                         break
+
+    if len(result["vocabulary"]) < limit:
+        from .wordlists import load_wordlists, wordlist_dir_for
+
+        for word in load_wordlists(wordlist_dir_for(library_dir)):
+            haystack = f"{word['ko']} {word['en']} {word.get('note', '')}".casefold()
+            key = (word["ko"], word["en"])
+            if wanted in haystack and key not in seen_vocab:
+                seen_vocab.add(key)
+                result["vocabulary"].append({
+                    "ko": word["ko"],
+                    "en": word["en"],
+                    "note": word.get("note", ""),
+                    "pack_id": f"wordlist:{word.get('unit') or 'general'}",
+                })
+                if len(result["vocabulary"]) >= limit:
+                    break
     return result

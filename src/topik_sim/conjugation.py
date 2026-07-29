@@ -13,9 +13,16 @@ applies the rules for that class. This module does the same:
    ambiguous and unlisted classifies as None and is simply skipped.
 
 2. Two "magic stems" are built per class — the 아/어 stem (해요체) and the 으
-   stem — and from them ~16 endings across tense, politeness, connectives, and
-   modality are assembled mechanically. Every ending returns None whenever the
-   stem cannot be formed, so no wrong form is ever produced.
+   stem — and from them 30+ endings across tense, politeness, connectives,
+   quotation, and modality are assembled mechanically. Every ending returns
+   None whenever the stem cannot be formed, so no wrong form is ever produced.
+
+Some endings additionally depend on whether the word is an action verb or a
+descriptive verb (adjective) — a distinction spelling cannot reveal. Those
+endings are gated by ``_verb_kind``, which resolves the kind from the small
+override sets below or from an English gloss ("to be …" → descriptive), and
+returns None whenever the kind cannot be determined. Form callables therefore
+accept an optional gloss: ``form(word, en="")``.
 
 The public surface (``formal_polite``, ``informal_polite``, ``attach``,
 ``conjugate``, ``build_conjugation_items``, ``match_ending``,
@@ -69,6 +76,46 @@ CLASS_OVERRIDES: dict[str, str] = {
     **{w: REU for w in ("모르다", "다르다", "빠르다", "부르다", "고르다", "자르다",
                         "흐르다", "오르다", "기르다", "누르다", "서두르다")},
 }
+
+# Action/descriptive kind, for endings whose shape (or applicability) depends
+# on it. Spelling cannot reveal the kind, so it comes from these override sets
+# or from the English gloss; when neither settles it, gated endings return
+# None — never a guess.
+ACTION_OVERRIDES: set[str] = {
+    "가다", "먹다", "오다", "살다", "듣다", "읽다", "마시다", "만나다", "사다",
+    "보다", "주다", "배우다", "일하다", "공부하다", "하다",
+}
+DESCRIPTIVE_OVERRIDES: set[str] = {
+    "있다", "없다", "맛있다", "맛없다", "재미있다", "재미없다",
+}
+# Irregular English past participles: a "to be <participle>" gloss is a passive
+# *action* verb (to be born, to be sold), not an adjective — unresolvable here.
+_PASSIVE_HEADS = {
+    "born", "worn", "torn", "known", "shown", "done", "gone", "made", "sold",
+    "told", "held", "kept", "left", "lost", "won", "found", "paid", "said",
+    "seen", "sent", "built", "bought", "brought", "caught", "taught", "heard",
+    "read", "cut", "put", "set", "hurt", "hit",
+}
+
+
+def _verb_kind(word: str, en: str = "") -> str | None:
+    """"action", "descriptive", or None when the kind cannot be determined."""
+    if word in DESCRIPTIVE_OVERRIDES:
+        return "descriptive"
+    if word in ACTION_OVERRIDES:
+        return "action"
+    gloss = en.strip().lower()
+    if not gloss.startswith("to "):
+        return None
+    rest = gloss[3:]
+    if rest.startswith("be "):
+        head = rest[3:].split()[0] if rest[3:].split() else ""
+        if head.endswith(("ed", "en")) or head in _PASSIVE_HEADS:
+            return None            # "to be born/opened…" — passive, can't tell
+        return "descriptive"
+    if rest == "be":
+        return None
+    return "action"
 
 
 def _stem(word: str) -> str | None:
@@ -236,6 +283,63 @@ def attach(word: str, suffix: str) -> str | None:
     return _cat(_stem(word), suffix)
 
 
+def _bare_stem_drop_l(word: str) -> str | None:
+    """The bare stem, with a ㄹ-final's ㄹ dropped — for endings beginning with
+    ㄴ that attach to the plain stem (살다 → 사냐고, 사나요, 사는지). Needs no
+    class knowledge: no vowel ever follows, so irregulars keep their spelling."""
+    if word in COPULAS:
+        return None
+    stem = _stem(word)
+    if stem is None:
+        return None
+    lead, vowel, tail = decompose_syllable(stem[-1])
+    if tail == "ㄹ":
+        return stem[:-1] + compose_syllable(lead, vowel)
+    return stem
+
+
+def _nda_stem(word: str) -> str | None:
+    """The plain-style present stem of an *action* verb: vowel/ㄹ-final stems
+    take ㄴ as batchim (가→간, 살→산), consonant stems keep the bare stem and
+    later take 는 (먹→먹는). Safe without class knowledge: 는/ㄴ다 never
+    triggers a ㅂ/ㄷ/ㅅ/ㅎ/르 alternation."""
+    if word in COPULAS:
+        return None
+    stem = _stem(word)
+    if stem is None:
+        return None
+    lead, vowel, tail = decompose_syllable(stem[-1])
+    if tail in ("", "ㄹ"):
+        return stem[:-1] + compose_syllable(lead, vowel, "ㄴ") + "다"
+    return stem + "는다"
+
+
+def _quote_statement(word: str, en: str = "") -> str | None:
+    """-(느)ㄴ다고 하다 — action verbs quote the plain present (먹는다고,
+    간다고, 산다고); descriptive verbs and 있다/없다 quote the dictionary stem
+    (좋다고, 있다고). Unresolvable kind → None."""
+    kind = _verb_kind(word, en)
+    if kind == "descriptive":
+        return attach(word, "다고 해요")
+    if kind == "action":
+        return _cat(_nda_stem(word), "고 해요")
+    return None
+
+
+def _action_only(builder: Callable[[str], "str | None"]) -> Callable[..., "str | None"]:
+    """Gate a form behind action-verb kind (commands, suggestions, intentions
+    do not apply to adjectives — and would be wrong forms, not just odd ones)."""
+    def form(word: str, en: str = "") -> str | None:
+        return builder(word) if _verb_kind(word, en) == "action" else None
+    return form
+
+
+def _descriptive_only(builder: Callable[[str], "str | None"]) -> Callable[..., "str | None"]:
+    def form(word: str, en: str = "") -> str | None:
+        return builder(word) if _verb_kind(word, en) == "descriptive" else None
+    return form
+
+
 def _despace(text: str) -> str:
     return "".join(unicodedata.normalize("NFC", text).split())
 
@@ -243,40 +347,90 @@ def _despace(text: str) -> str:
 # The ending catalogue. Each entry drives both the standalone /conjugate drill
 # (all of them) and homework's grammar-pattern matching (those with match keys).
 # ``match`` keys are distinctive despaced substrings; order below is the
-# match precedence, so specific endings win over general ones.
+# match precedence, so specific endings win over general ones. Every form
+# callable accepts ``(word, en="")`` — the optional English gloss feeds the
+# action/descriptive gate; ungated forms simply ignore it.
 ENDINGS: list[dict[str, Any]] = [
     {"key": "past", "display": "-았/었어요 (past)", "match": ["았어요", "었어요", "았/어요", "았/었어"],
-     "form": lambda w: _cat(_past_stem(w), "어요")},
+     "form": lambda w, en="": _cat(_past_stem(w), "어요")},
     {"key": "past_formal", "display": "-았/었습니다 (past formal)", "match": ["았습니다", "었습니다"],
-     "form": lambda w: _cat(_past_stem(w), "습니다")},
+     "form": lambda w, en="": _cat(_past_stem(w), "습니다")},
     {"key": "seumnida", "display": "-습니다/-ㅂ니다 (formal polite)", "match": ["습니다", "ㅂ니다"],
-     "form": formal_polite},
+     "form": lambda w, en="": formal_polite(w)},
     {"key": "future", "display": "-(으)ㄹ 거예요 (will / intend to)", "match": ["ㄹ거예요", "ㄹ거에요", "(으)ㄹ거"],
-     "form": lambda w: _cat(_add_l(_eu_stem(w)), " 거예요")},
+     "form": lambda w, en="": _cat(_add_l(_eu_stem(w)), " 거예요")},
     {"key": "can", "display": "-(으)ㄹ 수 있어요 (can)", "match": ["ㄹ수있", "ㄹ수없"],
-     "form": lambda w: _cat(_add_l(_eu_stem(w)), " 수 있어요")},
+     "form": lambda w, en="": _cat(_add_l(_eu_stem(w)), " 수 있어요")},
     {"key": "honorific", "display": "-(으)세요 (honorific / please)", "match": ["(으)세요", "으세요"],
-     "form": lambda w: _cat(_eu_stem(w, drop_l=True), "세요")},
+     "form": lambda w, en="": _cat(_eu_stem(w, drop_l=True), "세요")},
     {"key": "if", "display": "-(으)면 (if / when)", "match": ["(으)면", "으면"],
-     "form": lambda w: _cat(_eu_stem(w), "면")},
+     "form": lambda w, en="": _cat(_eu_stem(w), "면")},
     {"key": "because", "display": "-(으)니까 (because)", "match": ["(으)니까", "으니까"],
-     "form": lambda w: _cat(_eu_stem(w, drop_l=True), "니까")},
+     "form": lambda w, en="": _cat(_eu_stem(w, drop_l=True), "니까")},
     {"key": "so", "display": "-아서/어서 (so / and then)", "match": ["아서", "어서", "아/어서"],
-     "form": lambda w: _cat(_aeo_stem(w), "서")},
+     "form": lambda w, en="": _cat(_aeo_stem(w), "서")},
     {"key": "must", "display": "-아야/어야 해요 (must)", "match": ["아야", "어야", "아/어야"],
-     "form": lambda w: _cat(_aeo_stem(w), "야 해요")},
+     "form": lambda w, en="": _cat(_aeo_stem(w), "야 해요")},
     {"key": "want", "display": "-고 싶어요 (want to)", "match": ["고싶"],
-     "form": lambda w: attach(w, "고 싶어요")},
+     "form": lambda w, en="": attach(w, "고 싶어요")},
     {"key": "progressive", "display": "-고 있어요 (be ...-ing)", "match": ["고있"],
-     "form": lambda w: attach(w, "고 있어요")},
+     "form": lambda w, en="": attach(w, "고 있어요")},
     {"key": "not", "display": "-지 않아요 (does not)", "match": ["지않"],
-     "form": lambda w: attach(w, "지 않아요")},
+     "form": lambda w, en="": attach(w, "지 않아요")},
     {"key": "but", "display": "-지만 (but)", "match": ["지만"],
-     "form": lambda w: attach(w, "지만")},
+     "form": lambda w, en="": attach(w, "지만")},
     {"key": "and", "display": "-고 (and)", "match": [],
-     "form": lambda w: attach(w, "고")},
+     "form": lambda w, en="": attach(w, "고")},
     {"key": "aeo", "display": "-아/어요 (informal polite)", "match": ["아/어요", "아요/어요", "어요/아요", "해요체"],
-     "form": informal_polite},
+     "form": lambda w, en="": informal_polite(w)},
+    # --- level-2 additions. Precedence notes:
+    #   · quote_command uses "(으)라고하"/"으라고하" (not bare "라고하") so the
+    #     noun pattern "N(이)라고 하다" never matches a verb ending.
+    #   · eot_deon ("았던"/"었던") must precede deon ("던").
+    #   · eulji_moreu's short key "ㄹ지" deliberately also catches a bare
+    #     "-(으)ㄹ지" pattern — both curriculum items then drill the full
+    #     "-(으)ㄹ지 모르겠어요" form, which is correct for either lesson.
+    #   · eotdaga uses "았다가"/"었다가" ("었다가" catches the slashed
+    #     "-았/었다가" spelling); a bare "다가" would collide with
+    #     "-는 데다가"/"에다가".
+    {"key": "banmal", "display": "-아/어 (casual)", "match": ["반말"],
+     "form": lambda w, en="": _aeo_stem(w)},
+    {"key": "quote_statement", "display": "-(느)ㄴ다고 해요 (reported statement)", "match": ["다고하"],
+     "form": _quote_statement},
+    {"key": "quote_question", "display": "-냐고 해요 (reported question)", "match": ["냐고하"],
+     "form": lambda w, en="": _cat(_bare_stem_drop_l(w), "냐고 해요")},
+    {"key": "quote_request", "display": "-아/어 달라고 해요 (reported request)", "match": ["달라고"],
+     "form": _action_only(lambda w: _cat(_aeo_stem(w), " 달라고 해요"))},
+    {"key": "quote_command", "display": "-(으)라고 해요 (reported command)", "match": ["(으)라고하", "으라고하"],
+     "form": _action_only(lambda w: _cat(_eu_stem(w), "라고 해요"))},
+    {"key": "quote_suggest", "display": "-자고 해요 (reported suggestion)", "match": ["자고하"],
+     "form": _action_only(lambda w: attach(w, "자고 해요"))},
+    {"key": "ryeomyeon", "display": "-(으)려면 (if one intends to)", "match": ["려면"],
+     "form": _action_only(lambda w: _cat(_eu_stem(w), "려면"))},
+    {"key": "eulkka_hada", "display": "-(으)ㄹ까 해요 (thinking of)", "match": ["ㄹ까하"],
+     "form": _action_only(lambda w: _cat(_add_l(_eu_stem(w)), "까 해요"))},
+    {"key": "eulji_moreu", "display": "-(으)ㄹ지 모르겠어요 (not sure whether)", "match": ["ㄹ지모르", "ㄹ지"],
+     "form": lambda w, en="": _cat(_add_l(_eu_stem(w)), "지 모르겠어요")},
+    {"key": "eotdaga", "display": "-았/었다가 (did and then)", "match": ["았다가", "었다가"],
+     "form": lambda w, en="": _cat(_past_stem(w), "다가")},
+    {"key": "eot_deon", "display": "-았/었던 (past recollection)", "match": ["았던", "었던"],
+     "form": lambda w, en="": _cat(_past_stem(w), "던")},
+    {"key": "deon", "display": "-던 (used to / recollection)", "match": ["던"],
+     "form": lambda w, en="": attach(w, "던")},
+    {"key": "boida", "display": "-아/어 보여요 (looks ...)", "match": ["보이"],
+     "form": _descriptive_only(lambda w: _cat(_aeo_stem(w), " 보여요"))},
+    {"key": "gajigo", "display": "-아/어 가지고 (having done / because)", "match": ["가지고"],
+     "form": lambda w, en="": _cat(_aeo_stem(w), " 가지고")},
+    {"key": "jimalgo", "display": "-지 말고 (don't ... but)", "match": ["지말고"],
+     "form": _action_only(lambda w: attach(w, "지 말고"))},
+    {"key": "deogunyo", "display": "-더군요 (I noticed)", "match": ["더군요"],
+     "form": lambda w, en="": attach(w, "더군요")},
+    {"key": "nayo", "display": "-나요? (polite question)", "match": ["나요"],
+     "form": _action_only(lambda w: _cat(_bare_stem_drop_l(w), "나요?"))},
+    {"key": "neun_daero", "display": "-는 대로 (as / as soon as)", "match": ["는대로"],
+     "form": _action_only(lambda w: _cat(_bare_stem_drop_l(w), "는 대로"))},
+    {"key": "neunji", "display": "-는지 알아요 (whether)", "match": ["는지"],
+     "form": _action_only(lambda w: _cat(_bare_stem_drop_l(w), "는지 알아요"))},
 ]
 
 _BY_KEY = {spec["key"]: spec for spec in ENDINGS}
@@ -301,9 +455,12 @@ def is_conjugatable(ko: str, en: str) -> bool:
     return ko not in COPULAS and _stem(ko) is not None and en.strip().lower().startswith("to ")
 
 
-def conjugate(word: str, form_key: str) -> str | None:
+def conjugate(word: str, form_key: str, en: str = "") -> str | None:
+    """Conjugate ``word`` to one ENDINGS key. The optional English gloss
+    resolves the action/descriptive kind for gated endings; without it those
+    endings only work for words in the override sets."""
     spec = _BY_KEY.get(form_key)
-    return spec["form"](word) if spec else None
+    return spec["form"](word, en) if spec else None
 
 
 # Speech-level / ending menu offered by the standalone /conjugate drill, in a
@@ -312,6 +469,8 @@ DRILL_FORMS: list[dict[str, Any]] = [
     _BY_KEY[key] for key in (
         "aeo", "seumnida", "past", "past_formal", "future",
         "not", "want", "can", "if", "because", "so", "must", "honorific",
+        "banmal", "quote_statement", "quote_question", "quote_command",
+        "quote_suggest", "quote_request", "ryeomyeon", "eulkka_hada", "boida",
     )
 ]
 
@@ -354,13 +513,13 @@ def build_conjugation_items(
         if ko in seen or not is_conjugatable(ko, en):
             continue
         if mixed:
-            options = [spec for spec in DRILL_FORMS if spec["form"](ko)]
+            options = [spec for spec in DRILL_FORMS if spec["form"](ko, en)]
             if not options:
                 continue
             spec = rng.choice(options)
         else:
             spec = fixed
-        answer = spec["form"](ko)
+        answer = spec["form"](ko, en)
         if not answer:
             continue
         seen.add(ko)
@@ -376,4 +535,4 @@ def build_conjugation_items(
     return items[: max(1, count)]
 
 
-Form = Callable[[str], "str | None"]
+Form = Callable[..., "str | None"]

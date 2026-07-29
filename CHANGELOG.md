@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Full book-scope coverage** (four parallel authoring/engineering passes):
+  the audit against the licensed Yonsei 1-2 scope now closes at **100%
+  grammar coverage on both levels** (was 89%/56%) — 34 new compose structures
+  (corpus 65 → 99) give every staged pattern notes and five practice
+  sentences; **25 new dialogues** (5 → 30) put a unit-aligned conversation in
+  every study-path stage, from 반말 birthday invitations to reported-speech
+  message relays and hospital visits; a **vocabulary wordlist layer**
+  (content/vocabulary/, ~900 original words keyed to unit domains, new
+  src/topik_sim/wordlists.py) lifts the taught lexicon 916 → **1,819**
+  glosses, feeding /vocab spaced review, recall, misses, and lookup
+  (wordlist hits attributed as wordlist:<unit>), with pack-taught glosses
+  winning on conflict; and the **conjugation engine grows 16 → 35 endings**
+  (22 in the drill menu) — 반말, all five quotation forms (-다고/-냐고/-라고/
+  -자고/-달라고 하다), -(으)려면, -(으)ㄹ까 하다, -았/었다가, -았/었던/-던,
+  -아/어 보이다/가지고, -지 말고, -더군요, -나요?, -는지/-는 대로 — all
+  rule-derived, with action/descriptive gating (gloss-informed, passive-
+  participle-safe) so a form the engine cannot prove is never produced.
+  All content is original; nothing is reproduced from the books.
+
 - **Staged study path**: `/path` (aliases `/study`, `/curriculum`) and a web
   "Study path" page give the whole journey a textbook's shape — a Hangul
   stage, then two levels of ten units (greetings → school & home → family →

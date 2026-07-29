@@ -1,0 +1,337 @@
+{
+  "schema_version": "topik-sim.dialogue.v1",
+  "dialogues": [
+    {
+      "id": "office-intro",
+      "title": "First day at the office",
+      "title_ko": "회사에서 첫인사",
+      "situation": "It is your first day at a Korean company and a colleague greets you.",
+      "level": 2,
+      "turns": [
+        { "speaker": "동료", "ko": "안녕하세요? 처음 뵙겠습니다. 저는 마케팅팀 김수진입니다.", "en": "Hello, nice to meet you. I'm Kim Sujin from the marketing team." },
+        { "speaker": "나", "en": "Introduce yourself formally: you are Michael, who just joined the company (이번에 입사한 …입니다).", "ko": "안녕하십니까? 저는 이번에 입사한 마이클입니다.", "accepted": ["안녕하십니까? 저는 이번에 입사한 마이클입니다.", "안녕하세요? 저는 이번에 입사한 마이클입니다.", "처음 뵙겠습니다. 이번에 입사한 마이클입니다."] },
+        { "speaker": "동료", "ko": "한국에 오신 지 얼마나 되셨어요?", "en": "How long has it been since you came to Korea?" },
+        { "speaker": "나", "en": "Say it has been two years since you came to Korea (온 지 이 년 됐어요).", "ko": "한국에 온 지 이 년 됐어요.", "accepted": ["한국에 온 지 이 년 됐어요.", "한국에 온 지 2년 됐어요.", "온 지 이 년 됐어요."] },
+        { "speaker": "동료", "ko": "한국 생활은 어때요?", "en": "How is life in Korea?" },
+        { "speaker": "나", "en": "Say it was hard at first but has gotten much more comfortable now (많이 편해졌어요).", "ko": "처음에는 힘들었지만 지금은 많이 편해졌어요.", "accepted": ["처음에는 힘들었지만 지금은 많이 편해졌어요.", "처음에는 힘들었는데 지금은 많이 편해졌어요.", "지금은 많이 편해졌어요."] },
+        { "speaker": "동료", "ko": "왜 한국에서 일하고 싶으셨어요?", "en": "Why did you want to work in Korea?" },
+        { "speaker": "나", "en": "Say you came because you like Korean culture (좋아하기 때문에 왔어요).", "ko": "한국 문화를 좋아하기 때문에 왔어요.", "accepted": ["한국 문화를 좋아하기 때문에 왔어요.", "한국 문화가 좋기 때문에 왔어요.", "한국 문화를 좋아해서 왔어요."] }
+      ]
+    },
+    {
+      "id": "introducing-friend",
+      "title": "Introducing a visitor",
+      "title_ko": "친구에게 사촌 소개하기",
+      "situation": "Your cousin is visiting from Japan and you introduce them to a Korean friend.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "유카 씨, 이분은 누구세요?", "en": "Yuka, who is this?" },
+        { "speaker": "나", "en": "Say this is your younger cousin, who came from Japan (제 사촌 동생이에요).", "ko": "제 사촌 동생이에요. 어제 일본에서 왔어요.", "accepted": ["제 사촌 동생이에요. 어제 일본에서 왔어요.", "제 사촌 동생이에요. 일본에서 왔어요.", "사촌 동생이에요. 일본에서 왔어요."] },
+        { "speaker": "친구", "ko": "만나서 반갑습니다. 한국은 처음이세요?", "en": "Nice to meet you. Is this your first time in Korea?" },
+        { "speaker": "사촌", "ko": "네, 처음이에요. 그래서 조금 긴장돼요.", "en": "Yes, it's my first time, so I'm a little nervous." },
+        { "speaker": "나", "en": "Say your cousin wants to eat any Korean food, anything at all (뭐든지 먹고 싶어해요).", "ko": "제 동생은 한국 음식은 뭐든지 먹고 싶어해요.", "accepted": ["제 동생은 한국 음식은 뭐든지 먹고 싶어해요.", "동생은 한국 음식은 뭐든지 먹고 싶어해요.", "한국 음식은 뭐든지 먹고 싶어해요."] },
+        { "speaker": "친구", "ko": "그럼 오늘 저녁에 같이 식사할까요? 어디가 좋을까요?", "en": "Then shall we have dinner together tonight? Where would be good?" },
+        { "speaker": "나", "en": "Say sounds good, and that anywhere is fine (어디든지 괜찮아요).", "ko": "좋아요. 저희는 어디든지 괜찮아요.", "accepted": ["좋아요. 저희는 어디든지 괜찮아요.", "좋아요. 어디든지 괜찮아요.", "네, 어디든지 좋아요."] }
+      ]
+    },
+    {
+      "id": "trying-samgyetang",
+      "title": "Trying a new dish",
+      "title_ko": "삼계탕 첫 도전",
+      "situation": "A Korean friend takes you to eat samgyetang, which you have never tried.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "삼계탕 먹어 본 적이 있어요?", "en": "Have you ever tried samgyetang?" },
+        { "speaker": "나", "en": "Say no, you have never tried it (먹어 본 적이 없어요).", "ko": "아니요, 아직 먹어 본 적이 없어요.", "accepted": ["아니요, 아직 먹어 본 적이 없어요.", "아니요, 먹어 본 적이 없어요.", "아직 먹어 본 적이 없어요."] },
+        { "speaker": "친구", "ko": "그럼 오늘 한번 먹어 보세요. 정말 맛있어요.", "en": "Then give it a try today. It's really delicious." },
+        { "speaker": "나", "en": "Ask how you are supposed to eat this dish (어떻게 먹어야 해요?).", "ko": "이 음식은 어떻게 먹어야 해요?", "accepted": ["이 음식은 어떻게 먹어야 해요?", "이거 어떻게 먹어야 해요?", "어떻게 먹어요?"] },
+        { "speaker": "친구", "ko": "먼저 소금을 조금 넣으세요. 그리고 고기를 작게 잘라서 드세요.", "en": "First add a little salt. Then cut the meat into small pieces and eat." },
+        { "speaker": "나", "en": "Say okay, you will give it a try (한번 먹어 볼게요).", "ko": "네, 한번 먹어 볼게요.", "accepted": ["네, 한번 먹어 볼게요.", "한번 먹어 볼게요.", "네, 먹어 볼게요."] },
+        { "speaker": "친구", "ko": "어때요? 입에 맞아요?", "en": "How is it? Does it suit your taste?" },
+        { "speaker": "나", "en": "Say it is really delicious and you want to eat it again (또 먹고 싶어요).", "ko": "정말 맛있어요. 또 먹고 싶어요.", "accepted": ["정말 맛있어요. 또 먹고 싶어요.", "아주 맛있어요. 또 먹고 싶어요.", "정말 맛있어요."] }
+      ]
+    },
+    {
+      "id": "table-manners",
+      "title": "Table manners at a family dinner",
+      "title_ko": "식사 예절",
+      "situation": "You join a friend's family dinner and ask about Korean table etiquette.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "우리 할머니 댁이에요. 편하게 앉으세요. 곧 식사할 거예요.", "en": "This is my grandmother's house. Have a seat. We'll eat soon." },
+        { "speaker": "나", "en": "Ask if it is okay to start eating first (먼저 먹어도 돼요?).", "ko": "먼저 먹어도 돼요?", "accepted": ["먼저 먹어도 돼요?", "먼저 먹기 시작해도 돼요?", "지금 먹어도 돼요?"] },
+        { "speaker": "친구", "ko": "아니요, 어른이 수저를 드시기 전에 먹으면 안 돼요. 조금만 기다리세요.", "en": "No, you shouldn't eat before the elders pick up their spoons. Wait just a moment." },
+        { "speaker": "나", "en": "Ask if it is okay to hold the rice bowl while eating (그릇을 들고 먹어도 돼요?).", "ko": "밥그릇을 들고 먹어도 돼요?", "accepted": ["밥그릇을 들고 먹어도 돼요?", "그릇을 들고 먹어도 돼요?", "밥그릇은 들고 먹어도 돼요?"] },
+        { "speaker": "친구", "ko": "한국에서는 밥그릇을 들고 먹으면 안 돼요. 상에 놓고 드세요.", "en": "In Korea you shouldn't hold the rice bowl while eating. Leave it on the table." },
+        { "speaker": "나", "en": "Say you understand and thank them for teaching you (가르쳐 줘서 고마워요).", "ko": "네, 알겠어요. 가르쳐 줘서 고마워요.", "accepted": ["네, 알겠어요. 가르쳐 줘서 고마워요.", "알겠어요. 가르쳐 줘서 고마워요.", "네, 알겠습니다. 가르쳐 주셔서 감사합니다."] }
+      ]
+    },
+    {
+      "id": "trying-on-clothes",
+      "title": "Trying on a jacket",
+      "title_ko": "옷 입어 보기",
+      "situation": "You shop for a jacket at a department store, try it on, and pay by card.",
+      "level": 2,
+      "turns": [
+        { "speaker": "점원", "ko": "어서 오세요. 뭘 찾으세요?", "en": "Welcome. What are you looking for?" },
+        { "speaker": "나", "en": "Say you are thinking of buying a jacket (재킷을 살까 해요).", "ko": "재킷을 하나 살까 해요.", "accepted": ["재킷을 하나 살까 해요.", "재킷을 살까 해요.", "재킷을 사려고 해요."] },
+        { "speaker": "점원", "ko": "이건 어떠세요? 요즘 제일 잘 나가는 디자인이에요.", "en": "How about this one? It's the most popular design these days." },
+        { "speaker": "나", "en": "Ask if you may try it on (입어 봐도 돼요?).", "ko": "입어 봐도 돼요?", "accepted": ["입어 봐도 돼요?", "한번 입어 봐도 돼요?", "입어 볼 수 있어요?"] },
+        { "speaker": "점원", "ko": "그럼요. 탈의실은 저쪽이에요. 어떠세요? 잘 맞으세요?", "en": "Of course, the fitting room is over there. How is it? Does it fit?" },
+        { "speaker": "나", "en": "Say the design is nice, but it is a bit small — you wish there were a bigger size (컸으면 좋겠어요).", "ko": "디자인은 좋기는 하지만 좀 작아요. 사이즈가 더 컸으면 좋겠어요.", "accepted": ["디자인은 좋기는 하지만 좀 작아요. 사이즈가 더 컸으면 좋겠어요.", "디자인은 좋은데 좀 작아요. 더 큰 사이즈가 있었으면 좋겠어요.", "좋기는 하지만 좀 작아요. 더 큰 사이즈 있어요?"] },
+        { "speaker": "점원", "ko": "잠깐만요. 네, 큰 사이즈 여기 있습니다.", "en": "One moment. Yes, here is the larger size." },
+        { "speaker": "나", "en": "Say you will take this one and ask if you can pay by card (카드로 계산해도 돼요?).", "ko": "이걸로 할게요. 카드로 계산해도 돼요?", "accepted": ["이걸로 할게요. 카드로 계산해도 돼요?", "이걸로 할게요. 카드 돼요?", "이거 주세요. 카드로 계산할게요."] }
+      ]
+    },
+    {
+      "id": "market-bargain",
+      "title": "Bargaining at the market",
+      "title_ko": "시장에서 흥정하기",
+      "situation": "You buy strawberries as a gift at a traditional market and ask for a discount.",
+      "level": 2,
+      "turns": [
+        { "speaker": "주인", "ko": "골라 보세요! 오늘 딸기가 아주 싱싱해요.", "en": "Take your pick! The strawberries are very fresh today." },
+        { "speaker": "나", "en": "Ask how much one box of strawberries is (한 상자에 얼마예요?).", "ko": "딸기 한 상자에 얼마예요?", "accepted": ["딸기 한 상자에 얼마예요?", "한 상자에 얼마예요?", "이 딸기 한 상자에 얼마예요?"] },
+        { "speaker": "주인", "ko": "만 원이에요. 두 상자 사면 만 팔천 원에 드릴게요.", "en": "Ten thousand won. If you buy two boxes I'll make it 18,000." },
+        { "speaker": "나", "en": "Say it is a bit expensive and ask them to lower the price a little (조금만 깎아 주세요).", "ko": "좀 비싸요. 조금만 깎아 주세요.", "accepted": ["좀 비싸요. 조금만 깎아 주세요.", "좀 비싼데요. 조금만 깎아 주세요.", "조금만 깎아 주세요."] },
+        { "speaker": "주인", "ko": "아이고, 그럼 두 상자에 만 오천 원! 이게 마지막 가격이에요.", "en": "Goodness, then 15,000 for two boxes! That's my final price." },
+        { "speaker": "나", "en": "Agree and ask for two boxes (두 상자 주세요).", "ko": "좋아요. 두 상자 주세요.", "accepted": ["좋아요. 두 상자 주세요.", "네, 두 상자 주세요.", "그럼 두 상자 주세요."] },
+        { "speaker": "주인", "ko": "선물이에요? 포장해 드릴까요?", "en": "Is it a gift? Shall I wrap it for you?" },
+        { "speaker": "나", "en": "Say yes, it is a gift for a friend — ask them to wrap it nicely (예쁘게 포장해 주세요).", "ko": "네, 친구 선물이에요. 예쁘게 포장해 주세요.", "accepted": ["네, 친구 선물이에요. 예쁘게 포장해 주세요.", "네, 선물이에요. 예쁘게 포장해 주세요.", "친구 선물이에요. 예쁘게 포장해 주세요."] }
+      ]
+    },
+    {
+      "id": "birthday-invite",
+      "title": "Inviting a friend (casual speech)",
+      "title_ko": "생일 초대 (반말)",
+      "situation": "You call a close friend in casual speech (반말) to invite them to your birthday party.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "어, 민우야. 무슨 일이야?", "en": "Hey, Minu. What's up?" },
+        { "speaker": "나", "en": "Say Saturday is your birthday and suggest having a party at your place — casual speech (파티 하자).", "ko": "토요일이 내 생일이야. 우리 집에서 파티 하자.", "accepted": ["토요일이 내 생일이야. 우리 집에서 파티 하자.", "토요일이 내 생일이야. 우리 집에 와.", "토요일에 우리 집에서 생일 파티 하자."] },
+        { "speaker": "친구", "ko": "정말? 좋아! 몇 시에 갈까?", "en": "Really? Great! What time should I come?" },
+        { "speaker": "나", "en": "Say let's meet at six — casual speech (여섯 시에 만나자).", "ko": "여섯 시에 만나자.", "accepted": ["여섯 시에 만나자.", "여섯 시에 와.", "여섯 시쯤 와."] },
+        { "speaker": "친구", "ko": "알았어. 선물 뭐 사 갈까?", "en": "Got it. What present should I bring?" },
+        { "speaker": "나", "en": "Tell them not to buy a present, just to come — casual speech (사 오지 마).", "ko": "선물은 사 오지 마. 그냥 와.", "accepted": ["선물은 사 오지 마. 그냥 와.", "선물 사 오지 마. 그냥 와.", "선물은 사 오지 마."] },
+        { "speaker": "친구", "ko": "그래도 케이크는 내가 사 갈게.", "en": "Still, I'll bring the cake." },
+        { "speaker": "나", "en": "Thank them and say see you Saturday — casual speech (토요일에 보자).", "ko": "고마워. 그럼 토요일에 보자.", "accepted": ["고마워. 그럼 토요일에 보자.", "고마워. 토요일에 보자.", "그래, 고마워. 토요일에 봐."] }
+      ]
+    },
+    {
+      "id": "housewarming",
+      "title": "Planning a housewarming",
+      "title_ko": "집들이 준비",
+      "situation": "You just moved and tell a friend about the housewarming party you decided to hold.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "이사는 다 했어요?", "en": "Are you all done moving?" },
+        { "speaker": "나", "en": "Say yes, so you have decided to hold a housewarming on Friday (집들이를 하기로 했어요).", "ko": "네, 그래서 금요일에 집들이를 하기로 했어요.", "accepted": ["네, 그래서 금요일에 집들이를 하기로 했어요.", "네, 금요일에 집들이를 하기로 했어요.", "네, 그래서 금요일에 집들이를 해요."] },
+        { "speaker": "친구", "ko": "축하해요! 누구를 초대할 거예요?", "en": "Congratulations! Who will you invite?" },
+        { "speaker": "나", "en": "Say you are still thinking about whom to invite (누구를 초대할지).", "ko": "누구를 초대할지 아직 생각하고 있어요.", "accepted": ["누구를 초대할지 아직 생각하고 있어요.", "누구를 초대할지 아직 못 정했어요.", "아직 누구를 초대할지 몰라요."] },
+        { "speaker": "친구", "ko": "반 친구들을 다 부르세요. 저는 뭘 사 갈까요?", "en": "Invite the whole class. What should I bring?" },
+        { "speaker": "나", "en": "Ask them to buy some fruit and bring it along (사 가지고 오세요).", "ko": "그럼 과일을 사 가지고 오세요.", "accepted": ["그럼 과일을 사 가지고 오세요.", "과일을 사 가지고 오세요.", "과일 좀 사 가지고 오세요."] },
+        { "speaker": "친구", "ko": "네, 알겠어요. 금요일에 봐요!", "en": "Okay, got it. See you Friday!" }
+      ]
+    },
+    {
+      "id": "which-bus",
+      "title": "Finding the right bus",
+      "title_ko": "버스 노선 묻기",
+      "situation": "You ask a passer-by which bus goes to Seoul Station and how long it takes.",
+      "level": 2,
+      "turns": [
+        { "speaker": "나", "en": "Ask politely if they know how to get to Seoul Station (어떻게 가는지 아세요?).", "ko": "실례지만, 서울역에 어떻게 가는지 아세요?", "accepted": ["실례지만, 서울역에 어떻게 가는지 아세요?", "서울역에 어떻게 가는지 아세요?", "서울역에 어떻게 가는지 아십니까?"] },
+        { "speaker": "행인", "ko": "서울역에 가려면 저기에서 273번 버스를 타세요.", "en": "To get to Seoul Station, take bus 273 over there." },
+        { "speaker": "나", "en": "Ask how long it takes (얼마나 걸리나요?).", "ko": "시간이 얼마나 걸리나요?", "accepted": ["시간이 얼마나 걸리나요?", "얼마나 걸리나요?", "얼마나 걸려요?"] },
+        { "speaker": "행인", "ko": "삼십 분쯤 걸려요. 길이 막히면 더 걸릴 수도 있어요.", "en": "About thirty minutes. It can take longer if traffic is bad." },
+        { "speaker": "나", "en": "Ask if the subway is faster (지하철이 더 빠른가요?).", "ko": "지하철이 더 빠른가요?", "accepted": ["지하철이 더 빠른가요?", "지하철이 더 빨라요?", "지하철을 타면 더 빠른가요?"] },
+        { "speaker": "행인", "ko": "네, 지하철을 타려면 이 길을 건너서 사거리에서 오른쪽으로 가세요.", "en": "Yes. To take the subway, cross this street and turn right at the intersection." },
+        { "speaker": "나", "en": "Thank them (감사합니다).", "ko": "네, 감사합니다.", "accepted": ["네, 감사합니다.", "감사합니다.", "알겠습니다. 감사합니다."] }
+      ]
+    },
+    {
+      "id": "subway-transfer",
+      "title": "Handling a transfer",
+      "title_ko": "지하철 환승",
+      "situation": "At a subway information desk you ask how to transfer to reach Incheon Airport.",
+      "level": 2,
+      "turns": [
+        { "speaker": "나", "en": "Say you are going to Incheon Airport and ask where you should transfer (어디에서 갈아타야 해요?).", "ko": "인천공항에 가려면 어디에서 갈아타야 해요?", "accepted": ["인천공항에 가려면 어디에서 갈아타야 해요?", "인천공항에 가려고 하는데 어디에서 갈아타야 해요?", "인천공항에 가려면 어디서 갈아타요?"] },
+        { "speaker": "역무원", "ko": "5호선을 타고 가다가 김포공항역에서 공항철도로 갈아타세요.", "en": "Take line 5, and along the way transfer to the Airport Railroad at Gimpo Airport Station." },
+        { "speaker": "나", "en": "Ask if this side is the right platform to board (이쪽에서 타면 되나요?).", "ko": "이쪽에서 타면 되나요?", "accepted": ["이쪽에서 타면 되나요?", "이쪽에서 타면 돼요?", "여기에서 타면 되나요?"] },
+        { "speaker": "역무원", "ko": "아니요, 반대쪽이에요. 저기 계단을 내려갔다가 다시 올라오세요.", "en": "No, it's the opposite side. Go down those stairs and come back up." },
+        { "speaker": "나", "en": "Say you understand, and that the station looks really complicated (복잡해 보여요).", "ko": "네, 알겠어요. 역이 정말 복잡해 보여요.", "accepted": ["네, 알겠어요. 역이 정말 복잡해 보여요.", "알겠어요. 역이 복잡해 보여요.", "네, 여기는 정말 복잡해 보이네요."] },
+        { "speaker": "역무원", "ko": "처음에는 다 그래요. 표지판을 따라가면 쉬워요.", "en": "Everyone feels that way at first. It's easy if you follow the signs." },
+        { "speaker": "나", "en": "Thank them for kindly explaining (알려 주셔서 감사합니다).", "ko": "친절하게 알려 주셔서 감사합니다.", "accepted": ["친절하게 알려 주셔서 감사합니다.", "알려 주셔서 감사합니다.", "감사합니다."] }
+      ]
+    },
+    {
+      "id": "post-office-package",
+      "title": "Sending a package abroad",
+      "title_ko": "소포 보내기",
+      "situation": "At the post office you send a birthday gift to America and compare shipping options.",
+      "level": 2,
+      "turns": [
+        { "speaker": "직원", "ko": "안녕하세요. 뭘 도와드릴까요?", "en": "Hello. How can I help you?" },
+        { "speaker": "나", "en": "Say you would like to send this package to America (미국에 보내고 싶은데요).", "ko": "이 소포를 미국에 보내고 싶은데요.", "accepted": ["이 소포를 미국에 보내고 싶은데요.", "이 소포를 미국으로 보내고 싶어요.", "미국에 소포를 보내려고 하는데요."] },
+        { "speaker": "직원", "ko": "배로 보내시겠어요, 비행기로 보내시겠어요?", "en": "Would you like to send it by ship or by air?" },
+        { "speaker": "나", "en": "Ask how much faster air mail is compared to ship (배에 비해서 얼마나 빨라요?).", "ko": "비행기는 배에 비해서 얼마나 빨라요?", "accepted": ["비행기는 배에 비해서 얼마나 빨라요?", "비행기가 배에 비해서 얼마나 빨라요?", "비행기로 보내면 얼마나 걸려요?"] },
+        { "speaker": "직원", "ko": "비행기는 일주일쯤 걸리고 배는 한 달쯤 걸려요. 대신 배가 훨씬 싸요.", "en": "Air takes about a week, ship about a month. But ship is much cheaper." },
+        { "speaker": "나", "en": "Say there is a birthday gift inside, so send it by air please (비행기로 보내 주세요).", "ko": "안에 생일 선물이 있어서 비행기로 보내 주세요.", "accepted": ["안에 생일 선물이 있어서 비행기로 보내 주세요.", "생일 선물이라서 비행기로 보내 주세요.", "비행기로 보내 주세요."] },
+        { "speaker": "직원", "ko": "네. 안에 깨지기 쉬운 물건이 있나요?", "en": "Okay. Is there anything fragile inside?" },
+        { "speaker": "나", "en": "Say no, there are only books and clothes (책하고 옷만 있어요).", "ko": "아니요, 책하고 옷만 있어요.", "accepted": ["아니요, 책하고 옷만 있어요.", "아니요, 책이랑 옷만 있어요.", "책하고 옷만 있어요."] }
+      ]
+    },
+    {
+      "id": "library-card",
+      "title": "Borrowing books at the library",
+      "title_ko": "도서관에서 책 빌리기",
+      "situation": "You look for history books at the library and ask about borrowing rules.",
+      "level": 2,
+      "turns": [
+        { "speaker": "사서", "ko": "어서 오세요. 무엇을 도와드릴까요?", "en": "Welcome. What can I help you with?" },
+        { "speaker": "나", "en": "Say you are looking for books about Korean history (한국 역사에 대한 책).", "ko": "한국 역사에 대한 책을 찾고 있어요.", "accepted": ["한국 역사에 대한 책을 찾고 있어요.", "한국 역사에 대한 책을 찾는데요.", "한국 역사 책을 찾고 있어요."] },
+        { "speaker": "사서", "ko": "역사 책은 삼 층에 있어요. 그런데 인기가 많아서 지금 몇 권 안 남아 있어요.", "en": "History books are on the third floor. But they're popular, so only a few are left right now." },
+        { "speaker": "나", "en": "Ask how many books you can borrow (몇 권까지 빌릴 수 있어요?).", "ko": "몇 권까지 빌릴 수 있어요?", "accepted": ["몇 권까지 빌릴 수 있어요?", "책은 몇 권까지 빌릴 수 있어요?", "몇 권 빌릴 수 있어요?"] },
+        { "speaker": "사서", "ko": "다섯 권까지 이 주일 동안 빌릴 수 있어요. 학생증을 보여 주시겠어요?", "en": "Up to five books for two weeks. May I see your student ID?" },
+        { "speaker": "나", "en": "Show your ID, then ask what to do if you cannot finish reading in two weeks (다 못 읽으면 어떻게 해요?).", "ko": "여기요. 그런데 이 주일 동안 다 못 읽으면 어떻게 해요?", "accepted": ["여기요. 그런데 이 주일 동안 다 못 읽으면 어떻게 해요?", "이 주일 동안 다 못 읽으면 어떻게 해요?", "다 못 읽으면 어떻게 해요?"] },
+        { "speaker": "사서", "ko": "그럴 때는 전화하시거나 홈페이지에서 연장하시면 돼요.", "en": "In that case you can call us or extend it on the website." },
+        { "speaker": "나", "en": "Say you understand and thank them (알겠습니다, 감사합니다).", "ko": "네, 알겠습니다. 감사합니다.", "accepted": ["네, 알겠습니다. 감사합니다.", "알겠습니다. 감사합니다.", "네, 감사합니다."] }
+      ]
+    },
+    {
+      "id": "relaying-message",
+      "title": "Passing on a message",
+      "title_ko": "말 전하기",
+      "situation": "You relay to one friend what another friend said on the phone about weekend plans.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "민우 씨, 아까 수진 씨한테서 전화 왔어요?", "en": "Minu, did Sujin call earlier?" },
+        { "speaker": "나", "en": "Say yes — Sujin suggested meeting in front of the cinema at three on Saturday (만나자고 했어요).", "ko": "네, 토요일 세 시에 영화관 앞에서 만나자고 했어요.", "accepted": ["네, 토요일 세 시에 영화관 앞에서 만나자고 했어요.", "토요일 세 시에 영화관 앞에서 만나자고 했어요.", "네, 수진 씨가 토요일 세 시에 만나자고 했어요."] },
+        { "speaker": "친구", "ko": "그래요? 그런데 저는 그날 오후에 약속이 있는데 어떻게 하지요?", "en": "Really? But I have an appointment that afternoon — what should we do?" },
+        { "speaker": "나", "en": "Say Sujin said Sunday is fine too (일요일도 괜찮다고 했어요).", "ko": "수진 씨가 일요일도 괜찮다고 했어요.", "accepted": ["수진 씨가 일요일도 괜찮다고 했어요.", "일요일도 괜찮다고 했어요.", "수진 씨는 일요일도 괜찮다고 했어요."] },
+        { "speaker": "친구", "ko": "잘됐네요. 그럼 일요일로 바꿉시다.", "en": "That works out. Then let's change it to Sunday." },
+        { "speaker": "나", "en": "Agree, and add that Sujin asked you to bring the camera (가져와 달라고 했어요).", "ko": "알겠어요. 그리고 수진 씨가 카메라를 가져와 달라고 했어요.", "accepted": ["알겠어요. 그리고 수진 씨가 카메라를 가져와 달라고 했어요.", "네, 그리고 수진 씨가 카메라를 가져와 달라고 했어요.", "그리고 카메라를 가져와 달라고 했어요."] },
+        { "speaker": "친구", "ko": "네, 알겠어요. 전해 줘서 고마워요.", "en": "Okay, got it. Thanks for passing that on." }
+      ]
+    },
+    {
+      "id": "cancel-appointment",
+      "title": "Cancelling an appointment by phone",
+      "title_ko": "약속 취소 전화",
+      "situation": "You call a friend to cancel tomorrow's appointment because your parents are suddenly visiting.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "여보세요, 민우 씨? 무슨 일이에요?", "en": "Hello, Minu? What's going on?" },
+        { "speaker": "나", "en": "Apologize — something suddenly came up, so it turns out you cannot go tomorrow (못 가게 됐어요).", "ko": "미안해요. 갑자기 일이 생겨서 내일 못 가게 됐어요.", "accepted": ["미안해요. 갑자기 일이 생겨서 내일 못 가게 됐어요.", "죄송해요. 갑자기 일이 생겨서 내일 못 가게 됐어요.", "미안해요. 내일 못 가게 됐어요."] },
+        { "speaker": "친구", "ko": "어머, 그래요? 무슨 일인데요?", "en": "Oh, really? What happened?" },
+        { "speaker": "나", "en": "Say your parents are suddenly coming to Korea, so you will have to go out to the airport (나가야겠어요).", "ko": "부모님이 갑자기 한국에 오세요. 그래서 공항에 나가야겠어요.", "accepted": ["부모님이 갑자기 한국에 오세요. 그래서 공항에 나가야겠어요.", "부모님이 갑자기 오셔서 공항에 나가야겠어요.", "부모님이 한국에 오셔서 공항에 가야 해요."] },
+        { "speaker": "친구", "ko": "괜찮아요. 부모님 잘 만나세요. 약속은 언제로 바꿀까요?", "en": "It's fine. Enjoy seeing your parents. When should we reschedule?" },
+        { "speaker": "나", "en": "Say you will call as soon as your parents leave (가시는 대로 전화할게요).", "ko": "부모님이 가시는 대로 전화할게요.", "accepted": ["부모님이 가시는 대로 전화할게요.", "부모님이 가시는 대로 연락할게요.", "부모님이 떠나시는 대로 전화할게요."] },
+        { "speaker": "친구", "ko": "네, 그럼 연락 기다릴게요.", "en": "Okay, I'll wait for your call then." }
+      ]
+    },
+    {
+      "id": "stomach-ache",
+      "title": "Seeing a doctor",
+      "title_ko": "내과 진료",
+      "situation": "You see a doctor about a stomach ache that started yesterday.",
+      "level": 2,
+      "turns": [
+        { "speaker": "의사", "ko": "어디가 아파서 오셨어요?", "en": "What brings you in today?" },
+        { "speaker": "나", "en": "Say your stomach has hurt since yesterday, and on top of that you have no appetite (아픈 데다가 입맛도 없어요).", "ko": "어제부터 배가 아픈 데다가 입맛도 없어요.", "accepted": ["어제부터 배가 아픈 데다가 입맛도 없어요.", "어제부터 배가 아프고 입맛도 없어요.", "배가 아픈 데다가 입맛도 없어요."] },
+        { "speaker": "의사", "ko": "어제 뭘 드셨어요?", "en": "What did you eat yesterday?" },
+        { "speaker": "나", "en": "Say you ate cold noodles and ice cream last night (냉면하고 아이스크림).", "ko": "어젯밤에 냉면하고 아이스크림을 먹었어요.", "accepted": ["어젯밤에 냉면하고 아이스크림을 먹었어요.", "냉면하고 아이스크림을 먹었어요.", "어제 냉면하고 아이스크림을 먹었어요."] },
+        { "speaker": "의사", "ko": "장염인 것 같네요. 며칠 동안 찬 음식을 먹지 말고 죽 같은 음식을 드세요.", "en": "It looks like enteritis. For a few days, don't eat cold food — eat things like rice porridge." },
+        { "speaker": "나", "en": "Ask if it is okay to drink coffee (커피는 마셔도 돼요?).", "ko": "커피는 마셔도 돼요?", "accepted": ["커피는 마셔도 돼요?", "커피 마셔도 돼요?", "커피는 괜찮아요?"] },
+        { "speaker": "의사", "ko": "커피 말고 따뜻한 물을 드세요. 처방전을 드릴 테니까 약국에서 약을 받으세요.", "en": "Not coffee — drink warm water. I'll give you a prescription, so pick up the medicine at the pharmacy." },
+        { "speaker": "나", "en": "Say you understand and thank the doctor (알겠습니다, 감사합니다).", "ko": "네, 알겠습니다. 감사합니다.", "accepted": ["네, 알겠습니다. 감사합니다.", "알겠습니다. 감사합니다.", "네, 감사합니다."] }
+      ]
+    },
+    {
+      "id": "pharmacy-cold",
+      "title": "At the pharmacy with a cold",
+      "title_ko": "약국에서",
+      "situation": "You describe cold symptoms to a pharmacist and ask about the medicine.",
+      "level": 2,
+      "turns": [
+        { "speaker": "약사", "ko": "어서 오세요. 어떻게 오셨어요?", "en": "Welcome. What can I do for you?" },
+        { "speaker": "나", "en": "Say it seems you caught a cold — you cough a lot and have a fever (감기에 걸렸나 봐요).", "ko": "감기에 걸렸나 봐요. 기침을 많이 하고 열도 나요.", "accepted": ["감기에 걸렸나 봐요. 기침을 많이 하고 열도 나요.", "감기에 걸렸나 봐요. 기침이 나고 열도 있어요.", "감기인가 봐요. 기침을 많이 하고 열도 나요."] },
+        { "speaker": "약사", "ko": "목도 아프세요?", "en": "Does your throat hurt too?" },
+        { "speaker": "나", "en": "Say yes, your throat hurts so much that you can't eat anything at all (아무것도 못 먹겠어요).", "ko": "네, 목이 너무 아파서 아무것도 못 먹겠어요.", "accepted": ["네, 목이 너무 아파서 아무것도 못 먹겠어요.", "네, 목이 아파서 아무것도 못 먹어요.", "목이 너무 아파서 아무것도 못 먹겠어요."] },
+        { "speaker": "약사", "ko": "이 약을 하루에 세 번, 식사 후에 드세요.", "en": "Take this medicine three times a day, after meals." },
+        { "speaker": "나", "en": "Ask if the medicine makes you sleepy (먹으면 졸려요?).", "ko": "이 약을 먹으면 졸려요?", "accepted": ["이 약을 먹으면 졸려요?", "이 약 먹으면 졸려요?", "약을 먹으면 잠이 와요?"] },
+        { "speaker": "약사", "ko": "네, 조금 졸릴 수 있으니까 드시고 나서 운전하지 마세요.", "en": "Yes, it can make you a little drowsy, so don't drive after taking it." },
+        { "speaker": "나", "en": "Say okay, and ask how much it is (얼마예요?).", "ko": "네, 알겠습니다. 얼마예요?", "accepted": ["네, 알겠습니다. 얼마예요?", "알겠습니다. 얼마예요?", "네, 얼마예요?"] }
+      ]
+    },
+    {
+      "id": "hotel-booking",
+      "title": "Booking a hotel room",
+      "title_ko": "호텔 예약",
+      "situation": "You call a hotel to book a room with an ocean view for a summer trip.",
+      "level": 2,
+      "turns": [
+        { "speaker": "직원", "ko": "감사합니다, 한라 호텔입니다. 무엇을 도와드릴까요?", "en": "Thank you for calling, this is Halla Hotel. How may I help you?" },
+        { "speaker": "나", "en": "Say you would like to book a room from August 15th, for two nights and three days (방을 예약하고 싶은데요).", "ko": "팔월 십오일부터 이박 삼일 동안 방을 예약하고 싶은데요.", "accepted": ["팔월 십오일부터 이박 삼일 동안 방을 예약하고 싶은데요.", "8월 15일부터 2박 3일 동안 방을 예약하고 싶어요.", "팔월 십오일부터 이박 삼일로 예약하고 싶어요."] },
+        { "speaker": "직원", "ko": "네, 몇 분이세요?", "en": "Certainly. For how many people?" },
+        { "speaker": "나", "en": "Say two people, and ask if there is a room where you can see the ocean (바다가 보이는 방 있어요?).", "ko": "두 명이에요. 바다가 보이는 방이 있어요?", "accepted": ["두 명이에요. 바다가 보이는 방이 있어요?", "두 명이에요. 바다가 보이는 방 있어요?", "두 명인데 바다가 보이는 방이 있어요?"] },
+        { "speaker": "직원", "ko": "죄송하지만 바다 쪽 방은 하나밖에 안 남았어요. 산 쪽 방보다 이만 원 더 비싼데 괜찮으세요?", "en": "I'm sorry, but only one ocean-side room is left. It's 20,000 won more than the mountain side — is that all right?" },
+        { "speaker": "나", "en": "Say that is fine, and ask them to book that room (그 방으로 예약해 주세요).", "ko": "괜찮아요. 그 방으로 예약해 주세요.", "accepted": ["괜찮아요. 그 방으로 예약해 주세요.", "네, 괜찮아요. 그 방으로 예약해 주세요.", "괜찮아요. 그 방으로 해 주세요."] },
+        { "speaker": "직원", "ko": "네, 성함과 전화번호를 말씀해 주세요.", "en": "Certainly. Please tell me your name and phone number." },
+        { "speaker": "나", "en": "Give your name, Minu, and the number 010-1234-5678 (이름은 …이고 전화번호는 …이에요).", "ko": "이름은 민우이고 전화번호는 010-1234-5678이에요.", "accepted": ["이름은 민우이고 전화번호는 010-1234-5678이에요.", "민우예요. 전화번호는 010-1234-5678이에요.", "민우입니다. 010-1234-5678입니다."] }
+      ]
+    },
+    {
+      "id": "travel-memories",
+      "title": "Sharing travel memories",
+      "title_ko": "여행 이야기",
+      "situation": "A friend asks about your recent trip back to Jeju Island.",
+      "level": 2,
+      "turns": [
+        { "speaker": "친구", "ko": "지난주에 제주도에 다녀왔지요? 어땠어요?", "en": "You went to Jeju last week, right? How was it?" },
+        { "speaker": "나", "en": "Say you went back to Jeju for the first time in three years (삼 년 만에 다시 갔어요).", "ko": "삼 년 만에 제주도에 다시 갔어요.", "accepted": ["삼 년 만에 제주도에 다시 갔어요.", "3년 만에 제주도에 다시 갔어요.", "삼 년 만에 다시 갔다 왔어요."] },
+        { "speaker": "친구", "ko": "와, 오랜만에 갔네요. 뭐가 제일 좋았어요?", "en": "Wow, it's been a while. What was the best part?" },
+        { "speaker": "나", "en": "Say you went again to the beach you used to visit — the sea was really beautiful (자주 갔던 바다, 아름답더군요).", "ko": "전에 자주 갔던 바다에 또 갔어요. 바다가 정말 아름답더군요.", "accepted": ["전에 자주 갔던 바다에 또 갔어요. 바다가 정말 아름답더군요.", "전에 자주 갔던 바다에 또 갔어요. 바다가 정말 아름답더라고요.", "자주 갔던 바다에 또 갔는데 정말 아름다웠어요."] },
+        { "speaker": "친구", "ko": "음식은 어땠어요?", "en": "How was the food?" },
+        { "speaker": "나", "en": "Say maybe because it is an island, the fish dishes were very fresh (섬이어서 그런지).", "ko": "섬이어서 그런지 생선 요리가 아주 신선했어요.", "accepted": ["섬이어서 그런지 생선 요리가 아주 신선했어요.", "섬이라서 그런지 생선 요리가 아주 신선했어요.", "섬이어서 그런지 생선이 정말 신선했어요."] },
+        { "speaker": "친구", "ko": "저도 가고 싶네요. 추천해 줄 곳이 있어요?", "en": "I want to go too. Any place you'd recommend?" },
+        { "speaker": "나", "en": "Recommend the morning market — say it is as fun as the sea (바다만큼 재미있어요).", "ko": "아침 시장에 꼭 가 보세요. 바다만큼 재미있어요.", "accepted": ["아침 시장에 꼭 가 보세요. 바다만큼 재미있어요.", "아침 시장에 가 보세요. 바다만큼 재미있어요.", "아침 시장을 추천해요. 바다만큼 재미있어요."] }
+      ]
+    },
+    {
+      "id": "apartment-hunting",
+      "title": "Looking for a room",
+      "title_ko": "방 구하기",
+      "situation": "At a real-estate office you look for a studio near your university.",
+      "level": 2,
+      "turns": [
+        { "speaker": "중개인", "ko": "어서 오세요. 어떤 집을 찾으세요?", "en": "Welcome. What kind of place are you looking for?" },
+        { "speaker": "나", "en": "Say you are looking for a studio close to the university (가까운 원룸을 찾고 있어요).", "ko": "학교에서 가까운 원룸을 찾고 있어요.", "accepted": ["학교에서 가까운 원룸을 찾고 있어요.", "학교 근처 원룸을 찾고 있어요.", "학교에서 가까운 원룸을 찾는데요."] },
+        { "speaker": "중개인", "ko": "학교에서 가까우면 가까울수록 월세가 비싸요. 이 집은 어떠세요? 지은 지 얼마 안 돼서 새 집처럼 깨끗해요.", "en": "The closer to the school, the higher the rent. How about this one? It was built recently, so it's clean like a new house." },
+        { "speaker": "나", "en": "Ask how much the monthly rent is (월세가 얼마예요?).", "ko": "월세가 얼마예요?", "accepted": ["월세가 얼마예요?", "월세는 얼마예요?", "한 달에 얼마예요?"] },
+        { "speaker": "중개인", "ko": "보증금 오백에 월세 오십이에요. 지하철역도 가까워요.", "en": "The deposit is five million won and the rent is 500,000 a month. The subway station is close too." },
+        { "speaker": "나", "en": "Say it is a bit expensive, but you would like to see the place first (비싸지만 먼저 보고 싶어요).", "ko": "좀 비싸지만 집을 먼저 보고 싶어요.", "accepted": ["좀 비싸지만 집을 먼저 보고 싶어요.", "좀 비싸네요. 그래도 집을 먼저 보고 싶어요.", "비싸지만 먼저 보고 싶어요."] },
+        { "speaker": "중개인", "ko": "그럼 지금 같이 가 볼까요? 제가 안내해 드릴 테니까 따라오세요.", "en": "Shall we go take a look now? I'll show you the way, so follow me." },
+        { "speaker": "나", "en": "Agree and say let's go together (네, 같이 가요).", "ko": "네, 좋아요. 같이 가요.", "accepted": ["네, 좋아요. 같이 가요.", "네, 같이 가요.", "좋아요. 지금 가요."] }
+      ]
+    },
+    {
+      "id": "laundry-shop",
+      "title": "At the dry cleaner's",
+      "title_ko": "세탁소에서",
+      "situation": "You drop off a coat with a coffee stain at the neighborhood dry cleaner.",
+      "level": 2,
+      "turns": [
+        { "speaker": "주인", "ko": "어서 오세요. 세탁 맡기시려고요?", "en": "Welcome. Dropping something off for cleaning?" },
+        { "speaker": "나", "en": "Say yes, and ask them to dry-clean this coat (드라이클리닝 해 주세요).", "ko": "네, 이 코트를 드라이클리닝 해 주세요.", "accepted": ["네, 이 코트를 드라이클리닝 해 주세요.", "네, 이 코트 드라이클리닝 해 주세요.", "이 코트를 드라이클리닝 하고 싶은데요."] },
+        { "speaker": "주인", "ko": "여기 소매에 얼룩이 있네요. 뭐가 묻었어요?", "en": "There's a stain here on the sleeve. What got on it?" },
+        { "speaker": "나", "en": "Say you spilled coffee while working and drinking it (일하면서 커피를 마시다가 쏟았어요).", "ko": "일하면서 커피를 마시다가 쏟았어요.", "accepted": ["일하면서 커피를 마시다가 쏟았어요.", "일하면서 커피를 마시다가 흘렸어요.", "커피를 마시다가 쏟았어요."] },
+        { "speaker": "주인", "ko": "커피 얼룩은 빨리 맡기면 잘 지워져요. 금요일까지 될 거예요.", "en": "Coffee stains come out well if you bring them in quickly. It'll be ready by Friday." },
+        { "speaker": "나", "en": "Say you thought the stain would not come out — what a relief (안 지워지는 줄 알았어요).", "ko": "얼룩이 안 지워지는 줄 알았어요. 다행이에요.", "accepted": ["얼룩이 안 지워지는 줄 알았어요. 다행이에요.", "안 지워지는 줄 알았어요. 다행이에요.", "얼룩이 안 지워지는 줄 알았는데 다행이에요."] },
+        { "speaker": "주인", "ko": "금요일 오후에 찾으러 오세요.", "en": "Come pick it up Friday afternoon." },
+        { "speaker": "나", "en": "Thank them and say you will come on Friday (금요일에 올게요).", "ko": "네, 감사합니다. 금요일에 올게요.", "accepted": ["네, 감사합니다. 금요일에 올게요.", "감사합니다. 금요일에 올게요.", "네, 금요일에 올게요. 감사합니다."] }
+      ]
+    }
+  ]
+}

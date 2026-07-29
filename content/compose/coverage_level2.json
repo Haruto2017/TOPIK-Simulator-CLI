@@ -1,0 +1,481 @@
+{
+  "schema_version": "topik-sim.compose.v1",
+  "lessons": [
+    {
+      "id": "part-ideunji",
+      "pattern": "N(이)든지",
+      "meaning": "any ~ at all / no matter which",
+      "example": "뭐든지 잘 먹어요.",
+      "example_en": "I eat anything well.",
+      "note": "**이든지** after a consonant, **든지** after a vowel: 언제든지, 누구든지, 뭐든지. It says the choice does not matter — any one is fine.",
+      "match": ["든지"],
+      "level": 2,
+      "sentences": [
+        { "english": "Come anytime.", "korean": "언제든지 오세요.", "accepted": ["언제든지 오세요.", "언제든지 놀러 오세요."] },
+        { "english": "Anyone can come.", "korean": "누구든지 올 수 있어요.", "accepted": ["누구든지 올 수 있어요.", "누구든지 올 수 있습니다."] },
+        { "english": "Ask me anything.", "korean": "뭐든지 물어보세요.", "accepted": ["뭐든지 물어보세요.", "무엇이든지 물어보세요."] },
+        { "english": "Any food is fine with me.", "korean": "음식은 뭐든지 괜찮아요.", "accepted": ["음식은 뭐든지 괜찮아요.", "음식은 뭐든지 좋아요."] },
+        { "english": "Anywhere is fine.", "korean": "어디든지 좋아요.", "accepted": ["어디든지 좋아요.", "어디든지 괜찮아요."] }
+      ]
+    },
+    {
+      "id": "expr-a-eo-hada",
+      "pattern": "A-아/어하다",
+      "meaning": "shows another person's feeling (turns a feeling adjective into a verb)",
+      "example": "동생이 강아지를 무서워해요.",
+      "example_en": "My little brother is scared of the puppy.",
+      "note": "Feeling adjectives like 좋다, 싫다, 무섭다 describe **my own** feelings. To describe **another person's** feelings, add **-아/어하다**: 좋아하다, 싫어하다, 무서워하다. The thing felt then takes 을/를.",
+      "match": ["아/어하다", "좋아하"],
+      "level": 2,
+      "sentences": [
+        { "english": "My friend likes Korean food.", "korean": "친구는 한국 음식을 좋아해요.", "accepted": ["친구는 한국 음식을 좋아해요.", "친구가 한국 음식을 좋아해요.", "친구는 한국 음식을 좋아합니다."] },
+        { "english": "My younger sibling hates vegetables.", "korean": "동생은 채소를 싫어해요.", "accepted": ["동생은 채소를 싫어해요.", "동생이 채소를 싫어해요.", "동생은 야채를 싫어해요."] },
+        { "english": "The child is scared of dogs.", "korean": "아이가 개를 무서워해요.", "accepted": ["아이가 개를 무서워해요.", "아이는 개를 무서워해요.", "아이가 강아지를 무서워해요."] },
+        { "english": "My younger sibling was happy to get the present.", "korean": "동생이 선물을 받고 기뻐했어요.", "accepted": ["동생이 선물을 받고 기뻐했어요.", "동생은 선물을 받고 기뻐했어요."] },
+        { "english": "My friend finds Korean difficult.", "korean": "친구는 한국어를 어려워해요.", "accepted": ["친구는 한국어를 어려워해요.", "친구가 한국어를 어려워해요."] }
+      ]
+    },
+    {
+      "id": "expr-lkka-hada",
+      "pattern": "-(으)ㄹ까 하다",
+      "meaning": "I'm thinking of (doing) — a loose, tentative plan",
+      "example": "주말에 바다에 갈까 해요.",
+      "example_en": "I'm thinking of going to the sea this weekend.",
+      "note": "**-(으)ㄹ까 하다** expresses a plan you are still considering: **-ㄹ까 하다** after a vowel stem (가다 → 갈까 해요), **-을까 하다** after a consonant (먹다 → 먹을까 해요). It is weaker than -(으)려고 하다.",
+      "match": ["ㄹ까 하", "을까 하", "ㄹ까"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'm thinking of resting at home this weekend.", "korean": "이번 주말에는 집에서 쉴까 해요.", "accepted": ["이번 주말에는 집에서 쉴까 해요.", "이번 주말에 집에서 쉴까 해요.", "주말에 집에서 쉴까 해요."] },
+        { "english": "I'm thinking of learning Korean cooking.", "korean": "한국 요리를 배울까 해요.", "accepted": ["한국 요리를 배울까 해요.", "한국 요리를 배울까 합니다."] },
+        { "english": "I'm thinking of eating bibimbap for lunch.", "korean": "점심에는 비빔밥을 먹을까 해요.", "accepted": ["점심에는 비빔밥을 먹을까 해요.", "점심에 비빔밥을 먹을까 해요."] },
+        { "english": "I'm thinking of moving next month.", "korean": "다음 달에 이사할까 해요.", "accepted": ["다음 달에 이사할까 해요.", "다음 달에 이사를 할까 해요."] },
+        { "english": "I'm thinking of taking a walk in the park.", "korean": "공원에서 산책할까 해요.", "accepted": ["공원에서 산책할까 해요.", "공원에서 산책을 할까 해요."] }
+      ]
+    },
+    {
+      "id": "banmal-a-eo",
+      "pattern": "반말 -아/어",
+      "meaning": "casual speech ending (with close friends)",
+      "example": "나 지금 집에 가.",
+      "example_en": "I'm going home now.",
+      "note": "Drop the **요** from the polite -아/어요 form to get casual speech: 가요 → 가, 먹어요 → 먹어, 해요 → 해. Use it only with close friends, children, or people younger than you.",
+      "match": ["반말"],
+      "level": 2,
+      "sentences": [
+        { "english": "What are you doing now?", "korean": "지금 뭐 해?", "accepted": ["지금 뭐 해?", "너 지금 뭐 해?"] },
+        { "english": "I'm eating lunch with a friend.", "korean": "친구하고 점심 먹어.", "accepted": ["친구하고 점심 먹어.", "친구랑 점심 먹어.", "친구랑 점심 먹고 있어."] },
+        { "english": "I'm going home now.", "korean": "나 지금 집에 가.", "accepted": ["나 지금 집에 가.", "지금 집에 가."] },
+        { "english": "The weather is really nice today.", "korean": "오늘 날씨 정말 좋아.", "accepted": ["오늘 날씨 정말 좋아.", "오늘 날씨 진짜 좋아.", "오늘 날씨가 정말 좋아."] },
+        { "english": "Call me later.", "korean": "이따가 전화해.", "accepted": ["이따가 전화해.", "나중에 전화해."] }
+      ]
+    },
+    {
+      "id": "banmal-iya",
+      "pattern": "N(이)야",
+      "meaning": "casual 'to be' (am / is / are, between friends)",
+      "example": "이거 내 가방이야.",
+      "example_en": "This is my bag.",
+      "note": "The casual form of 이에요/예요: **이야** after a consonant (학생이야), **야** after a vowel (가수야). The negative is 아니야. Use it only with close friends.",
+      "match": ["이야"],
+      "level": 2,
+      "sentences": [
+        { "english": "This is my book.", "korean": "이거 내 책이야.", "accepted": ["이거 내 책이야.", "이것은 내 책이야."] },
+        { "english": "That person is my younger sibling.", "korean": "그 사람은 내 동생이야.", "accepted": ["그 사람은 내 동생이야.", "그 사람이 내 동생이야."] },
+        { "english": "Today is my birthday.", "korean": "오늘은 내 생일이야.", "accepted": ["오늘은 내 생일이야.", "오늘 내 생일이야."] },
+        { "english": "My friend is a singer.", "korean": "내 친구는 가수야.", "accepted": ["내 친구는 가수야.", "내 친구가 가수야."] },
+        { "english": "Is this your umbrella?", "korean": "이거 네 우산이야?", "accepted": ["이거 네 우산이야?", "이것은 네 우산이야?"] }
+      ]
+    },
+    {
+      "id": "conn-lji",
+      "pattern": "-(으)ㄹ지",
+      "meaning": "whether (to) — an undecided question inside a sentence",
+      "example": "뭘 먹을지 아직 못 정했어요.",
+      "example_en": "I haven't decided yet what to eat.",
+      "note": "**-(으)ㄹ지** embeds an undecided question, often before 정하다, 생각하다, 고민하다: 갈지, 먹을지, 뭘 살지. Use **-ㄹ지** after a vowel stem and **-을지** after a consonant.",
+      "match": ["(으)ㄹ지"],
+      "level": 2,
+      "sentences": [
+        { "english": "I haven't decided what to buy yet.", "korean": "뭘 살지 아직 안 정했어요.", "accepted": ["뭘 살지 아직 안 정했어요.", "뭘 살지 아직 못 정했어요.", "무엇을 살지 아직 정하지 않았어요."] },
+        { "english": "I'm thinking about where to go on a trip.", "korean": "어디로 여행 갈지 생각하고 있어요.", "accepted": ["어디로 여행 갈지 생각하고 있어요.", "어디로 여행을 갈지 생각하고 있어요."] },
+        { "english": "I'm worried about what to wear tomorrow.", "korean": "내일 뭘 입을지 고민이에요.", "accepted": ["내일 뭘 입을지 고민이에요.", "내일 무엇을 입을지 고민이에요.", "내일 뭘 입을지 고민하고 있어요."] },
+        { "english": "We are deciding what to eat for dinner.", "korean": "저녁에 뭘 먹을지 정하고 있어요.", "accepted": ["저녁에 뭘 먹을지 정하고 있어요.", "저녁에 무엇을 먹을지 정하고 있어요."] },
+        { "english": "I don't know yet when I will depart.", "korean": "언제 출발할지 아직 몰라요.", "accepted": ["언제 출발할지 아직 몰라요.", "언제 출발할지 아직 모릅니다."] }
+      ]
+    },
+    {
+      "id": "conn-a-eo-gajigo",
+      "pattern": "-아/어 가지고",
+      "meaning": "having done ~ / because ~ (spoken alternative to -아/어서)",
+      "example": "돈을 모아 가지고 여행을 갔어요.",
+      "example_en": "I saved up money and went on a trip.",
+      "note": "**-아/어 가지고** links an action or reason to what follows, like -아/어서 but more colloquial: 사 가지고 (having bought it), 늦어 가지고 (because I was late).",
+      "match": ["가지고"],
+      "level": 2,
+      "sentences": [
+        { "english": "I bought fruit and went to my friend's house.", "korean": "과일을 사 가지고 친구 집에 갔어요.", "accepted": ["과일을 사 가지고 친구 집에 갔어요.", "과일을 사 가지고 친구 집에 갔습니다."] },
+        { "english": "I got up late, so I couldn't eat breakfast.", "korean": "늦게 일어나 가지고 아침을 못 먹었어요.", "accepted": ["늦게 일어나 가지고 아침을 못 먹었어요.", "늦게 일어나 가지고 아침을 못 먹었습니다."] },
+        { "english": "I made kimbap and ate it together with my friends.", "korean": "김밥을 만들어 가지고 친구들하고 같이 먹었어요.", "accepted": ["김밥을 만들어 가지고 친구들하고 같이 먹었어요.", "김밥을 만들어 가지고 친구들과 같이 먹었어요."] },
+        { "english": "It was so cold that I caught a cold.", "korean": "날씨가 너무 추워 가지고 감기에 걸렸어요.", "accepted": ["날씨가 너무 추워 가지고 감기에 걸렸어요.", "너무 추워 가지고 감기에 걸렸어요."] },
+        { "english": "I earned money and bought a new phone.", "korean": "돈을 벌어 가지고 새 휴대폰을 샀어요.", "accepted": ["돈을 벌어 가지고 새 휴대폰을 샀어요.", "돈을 벌어 가지고 새 핸드폰을 샀어요."] }
+      ]
+    },
+    {
+      "id": "expr-neunji-alda",
+      "pattern": "-는지 알다/모르다",
+      "meaning": "to know / not know whether (where, what, why...)",
+      "example": "은행이 어디에 있는지 알아요?",
+      "example_en": "Do you know where the bank is?",
+      "note": "**-는지** turns a question into a clause before 알다/모르다: 어디에 있는지, 뭘 좋아하는지. With adjectives and 이다 use **-(으)ㄴ지** (얼마나 큰지, 무슨 뜻인지), and add 왜/누가/어디 for question words.",
+      "match": ["는지"],
+      "level": 2,
+      "sentences": [
+        { "english": "Do you know where the subway station is?", "korean": "지하철역이 어디에 있는지 알아요?", "accepted": ["지하철역이 어디에 있는지 알아요?", "지하철역이 어디 있는지 알아요?", "지하철역이 어디에 있는지 아세요?"] },
+        { "english": "I don't know what this word means.", "korean": "이 단어가 무슨 뜻인지 몰라요.", "accepted": ["이 단어가 무슨 뜻인지 몰라요.", "이 단어가 무슨 뜻인지 모르겠어요."] },
+        { "english": "Do you know what time the store opens?", "korean": "가게가 몇 시에 문을 여는지 알아요?", "accepted": ["가게가 몇 시에 문을 여는지 알아요?", "가게가 몇 시에 여는지 알아요?"] },
+        { "english": "I don't know why my friend isn't coming.", "korean": "친구가 왜 안 오는지 몰라요.", "accepted": ["친구가 왜 안 오는지 몰라요.", "친구가 왜 안 오는지 모르겠어요."] },
+        { "english": "I know what food my friend likes.", "korean": "친구가 무슨 음식을 좋아하는지 알아요.", "accepted": ["친구가 무슨 음식을 좋아하는지 알아요.", "친구가 어떤 음식을 좋아하는지 알아요."] }
+      ]
+    },
+    {
+      "id": "cond-euryeomyeon",
+      "pattern": "-(으)려면",
+      "meaning": "if you intend to / in order to (you should...)",
+      "example": "표를 사려면 일찍 가세요.",
+      "example_en": "If you want to buy a ticket, go early.",
+      "note": "**-(으)려면** means 'if you plan to do X': **-려면** after a vowel stem, **-으려면** after a consonant. The second clause usually gives advice or a requirement, with -(으)세요 or -아/어야 해요.",
+      "match": ["려면"],
+      "level": 2,
+      "sentences": [
+        { "english": "If you want to speak Korean well, practice every day.", "korean": "한국어를 잘하려면 매일 연습하세요.", "accepted": ["한국어를 잘하려면 매일 연습하세요.", "한국어를 잘하려면 매일 연습해야 해요."] },
+        { "english": "If you want to go to Busan, take the train.", "korean": "부산에 가려면 기차를 타세요.", "accepted": ["부산에 가려면 기차를 타세요.", "부산에 가려면 기차를 타야 해요."] },
+        { "english": "If you want to become healthy, exercise often.", "korean": "건강해지려면 운동을 자주 하세요.", "accepted": ["건강해지려면 운동을 자주 하세요.", "건강해지려면 자주 운동하세요.", "건강해지려면 운동을 자주 해야 해요."] },
+        { "english": "If you want to arrive by 9, you have to leave now.", "korean": "9시까지 도착하려면 지금 출발해야 해요.", "accepted": ["9시까지 도착하려면 지금 출발해야 해요.", "아홉 시까지 도착하려면 지금 출발해야 해요."] },
+        { "english": "If you want to borrow a book, you need a library card.", "korean": "책을 빌리려면 도서관 카드가 필요해요.", "accepted": ["책을 빌리려면 도서관 카드가 필요해요.", "책을 빌리려면 도서관 카드가 있어야 해요."] }
+      ]
+    },
+    {
+      "id": "tense-at-daga",
+      "pattern": "-았/었다가",
+      "meaning": "did ~ and then (a finished action followed by a change)",
+      "example": "문을 열었다가 다시 닫았어요.",
+      "example_en": "I opened the door and then closed it again.",
+      "note": "**-았/었다가** marks a completed action followed by a change — often the opposite action: 갔다가 왔어요, 샀다가 바꿨어요. Both actions share the same subject.",
+      "match": ["았다가", "었다가"],
+      "level": 2,
+      "sentences": [
+        { "english": "I went to the market and came back.", "korean": "시장에 갔다가 왔어요.", "accepted": ["시장에 갔다가 왔어요.", "시장에 갔다 왔어요."] },
+        { "english": "I turned on the light and then turned it off.", "korean": "불을 켰다가 껐어요.", "accepted": ["불을 켰다가 껐어요.", "불을 켰다가 다시 껐어요."] },
+        { "english": "I bought the clothes and then exchanged them.", "korean": "옷을 샀다가 바꿨어요.", "accepted": ["옷을 샀다가 바꿨어요.", "옷을 샀다가 교환했어요."] },
+        { "english": "I stood up and then sat down again.", "korean": "일어났다가 다시 앉았어요.", "accepted": ["일어났다가 다시 앉았어요.", "일어섰다가 다시 앉았어요."] },
+        { "english": "I put on my coat and then took it off because it was hot.", "korean": "코트를 입었다가 더워서 벗었어요.", "accepted": ["코트를 입었다가 더워서 벗었어요.", "코트를 입었다가 벗었어요."] }
+      ]
+    },
+    {
+      "id": "q-nayo",
+      "pattern": "-나요?",
+      "meaning": "soft, polite question ending",
+      "example": "지금 시간이 있나요?",
+      "example_en": "Do you have time now?",
+      "note": "**-나요?** asks a question more softly than -아/어요?: attach it to a verb stem (가나요?, 먹나요?, 있나요?). With adjectives, **-(으)ㄴ가요?** is common instead (큰가요?).",
+      "match": ["나요?"],
+      "level": 2,
+      "sentences": [
+        { "english": "Does this bus go to City Hall?", "korean": "이 버스가 시청에 가나요?", "accepted": ["이 버스가 시청에 가나요?", "이 버스는 시청에 가나요?"] },
+        { "english": "Do you have time this weekend?", "korean": "이번 주말에 시간이 있나요?", "accepted": ["이번 주말에 시간이 있나요?", "주말에 시간이 있나요?"] },
+        { "english": "What time does the movie start?", "korean": "영화가 몇 시에 시작하나요?", "accepted": ["영화가 몇 시에 시작하나요?", "영화는 몇 시에 시작하나요?"] },
+        { "english": "Do you often eat Korean food?", "korean": "한국 음식을 자주 먹나요?", "accepted": ["한국 음식을 자주 먹나요?", "한국 음식은 자주 먹나요?"] },
+        { "english": "Is it raining outside now?", "korean": "지금 밖에 비가 오나요?", "accepted": ["지금 밖에 비가 오나요?", "밖에 비가 오나요?"] }
+      ]
+    },
+    {
+      "id": "part-e-daehaeseo",
+      "pattern": "N에 대해서",
+      "meaning": "about / concerning",
+      "example": "한국 문화에 대해서 배우고 있어요.",
+      "example_en": "I am learning about Korean culture.",
+      "note": "**에 대해서** (= 에 대해) marks the topic something is about: 역사에 대해서 이야기해요. Before a noun, use **에 대한** instead: 한국에 대한 책.",
+      "match": ["대해서", "에 대해"],
+      "level": 2,
+      "sentences": [
+        { "english": "We talked about the trip.", "korean": "여행에 대해서 이야기했어요.", "accepted": ["여행에 대해서 이야기했어요.", "여행에 대해 이야기했어요.", "여행에 대해서 이야기를 했어요."] },
+        { "english": "I want to know about Korean history.", "korean": "한국 역사에 대해서 알고 싶어요.", "accepted": ["한국 역사에 대해서 알고 싶어요.", "한국 역사에 대해 알고 싶어요."] },
+        { "english": "The teacher explained about the exam.", "korean": "선생님이 시험에 대해서 설명했어요.", "accepted": ["선생님이 시험에 대해서 설명했어요.", "선생님이 시험에 대해 설명했어요.", "선생님께서 시험에 대해서 설명하셨어요."] },
+        { "english": "I am writing about my family.", "korean": "가족에 대해서 글을 쓰고 있어요.", "accepted": ["가족에 대해서 글을 쓰고 있어요.", "가족에 대해 글을 쓰고 있어요."] },
+        { "english": "Please think about this problem.", "korean": "이 문제에 대해서 생각해 보세요.", "accepted": ["이 문제에 대해서 생각해 보세요.", "이 문제에 대해 생각해 보세요."] }
+      ]
+    },
+    {
+      "id": "expr-lji-moreugetda",
+      "pattern": "-(으)ㄹ지 모르겠다",
+      "meaning": "I'm not sure whether / I wonder if",
+      "example": "내일 비가 올지 모르겠어요.",
+      "example_en": "I'm not sure whether it will rain tomorrow.",
+      "note": "**-(으)ㄹ지 모르겠다** expresses uncertainty about the future or an unknown: 갈 수 있을지 모르겠어요. Use **-ㄹ지** after a vowel stem and **-을지** after a consonant.",
+      "match": ["ㄹ지 모르", "지 모르"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'm not sure whether I can finish this work today.", "korean": "오늘 이 일을 다 할 수 있을지 모르겠어요.", "accepted": ["오늘 이 일을 다 할 수 있을지 모르겠어요.", "오늘 이 일을 끝낼 수 있을지 모르겠어요."] },
+        { "english": "I'm not sure if the weather will be good tomorrow.", "korean": "내일 날씨가 좋을지 모르겠어요.", "accepted": ["내일 날씨가 좋을지 모르겠어요.", "내일 날씨가 좋을지 모르겠습니다."] },
+        { "english": "I'm not sure whether my friend will like this present.", "korean": "친구가 이 선물을 좋아할지 모르겠어요.", "accepted": ["친구가 이 선물을 좋아할지 모르겠어요.", "친구가 이 선물을 마음에 들어 할지 모르겠어요."] },
+        { "english": "I don't know if I'll be able to get up early tomorrow.", "korean": "내일 일찍 일어날 수 있을지 모르겠어요.", "accepted": ["내일 일찍 일어날 수 있을지 모르겠어요.", "일찍 일어날 수 있을지 모르겠어요."] },
+        { "english": "I'm not sure whether there will be seats.", "korean": "자리가 있을지 모르겠어요.", "accepted": ["자리가 있을지 모르겠어요.", "자리가 있을지 모르겠습니다."] }
+      ]
+    },
+    {
+      "id": "part-e-bihaeseo",
+      "pattern": "N에 비해서",
+      "meaning": "compared to",
+      "example": "작년에 비해서 날씨가 따뜻해요.",
+      "example_en": "Compared to last year, the weather is warm.",
+      "note": "**에 비해서** (= 에 비해) compares something against a standard: 값에 비해서 좋아요 (good for the price). It is similar to 보다 but a little more formal.",
+      "match": ["비해서", "에 비해"],
+      "level": 2,
+      "sentences": [
+        { "english": "This restaurant is cheap compared to other restaurants.", "korean": "이 식당은 다른 식당에 비해서 싸요.", "accepted": ["이 식당은 다른 식당에 비해서 싸요.", "이 식당은 다른 식당에 비해 싸요."] },
+        { "english": "Compared to last week, I'm busy this week.", "korean": "지난주에 비해서 이번 주는 바빠요.", "accepted": ["지난주에 비해서 이번 주는 바빠요.", "지난주에 비해 이번 주는 바빠요."] },
+        { "english": "Compared to the city, the countryside is quiet.", "korean": "도시에 비해서 시골은 조용해요.", "accepted": ["도시에 비해서 시골은 조용해요.", "도시에 비해 시골은 조용해요."] },
+        { "english": "Compared to my younger sibling, I am tall.", "korean": "동생에 비해서 저는 키가 커요.", "accepted": ["동생에 비해서 저는 키가 커요.", "동생에 비해 저는 키가 커요."] },
+        { "english": "Compared to yesterday, today is cold.", "korean": "어제에 비해서 오늘은 추워요.", "accepted": ["어제에 비해서 오늘은 추워요.", "어제에 비해 오늘은 추워요."] }
+      ]
+    },
+    {
+      "id": "quote-nyago-hada",
+      "pattern": "-(으)냐고 하다",
+      "meaning": "reported question (someone asked whether...)",
+      "example": "친구가 어디에 가냐고 했어요.",
+      "example_en": "My friend asked where I was going.",
+      "note": "To report a question, attach **-냐고 하다/묻다** to the stem: 가냐고, 먹냐고, 바쁘냐고. In everyday spoken Korean plain **-냐고** works for verbs and adjectives alike, and 물어봤어요 is common for 'asked'.",
+      "match": ["냐고"],
+      "level": 2,
+      "sentences": [
+        { "english": "My friend asked whether I'm busy today.", "korean": "친구가 오늘 바쁘냐고 물어봤어요.", "accepted": ["친구가 오늘 바쁘냐고 물어봤어요.", "친구가 오늘 바쁘냐고 했어요.", "친구가 오늘 바쁘냐고 물었어요."] },
+        { "english": "The teacher asked where I live.", "korean": "선생님이 어디에 사냐고 물어보셨어요.", "accepted": ["선생님이 어디에 사냐고 물어보셨어요.", "선생님이 어디 사냐고 물어보셨어요.", "선생님이 어디에 사냐고 물어봤어요."] },
+        { "english": "My mother asked whether I had eaten.", "korean": "어머니가 밥을 먹었냐고 했어요.", "accepted": ["어머니가 밥을 먹었냐고 했어요.", "어머니가 밥을 먹었냐고 물어봤어요.", "엄마가 밥 먹었냐고 했어요."] },
+        { "english": "My friend asked whether the movie was fun.", "korean": "친구가 영화가 재미있었냐고 물어봤어요.", "accepted": ["친구가 영화가 재미있었냐고 물어봤어요.", "친구가 영화가 재미있었냐고 했어요."] },
+        { "english": "My friend asked when I'm coming.", "korean": "친구가 언제 오냐고 했어요.", "accepted": ["친구가 언제 오냐고 했어요.", "친구가 언제 오냐고 물어봤어요."] }
+      ]
+    },
+    {
+      "id": "quote-rago-hada",
+      "pattern": "-(으)라고 하다",
+      "meaning": "reported command (someone told me to...)",
+      "example": "의사가 푹 쉬라고 했어요.",
+      "example_en": "The doctor told me to rest well.",
+      "note": "To report a command, attach **-라고 하다** to a vowel stem and **-으라고 하다** to a consonant stem: 가라고, 읽으라고, 쉬라고. For 'told me not to', use **-지 말라고 하다**.",
+      "match": ["라고 하", "라고 했"],
+      "level": 2,
+      "sentences": [
+        { "english": "The teacher told us to read the book.", "korean": "선생님이 책을 읽으라고 했어요.", "accepted": ["선생님이 책을 읽으라고 했어요.", "선생님이 책을 읽으라고 하셨어요."] },
+        { "english": "My mother told me to get up early.", "korean": "어머니가 일찍 일어나라고 했어요.", "accepted": ["어머니가 일찍 일어나라고 했어요.", "엄마가 일찍 일어나라고 했어요."] },
+        { "english": "The doctor told me to take the medicine.", "korean": "의사가 약을 먹으라고 했어요.", "accepted": ["의사가 약을 먹으라고 했어요.", "의사 선생님이 약을 먹으라고 했어요."] },
+        { "english": "My friend told me to come quickly.", "korean": "친구가 빨리 오라고 했어요.", "accepted": ["친구가 빨리 오라고 했어요.", "친구가 빨리 오라고 해요."] },
+        { "english": "The teacher told us not to be late.", "korean": "선생님이 늦지 말라고 했어요.", "accepted": ["선생님이 늦지 말라고 했어요.", "선생님이 늦지 말라고 하셨어요."] }
+      ]
+    },
+    {
+      "id": "conn-neun-daero",
+      "pattern": "-는 대로",
+      "meaning": "as soon as / just as",
+      "example": "집에 도착하는 대로 전화할게요.",
+      "example_en": "I'll call you as soon as I arrive home.",
+      "note": "**-는 대로** after a verb stem means 'as soon as' (도착하는 대로) or 'just as' (제가 하는 대로 하세요). For a past action, **-(으)ㄴ 대로** means 'as it was done': 들은 대로.",
+      "match": ["는 대로"],
+      "level": 2,
+      "sentences": [
+        { "english": "I'll call you as soon as work ends.", "korean": "일이 끝나는 대로 전화할게요.", "accepted": ["일이 끝나는 대로 전화할게요.", "일이 끝나는 대로 전화하겠습니다."] },
+        { "english": "Please do as I do.", "korean": "제가 하는 대로 하세요.", "accepted": ["제가 하는 대로 하세요.", "제가 하는 대로 따라 하세요."] },
+        { "english": "As soon as I get home, I'll send the photos.", "korean": "집에 가는 대로 사진을 보낼게요.", "accepted": ["집에 가는 대로 사진을 보낼게요.", "집에 도착하는 대로 사진을 보낼게요."] },
+        { "english": "Please write it just as you heard it.", "korean": "들은 대로 쓰세요.", "accepted": ["들은 대로 쓰세요.", "들은 대로 써 보세요."] },
+        { "english": "As soon as spring comes, I want to go on a trip.", "korean": "봄이 오는 대로 여행을 가고 싶어요.", "accepted": ["봄이 오는 대로 여행을 가고 싶어요.", "봄이 오는 대로 여행을 하고 싶어요."] }
+      ]
+    },
+    {
+      "id": "quote-dallago-hada",
+      "pattern": "-아/어 달라고 하다",
+      "meaning": "reported request for oneself (asked someone to do ~ for them)",
+      "example": "친구가 사진을 찍어 달라고 했어요.",
+      "example_en": "My friend asked me to take a photo for them.",
+      "note": "When reporting '-아/어 주세요' said for the speaker's own benefit, use **-아/어 달라고 하다**: 도와 달라고 했어요. If the favor was for a third person, use -아/어 주라고 하다 instead.",
+      "match": ["달라고"],
+      "level": 2,
+      "sentences": [
+        { "english": "My friend asked me to help.", "korean": "친구가 도와 달라고 했어요.", "accepted": ["친구가 도와 달라고 했어요.", "친구가 도와달라고 했어요."] },
+        { "english": "My younger sibling asked me to buy ice cream.", "korean": "동생이 아이스크림을 사 달라고 했어요.", "accepted": ["동생이 아이스크림을 사 달라고 했어요.", "동생이 아이스크림을 사달라고 했어요."] },
+        { "english": "My friend asked me to lend them a book.", "korean": "친구가 책을 빌려 달라고 했어요.", "accepted": ["친구가 책을 빌려 달라고 했어요.", "친구가 책을 빌려달라고 했어요."] },
+        { "english": "The student asked the teacher to explain again.", "korean": "학생이 선생님께 다시 설명해 달라고 했어요.", "accepted": ["학생이 선생님께 다시 설명해 달라고 했어요.", "학생이 선생님에게 다시 설명해 달라고 했어요."] },
+        { "english": "My mother asked me to open the window.", "korean": "어머니가 창문을 열어 달라고 했어요.", "accepted": ["어머니가 창문을 열어 달라고 했어요.", "엄마가 창문을 열어 달라고 했어요."] }
+      ]
+    },
+    {
+      "id": "part-edaga",
+      "pattern": "N에다가",
+      "meaning": "onto / into / on (the spot where something is put)",
+      "example": "여기에다가 이름을 쓰세요.",
+      "example_en": "Write your name here.",
+      "note": "**에다가** (often shortened to **에다**) marks the spot where something is put, written, or added: 벽에다가 걸어요, 가방에다가 넣었어요. It is a colloquial, emphatic 에.",
+      "match": ["에다가"],
+      "level": 2,
+      "sentences": [
+        { "english": "Please write your name here.", "korean": "여기에다가 이름을 쓰세요.", "accepted": ["여기에다가 이름을 쓰세요.", "여기에다 이름을 쓰세요.", "여기에 이름을 쓰세요."] },
+        { "english": "I put my wallet into my bag.", "korean": "지갑을 가방에다가 넣었어요.", "accepted": ["지갑을 가방에다가 넣었어요.", "지갑을 가방에다 넣었어요."] },
+        { "english": "I hung the picture on the wall.", "korean": "그림을 벽에다가 걸었어요.", "accepted": ["그림을 벽에다가 걸었어요.", "그림을 벽에다 걸었어요."] },
+        { "english": "Please put the box on the desk.", "korean": "상자를 책상 위에다가 놓으세요.", "accepted": ["상자를 책상 위에다가 놓으세요.", "상자를 책상에다가 놓으세요.", "상자를 책상 위에다 놓으세요."] },
+        { "english": "I planted flowers in the yard.", "korean": "마당에다가 꽃을 심었어요.", "accepted": ["마당에다가 꽃을 심었어요.", "마당에다 꽃을 심었어요."] }
+      ]
+    },
+    {
+      "id": "conn-ji-malgo",
+      "pattern": "-지 말고",
+      "meaning": "don't do ~, (do ... instead)",
+      "example": "버스를 타지 말고 지하철을 타세요.",
+      "example_en": "Don't take the bus; take the subway.",
+      "note": "**-지 말고** rejects one action and suggests another: A하지 말고 B하세요. It comes from -지 말다. With nouns, use **말고** alone: 커피 말고 차 주세요.",
+      "match": ["지 말고", "지 말"],
+      "level": 2,
+      "sentences": [
+        { "english": "Don't watch TV; read a book.", "korean": "텔레비전을 보지 말고 책을 읽으세요.", "accepted": ["텔레비전을 보지 말고 책을 읽으세요.", "티브이를 보지 말고 책을 읽으세요.", "텔레비전 보지 말고 책을 읽으세요."] },
+        { "english": "Don't worry; try calling your friend.", "korean": "걱정하지 말고 친구한테 전화해 보세요.", "accepted": ["걱정하지 말고 친구한테 전화해 보세요.", "걱정하지 말고 친구에게 전화해 보세요."] },
+        { "english": "Let's not eat out; let's eat at home.", "korean": "밖에서 먹지 말고 집에서 먹어요.", "accepted": ["밖에서 먹지 말고 집에서 먹어요.", "밖에서 먹지 말고 집에서 먹읍시다.", "외식하지 말고 집에서 먹어요."] },
+        { "english": "Don't take a taxi; walk.", "korean": "택시를 타지 말고 걸어가세요.", "accepted": ["택시를 타지 말고 걸어가세요.", "택시 타지 말고 걸어가세요."] },
+        { "english": "Don't just sit; exercise.", "korean": "앉아만 있지 말고 운동하세요.", "accepted": ["앉아만 있지 말고 운동하세요.", "앉아 있지 말고 운동하세요."] }
+      ]
+    },
+    {
+      "id": "det-amu",
+      "pattern": "아무 N(이)나 / 아무도",
+      "meaning": "any ~ at all / nobody (with a negative)",
+      "example": "아무거나 괜찮아요.",
+      "example_en": "Anything is fine.",
+      "note": "**아무 + 나** means 'any at all': 아무거나, 아무 때나, 아무나. With a negative verb, **아무도** means 'nobody' and **아무것도** means 'nothing': 교실에 아무도 없어요.",
+      "match": ["아무"],
+      "level": 2,
+      "sentences": [
+        { "english": "Anything is fine.", "korean": "아무거나 괜찮아요.", "accepted": ["아무거나 괜찮아요.", "아무거나 좋아요.", "아무것이나 괜찮아요."] },
+        { "english": "There is nobody in the classroom.", "korean": "교실에 아무도 없어요.", "accepted": ["교실에 아무도 없어요.", "교실에는 아무도 없어요."] },
+        { "english": "I didn't eat anything this morning.", "korean": "오늘 아침에 아무것도 안 먹었어요.", "accepted": ["오늘 아침에 아무것도 안 먹었어요.", "아침에 아무것도 안 먹었어요.", "오늘 아침에 아무것도 먹지 않았어요."] },
+        { "english": "Come by anytime.", "korean": "아무 때나 오세요.", "accepted": ["아무 때나 오세요.", "아무 때나 놀러 오세요."] },
+        { "english": "Anyone can do this work.", "korean": "이 일은 아무나 할 수 있어요.", "accepted": ["이 일은 아무나 할 수 있어요.", "아무나 할 수 있어요."] }
+      ]
+    },
+    {
+      "id": "part-bakke",
+      "pattern": "N밖에 + negative",
+      "meaning": "nothing but / only (always with a negative verb)",
+      "example": "천 원밖에 없어요.",
+      "example_en": "I have only a thousand won.",
+      "note": "**밖에** means 'only' and must pair with a negative: 조금밖에 없어요, 한 명밖에 안 왔어요. Compare **만**, which takes a positive verb.",
+      "match": ["밖에"],
+      "level": 2,
+      "sentences": [
+        { "english": "I have only a little money.", "korean": "돈이 조금밖에 없어요.", "accepted": ["돈이 조금밖에 없어요.", "돈이 조금밖에 없습니다."] },
+        { "english": "Only one student came.", "korean": "학생이 한 명밖에 안 왔어요.", "accepted": ["학생이 한 명밖에 안 왔어요.", "학생이 한 명밖에 오지 않았어요."] },
+        { "english": "I slept only three hours.", "korean": "세 시간밖에 못 잤어요.", "accepted": ["세 시간밖에 못 잤어요.", "3시간밖에 못 잤어요."] },
+        { "english": "There is only one apple left.", "korean": "사과가 하나밖에 안 남았어요.", "accepted": ["사과가 하나밖에 안 남았어요.", "사과가 한 개밖에 안 남았어요."] },
+        { "english": "I know only a few Korean words.", "korean": "한국어 단어를 조금밖에 몰라요.", "accepted": ["한국어 단어를 조금밖에 몰라요.", "한국어 단어를 조금밖에 모릅니다."] }
+      ]
+    },
+    {
+      "id": "mod-at-deon",
+      "pattern": "-았/었던 N",
+      "meaning": "that (I) did before — completed past modifier",
+      "example": "작년에 갔던 식당에 또 가고 싶어요.",
+      "example_en": "I want to go again to the restaurant I went to last year.",
+      "note": "**-았/었던** modifies a noun with a finished past event you recall: 먹었던 음식, 만났던 사람. It stresses that the action is completely over, unlike -던, which suggests a habit or something unfinished.",
+      "match": ["았던", "었던"],
+      "level": 2,
+      "sentences": [
+        { "english": "The movie I watched last week was fun.", "korean": "지난주에 봤던 영화가 재미있었어요.", "accepted": ["지난주에 봤던 영화가 재미있었어요.", "지난주에 봤던 영화는 재미있었어요."] },
+        { "english": "This is a book I read when I was young.", "korean": "어렸을 때 읽었던 책이에요.", "accepted": ["어렸을 때 읽었던 책이에요.", "어릴 때 읽었던 책이에요."] },
+        { "english": "Let's go again to the cafe we went to last time.", "korean": "지난번에 갔던 카페에 또 가요.", "accepted": ["지난번에 갔던 카페에 또 가요.", "지난번에 갔던 카페에 또 갑시다."] },
+        { "english": "The food I ate in Busan was delicious.", "korean": "부산에서 먹었던 음식이 맛있었어요.", "accepted": ["부산에서 먹었던 음식이 맛있었어요.", "부산에서 먹었던 음식은 맛있었어요."] },
+        { "english": "I met the friend I had met last year again.", "korean": "작년에 만났던 친구를 다시 만났어요.", "accepted": ["작년에 만났던 친구를 다시 만났어요.", "작년에 만났던 친구를 또 만났어요."] }
+      ]
+    },
+    {
+      "id": "mod-deon",
+      "pattern": "-던 N",
+      "meaning": "that (I) used to / was doing — recollected modifier",
+      "example": "어렸을 때 자주 부르던 노래예요.",
+      "example_en": "It's a song I used to sing often as a child.",
+      "note": "**-던** modifies a noun with a past habit or an unfinished action: 다니던 학교 (the school I used to attend), 마시던 커피 (the coffee I was drinking).",
+      "match": ["-던"],
+      "level": 2,
+      "sentences": [
+        { "english": "This is the school I used to attend.", "korean": "제가 다니던 학교예요.", "accepted": ["제가 다니던 학교예요.", "이곳은 제가 다니던 학교예요."] },
+        { "english": "Where is the coffee I was drinking?", "korean": "제가 마시던 커피가 어디에 있어요?", "accepted": ["제가 마시던 커피가 어디에 있어요?", "제가 마시던 커피 어디 있어요?"] },
+        { "english": "I found the book I was reading.", "korean": "읽던 책을 찾았어요.", "accepted": ["읽던 책을 찾았어요.", "제가 읽던 책을 찾았어요."] },
+        { "english": "This is a song I used to listen to often.", "korean": "자주 듣던 노래예요.", "accepted": ["자주 듣던 노래예요.", "제가 자주 듣던 노래예요."] },
+        { "english": "I passed by the house I used to live in.", "korean": "예전에 살던 집 앞을 지나갔어요.", "accepted": ["예전에 살던 집 앞을 지나갔어요.", "예전에 살던 집을 지나갔어요."] }
+      ]
+    },
+    {
+      "id": "part-mankeum",
+      "pattern": "N만큼",
+      "meaning": "as much as / to the same degree as",
+      "example": "동생이 형만큼 키가 커요.",
+      "example_en": "The younger brother is as tall as the older brother.",
+      "note": "**만큼** attaches to a noun to say two things are equal in degree: 저만큼, 어제만큼. After a verb, use -(으)ㄹ 만큼 (to the extent that).",
+      "match": ["만큼"],
+      "level": 2,
+      "sentences": [
+        { "english": "Today is as hot as summer.", "korean": "오늘은 여름만큼 더워요.", "accepted": ["오늘은 여름만큼 더워요.", "오늘은 여름만큼 덥습니다."] },
+        { "english": "My friend speaks Korean as well as a Korean person.", "korean": "친구는 한국 사람만큼 한국어를 잘해요.", "accepted": ["친구는 한국 사람만큼 한국어를 잘해요.", "제 친구는 한국 사람만큼 한국어를 잘해요."] },
+        { "english": "This bag is as expensive as that bag.", "korean": "이 가방은 저 가방만큼 비싸요.", "accepted": ["이 가방은 저 가방만큼 비싸요.", "이 가방은 그 가방만큼 비싸요."] },
+        { "english": "My younger sibling eats as much as me.", "korean": "동생은 저만큼 많이 먹어요.", "accepted": ["동생은 저만큼 많이 먹어요.", "동생이 저만큼 많이 먹어요."] },
+        { "english": "Today it rained as much as yesterday.", "korean": "오늘도 어제만큼 비가 왔어요.", "accepted": ["오늘도 어제만큼 비가 왔어요.", "오늘은 어제만큼 비가 왔어요."] }
+      ]
+    },
+    {
+      "id": "expr-deogunyo",
+      "pattern": "-더군요",
+      "meaning": "I noticed that ~ (recalling a personal discovery)",
+      "example": "그 식당 음식이 정말 맛있더군요.",
+      "example_en": "I found that restaurant's food really delicious.",
+      "note": "**-더군요** reports something you personally observed in the past, with mild surprise: 춥더군요, 잘하더군요. Add 았/었 for an event already completed when you noticed it: 벌써 갔더군요.",
+      "match": ["더군요"],
+      "level": 2,
+      "sentences": [
+        { "english": "I noticed the department store was really crowded.", "korean": "백화점에 사람이 정말 많더군요.", "accepted": ["백화점에 사람이 정말 많더군요.", "백화점에 사람이 아주 많더군요."] },
+        { "english": "I found the weather in Busan warm.", "korean": "부산 날씨가 따뜻하더군요.", "accepted": ["부산 날씨가 따뜻하더군요.", "부산은 날씨가 따뜻하더군요."] },
+        { "english": "I saw that that singer sings really well.", "korean": "그 가수가 노래를 정말 잘하더군요.", "accepted": ["그 가수가 노래를 정말 잘하더군요.", "그 가수는 노래를 정말 잘하더군요."] },
+        { "english": "The movie was more fun than I expected.", "korean": "영화가 생각보다 재미있더군요.", "accepted": ["영화가 생각보다 재미있더군요.", "그 영화가 생각보다 재미있더군요."] },
+        { "english": "I found the new cafe quiet.", "korean": "새로 생긴 카페가 조용하더군요.", "accepted": ["새로 생긴 카페가 조용하더군요.", "새 카페가 조용하더군요."] }
+      ]
+    },
+    {
+      "id": "expr-neun-jul-alda",
+      "pattern": "-는 줄 알다/모르다",
+      "meaning": "to (mistakenly) think that / to not know that",
+      "example": "오늘 비가 오는 줄 알았어요.",
+      "example_en": "I thought it was raining today.",
+      "note": "**-는 줄 알았다** often means 'I wrongly thought...': 자는 줄 알았어요. **-는 줄 몰랐다** means 'I didn't know...'. With adjectives and 이다 use -(으)ㄴ/인 줄, and for the future -(으)ㄹ 줄.",
+      "match": ["줄 알", "줄 몰"],
+      "level": 2,
+      "sentences": [
+        { "english": "I thought today was Saturday.", "korean": "오늘이 토요일인 줄 알았어요.", "accepted": ["오늘이 토요일인 줄 알았어요.", "오늘 토요일인 줄 알았어요."] },
+        { "english": "I thought you were sleeping.", "korean": "자는 줄 알았어요.", "accepted": ["자는 줄 알았어요.", "자고 있는 줄 알았어요."] },
+        { "english": "I didn't know you spoke Korean so well.", "korean": "한국어를 잘하는 줄 몰랐어요.", "accepted": ["한국어를 잘하는 줄 몰랐어요.", "한국어를 이렇게 잘하는 줄 몰랐어요."] },
+        { "english": "I thought it was raining outside.", "korean": "밖에 비가 오는 줄 알았어요.", "accepted": ["밖에 비가 오는 줄 알았어요.", "비가 오는 줄 알았어요."] },
+        { "english": "I didn't know the exam was today.", "korean": "시험이 오늘인 줄 몰랐어요.", "accepted": ["시험이 오늘인 줄 몰랐어요.", "오늘 시험인 줄 몰랐어요."] }
+      ]
+    },
+    {
+      "id": "expr-deokbune",
+      "pattern": "N 덕분에",
+      "meaning": "thanks to",
+      "example": "선생님 덕분에 시험을 잘 봤어요.",
+      "example_en": "Thanks to my teacher, I did well on the exam.",
+      "note": "**덕분에** credits a good result to someone or something: 친구 덕분에. After a verb, use -(으)ㄴ 덕분에: 도와준 덕분에. For bad results, use 때문에 instead.",
+      "match": ["덕분"],
+      "level": 2,
+      "sentences": [
+        { "english": "Thanks to my friend, I found the way easily.", "korean": "친구 덕분에 길을 쉽게 찾았어요.", "accepted": ["친구 덕분에 길을 쉽게 찾았어요.", "친구 덕분에 쉽게 길을 찾았어요."] },
+        { "english": "Thanks to the good weather, the trip was enjoyable.", "korean": "날씨가 좋은 덕분에 여행이 즐거웠어요.", "accepted": ["날씨가 좋은 덕분에 여행이 즐거웠어요.", "날씨 덕분에 여행이 즐거웠어요."] },
+        { "english": "Thanks to your help, I finished the work early.", "korean": "도와준 덕분에 일을 일찍 끝냈어요.", "accepted": ["도와준 덕분에 일을 일찍 끝냈어요.", "도와주신 덕분에 일을 일찍 끝냈어요."] },
+        { "english": "Thanks to my parents, I was able to study in Korea.", "korean": "부모님 덕분에 한국에서 공부할 수 있었어요.", "accepted": ["부모님 덕분에 한국에서 공부할 수 있었어요.", "부모님 덕분에 한국에서 공부할 수 있었습니다."] },
+        { "english": "Thanks to the medicine, I feel much better now.", "korean": "약 덕분에 이제 많이 좋아졌어요.", "accepted": ["약 덕분에 이제 많이 좋아졌어요.", "약 덕분에 많이 좋아졌어요."] }
+      ]
+    }
+  ]
+}

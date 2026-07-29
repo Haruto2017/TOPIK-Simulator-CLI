@@ -209,5 +209,272 @@ class ConjugationDrillTests(unittest.TestCase):
                 items, build_conjugation_items(library_dir=library, seed=0, count=6, form_key="mix"))
 
 
+class Level2EndingTests(unittest.TestCase):
+    """Golden battery for the level-2 endings, hand-verified across the verb
+    classes. Rows are (word, form_key, gloss, expected)."""
+
+    def check(self, rows):
+        from topik_sim.conjugation import conjugate
+        for word, form_key, en, expected in rows:
+            self.assertEqual(conjugate(word, form_key, en), expected,
+                             f"{word} [{form_key}] ({en!r})")
+
+    def test_banmal_is_the_aeo_stem(self):
+        self.check([
+            ("가다", "banmal", "", "가"), ("먹다", "banmal", "", "먹어"),
+            ("춥다", "banmal", "", "추워"), ("하다", "banmal", "", "해"),
+            ("듣다", "banmal", "", "들어"), ("살다", "banmal", "", "살아"),
+            ("마시다", "banmal", "", "마셔"), ("좋다", "banmal", "", "좋아"),
+            ("모르다", "banmal", "", "몰라"), ("공부하다", "banmal", "", "공부해"),
+        ])
+
+    def test_quote_statement_action_vs_descriptive(self):
+        self.check([
+            # action: plain-present quote (는/ㄴ다고)
+            ("먹다", "quote_statement", "", "먹는다고 해요"),
+            ("가다", "quote_statement", "", "간다고 해요"),
+            ("살다", "quote_statement", "", "산다고 해요"),      # ㄹ-drop + ㄴ
+            ("하다", "quote_statement", "", "한다고 해요"),
+            ("마시다", "quote_statement", "", "마신다고 해요"),
+            ("듣다", "quote_statement", "", "듣는다고 해요"),    # bare stem before 는
+            ("공부하다", "quote_statement", "", "공부한다고 해요"),
+            ("팔다", "quote_statement", "to sell", "판다고 해요"),
+            # descriptive and 있다/없다: dictionary-stem quote (다고)
+            ("좋다", "quote_statement", "to be good", "좋다고 해요"),
+            ("춥다", "quote_statement", "to be cold", "춥다고 해요"),
+            ("있다", "quote_statement", "", "있다고 해요"),
+            ("맛있다", "quote_statement", "", "맛있다고 해요"),
+        ])
+
+    def test_quote_question_attaches_with_l_drop(self):
+        self.check([
+            ("먹다", "quote_question", "", "먹냐고 해요"),
+            ("가다", "quote_question", "", "가냐고 해요"),
+            ("살다", "quote_question", "", "사냐고 해요"),       # ㄹ-drop
+            ("듣다", "quote_question", "", "듣냐고 해요"),
+            ("하다", "quote_question", "", "하냐고 해요"),
+            ("좋다", "quote_question", "to be good", "좋냐고 해요"),
+            ("춥다", "quote_question", "to be cold", "춥냐고 해요"),
+        ])
+
+    def test_quote_command_action_only(self):
+        self.check([
+            ("먹다", "quote_command", "", "먹으라고 해요"),
+            ("가다", "quote_command", "", "가라고 해요"),
+            ("살다", "quote_command", "", "살라고 해요"),        # ㄹ kept
+            ("듣다", "quote_command", "", "들으라고 해요"),      # ㄷ-irregular 으 stem
+            ("하다", "quote_command", "", "하라고 해요"),
+            ("마시다", "quote_command", "", "마시라고 해요"),
+            ("좋다", "quote_command", "to be good", None),      # descriptive
+            ("춥다", "quote_command", "to be cold", None),
+        ])
+
+    def test_quote_suggest_action_only(self):
+        self.check([
+            ("먹다", "quote_suggest", "", "먹자고 해요"),
+            ("가다", "quote_suggest", "", "가자고 해요"),
+            ("살다", "quote_suggest", "", "살자고 해요"),
+            ("듣다", "quote_suggest", "", "듣자고 해요"),
+            ("좋다", "quote_suggest", "to be good", None),
+        ])
+
+    def test_quote_request_uses_aeo_stem(self):
+        self.check([
+            ("사다", "quote_request", "", "사 달라고 해요"),
+            ("듣다", "quote_request", "", "들어 달라고 해요"),
+            ("먹다", "quote_request", "", "먹어 달라고 해요"),
+            ("하다", "quote_request", "", "해 달라고 해요"),
+            ("가르치다", "quote_request", "to teach", "가르쳐 달라고 해요"),
+            ("좋다", "quote_request", "to be good", None),
+        ])
+
+    def test_ryeomyeon_uses_eu_stem(self):
+        self.check([
+            ("먹다", "ryeomyeon", "", "먹으려면"),
+            ("가다", "ryeomyeon", "", "가려면"),
+            ("살다", "ryeomyeon", "", "살려면"),                # ㄹ kept
+            ("듣다", "ryeomyeon", "", "들으려면"),
+            ("마시다", "ryeomyeon", "", "마시려면"),
+            ("모르다", "ryeomyeon", "to not know", "모르려면"),
+        ])
+
+    def test_eulkka_hada_adds_l(self):
+        self.check([
+            ("먹다", "eulkka_hada", "", "먹을까 해요"),
+            ("가다", "eulkka_hada", "", "갈까 해요"),
+            ("살다", "eulkka_hada", "", "살까 해요"),
+            ("듣다", "eulkka_hada", "", "들을까 해요"),
+            ("춥다", "eulkka_hada", "to be cold", None),        # intention: action only
+        ])
+
+    def test_nayo_action_only_with_l_drop(self):
+        self.check([
+            ("먹다", "nayo", "", "먹나요?"),
+            ("가다", "nayo", "", "가나요?"),
+            ("살다", "nayo", "", "사나요?"),
+            ("듣다", "nayo", "", "듣나요?"),
+            ("좋다", "nayo", "to be good", None),               # takes -(으)ㄴ가요
+        ])
+
+    def test_eotdaga_uses_past_stem(self):
+        self.check([
+            ("가다", "eotdaga", "", "갔다가"),
+            ("먹다", "eotdaga", "", "먹었다가"),
+            ("듣다", "eotdaga", "", "들었다가"),
+            ("춥다", "eotdaga", "", "추웠다가"),
+            ("하다", "eotdaga", "", "했다가"),
+        ])
+
+    def test_boida_descriptive_only(self):
+        self.check([
+            ("좋다", "boida", "to be good", "좋아 보여요"),
+            ("맵다", "boida", "to be spicy", "매워 보여요"),
+            ("춥다", "boida", "to be cold", "추워 보여요"),
+            ("예쁘다", "boida", "to be pretty", "예뻐 보여요"),
+            ("먹다", "boida", "", None),                        # action verb
+        ])
+
+    def test_gajigo_jimalgo_deogunyo(self):
+        self.check([
+            ("먹다", "gajigo", "", "먹어 가지고"),
+            ("듣다", "gajigo", "", "들어 가지고"),
+            ("춥다", "gajigo", "", "추워 가지고"),
+            ("먹다", "jimalgo", "", "먹지 말고"),
+            ("가다", "jimalgo", "", "가지 말고"),
+            ("살다", "jimalgo", "", "살지 말고"),               # bare stem, ㄹ kept
+            ("좋다", "jimalgo", "to be good", None),            # prohibition: action only
+            ("좋다", "deogunyo", "to be good", "좋더군요"),
+            ("먹다", "deogunyo", "", "먹더군요"),
+            ("살다", "deogunyo", "", "살더군요"),
+            ("춥다", "deogunyo", "", "춥더군요"),
+        ])
+
+    def test_deon_and_eot_deon(self):
+        self.check([
+            ("먹다", "deon", "", "먹던"), ("가다", "deon", "", "가던"),
+            ("살다", "deon", "", "살던"), ("듣다", "deon", "", "듣던"),
+            ("좋다", "deon", "", "좋던"),
+            ("가다", "eot_deon", "", "갔던"), ("먹다", "eot_deon", "", "먹었던"),
+            ("듣다", "eot_deon", "", "들었던"), ("춥다", "eot_deon", "", "추웠던"),
+            ("살다", "eot_deon", "", "살았던"),
+        ])
+
+    def test_eulji_moreu_and_neunji_and_neun_daero(self):
+        self.check([
+            ("가다", "eulji_moreu", "", "갈지 모르겠어요"),
+            ("먹다", "eulji_moreu", "", "먹을지 모르겠어요"),
+            ("살다", "eulji_moreu", "", "살지 모르겠어요"),
+            ("듣다", "eulji_moreu", "", "들을지 모르겠어요"),
+            ("춥다", "eulji_moreu", "", "추울지 모르겠어요"),
+            ("먹다", "neunji", "", "먹는지 알아요"),
+            ("살다", "neunji", "", "사는지 알아요"),             # ㄹ-drop
+            ("가다", "neunji", "", "가는지 알아요"),
+            ("듣다", "neunji", "", "듣는지 알아요"),
+            ("좋다", "neunji", "to be good", None),             # takes -(으)ㄴ지
+            ("먹다", "neun_daero", "", "먹는 대로"),
+            ("살다", "neun_daero", "", "사는 대로"),             # ㄹ-drop
+            ("듣다", "neun_daero", "", "듣는 대로"),
+            ("춥다", "neun_daero", "to be cold", None),
+        ])
+
+
+class VerbKindGatingTests(unittest.TestCase):
+    def test_unresolvable_kind_returns_none(self):
+        from topik_sim.conjugation import conjugate
+        # 팔다 is in no override set: with no gloss, every gated ending declines.
+        for key in ("quote_statement", "quote_command", "quote_suggest",
+                    "quote_request", "nayo", "neunji", "neun_daero",
+                    "ryeomyeon", "eulkka_hada", "jimalgo", "boida"):
+            self.assertIsNone(conjugate("팔다", key), key)
+        # A gloss resolves it.
+        self.assertEqual(conjugate("팔다", "quote_statement", "to sell"), "판다고 해요")
+        self.assertEqual(conjugate("팔다", "nayo", "to sell"), "파나요?")
+
+    def test_passive_to_be_gloss_is_not_treated_as_descriptive(self):
+        from topik_sim.conjugation import conjugate
+        # "to be born" is a passive action verb; the gloss cannot settle the
+        # kind, so gated endings decline rather than produce 태어나다고.
+        self.assertIsNone(conjugate("태어나다", "quote_statement", "to be born"))
+        self.assertIsNone(conjugate("팔리다", "quote_statement", "to be sold"))
+
+    def test_ungated_endings_ignore_the_gloss(self):
+        from topik_sim.conjugation import conjugate
+        self.assertEqual(conjugate("먹다", "past", "to eat"), "먹었어요")
+        self.assertEqual(conjugate("먹다", "past"), "먹었어요")
+
+    def test_copulas_and_non_verbs_conjugate_to_nothing(self):
+        from topik_sim.conjugation import conjugate
+        for word in ("이다", "아니다", "우산"):
+            for key in ("banmal", "quote_statement", "quote_question", "deon",
+                        "deogunyo", "eotdaga", "eulji_moreu"):
+                self.assertIsNone(conjugate(word, key), f"{word} [{key}]")
+
+
+class Level2MatchingTests(unittest.TestCase):
+    def match(self, pattern):
+        spec = match_ending(pattern)
+        return spec["key"] if spec else None
+
+    def test_new_patterns_resolve(self):
+        self.assertEqual(self.match("반말 -아/어"), "banmal")
+        self.assertEqual(self.match("-(느)ㄴ다고 하다"), "quote_statement")
+        self.assertEqual(self.match("-다고 하다"), "quote_statement")
+        self.assertEqual(self.match("-냐고 하다"), "quote_question")
+        self.assertEqual(self.match("-(으)라고 하다"), "quote_command")
+        self.assertEqual(self.match("-자고 하다"), "quote_suggest")
+        self.assertEqual(self.match("-아/어 달라고 하다"), "quote_request")
+        self.assertEqual(self.match("-(으)려면"), "ryeomyeon")
+        self.assertEqual(self.match("-(으)ㄹ까 하다"), "eulkka_hada")
+        self.assertEqual(self.match("-나요?"), "nayo")
+        self.assertEqual(self.match("-았/었다가"), "eotdaga")
+        self.assertEqual(self.match("-아/어 보이다"), "boida")
+        self.assertEqual(self.match("-아/어 가지고"), "gajigo")
+        self.assertEqual(self.match("-지 말고"), "jimalgo")
+        self.assertEqual(self.match("-더군요"), "deogunyo")
+        self.assertEqual(self.match("-았/었던"), "eot_deon")
+        self.assertEqual(self.match("-던"), "deon")
+        self.assertEqual(self.match("-(으)ㄹ지 모르겠다"), "eulji_moreu")
+        # Documented collapse: a bare -(으)ㄹ지 lesson drills the full
+        # -(으)ㄹ지 모르겠어요 form, which fits either lesson.
+        self.assertEqual(self.match("-(으)ㄹ지"), "eulji_moreu")
+        self.assertEqual(self.match("-는지 알다/모르다"), "neunji")
+        self.assertEqual(self.match("-는 대로"), "neun_daero")
+
+    def test_precedence_and_non_collisions(self):
+        # Old patterns keep their old endings.
+        self.assertEqual(self.match("-(으)면"), "if")
+        self.assertEqual(self.match("-지만"), "but")
+        self.assertEqual(self.match("-지 않다"), "not")
+        self.assertEqual(self.match("-았/었어요"), "past")
+        self.assertEqual(self.match("-아/어요"), "aeo")
+        # Noun quotation is not a verb ending.
+        self.assertIsNone(self.match("N(이)라고 하다"))
+        # Bare -(으)ㄹ까요? is a different (unsupported) ending, not ㄹ까 하다.
+        self.assertIsNone(self.match("-(으)ㄹ까요?"))
+        # Still-unsupported patterns match nothing.
+        self.assertIsNone(self.match("주시겠습니까"))
+        self.assertIsNone(self.match("N에서"))
+
+
+class Level2DrillMenuTests(unittest.TestCase):
+    def test_menu_contains_new_forms_and_all_endings_are_matchable(self):
+        from topik_sim.conjugation import DRILL_FORMS, ENDINGS
+        keys = [spec["key"] for spec in DRILL_FORMS]
+        for key in ("banmal", "quote_statement", "quote_question", "quote_command",
+                    "quote_suggest", "quote_request", "ryeomyeon", "eulkka_hada", "boida"):
+            self.assertIn(key, keys)
+        self.assertLessEqual(len(DRILL_FORMS), 22)
+        # Every new ending is in ENDINGS with match keys for homework/curriculum.
+        by_key = {spec["key"]: spec for spec in ENDINGS}
+        for key in ("nayo", "eotdaga", "gajigo", "jimalgo", "deogunyo",
+                    "deon", "eot_deon", "eulji_moreu", "neunji", "neun_daero"):
+            self.assertTrue(by_key[key]["match"], key)
+
+    def test_form_callables_still_accept_a_single_argument(self):
+        from topik_sim.conjugation import ENDINGS
+        for spec in ENDINGS:
+            spec["form"]("먹다")  # must not raise
+
+
 if __name__ == "__main__":
     unittest.main()
