@@ -34,6 +34,7 @@ from ..attempts import save_attempt_to_dir
 from ..content import ContentValidationError, ExamPack, load_pack
 from ..grading import grade_question  # noqa: F401  (re-exported for tests)
 from ..library import DEFAULT_LIBRARY_DIR, latest_packs, load_pack_ref
+from ..media import media_mime_type, question_audio_file, question_image_file
 from ..session import ExamSession
 from ..tts import (
     TTSConfig,
@@ -78,6 +79,7 @@ def _public_question(question: dict[str, Any], number: int, total: int,
         "listening": listening,
         "transcript_hidden": hide,
         "audio_parts": audio_parts,
+        "has_image": question_image_file(question) is not None,
     }
     if not hide:
         passage = transcript_text(question) if listening else str(question.get("passage", "") or "")
@@ -302,6 +304,8 @@ class WebApp:
         if rest == ["audio"] and method == "GET":
             return self.activity_audio(activity_id, int(query.get("part", 0)),
                                        slow=query.get("slow") == "1")
+        if rest == ["image"] and method == "GET":
+            return self.activity_image(activity_id)
         if rest == ["say"] and method == "GET":
             return self.activity_say(activity_id)
         raise ApiError(404, f"Unknown activity action: {'/'.join(rest)}")
@@ -512,8 +516,11 @@ class WebApp:
             "done": question is None,
         }
         if question is not None:
-            texts = self._question_speech_texts(question)
-            audio_parts = len(texts) if self._audio_on() and is_listening_question(question) else 0
+            if question_audio_file(question) is not None:
+                audio_parts = 1  # official recording; playable even with TTS off
+            else:
+                texts = self._question_speech_texts(question)
+                audio_parts = len(texts) if self._audio_on() and is_listening_question(question) else 0
             view["question"] = _public_question(
                 question, session.question_number(), total, audio_parts, self.show_transcript
             )
@@ -973,12 +980,27 @@ class WebApp:
             question = activity["session"].current_question()
             if question is None:
                 raise ApiError(400, "No open question.")
+            media = question_audio_file(question)
+            if media is not None:  # official recording beats TTS; no slow variant
+                return 200, (media.read_bytes(), media_mime_type(media))
             texts = self._question_speech_texts(question)
             if not texts or part >= len(texts):
                 raise ApiError(404, "No audio for this question.")
             return self._audio_response(texts[part], slow=slow)
         item = self._current_item(activity)
         return self._audio_response(str(item.get("speech", "")), slow=slow)
+
+    def activity_image(self, activity_id: str) -> tuple[int, Any]:
+        activity = self._activities[activity_id]
+        if activity["kind"] != "exam":
+            raise ApiError(404, "No image for this activity.")
+        question = activity["session"].current_question()
+        if question is None:
+            raise ApiError(400, "No open question.")
+        media = question_image_file(question)
+        if media is None:
+            raise ApiError(404, "No image for this question.")
+        return 200, (media.read_bytes(), media_mime_type(media))
 
     def activity_say(self, activity_id: str) -> tuple[int, Any]:
         return self.activity_audio(activity_id, 0)

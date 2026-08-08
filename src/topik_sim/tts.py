@@ -256,7 +256,7 @@ def is_listening_question(question: dict[str, Any]) -> bool:
 
 
 def play_audio(path: Path, volume: float = 1.0) -> None:
-    if volume != 1.0:
+    if volume != 1.0 and path.suffix.lower() == ".wav":  # volume shaping is WAV-only
         temp_path = Path(tempfile.gettempdir()) / f"topik-play-{os.getpid()}-{path.name}"
         try:
             shutil.copy2(path, temp_path)

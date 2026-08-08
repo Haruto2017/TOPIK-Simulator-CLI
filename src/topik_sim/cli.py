@@ -1059,6 +1059,14 @@ def load_answer_file(path: str | Path) -> dict[str, str]:
 
 
 def speak_question(question: dict[str, Any], config: TTSConfig, include_explanation: bool, playback: bool) -> list[Path]:
+    from .media import question_audio_file
+
+    media = question_audio_file(question)
+    if media is not None and not include_explanation:  # official recording beats TTS
+        if playback:
+            play_audio(media, volume=config.volume)
+        print(f"Audio: {media}")
+        return [media]
     config = TTSConfig(
         provider=config.provider,
         language=config.language,
@@ -1128,8 +1136,14 @@ def print_question(index: int, question: dict[str, Any], show_transcript: bool =
     passage = question_display_passage(question, show_transcript=show_transcript)
     if passage:
         print(passage)
-    if question.get("audio_ref") and not is_transcript_only_audio(question):
+    if question.get("audio_ref") and not is_transcript_only_audio(question) \
+            and not str(question["audio_ref"]).startswith("file:"):
         print(f"Audio reference: {question['audio_ref']}")
+    from .media import question_image_file
+
+    image = question_image_file(question)
+    if image is not None:
+        print(f"Picture: {image} (open to view)")
     print(question["prompt"])
     for option in question.get("options", []):
         print(f"  {option['id']}. {option['text']}")

@@ -119,6 +119,24 @@ Optional question fields:
 - `tags`
 - `difficulty`
 
+### Local media references (`file:`)
+
+`audio_ref` and `image_ref` may point at a real recording or picture with a
+`file:` prefix, e.g. `"audio_ref": "file:past-papers/topik1-102/audio/1-05.mp3"`
+or `"image_ref": "file:past-papers/topik1-102/crops/q05.png"`. Relative paths
+resolve against `content/private/` first, then the working directory; absolute
+paths are used as given. When the file exists, every surface prefers it over
+TTS: the shell and CLI play it directly, the web exam room streams it (and
+renders the image above the prompt), and it stays available even with TTS
+disabled. When the file is missing the question falls back to the normal
+transcript/TTS behavior, so packs with `file:` refs remain usable on machines
+without the media. Keep such media out of git — `file:` refs are designed for
+personal, never-committed materials (e.g. officially released past papers),
+which is why `content/private/` is gitignored.
+
+There is no slow-replay variant for real recordings; `/replay slow` falls back
+to TTS from the transcript.
+
 ## Supported Answer Types
 
 ### Single Choice

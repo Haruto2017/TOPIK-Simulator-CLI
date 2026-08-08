@@ -274,6 +274,10 @@ label.field { display: grid; gap: 5px; font-size: 13px; color: var(--ink-2); fon
   font-size: 19px; line-height: 1.75; margin: 0 0 16px; white-space: pre-wrap;
 }
 .audio-row { margin: 0 0 16px; }
+.question-image {
+  display: block; max-width: 100%; border: 1px solid var(--border);
+  border-radius: 10px; margin: 0 0 16px; background: #fff;
+}
 .options { display: grid; gap: 9px; }
 .options button {
   justify-content: flex-start; text-align: left; padding: 12px 15px; font-size: 15px;

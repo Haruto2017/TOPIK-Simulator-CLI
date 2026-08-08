@@ -71,8 +71,14 @@ def question_card(
         lines.append(passage)
 
     audio_ref = str(question.get("audio_ref", ""))
-    if audio_ref and not audio_ref.startswith("transcript-only:"):
+    if audio_ref and not audio_ref.startswith(("transcript-only:", "file:")):
         lines.append(ansi.style(f"Audio reference: {audio_ref}", ansi.DIM))
+
+    from ..media import question_image_file
+
+    image = question_image_file(question)
+    if image is not None:  # terminals can't show it; point at the file
+        lines.append(ansi.style(f"Picture: {image} (open to view)", ansi.DIM))
 
     lines.append(ansi.style(str(question.get("prompt", "")), ansi.BOLD))
     for option in question.get("options", []):

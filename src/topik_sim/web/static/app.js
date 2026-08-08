@@ -531,6 +531,14 @@ async function examView(id) {
     el("p", { class: "prompt ko", text: question.prompt }),
   );
 
+  if (question.has_image) {
+    body.append(el("img", {
+      class: "question-image",
+      src: `/api/activity/${id}/image?qid=${encodeURIComponent(question.question_id || question.number)}`,
+      alt: "문제 그림",
+    }));
+  }
+
   const transcriptSlot = el("div");
   body.append(transcriptSlot);
   if (question.passage) {

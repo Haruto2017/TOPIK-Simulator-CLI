@@ -17,3 +17,6 @@ tools/runtime/
 
 # Personal licensed textbook copies — never commit
 *.pdf
+
+# Officially released past papers + local-only packs (personal study use; NIIED copyright — never commit)
+content/private/

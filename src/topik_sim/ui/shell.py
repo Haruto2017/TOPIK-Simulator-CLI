@@ -11,6 +11,7 @@ from ..activities import create_drill_attempt, missed_question_ids
 from ..attempts import load_attempt, save_attempt_to_dir
 from ..content import ContentValidationError, ExamPack, load_pack
 from ..library import DEFAULT_LIBRARY_DIR, latest_packs, list_packs, load_pack_ref
+from ..media import question_audio_file
 from ..prefetch import AudioPrefetcher
 from ..session import ExamSession
 from ..tts import (
@@ -2109,7 +2110,11 @@ class Shell:
         )
         self.current_audio = []
         self._transcript_pre_shown = self.show_transcript
-        if self.audio_enabled and is_listening_question(question):
+        media = question_audio_file(question)
+        if media is not None:  # official recording; plays even with TTS off
+            play_audio(media, volume=self.tts_config.volume)
+            self.current_audio = [media]
+        elif self.audio_enabled and is_listening_question(question):
             texts = collect_question_speech_texts(question, include_prompt=False)
             self.current_audio = self._speak(texts, playback=True)
         if is_listening_question(question) and not self._transcript_pre_shown and not self.current_audio:

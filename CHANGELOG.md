@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Local media in packs** (`src/topik_sim/media.py`): `audio_ref`/`image_ref`
+  can carry `file:` paths to real recordings and pictures. Every surface
+  prefers the file over TTS — the shell and CLI play it (and print picture
+  paths), the web exam room streams it via `GET /api/activity/<id>/audio` and
+  renders images via the new `GET /api/activity/<id>/image` — and file audio
+  stays playable with TTS disabled. Missing files fall back to transcript/TTS
+  so packs stay portable. Built for officially released TOPIK past papers
+  imported as personal, local-only packs under the gitignored
+  `content/private/` (see docs/CONTENT_CONTRACT.md, "Local media references");
+  `play_audio` now applies volume shaping only to WAVs so MP3s play unmodified.
+
 ## [1.2.0] - 2026-07-12
 
 ### Added
