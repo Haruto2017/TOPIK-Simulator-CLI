@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Color practice** (`/colors`, web "Colors · 색깔", `src/topik_sim/colors.py`):
+  see a real color and name it in Korean. Sixteen colors carry their 색 noun,
+  native alternates (빨강/파랑/노랑/초록/검정/하양), the modifier form used before
+  a noun, and the Sino-Korean synonym. Six rotating categories — `swatch`
+  (name the color shown), `word`, `modifier` (빨간 사과, from the ㅎ-irregular
+  adjectives 빨갛다 → 빨간), `shade` (연한/진한), `object` (당근은 무슨 색이에요?,
+  topic particle chosen by final consonant), and `sino` (녹색·백색·흑색).
+  Swatches render as 24-bit color blocks in the terminal (new `ansi.swatch`)
+  and as CSS swatches in the browser; terminals without color name the color in
+  English so the drill stays answerable. Answers must be Hangul — Latin input is
+  re-asked with a hint rather than counted wrong (new `no_latin` item flag,
+  mirroring `no_digits`). `/colors learn` and `GET /api/colors/guide` show the
+  full table first; results feed the practice log like every other drill.
+
 - **Local media in packs** (`src/topik_sim/media.py`): `audio_ref`/`image_ref`
   can carry `file:` paths to real recordings and pictures. Every surface
   prefers the file over TTS — the shell and CLI play it (and print picture

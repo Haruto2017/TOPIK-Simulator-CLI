@@ -736,6 +736,7 @@ const PRACTICE_MODES = [
   { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs across tenses, connectives & modals; irregulars handled.", pack: "optional" },
   { key: "typing", name: "Typing", desc: "Korean keyboard trainer: jamo → syllables → words.", pack: "optional" },
   { key: "numbers", name: "Numbers", desc: "Sino & native numbers: dates, money, time, math — no digits.", pack: "none" },
+  { key: "colors", name: "Colors · 색깔", desc: "See a color and name it in Korean, plus 빨간 사과 modifier forms.", pack: "none" },
   { key: "dictation", name: "Dictation", desc: "Listen and type what you hear.", pack: "required" },
   { key: "dialogue", name: "Conversation · 대화", desc: "Play a real-life scene and produce your own lines.", pack: "none" },
   { key: "compose", name: "Sentence writing", desc: "Learn a grammar structure, then write with it.", pack: "none" },
@@ -783,6 +784,7 @@ async function practiceView() {
 }
 
 const NUMBER_CATEGORIES = ["mix", "sino", "native", "count", "money", "date", "time", "math", "phone", "ordinal"];
+const COLOR_CATEGORIES = ["mix", "swatch", "word", "modifier", "shade", "object", "sino"];
 
 async function hangulView() {
   const data = await api("GET", "/api/hangul");
@@ -964,8 +966,9 @@ async function practiceConfigView(mode) {
     spec.pack !== "required" ? el("option", { value: "", text: "every imported pack" }) : null,
     ...packs.map((p) => el("option", { value: p.pack_id, text: p.title || p.pack_id })));
   const countInput = el("input", { type: "number", min: "1", placeholder: "default" });
-  const categorySelect = mode === "numbers"
-    ? el("select", {}, ...NUMBER_CATEGORIES.map((c) => el("option", { value: c, text: c }))) : null;
+  const categories = mode === "numbers" ? NUMBER_CATEGORIES : mode === "colors" ? COLOR_CATEGORIES : null;
+  const categorySelect = categories
+    ? el("select", {}, ...categories.map((c) => el("option", { value: c, text: c }))) : null;
   const advancedCheck = mode === "typing" ? el("input", { type: "checkbox" }) : null;
   let formSelect = null;
   if (mode === "conjugate") {
@@ -1006,6 +1009,34 @@ async function practiceConfigView(mode) {
   };
 
   const extras = [];
+  if (mode === "colors") {
+    // Learn before being drilled: every color with its modifier and 한자어 form.
+    const sheetSlot = el("div");
+    extras.push(el("div", { class: "row" },
+      el("button", {
+        text: "🎨 Learn the color words first",
+        onclick: async (event) => {
+          const sheet = await api("GET", "/api/colors/guide");
+          event.target.remove();
+          sheetSlot.replaceChildren(el("div", { class: "card stack" },
+            el("h2", { text: "Colors" }),
+            el("div", { class: "color-grid" }, ...sheet.colors.map((c) => el("div", { class: "color-chip" },
+              el("div", { class: "color-chip-swatch", style: `background:${c.hex}` }),
+              el("div", {},
+                el("div", { class: "ko", text: c.ko }),
+                el("div", { class: "small muted", text: c.en }),
+                c.modifier ? el("div", { class: "small muted ko", text: `+명사: ${c.modifier}` }) : null,
+                c.sino ? el("div", { class: "small muted ko", text: `한자어: ${c.sino}` }) : null)))),
+            el("h2", { text: "ㅎ-irregular adjectives — the ㅎ drops before -ㄴ" }),
+            el("p", { class: "ko", text: sheet.irregulars.map((r) => `${r.adjective} → ${r.modifier}`).join(" · ") }),
+            el("h2", { text: "How to use them" }),
+            el("table", { class: "list" }, ...sheet.usage.map((row) => el("tr", {},
+              el("td", { text: row.context }),
+              el("td", { class: "ko" }, el("span", { class: "pill on", text: row.example })),
+              el("td", { class: "small muted", text: row.note }))))));
+        },
+      })), sheetSlot);
+  }
   if (mode === "numbers") {
     // Learn before being drilled: both systems as tables, on demand.
     const sheetSlot = el("div");
@@ -1082,6 +1113,13 @@ async function drillView(id) {
     container.append(el("ul", { class: "tight small muted" }, ...view.meta.objectives.map((o) => el("li", { text: o }))));
   }
   container.append(el("div", { class: "drill-show ko", text: item.show }));
+  if (item.swatch) {
+    container.append(el("div", {
+      class: `color-swatch${item.swatch_dark ? " on-dark" : ""}`,
+      style: `background:${item.swatch}`,
+      title: item.swatch,
+    }));
+  }
   if (item.audio) {
     container.append(el("div", { class: "row" },
       el("button", { onclick: () => playUrls([`/api/activity/${id}/audio`]), text: "▶ Play" }),

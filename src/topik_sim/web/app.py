@@ -197,6 +197,10 @@ class WebApp:
             from ..pronunciation import guide
 
             return 200, guide()
+        if parts == ["colors", "guide"] and method == "GET":
+            from ..colors import cheat_sheet as colors_cheat_sheet
+
+            return 200, colors_cheat_sheet()
         if parts == ["numbers", "guide"] and method == "GET":
             from ..numbers import cheat_sheet
 
@@ -680,6 +684,12 @@ class WebApp:
             items = build_number_items(seed=self.seed, count=count or 10,
                                        category=body.get("category") or None)
             label = "Number practice"
+        elif mode == "colors":
+            from ..colors import build_color_items
+
+            items = build_color_items(seed=self.seed, count=count or 10,
+                                      category=body.get("category") or None)
+            label = "Color practice"
         elif mode == "sounds":
             from ..pronunciation import build_pronunciation_items
 
@@ -813,8 +823,12 @@ class WebApp:
                 "options": item.get("options"),
                 "dictation": bool(item.get("dictation")),
                 "no_digits": bool(item.get("no_digits")),
+                "no_latin": bool(item.get("no_latin")),
                 "audio": audio_ok and not spoils,
             }
+            if item.get("swatch"):  # color drills: the browser paints the swatch
+                view["item"]["swatch"] = item["swatch"]
+                view["item"]["swatch_dark"] = bool(item.get("swatch_dark"))
         return view
 
     def _answer_drill(self, activity: dict[str, Any], value: str) -> dict[str, Any]:
@@ -825,6 +839,9 @@ class WebApp:
         if item.get("no_digits") and any(ch.isdigit() for ch in value):
             return {"retry": True,
                     "message": "Write the number in Korean letters (한글), not digits. Try again."}
+        if item.get("no_latin") and any("a" <= ch.lower() <= "z" for ch in value):
+            return {"retry": True,
+                    "message": "Write the answer in Korean letters (한글), not English. Try again."}
         response: dict[str, Any] = {"retry": False}
         if item.get("dictation"):
             score = accuracy(item["answer"], value)

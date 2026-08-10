@@ -59,6 +59,7 @@ TYPING_LABEL_MODES = {
     "Typing practice": "typing",
     "Advanced typing": "typing",
     "Number practice": "numbers",
+    "Color practice": "colors",
     "Vocab recall": "recall",
     "Homework": "homework",
     "Weak items": "misses",
@@ -832,6 +833,66 @@ class Shell:
                  " /numbers learn · /say reads it",
         )
 
+    def cmd_colors(self, argument: str) -> None:
+        from ..colors import COLOR_CATEGORIES, build_color_items
+
+        if self.session is not None:
+            self.emit("Finish or /pause the current test first.")
+            return
+        self._end_minigames()
+        category = None
+        count = 10
+        for part in argument.split():
+            if part.lower() in {"learn", "guide", "table", "tables", "chart"}:
+                self._show_colors_guide()
+                return
+            if part.isdigit():
+                count = int(part)
+            elif part.lower() in {"mix", "mixed", "all"}:
+                category = "mix"
+            elif part.lower() in COLOR_CATEGORIES:
+                category = part.lower()
+            else:
+                self.emit(
+                    f"Unknown category: {part}. Choose from {', '.join(COLOR_CATEGORIES)}, mix, or learn."
+                )
+                return
+        items = build_color_items(seed=self._flashcard_seed, count=count, category=category)
+        scope = "mixed" if category in (None, "mix") else category
+        self._start_typing(
+            items, label="Color practice", verb="Named", title=f"Color practice: {scope}",
+            hint="name the color in Korean (한글) · new to color words? /pause then"
+                 " /colors learn · /say reads it",
+        )
+
+    def _show_colors_guide(self) -> None:
+        """Color words as a table — the 색 noun, the modifier, the Sino form."""
+        from ..colors import cheat_sheet
+
+        sheet = cheat_sheet()
+        self.emit(render.rule("Korean colors"))
+        for row in sheet["colors"]:
+            block = ansi.swatch(row["hex"], width=4)
+            swatch_cell = f"{block} " if block else ""
+            extras = []
+            if row["modifier"]:
+                extras.append(f"before a noun: {row['modifier']}")
+            if row["sino"]:
+                extras.append(f"한자어 {row['sino']}")
+            if row["also"]:
+                extras.append("also " + ", ".join(row["also"]))
+            tail = ansi.style(f"  ({' · '.join(extras)})", ansi.GREY) if extras else ""
+            self.emit(f"  {swatch_cell}{row['ko']:<8} {row['en']:<14}{tail}")
+        self.emit("")
+        self.emit(ansi.style("ㅎ-irregular adjectives — the ㅎ drops before -ㄴ", ansi.BOLD))
+        self.emit("  " + " · ".join(f"{row['adjective']} → {row['modifier']}" for row in sheet["irregulars"]))
+        self.emit("")
+        self.emit(ansi.style("How to use them", ansi.BOLD))
+        for row in sheet["usage"]:
+            self.emit(f"  {row['context']:<28} {ansi.style(row['example'], ansi.CYAN)}  {ansi.style(row['note'], ansi.GREY)}")
+        self.emit("")
+        self.emit("Practice it: /colors · /colors swatch · /colors modifier · /conjugate irregular drills 빨갛다.")
+
     def _show_numbers_guide(self) -> None:
         """The two number systems as tables — learn before being drilled."""
         from ..numbers import cheat_sheet
@@ -1025,6 +1086,13 @@ class Shell:
         self.emit("")
         self.emit(render.rule(f"{self._typing_label} {self._typing_index + 1}/{len(self._typing_items)}"))
         self.emit(ansi.style(item["show"], ansi.BOLD, ansi.CYAN))
+        if item.get("swatch"):
+            block = ansi.swatch(item["swatch"])
+            if block:
+                self.emit(f"  {block}  {ansi.style(item['swatch'], ansi.GREY)}")
+            elif item.get("swatch_only") and item.get("meaning"):
+                # No terminal color: name the color, or the item is unanswerable.
+                self.emit(f"  ({item['meaning']})")
         self.state = TYPING
 
     def _grade_typing(self, typed: str) -> None:
@@ -1034,6 +1102,9 @@ class Shell:
         item = self._typing_items[self._typing_index]
         if item.get("no_digits") and any(ch.isdigit() for ch in typed):
             self.emit("Write the number in Korean letters (한글), not digits. Try again.")
+            return
+        if item.get("no_latin") and any("a" <= ch.lower() <= "z" for ch in typed):
+            self.emit("Write the answer in Korean letters (한글), not English. Try again.")
             return
         # Number phrases are spaced (세 시 십오 분); grade them space-insensitively.
         def _key(text: str) -> str:

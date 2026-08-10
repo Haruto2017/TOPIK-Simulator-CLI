@@ -29,7 +29,8 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 - `src/topik_sim/pronunciation.py` — curated sound-change rules (연음/경음화/비음화/유음화/격음화/구개음화/ㅎ) with spelled→spoken examples; `/sounds` reference + drill.
 - `src/topik_sim/curriculum.py` — the staged study path (`content/curriculum/`): textbook-style units resolved at runtime to courses/compose/dialogues/drills, with progress from the existing trackers; `/path` + web Study Path
 - `src/topik_sim/dialogues.py` — situational conversation practice loaded from `content/dialogues/`; `/dialogue` produce-your-line flow (self-graded like `/compose`).
-- `src/topik_sim/flashcards.py` / `dictation.py` / `numbers.py` — shell-side practice modes (`numbers.py` renders Sino/native Korean numbers and builds the `/numbers` drill)
+- `src/topik_sim/flashcards.py` / `dictation.py` / `numbers.py` / `colors.py` — shell-side practice modes (`numbers.py` renders Sino/native Korean numbers and builds the `/numbers` drill; `colors.py` holds the color lexicon — 색 noun, ㅎ-irregular modifier, Sino-Korean synonym — and builds the `/colors` drill, whose swatches render as true-color blocks in the terminal and as CSS swatches in the web UI)
+- `src/topik_sim/media.py` — `file:` audio/image references in packs (real recordings and figures for past-paper packs), resolved under `content/private/` first; preferred over TTS on every surface
 - `src/topik_sim/stats.py` / `report.py` — cross-attempt accuracy stats and Markdown study reports
 - `src/topik_sim/library.py` — versioned content library with checksums
 - `src/topik_sim/config.py` — `topik.config.json` workspace defaults (flags always win)
@@ -46,7 +47,7 @@ Every learner-facing feature is drivable without a browser; the web UI is a thin
 
 - **Shell**: drive `Shell.handle_line("<line>")` from a script or test — no terminal, no prompt_toolkit needed. All state transitions go through it.
 - **Web API without HTTP**: call `WebApp.handle(method, path, query, body)` directly — the server in `web/server.py` is just transport. Or curl a running `topik-sim web`.
-- **Parity map** (each exists as a shell command *and* a web endpoint, sharing the same data files): exams (take/resume/drill/review/course) · homework · flashcards · grammar cards · recall · typing (incl. advanced) · numbers (incl. the learn cheat sheet) · dictation · misses/weak-items drill · compose · facts · hangul primer · lookup · hints · transcripts · slow replay · stats + practice log · reports · TTS settings · keyboard chart · doctor · setup.
+- **Parity map** (each exists as a shell command *and* a web endpoint, sharing the same data files): exams (take/resume/drill/review/course) · homework · flashcards · grammar cards · recall · typing (incl. advanced) · numbers (incl. the learn cheat sheet) · colors (incl. the learn table) · dictation · misses/weak-items drill · compose · facts · hangul primer · lookup · hints · transcripts · slow replay · stats + practice log · reports · TTS settings · keyboard chart · doctor · setup.
 - **CLI-only by design** (ops/authoring, not learner flow): `import-pack`, `validate-content`, `validate-library`, `inspect-content`, `hide-pack`/`show-pack`, `audio` cache management (warm/prune/compress/bundle), `review-writing` (essay rubric scoring — no bundled pack ships essay questions), `grade`, `simulate`.
 
 ## Test-Implement Loop

@@ -44,6 +44,24 @@ def style(text: str, *codes: str) -> str:
     return f"\x1b[{';'.join(codes)}m{text}\x1b[0m"
 
 
+def swatch(hex_color: str, width: int = 12) -> str:
+    """A filled block in a 24-bit color, or "" when the terminal has no color.
+
+    Callers must handle the empty string — a color drill that only showed a
+    swatch would be unanswerable on a plain terminal.
+    """
+    value = hex_color.strip().lstrip("#")
+    if len(value) != 6:
+        return ""
+    try:
+        red, green, blue = (int(value[i:i + 2], 16) for i in (0, 2, 4))
+    except ValueError:
+        return ""
+    if not supports_color():
+        return ""
+    return f"\x1b[48;2;{red};{green};{blue}m{' ' * max(1, width)}\x1b[0m"
+
+
 def _enable_windows_vt() -> bool:
     try:
         import ctypes

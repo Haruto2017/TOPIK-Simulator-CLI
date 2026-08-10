@@ -274,6 +274,17 @@ label.field { display: grid; gap: 5px; font-size: 13px; color: var(--ink-2); fon
   font-size: 19px; line-height: 1.75; margin: 0 0 16px; white-space: pre-wrap;
 }
 .audio-row { margin: 0 0 16px; }
+.color-swatch {
+  width: 100%; max-width: 320px; height: 108px; border-radius: 12px;
+  border: 1px solid var(--border); box-shadow: var(--shadow-1); margin: 0 0 16px;
+}
+.color-swatch.on-dark { border-color: var(--ink-3); }
+.color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-chip { display: flex; gap: 10px; align-items: center; }
+.color-chip-swatch {
+  width: 34px; height: 34px; border-radius: 8px; flex: none;
+  border: 1px solid var(--border);
+}
 .question-image {
   display: block; max-width: 100%; border: 1px solid var(--border);
   border-radius: 10px; margin: 0 0 16px; background: #fff;

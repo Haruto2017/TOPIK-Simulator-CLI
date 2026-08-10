@@ -198,6 +198,17 @@ COMMANDS: list[Command] = [
         "Examples: /numbers learn · /numbers · /numbers date · /numbers money 15",
     ),
     Command(
+        "colors", "cmd_colors", "/colors [category] [count]", "Practice Korean colors: see a color, name it in Hangul.", ("color", "colour", "colours"),
+        category="Practice",
+        details="Shows a real color swatch and asks for its Korean name; answers must be Korean\n"
+        "letters. category (default mix): swatch (name the color shown), word (English → Korean),\n"
+        "modifier (빨간 사과 — the ㅎ-irregular form before a noun), shade (연한/진한), object\n"
+        "(바나나는 무슨 색이에요?), sino (녹색·백색·흑색). count: items (default 10).\n"
+        "/colors learn shows every color with its modifier and Sino-Korean form first.\n"
+        "Terminals without color fall back to naming the color in English.\n"
+        "Examples: /colors learn · /colors · /colors swatch · /colors modifier 15",
+    ),
+    Command(
         "vocab", "cmd_vocab", "/vocab [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
         category="Practice",
         details="A true spaced-repetition schedule over every word your packs teach: due words come\n"
