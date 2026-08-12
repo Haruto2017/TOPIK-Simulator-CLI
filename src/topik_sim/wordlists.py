@@ -10,6 +10,7 @@ that do not match the schema are skipped, never fatal.
 
 import json
 from pathlib import Path
+from typing import Iterable
 
 WORDLIST_SCHEMA_VERSION = "topik-sim.vocabulary.v1"
 DEFAULT_WORDLIST_DIR = Path("content") / "vocabulary"
@@ -25,18 +26,35 @@ def wordlist_dir_for(library_dir: str | Path) -> Path:
     return Path(library_dir).parent / "vocabulary"
 
 
-def load_wordlists(path: str | Path = DEFAULT_WORDLIST_DIR) -> list[dict[str, str]]:
+def wordlist_dirs_for(library_dir: str | Path) -> tuple[Path, ...]:
+    """Every wordlist directory beside a library, in precedence order.
+
+    ``content/private/vocabulary/`` is read after the bundled one so personal,
+    never-committed lists (e.g. vocabulary mined from past-paper packs) fill in
+    words the curriculum does not teach, without overriding a curated gloss.
+    """
+    root = Path(library_dir).parent
+    return (root / "vocabulary", root / "private" / "vocabulary")
+
+
+def load_wordlists(
+    path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DIR,
+) -> list[dict[str, str]]:
     """Every valid wordlist entry, deduplicated by Korean headword.
 
-    Entries missing ``ko`` or ``en`` are skipped; the first file (sorted by
+    Accepts one directory or several; entries missing ``ko`` or ``en`` are
+    skipped, and the first file (directories in order, then files sorted by
     name) wins on duplicate ``ko``.
     """
-    directory = Path(path)
-    if not directory.is_dir():
-        return []
+    if isinstance(path, (str, Path)):
+        directories = [Path(path)]
+    else:
+        directories = [Path(entry) for entry in path]
     seen: set[str] = set()
     words: list[dict[str, str]] = []
-    for file in sorted(directory.glob("*.json")):
+    files = [file for directory in directories if directory.is_dir()
+             for file in sorted(directory.glob("*.json"))]
+    for file in files:
         try:
             data = json.loads(file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):

@@ -76,9 +76,9 @@ def gloss_map(pack: ExamPack | None = None, library_dir: str | Path | None = Non
             glosses.append(gloss)
     result = {ko: " / ".join(glosses) for ko, glosses in meanings.items()}
     if pack is None and library_dir is not None:
-        from .wordlists import wordlist_dir_for, wordlist_glosses
+        from .wordlists import wordlist_dirs_for, wordlist_glosses
 
-        for ko, gloss in wordlist_glosses(wordlist_dir_for(library_dir)).items():
+        for ko, gloss in wordlist_glosses(wordlist_dirs_for(library_dir)).items():
             result.setdefault(ko, gloss)
     return result
 

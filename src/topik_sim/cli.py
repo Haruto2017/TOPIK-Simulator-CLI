@@ -227,6 +227,17 @@ def build_parser() -> argparse.ArgumentParser:
     validate_library_parser.add_argument("--library", default=library_default, help="Content library directory.")
     validate_library_parser.set_defaults(handler=handle_validate_library)
 
+    mine_vocab = subparsers.add_parser(
+        "mine-vocab",
+        help="List the vocabulary a pack uses, without reading the pack's text.",
+    )
+    mine_vocab.add_argument("packs", nargs="+", help="Pack JSON files to mine.")
+    mine_vocab.add_argument("--library", default=library_default, help="Content library directory.")
+    mine_vocab.add_argument("--output", help="Write the lemma list to this JSON file.")
+    mine_vocab.add_argument("--needs-gloss-only", action="store_true",
+                            help="Only the lemmas that still need an English gloss.")
+    mine_vocab.set_defaults(handler=handle_mine_vocab)
+
     report = subparsers.add_parser("report", help="Write a Markdown study report for a completed attempt.")
     report.add_argument("attempt", help="Path to a completed attempt JSON file.")
     report.add_argument("--library", default=library_default, help="Content library directory.")
@@ -865,6 +876,39 @@ def handle_validate_library(args: argparse.Namespace) -> int:
             print(f"- {error}")
         return 1
     print("Content library is valid.")
+    return 0
+
+
+def handle_mine_vocab(args: argparse.Namespace) -> int:
+    """List a pack's vocabulary without anyone reading the pack.
+
+    Prints (or writes) the lemmas the packs use, split into words the project
+    already glosses and bare words that still need one — the second list is
+    safe to hand to a glosser because it carries no exam text.
+    """
+    import json
+
+    from .exam_vocab import mine_packs
+    from .flashcards import gloss_map
+
+    result = mine_packs(args.packs, gloss_map(library_dir=args.library))
+    todo = [entry for entry in result["lemmas"] if not entry["glossed"]]
+    if args.output:
+        Path(args.output).write_text(
+            json.dumps(todo if args.needs_gloss_only else result["lemmas"],
+                       ensure_ascii=False, indent=1),
+            encoding="utf-8",
+        )
+        print(f"Wrote {len(todo if args.needs_gloss_only else result['lemmas'])} lemmas to {args.output}")
+    else:
+        for entry in (todo if args.needs_gloss_only else result["lemmas"]):
+            print(f"{entry['ko']}\t{entry['count']}\t{'' if entry['glossed'] else 'NEEDS GLOSS'}")
+    total_tokens = sum(entry["count"] for entry in result["lemmas"])
+    covered = sum(entry["count"] for entry in result["lemmas"] if entry["glossed"])
+    share = f"{covered / total_tokens:.1%}" if total_tokens else "n/a"
+    print(f"{result['total']} lemmas · {result['glossed']} glossed · "
+          f"{result['needs_gloss']} need a gloss · {share} of word occurrences covered",
+          file=sys.stderr)
     return 0
 
 

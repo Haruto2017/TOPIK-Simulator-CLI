@@ -58,9 +58,9 @@ def search_library(
                         break
 
     if len(result["vocabulary"]) < limit:
-        from .wordlists import load_wordlists, wordlist_dir_for
+        from .wordlists import load_wordlists, wordlist_dirs_for
 
-        for word in load_wordlists(wordlist_dir_for(library_dir)):
+        for word in load_wordlists(wordlist_dirs_for(library_dir)):
             haystack = f"{word['ko']} {word['en']} {word.get('note', '')}".casefold()
             key = (word["ko"], word["en"])
             if wanted in haystack and key not in seen_vocab:

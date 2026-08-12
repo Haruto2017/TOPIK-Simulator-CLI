@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Vocabulary mining without reading the text** (`mine-vocab`,
+  `src/topik_sim/exam_vocab.py`): a pack's Korean text is reduced to lemmas by
+  string surgery alone — particle and plural stripping, 하다-verb and copula
+  normalization (공부합니다 → 공부하다, 학생입니다 → 학생), contracted-past
+  undoing (갔습니다 → 가다), and ㄴ/ㄹ modifier resolution including the
+  ㄹ-irregular (만든 → 만들다) — then resolved against every gloss the project
+  owns, including ~12,000 forms generated from known dictionary forms by the
+  conjugation engine. Stem and modifier lookups only *match* known verbs; an
+  unknown stem is never invented into one. The unresolved remainder is a bare
+  word list with no sentences, questions, or passages, so vocabulary can be
+  built for copyrighted material without that material being read or
+  reproduced. `--needs-gloss-only` emits exactly that list.
+- **Private wordlist directory**: `wordlist_dirs_for()` now also reads
+  `content/private/vocabulary/`, after the bundled lists so a personal list
+  fills gaps without overriding a curated gloss. Personal vocabulary flows into
+  meaning reveals, `/vocab` spaced review, recall, misses, and `/lookup` with no
+  further wiring.
+
 - **Color practice** (`/colors`, web "Colors · 색깔", `src/topik_sim/colors.py`):
   see a real color and name it in Korean. Sixteen colors carry their 색 noun,
   native alternates (빨강/파랑/노랑/초록/검정/하양), the modifier form used before
