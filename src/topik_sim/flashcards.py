@@ -24,16 +24,38 @@ def build_deck(pack: ExamPack, seed: int | None = None) -> list[dict[str, str]]:
     return deck
 
 
+def wordlist_deck(library_dir: str | Path, pack_id: str | None = None) -> list[dict[str, str]]:
+    """Vocabulary cards from the curriculum and private wordlists.
+
+    With ``pack_id`` the deck narrows to words that pack actually uses — which
+    is how a mined list (e.g. a past paper's vocabulary) becomes practisable
+    even though the pack itself teaches no words in its explanations.
+    """
+    from .wordlists import load_wordlists, words_for_pack, wordlist_dirs_for
+
+    directories = wordlist_dirs_for(library_dir)
+    entries = words_for_pack(pack_id, directories) if pack_id else load_wordlists(directories)
+    return [
+        {"ko": entry["ko"], "en": entry["en"], "note": entry.get("note", "")}
+        for entry in entries
+    ]
+
+
 def library_deck(library_dir: str | Path) -> list[dict[str, str]]:
-    """Vocabulary cards from every imported pack, deduplicated by (ko, en)."""
+    """Vocabulary cards from every imported pack plus the wordlists.
+
+    Deduplicated by (ko, en); pack-taught cards come first so a curated card
+    wins over a wordlist entry for the same word.
+    """
     from .library import list_packs, load_pack_ref
 
+    seen: set[tuple[str, str]] = set()
+    taught: set[str] = set()
+    deck: list[dict[str, str]] = []
     try:
         entries = list_packs(library_dir)
     except (OSError, ValueError, KeyError):
-        return []
-    seen: set[tuple[str, str]] = set()
-    deck: list[dict[str, str]] = []
+        entries = []
     for entry in entries:
         try:
             pack = load_pack_ref(f"{entry['pack_id']}@{entry['pack_version']}", library_dir)
@@ -44,7 +66,16 @@ def library_deck(library_dir: str | Path) -> list[dict[str, str]]:
             if key in seen:
                 continue
             seen.add(key)
+            taught.add(card["ko"])
             deck.append(card)
+    for card in wordlist_deck(library_dir):
+        if card["ko"] in taught:  # a pack already teaches this word
+            continue
+        key = (card["ko"], card["en"])
+        if key in seen:
+            continue
+        seen.add(key)
+        deck.append(card)
     return deck
 
 
@@ -96,6 +127,13 @@ def build_recall_items(
     """
     if pack is not None:
         deck = build_deck(pack, seed=seed)
+        if library_dir is not None:
+            # Packs that teach no vocabulary in their notes (past papers, say)
+            # still have a mined wordlist; scope it to this pack.
+            taught = {card["ko"] for card in deck}
+            deck = deck + [card for card in wordlist_deck(library_dir, pack.pack_id)
+                           if card["ko"] not in taught]
+            random.Random(seed).shuffle(deck)
     elif library_dir is not None:
         deck = library_deck(library_dir)
     else:

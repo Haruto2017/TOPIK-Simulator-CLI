@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Mined vocabulary was unreachable from the practice modes.** Wordlist words
+  fed meaning reveals and `/lookup`, but the recall deck and flashcards read
+  imported packs only — so choosing a pack that teaches no vocabulary in its
+  notes (an imported past paper) produced an empty session, and the
+  library-wide deck never saw a wordlist word at all. `library_deck` now folds
+  in the wordlists (pack-taught cards still win for the same word), and
+  `/recall <pack>`, `/flashcards <pack>` and the web equivalents fall back to
+  the pack's mined words. `/vocab <pack>` and the web Vocabulary-review pack
+  selector scope a spaced-repetition session to one exam's vocabulary, which
+  also fixes mined words being unreachable in practice because they sorted to
+  the tail of the gloss map behind thousands of pack-taught entries.
+
 ### Added
 
 - **Vocabulary mining without reading the text** (`mine-vocab`,

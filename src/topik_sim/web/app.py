@@ -233,10 +233,13 @@ class WebApp:
             return 200, self.start_practice(body)
 
         if parts == ["deck", "flashcards"] and method == "GET":
-            from ..flashcards import build_deck
+            from ..flashcards import build_deck, wordlist_deck
 
             pack = self._resolve_pack(query.get("pack", ""))
-            return 200, {"cards": build_deck(pack, seed=self.seed), "title": pack.title}
+            cards = build_deck(pack, seed=self.seed)
+            if not cards:  # a pack with no taught notes still has mined words
+                cards = wordlist_deck(self.library_dir, pack.pack_id)
+            return 200, {"cards": cards, "title": pack.title}
         if parts == ["deck", "grammar"] and method == "GET":
             from ..grammar import build_grammar_cards
 
@@ -709,14 +712,21 @@ class WebApp:
         elif mode == "recall":
             from ..flashcards import build_recall_items
 
-            items = build_recall_items(pack=pack, library_dir=None if pack else self.library_dir,
+            items = build_recall_items(pack=pack, library_dir=self.library_dir,
                                        seed=self.seed, count=count or 10)
             label = "Vocab recall"
         elif mode == "vocab":
             from .. import vocab_srs
             from ..flashcards import gloss_map
 
-            glosses = gloss_map(library_dir=self.library_dir)
+            if pack is not None:  # scope the review to one exam's vocabulary
+                from ..flashcards import wordlist_deck
+
+                glosses = dict(gloss_map(pack=pack))
+                for card in wordlist_deck(self.library_dir, pack.pack_id):
+                    glosses.setdefault(card["ko"], card["en"])
+            else:
+                glosses = gloss_map(library_dir=self.library_dir)
             if not glosses:
                 raise ApiError(400, "No vocabulary found. Import a pack first.")
             deck = vocab_srs.load_deck(self.attempt_dir)

@@ -209,12 +209,15 @@ COMMANDS: list[Command] = [
         "Examples: /colors learn · /colors · /colors swatch · /colors modifier 15",
     ),
     Command(
-        "vocab", "cmd_vocab", "/vocab [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
+        "vocab", "cmd_vocab", "/vocab [pack] [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
         category="Practice",
-        details="A true spaced-repetition schedule over every word your packs teach: due words come\n"
-        "back first, then a few new ones are introduced each session. A correct answer pushes the\n"
-        "word further out (box 1→5, up to ~35 days); a miss brings it back tomorrow. Progress is\n"
-        "saved in data/attempts/vocab_review.json. count: session size (default 15). Example: /vocab · /vocab 25",
+        details="A true spaced-repetition schedule over every word your packs teach and every wordlist\n"
+        "entry: due words come back first, then a few new ones are introduced each session. A correct\n"
+        "answer pushes the word further out (box 1→5, up to ~35 days); a miss brings it back tomorrow.\n"
+        "Progress is saved in data/attempts/vocab_review.json. Naming a pack scopes the session to that\n"
+        "exam's vocabulary — what it teaches plus what was mined from it — which is how to drill one\n"
+        "past paper's words. count: session size (default 15).\n"
+        "Examples: /vocab · /vocab 25 · /vocab topik1-past-102 · /vocab topik1-past-102 30",
     ),
     Command(
         "misses", "cmd_misses", "/misses [count]", "Drill your weak items: the things you keep getting wrong.", ("weak",),

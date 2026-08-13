@@ -72,13 +72,25 @@ def load_wordlists(
             if not ko or not en or ko in seen:
                 continue
             seen.add(ko)
+            packs = entry.get("packs")
             words.append({
                 "ko": ko,
                 "en": en,
                 "unit": str(entry.get("unit", "") or "").strip(),
                 "note": str(entry.get("note", "") or "").strip(),
+                # Provenance for mined lists: which packs actually use the word,
+                # so vocabulary practice can be scoped to one exam.
+                "packs": [str(p) for p in packs] if isinstance(packs, list) else [],
             })
     return words
+
+
+def words_for_pack(pack_id: str, path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DIR) -> list[dict[str, str]]:
+    """Wordlist entries recorded as appearing in a given pack."""
+    wanted = str(pack_id).strip()
+    if not wanted:
+        return []
+    return [word for word in load_wordlists(path) if wanted in word.get("packs", [])]
 
 
 def wordlist_glosses(path: str | Path = DEFAULT_WORDLIST_DIR) -> dict[str, str]:

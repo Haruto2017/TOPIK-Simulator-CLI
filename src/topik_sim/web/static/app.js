@@ -731,7 +731,7 @@ const PRACTICE_MODES = [
   { key: "sounds", name: "Sound changes · 발음", desc: "Why speech differs from spelling: 연음, 경음화, and more — with a drill.", pack: "none" },
   { key: "flashcards", name: "Flashcards", desc: "Vocabulary cards from a pack's teaching notes.", pack: "required" },
   { key: "grammar", name: "Grammar cards", desc: "Pattern on the front, what it does on the back.", pack: "optional" },
-  { key: "vocab", name: "Vocabulary review (SRS)", desc: "Spaced repetition: due words plus a few new, scheduled by your answers.", pack: "none" },
+  { key: "vocab", name: "Vocabulary review (SRS)", desc: "Spaced repetition: due words plus a few new, scheduled by your answers. Pick a pack to review just that exam's words.", pack: "optional" },
   { key: "recall", name: "Vocab recall", desc: "See the English, type the Korean.", pack: "optional" },
   { key: "conjugate", name: "Conjugation", desc: "Conjugate verbs across tenses, connectives & modals; irregulars handled.", pack: "optional" },
   { key: "typing", name: "Typing", desc: "Korean keyboard trainer: jamo → syllables → words.", pack: "optional" },

@@ -973,6 +973,15 @@ class Shell:
             hint="type the conjugated form · /conjugate list shows all forms · /pause stops",
         )
 
+    def _pack_glosses(self, pack) -> dict[str, str]:
+        """One pack's vocabulary: what it teaches, plus what was mined from it."""
+        from ..flashcards import gloss_map, wordlist_deck
+
+        glosses = dict(gloss_map(pack=pack))
+        for card in wordlist_deck(self.library_dir, pack.pack_id):
+            glosses.setdefault(card["ko"], card["en"])
+        return glosses
+
     def cmd_vocab(self, argument: str) -> None:
         """Spaced vocabulary review — due words plus a few new ones each session."""
         from .. import vocab_srs
@@ -982,8 +991,27 @@ class Shell:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
-        count = int(argument) if argument.strip().isdigit() else 15
-        glosses = gloss_map(library_dir=self.library_dir)
+        count, scope = 15, ""
+        for part in argument.split():
+            if part.isdigit():
+                count = int(part)
+            else:
+                scope = part
+        if scope:  # /vocab <pack> — review just that exam's words
+            try:
+                pack = self._resolve_pack(scope)
+            except (ValueError, ContentValidationError, OSError) as exc:
+                self.emit(str(exc))
+                suggestions = self._suggest_packs(scope)
+                if suggestions:
+                    self.emit(f"Did you mean: {', '.join(suggestions)}?")
+                return
+            glosses = self._pack_glosses(pack)
+            if not glosses:
+                self.emit(f"No vocabulary recorded for {pack.pack_id}.")
+                return
+        else:
+            glosses = gloss_map(library_dir=self.library_dir)
         if not glosses:
             self.emit("No vocabulary found. Import a pack first (topik-sim setup).")
             return
@@ -1049,7 +1077,7 @@ class Shell:
                     return
         items = build_recall_items(
             pack=pack,
-            library_dir=None if pack else self.library_dir,
+            library_dir=self.library_dir,
             seed=self._flashcard_seed,
             count=count,
         )
@@ -1493,6 +1521,11 @@ class Shell:
             if suggestions:
                 self.emit(f"Did you mean: {', '.join(suggestions)}?")
             return
+        from ..flashcards import wordlist_deck
+
+        cards = build_deck(pack, seed=self._flashcard_seed)
+        if not cards:  # a pack with no taught notes still has mined words
+            cards = wordlist_deck(self.library_dir, pack.pack_id)
         deck = [
             {
                 "front": card["ko"],
@@ -1501,7 +1534,7 @@ class Shell:
                 "speech": card["ko"],
                 "keys": card["ko"],
             }
-            for card in build_deck(pack, seed=self._flashcard_seed)
+            for card in cards
         ]
         if not deck:
             self.emit("This pack has no vocabulary entries to drill.")

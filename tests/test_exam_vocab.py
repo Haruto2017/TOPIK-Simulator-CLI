@@ -182,5 +182,71 @@ class PrivateWordlistTests(unittest.TestCase):
         self.assertEqual(len(load_wordlists(wordlist_dirs_for(self.library))), 1)
 
 
+
+class PackScopedVocabularyTests(unittest.TestCase):
+    """A pack that teaches no words is still practisable from its mined list."""
+
+    def setUp(self):
+        from topik_sim.library import import_pack
+
+        self._temp = tempfile.TemporaryDirectory()
+        root = Path(self._temp.name)
+        self.library = root / "library"
+        (root / "private" / "vocabulary").mkdir(parents=True)
+        (root / "private" / "vocabulary" / "mined.json").write_text(json.dumps({
+            "schema_version": WORDLIST_SCHEMA_VERSION,
+            "words": [
+                {"ko": "사진관", "en": "photo studio", "packs": ["silent-pack"]},
+                {"ko": "모래", "en": "sand", "packs": ["silent-pack", "other-pack"]},
+                {"ko": "무관", "en": "unrelated word", "packs": ["other-pack"]},
+            ],
+        }, ensure_ascii=False), encoding="utf-8")
+        pack_path = root / "silent.json"
+        pack_path.write_text(json.dumps({
+            "schema_version": "topik-sim.content.v1",
+            "pack_id": "silent-pack", "pack_version": "1.0.0",
+            "title": "Silent Pack", "topik_level": "TOPIK_I",
+            "language_pair": "ko-ko", "source_type": "user_provided",
+            "sections": [{
+                "section_id": "reading", "title": "읽기",
+                "questions": [{
+                    "question_id": "r-001", "order": 1, "skill": "reading",
+                    "prompt": "고르십시오.", "options": [{"id": "1", "text": "가"}, {"id": "2", "text": "나"}],
+                    "answer": {"type": "single_choice", "correct_option_id": "1"},
+                    "explanation": {"summary": "No vocabulary is taught here."},
+                }],
+            }],
+        }, ensure_ascii=False), encoding="utf-8")
+        import_pack(pack_path, self.library)
+        self.pack = __import__("topik_sim.library", fromlist=["load_pack_ref"]).load_pack_ref(
+            "silent-pack@1.0.0", self.library)
+
+    def tearDown(self):
+        self._temp.cleanup()
+
+    def test_pack_teaches_nothing_on_its_own(self):
+        from topik_sim.flashcards import build_deck
+
+        self.assertEqual(build_deck(self.pack, seed=0), [])
+
+    def test_mined_words_are_scoped_to_their_pack(self):
+        from topik_sim.flashcards import wordlist_deck
+
+        mine = {c["ko"] for c in wordlist_deck(self.library, "silent-pack")}
+        self.assertEqual(mine, {"사진관", "모래"})
+        self.assertNotIn("무관", mine)
+
+    def test_recall_falls_back_to_the_mined_list(self):
+        from topik_sim.flashcards import build_recall_items
+
+        items = build_recall_items(pack=self.pack, library_dir=self.library, seed=0, count=5)
+        self.assertTrue(items)
+        self.assertTrue({i["answer"] for i in items} <= {"사진관", "모래"})
+
+    def test_library_deck_includes_wordlist_words(self):
+        from topik_sim.flashcards import library_deck
+
+        self.assertIn("무관", {c["ko"] for c in library_deck(self.library)})
+
 if __name__ == "__main__":
     unittest.main()
