@@ -93,6 +93,18 @@ def words_for_pack(pack_id: str, path: str | Path | Iterable[str | Path] = DEFAU
     return [word for word in load_wordlists(path) if wanted in word.get("packs", [])]
 
 
+def words_for_unit(unit_id: str, path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DIR) -> list[dict[str, str]]:
+    """The vocabulary a study-path unit introduces, in wordlist order.
+
+    Units key their words by ``unit``, which is what puts a stage's new words
+    on its page — the way a textbook prints them along the bottom.
+    """
+    wanted = str(unit_id).strip()
+    if not wanted:
+        return []
+    return [word for word in load_wordlists(path) if word.get("unit") == wanted]
+
+
 def wordlist_glosses(path: str | Path = DEFAULT_WORDLIST_DIR) -> dict[str, str]:
     """Korean word → gloss for every wordlist entry (note after an em dash)."""
     glosses: dict[str, str] = {}

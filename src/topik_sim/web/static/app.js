@@ -365,6 +365,24 @@ const STATE_PILLS = {
   practiced: ["◐ practiced", "on"], new: ["not started", ""],
 };
 
+function vocabBand(unit) {
+  const strip = el("div", { class: "vocab-band-strip" },
+    ...unit.vocabulary.map((w) => el("span", { class: "vocab-pair" },
+      el("span", { class: "ko", text: w.ko }),
+      el("span", { class: "gloss", text: w.en }))));
+  let expanded = false;
+  const toggle = el("button", {
+    class: "vocab-band-toggle", title: "Show every word in this stage",
+    text: `단어 ${unit.vocabulary.length} ▸`,
+    onclick: () => {
+      expanded = !expanded;
+      strip.classList.toggle("wrapped", expanded);
+      toggle.textContent = `단어 ${unit.vocabulary.length} ${expanded ? "▾" : "▸"}`;
+    },
+  });
+  return el("div", { class: "vocab-band" }, toggle, strip);
+}
+
 async function studyPathView() {
   const data = await api("GET", "/api/path");
   if (!data.units.length) {
@@ -399,6 +417,17 @@ async function studyPathView() {
     for (const form of unit.conjugation.slice(0, 2)) {
       buttons.push(el("button", { class: "ghost", text: `Conjugate ${form.form}`, onclick: () => startDrill({ mode: "conjugate", form: form.form }) }));
     }
+    if ((unit.vocabulary || []).length) {
+      buttons.push(el("button", { class: "ghost", text: `단어 Cards (${unit.vocabulary.length})`, onclick: async () => {
+        const deck = await api("GET", `/api/deck/flashcards?unit=${encodeURIComponent(unit.id)}`);
+        state.deck = {
+          title: `Vocabulary — ${unit.title}`, kind: "vocab",
+          cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko })),
+        };
+        go("#/cards");
+      } }));
+      buttons.push(el("button", { class: "ghost", text: "단어 Recall", onclick: () => startDrill({ mode: "recall", unit: unit.id }) }));
+    }
     for (const drill of (unit.drills || []).slice(0, 3)) {
       if (drill.mode === "hangul") buttons.push(el("button", { class: "ghost", text: "Read Hangul", onclick: () => go("#/practice/hangul") }));
       else if (drill.mode === "sounds") buttons.push(el("button", { class: "ghost", text: "Sound changes", onclick: () => go("#/practice/sounds") }));
@@ -421,7 +450,10 @@ async function studyPathView() {
       el("p", { class: "small muted", text: unit.scope }),
       unit.grammar.length ? el("div", { class: "chips" },
         ...unit.grammar.map((g) => el("span", { class: "chip ko", text: g }))) : null,
-      el("div", { class: "row" }, ...buttons)));
+      el("div", { class: "row" }, ...buttons),
+      // The stage's new words, printed along the bottom of the page the way a
+      // textbook does. Collapsed by default so the band stays one line.
+      (unit.vocabulary || []).length ? vocabBand(unit) : null));
   }
   render(...nodes);
 }
@@ -430,8 +462,28 @@ async function takeView() {
   const [packsData, due] = await Promise.all([api("GET", "/api/packs"), api("GET", "/api/review/due")]);
   const packs = packsData.packs;
   const packSelect = el("select", {}, ...packs.map((p) => el("option", { value: p.pack_id, text: `${p.title || p.pack_id}` })));
-  const sectionInput = el("input", { type: "text", placeholder: "e.g. listening (optional)" });
+  const sectionSelect = el("select", {}, el("option", { value: "", text: "Whole exam" }));
   const limitInput = el("input", { type: "number", min: "1", placeholder: "all" });
+
+  // The sections belong to the chosen pack, so the list follows the selection.
+  const loadSections = async () => {
+    const chosen = sectionSelect.value;
+    sectionSelect.replaceChildren(el("option", { value: "", text: "Whole exam" }));
+    if (!packSelect.value) return;
+    let sections = [];
+    try { sections = (await api("GET", `/api/packs/${encodeURIComponent(packSelect.value)}/sections`)).sections; }
+    catch { return; }  // leave "Whole exam" as the only choice
+    for (const s of sections) {
+      const minutes = s.time_limit_minutes ? `, ${s.time_limit_minutes} min` : "";
+      sectionSelect.append(el("option", {
+        value: s.section_id,
+        text: `${s.title || s.section_id} — ${s.count} questions${minutes}`,
+      }));
+    }
+    if ([...sectionSelect.options].some((o) => o.value === chosen)) sectionSelect.value = chosen;
+  };
+  packSelect.addEventListener("change", loadSections);
+  loadSections();
 
   const dueRows = Object.entries(due.due || {}).map(([packId, count]) =>
     el("div", { class: "spread" },
@@ -443,14 +495,14 @@ async function takeView() {
     el("div", { class: "card stack" },
       el("label", { class: "field" }, "Exam pack", packSelect),
       el("div", { class: "row" },
-        el("label", { class: "field" }, "Section", sectionInput),
+        el("label", { class: "field" }, "Section", sectionSelect),
         el("label", { class: "field" }, "Question limit", limitInput)),
       el("div", { class: "row" },
         el("button", {
           class: "primary",
           onclick: () => startExam({
             pack: packSelect.value,
-            section: sectionInput.value.trim() || undefined,
+            section: sectionSelect.value || undefined,
             limit: limitInput.value ? Number(limitInput.value) : undefined,
           }),
           text: "Start",

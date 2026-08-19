@@ -101,6 +101,34 @@ class StateAndListingTests(WebAppTestCase):
         self.assertEqual(status, 400)
 
 
+class PackSectionsTests(WebAppTestCase):
+    """The exam screen offers sections as choices, so nothing has to be typed."""
+
+    def test_sections_are_listed_with_counts(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("GET", "/api/packs/listen-pack/sections")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(payload["sections"]), 1)
+        section = payload["sections"][0]
+        self.assertEqual(section["section_id"], "listening")
+        self.assertEqual(section["title"], "Listening")
+        self.assertEqual(section["count"], 2)
+
+    def test_section_ids_can_start_an_exam(self):
+        """Every id offered must be one /api/exam/start accepts."""
+        app = self.make_app(audio_enabled=False)
+        sections = app.handle("GET", "/api/packs/listen-pack/sections")[1]["sections"]
+        for section in sections:
+            status, view = app.handle("POST", "/api/exam/start",
+                                      body={"pack": "listen-pack", "section": section["section_id"]})
+            self.assertEqual(status, 200, section["section_id"])
+            self.assertEqual(view["progress"][1], section["count"])
+
+    def test_unknown_pack_is_rejected(self):
+        app = self.make_app(audio_enabled=False)
+        self.assertEqual(app.handle("GET", "/api/packs/nope/sections")[0], 400)
+
+
 class ExamFlowTests(WebAppTestCase):
     def test_full_exam_lifecycle_with_sanitized_questions(self):
         app = self.make_app(audio_enabled=False)
@@ -410,3 +438,49 @@ class ContentEndpointTests(WebAppTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UnitVocabularyApiTests(WebAppTestCase):
+    """Study-path stages expose their words, and the words are drillable."""
+
+    def setUp(self):
+        super().setUp()
+        vocab = self.temp_dir / "vocabulary"
+        vocab.mkdir()
+        (vocab / "units.json").write_text(json.dumps({
+            "schema_version": "topik-sim.vocabulary.v1",
+            "words": [
+                {"ko": "인사", "en": "greeting", "unit": "greetings"},
+                {"ko": "이름", "en": "name", "unit": "greetings"},
+                {"ko": "김치", "en": "kimchi", "unit": "food"},
+            ],
+        }, ensure_ascii=False), encoding="utf-8")
+
+    def test_flashcards_deck_can_be_scoped_to_a_unit(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("GET", "/api/deck/flashcards", query={"unit": "greetings"})
+        self.assertEqual(status, 200)
+        self.assertEqual({c["ko"] for c in payload["cards"]}, {"인사", "이름"})
+
+    def test_recall_can_be_scoped_to_a_unit(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "recall", "unit": "food", "count": 5})
+        self.assertEqual(status, 200)
+        self.assertEqual(view["progress"][1], 1)
+        status, result = app.handle("POST", f"/api/activity/{view['id']}/answer",
+                                    body={"value": "김치"})
+        self.assertTrue(result["correct"])
+
+    def test_vocab_review_can_be_scoped_to_a_unit(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "vocab", "unit": "greetings", "count": 5})
+        self.assertEqual(status, 200)
+        self.assertIn(view["item"]["show"].split(":")[-1].strip(), {"greeting", "name"})
+
+    def test_unknown_unit_is_rejected(self):
+        app = self.make_app(audio_enabled=False)
+        self.assertEqual(app.handle("GET", "/api/deck/flashcards", query={"unit": "nope"})[0], 400)
+        self.assertEqual(app.handle("POST", "/api/drill/start",
+                                    body={"mode": "recall", "unit": "nope"})[0], 400)

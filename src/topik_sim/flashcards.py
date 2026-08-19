@@ -24,17 +24,27 @@ def build_deck(pack: ExamPack, seed: int | None = None) -> list[dict[str, str]]:
     return deck
 
 
-def wordlist_deck(library_dir: str | Path, pack_id: str | None = None) -> list[dict[str, str]]:
+def wordlist_deck(
+    library_dir: str | Path,
+    pack_id: str | None = None,
+    unit: str | None = None,
+) -> list[dict[str, str]]:
     """Vocabulary cards from the curriculum and private wordlists.
 
     With ``pack_id`` the deck narrows to words that pack actually uses — which
     is how a mined list (e.g. a past paper's vocabulary) becomes practisable
-    even though the pack itself teaches no words in its explanations.
+    even though the pack itself teaches no words in its explanations. With
+    ``unit`` it narrows to one study-path stage's words instead.
     """
-    from .wordlists import load_wordlists, words_for_pack, wordlist_dirs_for
+    from .wordlists import load_wordlists, words_for_pack, words_for_unit, wordlist_dirs_for
 
     directories = wordlist_dirs_for(library_dir)
-    entries = words_for_pack(pack_id, directories) if pack_id else load_wordlists(directories)
+    if unit:
+        entries = words_for_unit(unit, directories)
+    elif pack_id:
+        entries = words_for_pack(pack_id, directories)
+    else:
+        entries = load_wordlists(directories)
     return [
         {"ko": entry["ko"], "en": entry["en"], "note": entry.get("note", "")}
         for entry in entries
@@ -139,8 +149,21 @@ def build_recall_items(
     else:
         deck = []
 
+    return recall_items_from_cards(deck, seed=seed, count=count)
+
+
+def recall_items_from_cards(
+    cards: list[dict[str, str]],
+    seed: int | None = None,
+    count: int = 10,
+) -> list[dict[str, Any]]:
+    """Turn vocabulary cards into English→Korean production items.
+
+    Cards sharing one English gloss are merged so any of their Korean words
+    counts as correct (synonyms would otherwise be graded unfairly).
+    """
     by_gloss: dict[str, dict[str, Any]] = {}
-    for card in deck:
+    for card in cards:
         gloss_key = card["en"].strip().lower()
         item = by_gloss.get(gloss_key)
         if item is None:

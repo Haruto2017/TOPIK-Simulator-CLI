@@ -104,3 +104,35 @@ class PathEndpointTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UnitVocabularyTests(unittest.TestCase):
+    """Each stage carries its own words — the textbook's footer strip."""
+
+    def test_units_resolve_their_wordlist(self):
+        from topik_sim.curriculum import load_curriculum, resolve_units
+
+        units = resolve_units(load_curriculum(), "content/library",
+                              DEFAULT_COURSES_PATH, DEFAULT_COMPOSE_PATH, DEFAULT_DIALOGUES_PATH)
+        by_id = {u["id"]: u for u in units}
+        self.assertTrue(by_id["greetings"]["vocabulary"])
+        for word in by_id["greetings"]["vocabulary"]:
+            self.assertTrue(word["ko"] and word["en"])
+        # the Hangul stage teaches letters, not vocabulary
+        self.assertEqual(by_id["hangul"]["vocabulary"], [])
+
+    def test_every_content_stage_has_words(self):
+        from topik_sim.curriculum import load_curriculum, resolve_units
+
+        units = resolve_units(load_curriculum(), "content/library",
+                              DEFAULT_COURSES_PATH, DEFAULT_COMPOSE_PATH, DEFAULT_DIALOGUES_PATH)
+        missing = [u["id"] for u in units if u["level"] > 0 and not u["vocabulary"]]
+        self.assertEqual(missing, [])
+
+    def test_unit_decks_are_disjoint_by_stage(self):
+        from topik_sim.flashcards import wordlist_deck
+
+        greetings = {c["ko"] for c in wordlist_deck("content/library", unit="greetings")}
+        food = {c["ko"] for c in wordlist_deck("content/library", unit="food")}
+        self.assertTrue(greetings and food)
+        self.assertEqual(greetings & food, set())

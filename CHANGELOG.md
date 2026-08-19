@@ -7,22 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- **Mined vocabulary was unreachable from the practice modes.** Wordlist words
-  fed meaning reveals and `/lookup`, but the recall deck and flashcards read
-  imported packs only — so choosing a pack that teaches no vocabulary in its
-  notes (an imported past paper) produced an empty session, and the
-  library-wide deck never saw a wordlist word at all. `library_deck` now folds
-  in the wordlists (pack-taught cards still win for the same word), and
-  `/recall <pack>`, `/flashcards <pack>` and the web equivalents fall back to
-  the pack's mined words. `/vocab <pack>` and the web Vocabulary-review pack
-  selector scope a spaced-repetition session to one exam's vocabulary, which
-  also fixes mined words being unreachable in practice because they sorted to
-  the tail of the gloss map behind thousands of pack-taught entries.
-
 ### Added
-
+- **Stage vocabulary, textbook-style** — every study-path unit now carries the words it
+  introduces (`resolve_units` attaches them from the unit-keyed wordlists). The web study
+  path prints them as a footer band along the bottom of each stage card — Korean beside its
+  gloss, one line, expandable to the full set — and `/path <n>` prints the same strip in the
+  terminal. The sets are drillable, not just readable: 단어 Cards / 단어 Recall on each card,
+  `/recall unit:<id>` and `/flashcards unit:<id>` in the shell, and a `unit` scope on
+  `GET /api/deck/flashcards` plus the `recall` and `vocab` drill modes.
 - **Vocabulary mining without reading the text** (`mine-vocab`,
   `src/topik_sim/exam_vocab.py`): a pack's Korean text is reduced to lemmas by
   string surgery alone — particle and plural stripping, 하다-verb and copula
@@ -65,6 +57,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   imported as personal, local-only packs under the gitignored
   `content/private/` (see docs/CONTENT_CONTRACT.md, "Local media references");
   `play_audio` now applies volume shaping only to WAVs so MP3s play unmodified.
+
+### Fixed
+- **Mined vocabulary was unreachable from the practice modes.** Wordlist words
+  fed meaning reveals and `/lookup`, but the recall deck and flashcards read
+  imported packs only — so choosing a pack that teaches no vocabulary in its
+  notes (an imported past paper) produced an empty session, and the
+  library-wide deck never saw a wordlist word at all. `library_deck` now folds
+  in the wordlists (pack-taught cards still win for the same word), and
+  `/recall <pack>`, `/flashcards <pack>` and the web equivalents fall back to
+  the pack's mined words. `/vocab <pack>` and the web Vocabulary-review pack
+  selector scope a spaced-repetition session to one exam's vocabulary, which
+  also fixes mined words being unreachable in practice because they sorted to
+  the tail of the gloss map behind thousands of pack-taught entries.
 
 ## [1.2.0] - 2026-07-12
 

@@ -150,6 +150,8 @@ class WebApp:
             return 200, self.state()
         if parts == ["packs"] and method == "GET":
             return 200, {"packs": self.packs()}
+        if len(parts) == 3 and parts[0] == "packs" and parts[2] == "sections" and method == "GET":
+            return 200, {"sections": self.pack_sections(parts[1])}
         if parts == ["setup"] and method == "POST":
             from ..workspace import setup_workspace
 
@@ -235,6 +237,12 @@ class WebApp:
         if parts == ["deck", "flashcards"] and method == "GET":
             from ..flashcards import build_deck, wordlist_deck
 
+            unit = str(query.get("unit", "") or "").strip()
+            if unit:  # a study-path stage's own vocabulary
+                cards = wordlist_deck(self.library_dir, unit=unit)
+                if not cards:
+                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+                return 200, {"cards": cards, "title": unit}
             pack = self._resolve_pack(query.get("pack", ""))
             cards = build_deck(pack, seed=self.seed)
             if not cards:  # a pack with no taught notes still has mined words
@@ -373,6 +381,20 @@ class WebApp:
             note = progress.get(entry.get("pack_id"), {})
             entry["progress"] = note
         return entries
+
+    def pack_sections(self, pack_id: str) -> list[dict[str, Any]]:
+        """A pack's sections, so the exam screen can offer them as choices
+        instead of asking the learner to know the section ids by heart."""
+        pack = self._resolve_pack(pack_id)
+        sections = []
+        for section in pack.sections:
+            sections.append({
+                "section_id": section.get("section_id", ""),
+                "title": section.get("title", "") or section.get("section_id", ""),
+                "count": len(section.get("questions", []) or []),
+                "time_limit_minutes": section.get("time_limit_minutes"),
+            })
+        return sections
 
     def attempts(self) -> list[dict[str, Any]]:
         results = []
@@ -712,14 +734,32 @@ class WebApp:
         elif mode == "recall":
             from ..flashcards import build_recall_items
 
-            items = build_recall_items(pack=pack, library_dir=self.library_dir,
-                                       seed=self.seed, count=count or 10)
+            unit = str(body.get("unit", "") or "").strip()
+            if unit:
+                from ..flashcards import wordlist_deck
+
+                from ..flashcards import recall_items_from_cards
+
+                cards = wordlist_deck(self.library_dir, unit=unit)
+                if not cards:
+                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+                items = recall_items_from_cards(cards, seed=self.seed, count=count or 10)
+            else:
+                items = build_recall_items(pack=pack, library_dir=self.library_dir,
+                                           seed=self.seed, count=count or 10)
             label = "Vocab recall"
         elif mode == "vocab":
             from .. import vocab_srs
             from ..flashcards import gloss_map
 
-            if pack is not None:  # scope the review to one exam's vocabulary
+            unit = str(body.get("unit", "") or "").strip()
+            if unit:  # scope the review to one study-path stage
+                from ..flashcards import wordlist_deck
+
+                glosses = {c["ko"]: c["en"] for c in wordlist_deck(self.library_dir, unit=unit)}
+                if not glosses:
+                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+            elif pack is not None:  # scope the review to one exam's vocabulary
                 from ..flashcards import wordlist_deck
 
                 glosses = dict(gloss_map(pack=pack))

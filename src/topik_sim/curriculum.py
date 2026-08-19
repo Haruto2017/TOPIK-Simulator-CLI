@@ -134,14 +134,21 @@ def resolve_units(
     course_index = _course_index(library_dir, courses_path)
     dialogue_ids = {str(d.get("id")) for d in load_dialogues(dialogues_path)}
 
+    from .wordlists import words_for_unit, wordlist_dirs_for
+
+    wordlist_dirs = wordlist_dirs_for(library_dir)
     resolved = []
     for unit in units:
+        words = words_for_unit(str(unit.get("id", "")), wordlist_dirs)
         resolved.append({
             **unit,
             "compose_structures": _match_compose(unit, corpus),
             "courses": _match_courses(unit, course_index),
             "dialogues": [d for d in unit.get("dialogues", []) if d in dialogue_ids],
             "conjugation": _conjugation_forms(unit),
+            # The stage's new words, the way a textbook prints them along the
+            # bottom of its pages — and the deck its drills are scoped to.
+            "vocabulary": [{"ko": w["ko"], "en": w["en"], "note": w.get("note", "")} for w in words],
         })
     return resolved
 

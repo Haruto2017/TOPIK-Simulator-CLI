@@ -615,7 +615,27 @@ class Shell:
                 command = f"/{drill.get('mode')}" + (f" {drill.get('category')}" if drill.get("category") else "") \
                           + (f" {drill.get('form')}" if drill.get("form") else "")
             self.emit(f"  {command}   — {drill.get('label', '')}")
+        words = unit.get("vocabulary", [])
+        if words:
+            unit_id = unit.get("id", "")
+            self.emit(f"  /recall unit:{unit_id}   — type the Korean for this stage's {len(words)} words")
+            self.emit(f"  /flashcards unit:{unit_id}   — flip through them")
         self.emit("  /vocab   — keep the stage's words on the spaced schedule")
+        if words:
+            self.emit("")
+            self.emit(ansi.style(f"단어 · this stage's words ({len(words)})", ansi.BOLD))
+            # The textbook's footer strip: pairs across the line, wrapped.
+            line, width = [], 0
+            for word in words:
+                pair = f"{word['ko']} {ansi.style(word['en'], ansi.GREY)}"
+                plain = len(word["ko"]) + len(word["en"]) + 1
+                if width + plain > 74 and line:
+                    self.emit("  " + "   ".join(line))
+                    line, width = [], 0
+                line.append(pair)
+                width += plain + 3
+            if line:
+                self.emit("  " + "   ".join(line))
         progress = (f"{status['lessons_done']}/{status['lessons_total']} lessons · "
                     f"{status['homework_done']}/{status['lessons_total']} homework"
                     if status["lessons_total"] else ("practiced" if status["practiced"] else "not started"))
@@ -1062,10 +1082,13 @@ class Shell:
             return
         self._end_minigames()
         pack = None
+        unit = ""
         count = 10
         for part in argument.split():
             if part.isdigit():
                 count = int(part)
+            elif part.lower().startswith("unit:"):
+                unit = part.split(":", 1)[1]
             else:
                 try:
                     pack = self._resolve_pack(part)
@@ -1075,6 +1098,18 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
+        if unit:  # a study-path stage's own words
+            from ..flashcards import recall_items_from_cards, wordlist_deck
+
+            cards = wordlist_deck(self.library_dir, unit=unit)
+            if not cards:
+                self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages.")
+                return
+            items = recall_items_from_cards(cards, seed=self._flashcard_seed, count=count)
+            self._start_typing(items, label="Vocab recall", verb="Recalled",
+                               title=f"Vocab recall: {unit}",
+                               hint="type the Korean for each English word · /pause stops")
+            return
         items = build_recall_items(
             pack=pack,
             library_dir=self.library_dir,
@@ -1509,6 +1544,20 @@ class Shell:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
+        if argument.strip().lower().startswith("unit:"):
+            from ..flashcards import wordlist_deck
+
+            unit = argument.strip().split(":", 1)[1]
+            cards = wordlist_deck(self.library_dir, unit=unit)
+            if not cards:
+                self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages.")
+                return
+            self._start_cards([{
+                "front": card["ko"],
+                "back": f"{card['en']} ({card['note']})" if card.get("note") else card["en"],
+                "example": "", "speech": card["ko"], "keys": card["ko"],
+            } for card in cards], "Flashcards", f"Flashcards: {unit}")
+            return
         if not argument:
             if not self._open_pack_picker("flashcards"):
                 self.emit("Usage: /flashcards <pack_id[@version]|path> (no packs imported yet)")
