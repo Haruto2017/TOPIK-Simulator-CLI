@@ -14,7 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   gloss, one line, expandable to the full set — and `/path <n>` prints the same strip in the
   terminal. The sets are drillable, not just readable: 단어 Cards / 단어 Recall on each card,
   `/recall unit:<id>` and `/flashcards unit:<id>` in the shell, and a `unit` scope on
-  `GET /api/deck/flashcards` plus the `recall` and `vocab` drill modes.
+  `GET /api/deck/flashcards` plus the `recall` and `vocab` drill modes. The web pack
+  picker for Vocab recall, Vocabulary review and Flashcards lists the stages in a
+  "Study-path stages" group beneath the exam packs, so a stage set can be chosen from the
+  practice screen rather than only from the study path.
 - **Vocabulary mining without reading the text** (`mine-vocab`,
   `src/topik_sim/exam_vocab.py`): a pack's Korean text is reduced to lemmas by
   string surgery alone — particle and plural stripping, 하다-verb and copula

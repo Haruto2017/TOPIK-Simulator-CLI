@@ -484,3 +484,12 @@ class UnitVocabularyApiTests(WebAppTestCase):
         self.assertEqual(app.handle("GET", "/api/deck/flashcards", query={"unit": "nope"})[0], 400)
         self.assertEqual(app.handle("POST", "/api/drill/start",
                                     body={"mode": "recall", "unit": "nope"})[0], 400)
+
+    def test_unit_scope_wins_over_a_pack_argument(self):
+        """The picker sends one choice; a unit selection must not also filter by pack."""
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start",
+                                  body={"mode": "recall", "unit": "food",
+                                        "pack": "topik-i-mini-pack", "count": 5})
+        self.assertEqual(status, 200)
+        self.assertEqual(view["progress"][1], 1)   # only the unit's one word

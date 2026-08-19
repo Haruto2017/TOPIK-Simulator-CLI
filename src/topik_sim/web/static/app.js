@@ -1014,9 +1014,26 @@ async function practiceConfigView(mode) {
   if (!spec) { go("#/practice"); return; }
 
   const packs = (await api("GET", "/api/packs")).packs;
+  // Vocabulary modes can also draw on a study-path stage's own word set, so
+  // those are offered here rather than only on the study path itself.
+  const unitScoped = mode === "recall" || mode === "vocab" || mode === "flashcards";
+  let unitOptions = [];
+  if (unitScoped) {
+    try {
+      unitOptions = (await api("GET", "/api/path")).units
+        .filter((u) => (u.vocabulary || []).length)
+        .map((u) => el("option", {
+          value: `unit:${u.id}`,
+          text: `${u.order}. ${u.title} — ${u.vocabulary.length} words`,
+        }));
+    } catch { unitOptions = []; }
+  }
   const packSelect = el("select", {},
     spec.pack !== "required" ? el("option", { value: "", text: "every imported pack" }) : null,
-    ...packs.map((p) => el("option", { value: p.pack_id, text: p.title || p.pack_id })));
+    ...packs.map((p) => el("option", { value: p.pack_id, text: p.title || p.pack_id })),
+    ...(unitOptions.length
+      ? [el("optgroup", { label: "Study-path stages" }, ...unitOptions)]
+      : []));
   const countInput = el("input", { type: "number", min: "1", placeholder: "default" });
   const categories = mode === "numbers" ? NUMBER_CATEGORIES : mode === "colors" ? COLOR_CATEGORIES : null;
   const categorySelect = categories
@@ -1029,10 +1046,14 @@ async function practiceConfigView(mode) {
   }
 
   const start = async () => {
-    const packValue = packSelect.value || undefined;
+    const chosen = packSelect.value || "";
+    const unitValue = chosen.startsWith("unit:") ? chosen.slice(5) : undefined;
+    const packValue = unitValue ? undefined : (chosen || undefined);
     try {
       if (mode === "flashcards") {
-        const deck = await api("GET", `/api/deck/flashcards?pack=${encodeURIComponent(packValue)}`);
+        const query = unitValue ? `unit=${encodeURIComponent(unitValue)}`
+          : `pack=${encodeURIComponent(packValue)}`;
+        const deck = await api("GET", `/api/deck/flashcards?${query}`);
         state.deck = {
           title: `Flashcards — ${deck.title}`, kind: "vocab",
           cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko })),
@@ -1048,7 +1069,7 @@ async function practiceConfigView(mode) {
         go("#/cards");
       } else {
         const view = await api("POST", "/api/drill/start", {
-          mode, pack: packValue,
+          mode, pack: packValue, unit: unitValue,
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
           advanced: advancedCheck && advancedCheck.checked ? true : undefined,
