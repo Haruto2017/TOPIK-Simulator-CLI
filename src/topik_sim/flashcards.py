@@ -172,6 +172,9 @@ def recall_items_from_cards(
                 "accept": [card["ko"]],
                 "answer": card["ko"],
                 "speech": card["ko"],
+                # Lets a recall miss be scheduled for tomorrow's /vocab review.
+                "srs_key": card["ko"],
+                "srs_en": card["en"],
             }
         elif card["ko"] not in item["accept"]:
             item["accept"].append(card["ko"])

@@ -521,3 +521,9 @@ table.list td { padding: 9px 12px 9px 0; border-top: 1px solid var(--border); }
 .vocab-pair { display: inline-flex; gap: 6px; align-items: baseline; flex: none; }
 .vocab-pair .ko { font-size: 15px; font-weight: 620; }
 .vocab-pair .gloss { font-size: 12px; color: var(--ink-3); }
+
+.round-note {
+  margin: 0; padding: 10px 14px; border-radius: 10px;
+  background: var(--accent-soft); color: var(--ink);
+  border-left: 3px solid var(--accent);
+}

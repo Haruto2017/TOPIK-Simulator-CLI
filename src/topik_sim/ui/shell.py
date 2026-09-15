@@ -133,6 +133,15 @@ class Shell:
         self._typing_index = 0
         self._typing_hits = 0
         self._typing_missed: list[str] = []
+        # Round loop: missed items come straight back until every one is cleared.
+        self._typing_loop = False
+        self._typing_round = 1
+        self._typing_missed_items: list[dict[str, Any]] = []
+        self._typing_first: tuple[int, int, list[str]] | None = None  # first-pass hits, total, misses
+        # SRS bridging: "full" reschedules every answer (a /vocab session);
+        # "misses" only schedules first-pass misses for tomorrow (a recall drill).
+        self._typing_srs_mode: str | None = None
+        self._typing_srs_recorded: set[str] = set()
         self._typing_label = "Typing practice"
         self._typing_verb = "Typed"
         from ..facts import DEFAULT_FACTS_PATH
@@ -830,6 +839,7 @@ class Shell:
         self._end_minigames()
         category = None
         count = 10
+        loop = False
         for part in argument.split():
             if part.lower() in {"learn", "guide", "table", "tables"}:
                 self._show_numbers_guide()
@@ -838,6 +848,8 @@ class Shell:
                 count = int(part)
             elif part.lower() in {"mix", "mixed", "all"}:
                 category = "mix"
+            elif part.lower() in {"loop", "rounds", "until", "clear"}:
+                loop = True
             elif part.lower() in NUMBER_CATEGORIES:
                 category = part.lower()
             else:
@@ -851,6 +863,7 @@ class Shell:
             items, label="Number practice", verb="Read", title=f"Number practice: {scope}",
             hint="write the number in Korean letters — no digits · new to the systems? /pause then"
                  " /numbers learn · /say reads it",
+            loop=loop,
         )
 
     def cmd_colors(self, argument: str) -> None:
@@ -862,6 +875,7 @@ class Shell:
         self._end_minigames()
         category = None
         count = 10
+        loop = False
         for part in argument.split():
             if part.lower() in {"learn", "guide", "table", "tables", "chart"}:
                 self._show_colors_guide()
@@ -870,6 +884,8 @@ class Shell:
                 count = int(part)
             elif part.lower() in {"mix", "mixed", "all"}:
                 category = "mix"
+            elif part.lower() in {"loop", "rounds", "until", "clear"}:
+                loop = True
             elif part.lower() in COLOR_CATEGORIES:
                 category = part.lower()
             else:
@@ -883,6 +899,7 @@ class Shell:
             items, label="Color practice", verb="Named", title=f"Color practice: {scope}",
             hint="name the color in Korean (한글) · new to color words? /pause then"
                  " /colors learn · /say reads it",
+            loop=loop,
         )
 
     def _show_colors_guide(self) -> None:
@@ -993,6 +1010,14 @@ class Shell:
             hint="type the conjugated form · /conjugate list shows all forms · /pause stops",
         )
 
+    def _arm_recall_srs(self) -> None:
+        """Recall misses should come back tomorrow: load the SRS deck and
+        record only first-pass misses (see _grade_typing)."""
+        from .. import vocab_srs
+
+        self._vocab_deck = vocab_srs.load_deck(self.attempt_dir)
+        self._typing_srs_mode = "misses"
+
     def _pack_glosses(self, pack) -> dict[str, str]:
         """One pack's vocabulary: what it teaches, plus what was mined from it."""
         from ..flashcards import gloss_map, wordlist_deck
@@ -1084,9 +1109,12 @@ class Shell:
         pack = None
         unit = ""
         count = 10
+        loop = False
         for part in argument.split():
             if part.isdigit():
                 count = int(part)
+            elif part.lower() in {"loop", "rounds", "until", "clear"}:
+                loop = True
             elif part.lower().startswith("unit:"):
                 unit = part.split(":", 1)[1]
             else:
@@ -1106,9 +1134,10 @@ class Shell:
                 self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages.")
                 return
             items = recall_items_from_cards(cards, seed=self._flashcard_seed, count=count)
+            self._arm_recall_srs()
             self._start_typing(items, label="Vocab recall", verb="Recalled",
                                title=f"Vocab recall: {unit}",
-                               hint="type the Korean for each English word · /pause stops")
+                               hint="type the Korean for each English word · /pause stops", loop=loop)
             return
         items = build_recall_items(
             pack=pack,
@@ -1120,8 +1149,9 @@ class Shell:
             self.emit("No vocabulary found. Import a pack first, or name one: /recall <pack>")
             return
         title = f"Vocab recall: {pack.title}" if pack else "Vocab recall: every imported pack"
+        self._arm_recall_srs()
         self._start_typing(items, label="Vocab recall", verb="Recalled", title=title,
-                           hint="type the Korean for each English word · /pause stops")
+                           hint="type the Korean for each English word · /pause stops", loop=loop)
 
     def _typing_meanings(self, pack: ExamPack | None) -> dict[str, str]:
         """Map each pack vocabulary word to its gloss, for reveal after typing.
@@ -1133,15 +1163,21 @@ class Shell:
 
         return gloss_map(pack=pack, library_dir=None if pack else self.library_dir)
 
-    def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str) -> None:
+    def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str,
+                      loop: bool = False) -> None:
         self._typing_items = items
         self._typing_index = 0
         self._typing_hits = 0
         self._typing_missed = []
+        self._typing_missed_items = []
+        self._typing_loop = loop
+        self._typing_round = 1
+        self._typing_first = None
+        self._typing_srs_recorded = set()
         self._typing_label = label
         self._typing_verb = verb
         self.emit(ansi.style(title, ansi.BOLD))
-        self.emit(f"{len(items)} item(s) · {hint}")
+        self.emit(f"{len(items)} item(s) · {hint}" + (" · misses come back until cleared" if loop else ""))
         self._present_typing()
 
     def _present_typing(self) -> None:
@@ -1179,16 +1215,23 @@ class Shell:
             self.emit(ansi.style("✓", ansi.BOLD, ansi.GREEN))
         else:
             self._typing_missed.append(item.get("miss_key") or item["answer"])
+            self._typing_missed_items.append(item)
             expected = item.get("reveal") or " / ".join(item["accept"])
             line = ansi.style(f"✗ {expected}", ansi.BOLD, ansi.RED)
             if not item.get("options"):
                 line += f" — {keystroke_hint(item['answer'])}"
             self.emit(line)
-        if self._typing_srs and item.get("srs_key") and self._vocab_deck is not None:
+        srs_mode = "full" if self._typing_srs else self._typing_srs_mode
+        if srs_mode and item.get("srs_key") and self._vocab_deck is not None:
             from .. import vocab_srs
 
-            vocab_srs.record(self._vocab_deck, item["srs_key"], item.get("srs_en", ""), correct)
-            vocab_srs.save_deck(self._vocab_deck, self.attempt_dir)
+            key = item["srs_key"]
+            # A recall drill only schedules a word it could not produce on the
+            # first pass; later rounds are remediation, not new evidence.
+            if srs_mode == "full" or (not correct and key not in self._typing_srs_recorded):
+                self._typing_srs_recorded.add(key)
+                vocab_srs.record(self._vocab_deck, key, item.get("srs_en", ""), correct)
+                vocab_srs.save_deck(self._vocab_deck, self.attempt_dir)
         meaning = item.get("meaning")
         if meaning:
             self.emit(ansi.style(f"  {meaning}", ansi.GREY))
@@ -1198,13 +1241,46 @@ class Shell:
         else:
             self._present_typing()
 
+    MAX_TYPING_ROUNDS = 8
+
     def _end_typing(self, early: bool = False) -> None:
         from ..hangul import keystrokes
 
         done = self._typing_index
-        if early:
+        if self._typing_loop and not early and self._typing_first is None:
+            self._typing_first = (self._typing_hits, done, list(self._typing_missed))
+        if (self._typing_loop and not early and self._typing_missed_items
+                and self._typing_round < self.MAX_TYPING_ROUNDS):
+            # Another round with only what was missed, shuffled so order is not a cue.
+            import random
+
+            self.emit(f"Round {self._typing_round}: {self._typing_hits}/{done} · "
+                      f"{len(self._typing_missed_items)} to clear")
+            items = list(self._typing_missed_items)
+            random.Random(self._flashcard_seed).shuffle(items)
+            self._typing_round += 1
+            self._typing_items = items
+            self._typing_index = 0
+            self._typing_hits = 0
+            self._typing_missed = []
+            self._typing_missed_items = []
+            self.emit("")
+            self.emit(ansi.style(f"Round {self._typing_round} — {len(items)} word(s) to clear", ansi.BOLD))
+            self._present_typing()
+            return
+        first = self._typing_first
+        if first is not None:  # report and log the first pass — what you actually knew
+            first_hits, first_total, first_missed = first
+            if self._typing_missed_items:
+                self.emit(f"Round {self._typing_round}: {self._typing_hits}/{done} · "
+                          f"stopped after {self.MAX_TYPING_ROUNDS} rounds")
+            elif self._typing_round > 1:
+                self.emit(ansi.style(f"All clear in {self._typing_round} rounds ✓", ansi.BOLD, ansi.GREEN))
+            self._typing_hits, done, self._typing_missed = first_hits, first_total, first_missed
+            self.emit(f"First pass: {first_hits}/{first_total} correct.")
+        elif early:
             self.emit(f"{self._typing_label} stopped after {done}/{len(self._typing_items)} item(s).")
-        if done:
+        elif done:
             self.emit(f"{self._typing_verb} {self._typing_hits}/{done} correctly.")
         if self._typing_missed:
             review = " · ".join(f"{item} ({keystrokes(item)})" for item in dict.fromkeys(self._typing_missed))
@@ -1239,6 +1315,8 @@ class Shell:
             self.emit(f"Scheduled · {vocab_srs.due_count(self._vocab_deck)} still due · "
                       f"{vocab_srs.summary(self._vocab_deck)['learning']} words in review.")
         self._typing_srs = False
+        self._typing_srs_mode = None
+        self._typing_loop = False
         self._vocab_deck = None
         self._typing_items = []
         self._typing_index = 0

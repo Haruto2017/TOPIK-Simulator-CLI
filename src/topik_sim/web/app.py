@@ -826,9 +826,19 @@ class WebApp:
         activity: dict[str, Any] = {
             "kind": "drill", "mode": mode, "label": label, "items": items,
             "index": 0, "hits": 0, "missed": [], "meta": meta,
+            # Round loop: missed items come straight back until every one is cleared.
+            "loop": bool(body.get("until_correct")) and mode != "vocab",
+            "round": 1, "missed_items": [], "first": None,
+            "srs_recorded": set(),
         }
         if mode == "vocab":
             activity["deck"] = deck  # the SRS deck to reschedule as answers land
+        elif mode == "recall":
+            from .. import vocab_srs
+
+            # Recall misses come back in tomorrow's review; first pass only.
+            activity["deck"] = vocab_srs.load_deck(self.attempt_dir)
+            activity["srs_misses_only"] = True
         return self._drill_view(self._register(activity))
 
     def _current_item(self, activity: dict[str, Any]) -> dict[str, Any]:
@@ -851,6 +861,8 @@ class WebApp:
             "hits": activity["hits"],
             "meta": activity["meta"],
             "done": index >= len(items),
+            "round": activity.get("round", 1),
+            "loop": bool(activity.get("loop")),
         }
         if index < len(items):
             item = items[index]
@@ -913,31 +925,78 @@ class WebApp:
             activity["hits"] += 1
         else:
             activity["missed"].append(item.get("miss_key") or item["answer"])
+            activity.setdefault("missed_items", []).append(item)
         if activity.get("deck") is not None and item.get("srs_key"):
             from .. import vocab_srs
 
-            vocab_srs.record(activity["deck"], item["srs_key"], item.get("srs_en", ""), correct)
-            vocab_srs.save_deck(activity["deck"], self.attempt_dir)
+            key = item["srs_key"]
+            recorded = activity.setdefault("srs_recorded", set())
+            misses_only = activity.get("srs_misses_only")
+            # A recall drill only schedules a word missed on the first pass;
+            # later rounds are remediation, not new evidence about the word.
+            if not misses_only or (not correct and key not in recorded):
+                recorded.add(key)
+                vocab_srs.record(activity["deck"], key, item.get("srs_en", ""), correct)
+                vocab_srs.save_deck(activity["deck"], self.attempt_dir)
         activity["index"] += 1
         response["finished"] = activity["index"] >= len(activity["items"])
+        if response["finished"] and activity.get("loop"):
+            next_round = self._next_round(activity)
+            if next_round is not None:
+                response["finished"] = False
+                response["next_round"] = next_round
+                return response
         if response["finished"]:
             response["summary"] = self._finish_drill(activity)
         return response
 
+    MAX_DRILL_ROUNDS = 8
+
+    def _next_round(self, activity: dict[str, Any]) -> dict[str, Any] | None:
+        """Queue a round of only what was missed; None when everything is clear."""
+        import random
+
+        if activity.get("first") is None:  # keep the first pass — what you actually knew
+            activity["first"] = {
+                "hits": activity["hits"], "total": len(activity["items"]),
+                "missed": list(activity["missed"]),
+            }
+        missed_items = activity.get("missed_items") or []
+        if not missed_items or activity.get("round", 1) >= self.MAX_DRILL_ROUNDS:
+            return None
+        items = list(missed_items)
+        random.Random(self.seed).shuffle(items)
+        activity["round"] = activity.get("round", 1) + 1
+        activity["items"] = items
+        activity["index"] = 0
+        activity["hits"] = 0
+        activity["missed"] = []
+        activity["missed_items"] = []
+        return {"round": activity["round"], "count": len(items)}
+
     def _finish_drill(self, activity: dict[str, Any]) -> dict[str, Any]:
+        first = activity.get("first")
+        if first is not None:  # a looped drill reports and logs its first pass
+            activity["hits"] = first["hits"]
+            activity["missed"] = list(first["missed"])
+            total = first["total"]
+        else:
+            total = len(activity["items"])
         summary: dict[str, Any] = {
             "hits": activity["hits"],
-            "total": len(activity["items"]),
+            "total": total,
             "missed": list(dict.fromkeys(activity["missed"])),
+            "rounds": activity.get("round", 1),
+            "cleared": bool(first is not None and not activity.get("missed_items")),
         }
         meta = activity["meta"]
         if activity["mode"] == "homework" and meta.get("pack_id"):
             from ..homework import record_homework
 
             entry = record_homework(self.attempt_dir, meta["pack_id"], meta["course_id"],
-                                    activity["hits"], len(activity["items"]))
+                                    activity["hits"], total)
             summary["homework"] = entry
-        self._record_drill(activity, done=len(activity["items"]))
+        self._record_drill(activity, done=total)
         self._activities.pop(activity["id"], None)
         return summary
 

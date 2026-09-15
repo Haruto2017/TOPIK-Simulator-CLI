@@ -124,12 +124,16 @@ COMMANDS: list[Command] = [
         "count: deck size. /say speaks the example. Examples: /grammar · /grammar topik-i-authentic-mock-01 · /grammar 40",
     ),
     Command(
-        "recall", "cmd_recall", "/recall [pack] [count]", "See an English word, type its Korean translation.", ("translate",),
+        "recall", "cmd_recall", "/recall [pack|unit:<id>] [count] [loop]", "See an English word, type its Korean translation.", ("translate",),
         category="Practice",
         details="Active production practice: the English gloss is shown and you type the Korean.\n"
         "Synonyms are fair — any Korean word taught with that gloss counts. A miss shows the\n"
-        "answer with its 두벌식 keys. pack: scope to one pack; bare uses every imported pack.\n"
-        "count: number of words (default 10). Examples: /recall · /recall topik-i-authentic-mock-02 15",
+        "answer with its 두벌식 keys, and is scheduled into /vocab for tomorrow. pack: scope to\n"
+        "one pack (a past paper drills its mined words); unit:<id>: one study-path stage; bare\n"
+        "uses every imported pack. count: number of words (default 10). loop: whatever you miss\n"
+        "comes straight back as the next round, shuffled, until every word is cleared — the\n"
+        "first pass is what gets reported and logged.\n"
+        "Examples: /recall · /recall topik1-past-102 15 · /recall unit:food loop · /recall 20 loop",
     ),
     Command(
         "dialogue", "cmd_dialogue", "/dialogue [id]", "Play a real-life conversation and produce your own lines.", ("talk", "convo"),

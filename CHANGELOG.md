@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- **Rounds for vocabulary drills** — `loop` on `/recall`, `/numbers`, `/colors` and a
+  "Rounds" checkbox on the web (on by default for recall): whatever you miss comes
+  straight back as the next round, shuffled, until every item is cleared (capped at 8).
+  The first pass is what gets reported and logged, then "All clear in N rounds".
+  Not offered for `/vocab`, whose spaced schedule already reschedules a miss.
+- **Recall feeds spaced review** — a word you cannot produce on the first pass of a recall
+  drill is recorded in the SRS deck as a lapse (due tomorrow), so it surfaces in your next
+  `/vocab` session. Correct answers are not added; later rounds do not record again.
 - **Stage vocabulary, textbook-style** — every study-path unit now carries the words it
   introduces (`resolve_units` attaches them from the unit-keyed wordlists). The web study
   path prints them as a footer band along the bottom of each stage card — Korean beside its

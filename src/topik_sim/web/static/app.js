@@ -1039,6 +1039,10 @@ async function practiceConfigView(mode) {
   const categorySelect = categories
     ? el("select", {}, ...categories.map((c) => el("option", { value: c, text: c }))) : null;
   const advancedCheck = mode === "typing" ? el("input", { type: "checkbox" }) : null;
+  // Rounds: whatever you miss comes straight back until every item is cleared.
+  const LOOP_MODES = ["recall", "typing", "numbers", "colors", "conjugate"];
+  const loopCheck = LOOP_MODES.includes(mode) ? el("input", { type: "checkbox" }) : null;
+  if (loopCheck && mode === "recall") loopCheck.checked = true;
   let formSelect = null;
   if (mode === "conjugate") {
     const forms = (await api("GET", "/api/conjugation/forms")).forms;
@@ -1073,6 +1077,7 @@ async function practiceConfigView(mode) {
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
           advanced: advancedCheck && advancedCheck.checked ? true : undefined,
+          until_correct: loopCheck && loopCheck.checked ? true : undefined,
           form: formSelect ? formSelect.value : undefined,
         });
         state.views.set(view.id, view);
@@ -1143,6 +1148,8 @@ async function practiceConfigView(mode) {
       mode !== "flashcards" ? el("label", { class: "field" }, "How many", countInput) : null,
       categorySelect ? el("label", { class: "field" }, "Category", categorySelect) : null,
       formSelect ? el("label", { class: "field" }, "Speech level", formSelect) : null,
+      loopCheck ? el("label", { class: "row" }, loopCheck,
+        " Rounds — bring back what I miss until every item is cleared") : null,
       advancedCheck ? el("label", { class: "row" }, advancedCheck,
         " Advanced — real words and sentences only, meanings revealed after typing") : null,
       el("div", { class: "row" }, el("button", { class: "primary", onclick: start, text: "Start" }))),
@@ -1168,6 +1175,7 @@ async function drillView(id) {
   const headerRow = el("div", { class: "spread" },
     el("strong", { text: view.meta.lesson_title ? `${view.label} — ${view.meta.lesson_title}` : view.label }),
     el("div", { class: "row" },
+      view.round > 1 ? el("span", { class: "pill on", text: `Round ${view.round}` }) : null,
       el("span", { class: "pill", text: `${done}/${total} · ${view.hits} ✓` }),
       el("button", {
         class: "ghost", text: "Stop",
@@ -1238,8 +1246,10 @@ async function drillView(id) {
 
     if (result.finished) {
       const summary = result.summary;
-      nodes.push(el("h3", { text: "Done" }),
-        el("p", {}, el("strong", { text: `${summary.hits}/${summary.total}` }), " correct."));
+      const cleared = summary.rounds > 1 && summary.cleared;
+      nodes.push(el("h3", { text: cleared ? `All clear in ${summary.rounds} rounds ✓` : "Done" }),
+        el("p", {}, el("strong", { text: `${summary.hits}/${summary.total}` }),
+          summary.rounds > 1 ? " correct on the first pass." : " correct."));
       if (summary.missed.length) {
         nodes.push(el("div", { class: "chips" }, ...summary.missed.map((m) => el("span", { class: "chip ko", text: m }))));
       }
@@ -1251,7 +1261,12 @@ async function drillView(id) {
         : el("button", { class: "primary", text: "Back to practice", onclick: () => go("#/practice") });
       nodes.push(el("div", { class: "row" }, again));
     } else {
-      const next = el("button", { class: "primary", text: "Next →", onclick: () => drillView(id) });
+      if (result.next_round) {
+        nodes.push(el("p", { class: "round-note" },
+          el("strong", { text: `Round ${result.next_round.round}` }),
+          ` — ${result.next_round.count} to clear. They come back now, shuffled.`));
+      }
+      const next = el("button", { class: "primary", text: result.next_round ? "Start round →" : "Next →", onclick: () => drillView(id) });
       nodes.push(el("div", { class: "row" }, next));
       setTimeout(() => next.focus(), 0);
     }
