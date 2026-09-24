@@ -36,6 +36,18 @@ DEFAULT_ANKI_SUPERTONIC_CACHE = Path("H:/software/anki/.supertonic-cache")
 # Qwen3-TTS (Apple Silicon via mlx-audio): an optional second engine, set up by
 # setup-tts-qwen3.sh into .venv-qwen3. Korean is declared by the model itself.
 DEFAULT_QWEN3_VOICE = "sohee"
+# A fixed reading style: without an instruction the model samples a fresh
+# pitch register and pace for every sentence, which learners hear as the
+# speaker's mood changing mid-exam. Tuned on a five-sentence spread test:
+# this wording keeps a natural, conversational delivery (a flatter "narrator"
+# instruction is steadier still, but monotone) while cutting across-sentence
+# pitch drift by a third and holding pace steady.
+DEFAULT_QWEN3_INSTRUCT = (
+    "Speak naturally and warmly, like a friendly native Korean speaker in everyday conversation, "
+    "at a normal conversational pace with natural intonation. Stay the same speaker with the same "
+    "overall tone and energy from sentence to sentence."
+)
+DEFAULT_QWEN3_TEMPERATURE = 0.6
 DEFAULT_QWEN3_MODEL = "mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit"
 DEFAULT_WORKSPACE_QWEN3_PYTHONS = (
     Path(".venv-qwen3") / "bin" / "python",
@@ -65,6 +77,11 @@ class TTSConfig:
     onnx_provider: str = DEFAULT_SUPERTONIC_ONNX_PROVIDER
     steps: int = DEFAULT_SUPERTONIC_STEPS
     tts_python: Path | None = None
+    # Prosody controls for engines that take a style instruction (qwen3).
+    # Empty/None means "the provider's own default"; both are part of the
+    # cache identity once effective, so a changed style never replays old audio.
+    style: str = ""
+    temperature: float | None = None
 
 
 def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
@@ -82,6 +99,7 @@ def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
             speaker_id=config.speaker_id,
             speaker_wav=config.speaker_wav,
             steps=config.steps,
+            style=effective_style(config),
         )
         output_paths.append(output_path)
         if output_path.exists() and not config.force:
@@ -207,11 +225,14 @@ def stable_audio_name(
     speaker_id: str | None = None,
     speaker_wav: Path | None = None,
     steps: int = DEFAULT_SUPERTONIC_STEPS,
+    style: str = "",
 ) -> str:
     speaker_key = speaker_id or (str(speaker_wav) if speaker_wav else "default")
     # Volume is applied at playback, so one cached waveform serves every gain
     # setting. The literal volume=1.000 keeps names of previously cached files valid.
     key = f"{provider}|{language}|speed={speed:.3f}|volume=1.000|speaker={speaker_key}|steps={steps}|{text}"
+    if style:  # only engines with a prosody style add to the key, so old names stay valid
+        key += f"|style={hashlib.sha256(style.encode('utf-8')).hexdigest()[:8]}"
     digest = hashlib.sha256(key.encode("utf-8")).hexdigest()[:24]
     return f"{provider}-{language}-{digest}.wav"
 
@@ -558,6 +579,26 @@ def resolve_qwen3_python(config: "TTSConfig") -> Path:
     )
 
 
+def qwen3_instruct(config: "TTSConfig") -> str:
+    """The style instruction in force: explicit config, else the env override, else the default."""
+    return config.style or os.environ.get("TOPIK_QWEN3_INSTRUCT") or DEFAULT_QWEN3_INSTRUCT
+
+
+def qwen3_temperature(config: "TTSConfig") -> float:
+    if config.temperature is not None:
+        return config.temperature
+    env = os.environ.get("TOPIK_QWEN3_TEMPERATURE")
+    return float(env) if env else DEFAULT_QWEN3_TEMPERATURE
+
+
+def effective_style(config: "TTSConfig") -> str:
+    """What actually shapes the prosody, for the cache identity. Empty for
+    engines without a style control, so their cache names are unchanged."""
+    if config.provider.lower() in {"qwen3", "qwen3-tts", "qwen"}:
+        return f"{qwen3_instruct(config)}|t={qwen3_temperature(config):.2f}"
+    return config.style or ""
+
+
 def qwen3_language(language: str) -> str:
     """Map the simulator's language setting to the name Qwen3-TTS declares."""
     normalized = language.strip().lower()
@@ -589,6 +630,9 @@ class Qwen3TTSProvider:
             "--speed", str(config.speed),
             "--model", os.environ.get("TOPIK_QWEN3_MODEL", DEFAULT_QWEN3_MODEL),
             "--hf-home", str(resolve_supertonic_hf_home()),
+            "--instruct", qwen3_instruct(config),
+            "--temperature", str(qwen3_temperature(config)),
+            "--seed", "auto",
         ]
         result = subprocess.run(
             command,

@@ -429,6 +429,8 @@ class WebApp:
             "volume": self.tts_config.volume,
             "speed": self.tts_config.speed,
             "voice": self.tts_config.speaker_id,
+            "style": self.tts_config.style,
+            "temperature": self.tts_config.temperature,
             "failed": self._audio_failed,
         }
 
@@ -450,6 +452,16 @@ class WebApp:
             changes["speed"] = speed
         if body.get("voice"):
             changes["speaker_id"] = str(body["voice"])
+        if "style" in body:  # empty string = back to the engine default
+            changes["style"] = str(body.get("style") or "").strip()
+        if "temperature" in body:
+            if body["temperature"] in (None, ""):
+                changes["temperature"] = None
+            else:
+                temperature = float(body["temperature"])
+                if not 0.0 < temperature <= 2.0:
+                    raise ApiError(400, "temperature must be between 0 and 2")
+                changes["temperature"] = temperature
         if changes:
             self.tts_config = replace(self.tts_config, **changes)
         self._audio_failed = False  # settings changed; try again

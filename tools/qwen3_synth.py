@@ -34,6 +34,13 @@ def main() -> int:
     parser.add_argument("--voice", default=DEFAULT_VOICE)
     parser.add_argument("--lang", default="korean", help="language code as the model names it (korean, english, …)")
     parser.add_argument("--speed", type=float, default=1.0)
+    parser.add_argument("--instruct", default=None,
+                        help="style instruction prepended to the prompt (tone, pace); empty = model default")
+    parser.add_argument("--temperature", type=float, default=None,
+                        help="sampling temperature; lower = steadier prosody (model default 0.9)")
+    parser.add_argument("--seed", default="auto",
+                        help="MLX random seed: an integer, 'auto' (derived from the text, so a sentence "
+                             "always renders the same way), or 'none' for fresh randomness")
     parser.add_argument("--model", default=os.environ.get("TOPIK_QWEN3_MODEL", DEFAULT_MODEL))
     parser.add_argument("--hf-home")
     parser.add_argument("--keep-silence", action="store_true", help="do not trim leading/trailing silence")
@@ -74,9 +81,23 @@ def main() -> int:
         print(f"Language {args.lang!r} is not declared by the model; using auto.", file=sys.stderr)
         lang = "auto"
 
+    import hashlib
+    import mlx.core as mx
+
+    seed = None if str(args.seed).lower() == "none" else (
+        int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:8], 16) if str(args.seed).lower() == "auto"
+        else int(args.seed))
+    if seed is not None:
+        mx.random.seed(seed)
+    generate_kwargs = {}
+    if args.instruct:
+        generate_kwargs["instruct"] = args.instruct
+    if args.temperature is not None:
+        generate_kwargs["temperature"] = args.temperature
+
     chunks = []
     sample_rate = 24000
-    for result in model.generate(text, voice=voice, lang_code=lang):
+    for result in model.generate(text, voice=voice, lang_code=lang, **generate_kwargs):
         chunks.append(np.asarray(result.audio, dtype=np.float32).reshape(-1))
         sample_rate = int(getattr(result, "sample_rate", sample_rate))
     if not chunks:

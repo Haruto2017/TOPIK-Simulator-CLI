@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Stable reading style for Qwen3-TTS** (`--tts-style`, `--tts-temperature`, `/tts style|temperature`,
+  a Settings field): the engine used to sample prosody afresh per sentence (temperature 0.9, no
+  instruction, no seed), so pitch register and pace drifted between sentences. A default natural-
+  conversational instruction, temperature 0.6, and a per-sentence text-derived seed cut the
+  across-sentence median-pitch spread from sd 19.9 Hz to 13.6 Hz on a five-sentence probe and
+  halved the pace spread, while keeping a human, expressive delivery (a flatter narrator style
+  reaches 6.6 Hz but sounds monotone; it is one Settings edit away). Style and
+  temperature join the audio-cache identity for engines that have them, so a changed style regenerates
+  audio while Supertonic cache names stay valid.
+
 - **Qwen3-TTS speech engine** (`--tts-provider qwen3`, `/tts provider qwen3`; `tools/qwen3_synth.py`,
   `setup-tts-qwen3.sh`): a second, optional engine running Alibaba's Qwen3-TTS-0.6B on Apple
   Silicon through mlx-audio in its own `.venv-qwen3`. Chosen by measurement: on this repo's

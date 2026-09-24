@@ -2309,11 +2309,23 @@ class Shell:
                 self.tts_config = replace(self.tts_config, provider=value)
                 self._tts_warned = False
                 self.emit(f"Provider set to {value}.")
+            elif key == "style" and value is not None:
+                # "default" restores the engine's built-in reading style
+                style = "" if value.strip().lower() in {"default", "reset", "none"} else value.strip()
+                self.tts_config = replace(self.tts_config, style=style)
+                self.emit("Reading style reset to the engine default." if not style
+                          else f"Reading style set: {style}")
+            elif key == "temperature" and value is not None:
+                temperature = float(value)
+                if not 0.0 < temperature <= 2.0:
+                    raise ValueError("Temperature must be between 0 and 2.")
+                self.tts_config = replace(self.tts_config, temperature=temperature)
+                self.emit(f"Temperature set to {temperature} (lower = steadier prosody).")
             elif key in {"voice", "speaker"} and value is not None:
                 self.tts_config = replace(self.tts_config, speaker_id=value)
                 self.emit(f"Voice set to {value}.")
             else:
-                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]")
+                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|style <text>|temperature <x>]")
         except ValueError as exc:
             self.emit(str(exc))
 

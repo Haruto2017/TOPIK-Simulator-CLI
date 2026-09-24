@@ -493,3 +493,30 @@ class UnitVocabularyApiTests(WebAppTestCase):
                                         "pack": "topik-i-mini-pack", "count": 5})
         self.assertEqual(status, 200)
         self.assertEqual(view["progress"][1], 1)   # only the unit's one word
+
+
+class TtsStyleSettingsTests(WebAppTestCase):
+    """The reading style is visible and editable, and empty means engine default."""
+
+    def test_state_exposes_style_and_temperature(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("GET", "/api/tts")
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["style"], "")
+        self.assertIsNone(payload["temperature"])
+
+    def test_style_and_temperature_round_trip_and_reset(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("POST", "/api/tts", body={"style": " gentle and slow ", "temperature": 0.35})
+        self.assertEqual(status, 200)
+        self.assertEqual(app.tts_config.style, "gentle and slow")
+        self.assertEqual(app.tts_config.temperature, 0.35)
+        status, payload = app.handle("POST", "/api/tts", body={"style": "", "temperature": None})
+        self.assertEqual(status, 200)
+        self.assertEqual(app.tts_config.style, "")
+        self.assertIsNone(app.tts_config.temperature)
+
+    def test_temperature_is_validated(self):
+        app = self.make_app(audio_enabled=False)
+        self.assertEqual(app.handle("POST", "/api/tts", body={"temperature": 5})[0], 400)
+        self.assertEqual(app.handle("POST", "/api/tts", body={"temperature": 0})[0], 400)

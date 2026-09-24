@@ -352,3 +352,73 @@ class Qwen3ProviderTests(unittest.TestCase):
         speakers = Qwen3TTSProvider().list_speakers(TTSConfig())
         self.assertIn(DEFAULT_QWEN3_VOICE, speakers)
         self.assertEqual(len(speakers), 9)
+
+
+class ProsodyStyleTests(unittest.TestCase):
+    """A reading style shapes the audio, so it must shape the cache identity — but
+    only for engines that have one, or every existing Supertonic file would be orphaned."""
+
+    def test_style_changes_the_name_only_when_set(self):
+        base = stable_audio_name("안녕", provider="supertonic", language="KR")
+        same = stable_audio_name("안녕", provider="supertonic", language="KR", style="")
+        styled = stable_audio_name("안녕", provider="qwen3", language="KR", style="calm|t=0.40")
+        other = stable_audio_name("안녕", provider="qwen3", language="KR", style="bright|t=0.40")
+        self.assertEqual(base, same)
+        self.assertNotEqual(styled, other)
+
+    def test_effective_style_is_empty_for_supertonic_and_set_for_qwen3(self):
+        import os
+        from topik_sim.tts import DEFAULT_QWEN3_INSTRUCT, DEFAULT_QWEN3_TEMPERATURE, TTSConfig, effective_style
+
+        self.assertEqual(effective_style(TTSConfig(provider="supertonic")), "")
+        with patch.dict(os.environ, {"TOPIK_QWEN3_INSTRUCT": "", "TOPIK_QWEN3_TEMPERATURE": ""}):
+            default = effective_style(TTSConfig(provider="qwen3"))
+        self.assertIn(DEFAULT_QWEN3_INSTRUCT, default)
+        self.assertIn(f"t={DEFAULT_QWEN3_TEMPERATURE:.2f}", default)
+        custom = effective_style(TTSConfig(provider="qwen3", style="whisper it", temperature=0.2))
+        self.assertEqual(custom, "whisper it|t=0.20")
+
+    def test_env_override_beats_default_but_not_explicit_config(self):
+        import os
+        from topik_sim.tts import TTSConfig, qwen3_instruct, qwen3_temperature
+
+        with patch.dict(os.environ, {"TOPIK_QWEN3_INSTRUCT": "from env", "TOPIK_QWEN3_TEMPERATURE": "0.7"}):
+            self.assertEqual(qwen3_instruct(TTSConfig(provider="qwen3")), "from env")
+            self.assertEqual(qwen3_temperature(TTSConfig(provider="qwen3")), 0.7)
+            self.assertEqual(qwen3_instruct(TTSConfig(provider="qwen3", style="explicit")), "explicit")
+            self.assertEqual(qwen3_temperature(TTSConfig(provider="qwen3", temperature=0.1)), 0.1)
+
+    def test_provider_passes_style_temperature_and_a_deterministic_seed(self):
+        import os
+        import tempfile
+        from topik_sim.tts import Qwen3TTSProvider, TTSConfig
+
+        seen = {}
+
+        def fake_run(command, **kwargs):
+            seen["cmd"] = command
+            Path(command[command.index("--output") + 1]).write_bytes(b"RIFFfake")
+            return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+        with tempfile.TemporaryDirectory() as temp:
+            python = Path(temp) / "python"; python.write_text("")
+            with patch("topik_sim.tts.subprocess.run", side_effect=fake_run), \
+                 patch.dict(os.environ, {"TOPIK_QWEN3_INSTRUCT": "", "TOPIK_QWEN3_TEMPERATURE": ""}):
+                Qwen3TTSProvider().synthesize_to_file(
+                    "x", Path(temp) / "o.wav", TTSConfig(tts_python=python, style="steady", temperature=0.35))
+        cmd = seen["cmd"]
+        self.assertEqual(cmd[cmd.index("--instruct") + 1], "steady")
+        self.assertEqual(cmd[cmd.index("--temperature") + 1], "0.35")
+        self.assertEqual(cmd[cmd.index("--seed") + 1], "auto")
+
+    def test_cli_flags_reach_the_config(self):
+        import argparse
+        from topik_sim.tts_cli import add_tts_arguments, build_tts_config
+
+        parser = argparse.ArgumentParser(); add_tts_arguments(parser, config={})
+        cfg = build_tts_config(parser.parse_args(["--tts-style", "gentle", "--tts-temperature", "0.5"]))
+        self.assertEqual(cfg.style, "gentle")
+        self.assertEqual(cfg.temperature, 0.5)
+        cfg = build_tts_config(parser.parse_args([]))
+        self.assertEqual(cfg.style, "")
+        self.assertIsNone(cfg.temperature)
