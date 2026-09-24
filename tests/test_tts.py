@@ -468,6 +468,21 @@ class SpeakerTurnTests(unittest.TestCase):
         unknown = TTSConfig(provider="melo", speaker_id="KR")
         self.assertEqual(voice_for_role("male", unknown), "KR")  # no presets: narration voice
 
+    def test_single_narrator_mode_reads_the_transcript_verbatim(self):
+        from topik_sim.tts import TTSConfig, collect_speech_segments, splits_dialogue, voice_for_role
+
+        question = {"type": "listening", "passage": "Transcript: 남자: 학생이에요? 여자: 네, 학생이에요.",
+                    "prompt": "잘 듣고 고르십시오."}
+        single = TTSConfig(provider="qwen3", speaker_id="sohee", dialogue_voices="single")
+        self.assertFalse(splits_dialogue(single))
+        self.assertTrue(splits_dialogue(TTSConfig(provider="qwen3")))
+        segments = collect_speech_segments(question, include_prompt=False, split_speakers=splits_dialogue(single))
+        # one narration segment, speaker labels kept so the listener hears who talks
+        self.assertEqual(segments, [{"text": "남자: 학생이에요? 여자: 네, 학생이에요.", "role": None}])
+        # and every role resolves to the narration voice, so dictation turns stay one voice too
+        self.assertEqual((voice_for_role("male", single), voice_for_role("female", single), voice_for_role(None, single)),
+                         ("sohee", "sohee", "sohee"))
+
     def test_synthesize_segments_uses_a_voice_per_turn(self):
         import tempfile
         from topik_sim.tts import TTSConfig, synthesize_segments
@@ -495,3 +510,7 @@ class SpeakerTurnTests(unittest.TestCase):
         cfg = build_tts_config(parser.parse_args(["--tts-male-voice", "eric", "--tts-female-voice", "vivian"]))
         self.assertEqual((cfg.male_speaker_id, cfg.female_speaker_id), ("eric", "vivian"))
         self.assertIsNone(build_tts_config(parser.parse_args([])).male_speaker_id)
+        self.assertEqual(build_tts_config(parser.parse_args([])).dialogue_voices, "split")
+        self.assertEqual(build_tts_config(parser.parse_args(["--tts-dialogue", "single"])).dialogue_voices, "single")
+        with self.assertRaises(SystemExit):
+            parser.parse_args(["--tts-dialogue", "duet"])

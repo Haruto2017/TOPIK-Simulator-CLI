@@ -1789,6 +1789,11 @@ async function settingsView() {
   // Dialogue voices: transcripts tag turns 남자:/여자:, each spoken by its own voice.
   const voiceMale = el("input", { type: "text", value: tts.voice_male || "", placeholder: "남자 voice — empty = ryan (qwen3) / M1 (supertonic)" });
   const voiceFemale = el("input", { type: "text", value: tts.voice_female || "", placeholder: "여자 voice — empty = sohee (qwen3) / F1 (supertonic)" });
+  // "single": the narration voice reads the whole transcript, 남자/여자 labels spoken.
+  const dialogue = el("select", {},
+    el("option", { value: "split", text: "Two voices — 남자/여자 turns each in their own voice, labels silent" }),
+    el("option", { value: "single", text: "One narrator — narration voice reads everything, labels spoken" }));
+  dialogue.value = tts.dialogue || "split";
   // Reading style: engines that take an instruction (qwen3) read every sentence in
   // this tone. Empty = the engine's built-in narrator style. Changing it regenerates audio.
   const style = el("textarea", { rows: "2", placeholder: "Reading style (qwen3) — empty = natural conversational speaker. e.g. 'calm, even narrator with no emotional emphasis'" });
@@ -1805,6 +1810,7 @@ async function settingsView() {
         voice: voice.value.trim() || undefined,
         voice_male: voiceMale.value.trim(),
         voice_female: voiceFemale.value.trim(),
+        dialogue: dialogue.value,
         style: style.value.trim(),
         temperature: temperature.value === "" ? null : Number(temperature.value),
       });
@@ -1823,6 +1829,7 @@ async function settingsView() {
       el("label", { class: "field" }, "Narration voice", voice),
       el("label", { class: "field" }, "남자 voice (dialogue turns)", voiceMale),
       el("label", { class: "field" }, "여자 voice (dialogue turns)", voiceFemale),
+      el("label", { class: "field" }, "Dialogue voices", dialogue),
       el("label", { class: "field" }, "Reading style (qwen3)", style),
       el("label", { class: "field" }, "Temperature (qwen3) — lower is steadier, empty = 0.6", temperature),
       el("div", { class: "row" }, el("button", { class: "primary", onclick: apply, text: "Apply" })),

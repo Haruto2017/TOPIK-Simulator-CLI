@@ -17,7 +17,9 @@ from ..session import ExamSession
 from ..tts import (
     TTSConfig,
     collect_question_speech_texts,
+    DIALOGUE_MODES,
     collect_speech_segments,
+    splits_dialogue,
     voice_for_role,
     is_listening_question,
     play_audio,
@@ -1876,7 +1878,8 @@ class Shell:
         'could you say that more slowly?'."""
         segments: list[dict[str, Any]] = []
         if self._active_question is not None and is_listening_question(self._active_question):
-            segments = collect_speech_segments(self._active_question, include_prompt=False)
+            segments = collect_speech_segments(self._active_question, include_prompt=False,
+                                               split_speakers=splits_dialogue(self.tts_config))
         elif self.state == DICTATION and self._dictation_texts:
             segments = [{"text": self._dictation_texts[self._dictation_index],
                          "role": self._dictation_roles[self._dictation_index]
@@ -2322,6 +2325,14 @@ class Shell:
                 self.tts_config = replace(self.tts_config, **{field: chosen})
                 self.emit(f"{'남자' if key == 'male' else '여자'} voice: {chosen or 'engine default'} "
                           f"(now {voice_for_role(key, self.tts_config)}).")
+            elif key == "dialogue" and value is not None:
+                mode = value.strip().lower()
+                if mode not in DIALOGUE_MODES:
+                    raise ValueError(f"Dialogue mode must be one of {', '.join(DIALOGUE_MODES)}.")
+                self.tts_config = replace(self.tts_config, dialogue_voices=mode)
+                self.emit("Dialogues: one narrator reads the whole transcript, 남자/여자 labels included."
+                          if mode == "single" else
+                          "Dialogues: each 남자/여자 turn in its own voice, labels silent.")
             elif key == "style" and value is not None:
                 # "default" restores the engine's built-in reading style
                 style = "" if value.strip().lower() in {"default", "reset", "none"} else value.strip()
@@ -2338,7 +2349,7 @@ class Shell:
                 self.tts_config = replace(self.tts_config, speaker_id=value)
                 self.emit(f"Voice set to {value}.")
             else:
-                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|male <v>|female <v>|style <text>|temperature <x>]")
+                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|male <v>|female <v>|dialogue split|single|style <text>|temperature <x>]")
         except ValueError as exc:
             self.emit(str(exc))
 
@@ -2371,7 +2382,8 @@ class Shell:
             play_audio(media, volume=self.tts_config.volume)
             self.current_audio = [media]
         elif self.audio_enabled and is_listening_question(question):
-            segments = collect_speech_segments(question, include_prompt=False)
+            segments = collect_speech_segments(question, include_prompt=False,
+                                               split_speakers=splits_dialogue(self.tts_config))
             self.current_audio = self._speak_segments(segments, playback=True)
         if is_listening_question(question) and not self._transcript_pre_shown and not self.current_audio:
             # TTS off, unavailable, or failed: the question must stay answerable.
@@ -2747,7 +2759,8 @@ class Shell:
             return
         # Prefetch each speaker turn with the voice it will be played in.
         by_voice: dict[str | None, list[str]] = {}
-        for segment in collect_speech_segments(upcoming, include_prompt=False):
+        for segment in collect_speech_segments(upcoming, include_prompt=False,
+                                               split_speakers=splits_dialogue(self.tts_config)):
             voice = voice_for_role(segment.get("role"), self.tts_config)
             by_voice.setdefault(voice, []).append(segment["text"])
         for voice, texts in by_voice.items():

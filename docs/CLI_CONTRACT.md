@@ -110,6 +110,10 @@ Slash commands:
   `/tts male <v>` / `/tts female <v>`, or the two Settings fields). The web serves one audio part per turn;
   `audio warm` pre-generates each turn in its own voice; dictation sentences are the individual turns, tag-free,
   each spoken in its role's voice. Engines without presets (melo, xtts-v2) fall back to the narration voice.
+  Prefer one voice? `--tts-dialogue single` (config `tts.dialogue`, `/tts dialogue single`, the Settings
+  "Dialogue voices" select) makes the narration voice read the whole transcript verbatim in one take, the
+  `남자:`/`여자:` labels spoken so the listener still knows who is talking; dictation turns then use the
+  narration voice too. `split` (default) restores per-role voices.
 - **Reading style (prosody).** Engines that take a style instruction (qwen3) read every sentence in a fixed
   tone; without one the model samples a fresh pitch register and pace per sentence, which learners hear as
   the narrator's mood changing mid-exam. `--tts-style <text>` / `tts.style` / `/tts style <text>` sets the

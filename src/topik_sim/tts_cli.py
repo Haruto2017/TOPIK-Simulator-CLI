@@ -116,6 +116,10 @@ def add_tts_arguments(parser: argparse.ArgumentParser, config: dict | None = Non
                         help="Voice for 남자 turns in transcripts (default: the engine's male preset).")
     parser.add_argument("--tts-female-voice", default=tts("voice_female", None),
                         help="Voice for 여자 turns in transcripts (default: the engine's female preset).")
+    parser.add_argument("--tts-dialogue", default=tts("dialogue", "split"), choices=["split", "single"],
+                        help="How transcripts with 남자/여자 turns are voiced: 'split' = each turn in its role's "
+                             "voice, labels silent; 'single' = the narration voice reads the whole transcript, "
+                             "speaker labels included.")
     parser.add_argument("--tts-temperature", type=float, default=tts("temperature", None),
                         help="Sampling temperature for engines that take one (qwen3); lower = steadier prosody.")
 
@@ -143,6 +147,7 @@ def build_tts_config(args: argparse.Namespace) -> TTSConfig:
         temperature=args.tts_temperature,
         male_speaker_id=args.tts_male_voice or None,
         female_speaker_id=args.tts_female_voice or None,
+        dialogue_voices=args.tts_dialogue or "split",
     )
 
 

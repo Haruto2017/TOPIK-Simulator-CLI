@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **One-narrator option for dialogues** (`--tts-dialogue single`, `tts.dialogue`, `/tts dialogue single`,
+  Settings "Dialogue voices"): the narration voice reads the whole transcript in one take with the
+  `남자:`/`여자:` labels spoken aloud, for learners who prefer a single voice (e.g. `sohee` throughout)
+  to the engine's male preset. `split` (default) keeps a voice per role.
+
 - **Two voices for dialogues.** Listening transcripts tag turns `남자:`/`여자:`; audio is now synthesized
   one turn at a time, each in that role's voice (male preset `ryan`/`M1`, female `sohee`/`F1`, narration
   voice for untagged text), and the tag is no longer read aloud. Per-role voices are configurable

@@ -63,6 +63,10 @@ class TTSProvider(Protocol):
         ...
 
 
+DIALOGUE_MODES = ("split", "single")
+DEFAULT_DIALOGUE_VOICES = "split"
+
+
 @dataclass(frozen=True)
 class TTSConfig:
     provider: str = DEFAULT_TTS_PROVIDER
@@ -88,6 +92,10 @@ class TTSConfig:
     # ``speaker_id`` stays the narration voice for untagged text.
     male_speaker_id: str | None = None
     female_speaker_id: str | None = None
+    # "split" (default): each 남자/여자 turn in its role's voice, tags silent.
+    # "single": one narrator reads the whole transcript verbatim, speaker
+    # labels included, so the listener still hears who is talking.
+    dialogue_voices: str = DEFAULT_DIALOGUE_VOICES
 
 
 def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
@@ -191,6 +199,11 @@ def configure_utf8_output() -> None:
 
 # Speaker tags as printed in listening transcripts (남자: … 여자: …). Only the
 # two the packs actually use; anything else stays narration.
+def splits_dialogue(config: "TTSConfig") -> bool:
+    """True when transcripts are voiced turn by turn (male/female voices)."""
+    return (getattr(config, "dialogue_voices", None) or DEFAULT_DIALOGUE_VOICES) != "single"
+
+
 SPEAKER_ROLES = {"남자": "male", "여자": "female"}
 _SPEAKER_TAG = re.compile(r"(?:(?<=^)|(?<=\s))(남자|여자)\s*[:：]\s*")
 
@@ -226,18 +239,23 @@ def collect_speech_segments(
     include_prompt: bool = True,
     include_options: bool = False,
     include_explanation: bool = False,
+    split_speakers: bool = True,
 ) -> list[dict[str, Any]]:
     """Everything a question speaks, in order, as ``{"text", "role"}`` turns.
 
     A transcript becomes one segment per speaker turn so a dialogue can be
     voiced by two speakers; prompts, options, and teaching notes are narration.
+    With ``split_speakers`` False the transcript stays one narration segment,
+    speaker labels and all (see ``TTSConfig.dialogue_voices``).
     Deduplicated by (text, role).
     """
     segments: list[dict[str, Any]] = []
     if include_passage:
         value = transcript_text(question) or str(question.get("passage", "")).strip()
-        if value:
+        if value and split_speakers:
             segments.extend(split_speaker_turns(value))
+        elif value:
+            segments.append({"text": value, "role": None})
 
     if include_prompt and looks_korean(str(question.get("prompt", ""))):
         segments.append({"text": str(question["prompt"]), "role": None})
@@ -273,11 +291,13 @@ def collect_question_speech_texts(
     include_prompt: bool = True,
     include_options: bool = False,
     include_explanation: bool = False,
+    split_speakers: bool = True,
 ) -> list[str]:
     """The spoken texts only (one per turn, speaker tags removed)."""
     return dedupe([segment["text"] for segment in collect_speech_segments(
         question, include_passage=include_passage, include_prompt=include_prompt,
         include_options=include_options, include_explanation=include_explanation,
+        split_speakers=split_speakers,
     )])
 
 
@@ -290,7 +310,10 @@ PROVIDER_ROLE_VOICES: dict[str, dict[str, str]] = {
 
 def voice_for_role(role: str | None, config: "TTSConfig") -> str | None:
     """Which preset speaks a turn: an explicit per-role voice, else the
-    engine's built-in for that role, else the narration voice."""
+    engine's built-in for that role, else the narration voice. In single-
+    narrator mode every turn is the narration voice."""
+    if not splits_dialogue(config):
+        return config.speaker_id
     provider = config.provider.lower()
     if provider in {"qwen3-tts", "qwen"}:
         provider = "qwen3"

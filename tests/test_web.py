@@ -557,6 +557,18 @@ class SpeakerVoiceAudioTests(WebAppTestCase):
         self.assertEqual([i["answer"] for i in items][:2], ["학생이에요?", "네, 학생이에요."])
         self.assertEqual([i["speech_role"] for i in items][:2], ["male", "female"])
 
+    def test_single_narrator_mode_serves_one_audio_part_with_labels(self):
+        app = self.make_app(audio_enabled=False)
+        question = {"skill": "listening", "passage": "Transcript: 남자: 학생이에요? 여자: 네, 학생이에요."}
+        self.assertEqual(len(app._question_speech_texts(question)), 2)
+        status, payload = app.handle("POST", "/api/tts", body={"dialogue": "single"})
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["dialogue"], "single")
+        self.assertEqual(app._question_speech_texts(question),
+                         [{"text": "남자: 학생이에요? 여자: 네, 학생이에요.", "role": None}])
+        self.assertEqual(app.handle("POST", "/api/tts", body={"dialogue": "duet"})[0], 400)
+        self.assertEqual(app.handle("GET", "/api/tts")[1]["dialogue"], "single")
+
     def test_role_voices_are_settable_from_the_web(self):
         app = self.make_app(audio_enabled=False)
         status, payload = app.handle("POST", "/api/tts", body={"voice_male": "dylan", "voice_female": ""})

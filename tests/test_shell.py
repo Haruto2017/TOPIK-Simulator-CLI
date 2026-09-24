@@ -589,6 +589,20 @@ if __name__ == "__main__":
 class DialoguePlaybackTests(unittest.TestCase):
     """A two-speaker question is fully rendered before the first turn plays."""
 
+    def test_tts_dialogue_command_switches_to_one_narrator(self):
+        from topik_sim.tts import TTSConfig
+        from topik_sim.ui.shell import Shell
+
+        output = []
+        shell = Shell(tts_config=TTSConfig(), output=output.append)
+        shell.handle_line("/tts dialogue single")
+        self.assertEqual(shell.tts_config.dialogue_voices, "single")
+        self.assertTrue(any("one narrator" in line for line in output))
+        shell.handle_line("/tts dialogue duet")
+        self.assertEqual(shell.tts_config.dialogue_voices, "single")  # rejected, unchanged
+        shell.handle_line("/tts dialogue split")
+        self.assertEqual(shell.tts_config.dialogue_voices, "split")
+
     def test_all_turns_synthesized_before_any_playback(self):
         from pathlib import Path
         from topik_sim.tts import TTSConfig

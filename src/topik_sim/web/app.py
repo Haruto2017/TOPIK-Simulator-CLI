@@ -39,7 +39,9 @@ from ..session import ExamSession
 from ..tts import (
     TTSConfig,
     collect_question_speech_texts,
+    DIALOGUE_MODES,
     collect_speech_segments,
+    splits_dialogue,
     voice_for_role,
     is_listening_question,
     transcript_text,
@@ -434,6 +436,7 @@ class WebApp:
             "style": self.tts_config.style,
             "voice_male": self.tts_config.male_speaker_id,
             "voice_female": self.tts_config.female_speaker_id,
+            "dialogue": self.tts_config.dialogue_voices,
             "temperature": self.tts_config.temperature,
             "failed": self._audio_failed,
         }
@@ -460,6 +463,11 @@ class WebApp:
             changes["male_speaker_id"] = str(body.get("voice_male") or "").strip() or None
         if "voice_female" in body:
             changes["female_speaker_id"] = str(body.get("voice_female") or "").strip() or None
+        if body.get("dialogue") is not None:
+            mode = str(body["dialogue"]).strip().lower()
+            if mode not in DIALOGUE_MODES:
+                raise ApiError(400, "dialogue must be 'split' or 'single'")
+            changes["dialogue_voices"] = mode
         if "style" in body:  # empty string = back to the engine default
             changes["style"] = str(body.get("style") or "").strip()
         if "temperature" in body:
@@ -1113,7 +1121,8 @@ class WebApp:
         """Speaker turns (text + role); one audio part per turn."""
         if not is_listening_question(question):
             return []
-        return collect_speech_segments(question, include_prompt=False)
+        return collect_speech_segments(question, include_prompt=False,
+                                       split_speakers=splits_dialogue(self.tts_config))
 
     def _synthesize(self, text: str, slow: bool = False, voice: str | None = None) -> Path:
         if not text.strip():

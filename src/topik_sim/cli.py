@@ -1114,13 +1114,14 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
     from dataclasses import replace
 
     config = replace(config, playback=playback)
-    from .tts import collect_speech_segments, synthesize_segments
+    from .tts import collect_speech_segments, splits_dialogue, synthesize_segments
 
     segments = collect_speech_segments(
         question,
         include_passage=not include_explanation,
         include_prompt=False,
         include_explanation=include_explanation,
+        split_speakers=splits_dialogue(config),
     )
     if not segments:
         return []

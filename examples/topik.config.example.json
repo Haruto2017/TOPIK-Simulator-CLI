@@ -2,6 +2,7 @@
   "tts": {
     "provider": "supertonic",
     "voice": "F1",
+    "dialogue": "split",
     "volume": 0.9,
     "speed": 1.0,
     "steps": 10,

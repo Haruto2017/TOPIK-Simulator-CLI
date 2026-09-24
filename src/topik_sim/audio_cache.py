@@ -17,6 +17,7 @@ from .tts import (
     is_listening_question,
     stable_audio_name,
     collect_speech_segments,
+    splits_dialogue,
     effective_style,
     synthesize_many,
     voice_for_role,
@@ -214,6 +215,7 @@ def pack_speech_segments(
     pack: ExamPack,
     include_all_questions: bool = False,
     include_teaching: bool = False,
+    split_speakers: bool = True,
 ) -> list[dict]:
     """Every turn a pack can speak (text + speaker role), listening questions first."""
     segments: list[dict] = []
@@ -221,7 +223,7 @@ def pack_speech_segments(
     for question in pack.questions():
         batch: list[dict] = []
         if include_all_questions or is_listening_question(question):
-            batch.extend(collect_speech_segments(question, include_prompt=False))
+            batch.extend(collect_speech_segments(question, include_prompt=False, split_speakers=split_speakers))
         if include_teaching:
             batch.extend(collect_speech_segments(
                 question, include_passage=False, include_prompt=False, include_explanation=True,
@@ -260,6 +262,7 @@ def warm_pack(
         pack,
         include_all_questions=include_all_questions,
         include_teaching=include_teaching,
+        split_speakers=splits_dialogue(config),
     )
     config = replace(config, playback=False)
     generated = 0
