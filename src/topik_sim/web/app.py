@@ -39,6 +39,8 @@ from ..session import ExamSession
 from ..tts import (
     TTSConfig,
     collect_question_speech_texts,
+    collect_speech_segments,
+    voice_for_role,
     is_listening_question,
     transcript_text,
 )
@@ -430,6 +432,8 @@ class WebApp:
             "speed": self.tts_config.speed,
             "voice": self.tts_config.speaker_id,
             "style": self.tts_config.style,
+            "voice_male": self.tts_config.male_speaker_id,
+            "voice_female": self.tts_config.female_speaker_id,
             "temperature": self.tts_config.temperature,
             "failed": self._audio_failed,
         }
@@ -452,6 +456,10 @@ class WebApp:
             changes["speed"] = speed
         if body.get("voice"):
             changes["speaker_id"] = str(body["voice"])
+        if "voice_male" in body:
+            changes["male_speaker_id"] = str(body.get("voice_male") or "").strip() or None
+        if "voice_female" in body:
+            changes["female_speaker_id"] = str(body.get("voice_female") or "").strip() or None
         if "style" in body:  # empty string = back to the engine default
             changes["style"] = str(body.get("style") or "").strip()
         if "temperature" in body:
@@ -793,16 +801,19 @@ class WebApp:
             label = "Vocabulary review"
             meta = {"srs": True}
         elif mode == "dictation":
-            from ..dictation import collect_dictation_texts
+            from ..dictation import collect_dictation_turns
 
             if pack is None:
                 raise ApiError(400, "Dictation needs a pack.")
-            texts = collect_dictation_texts(pack, limit=count or None)
+            turns = collect_dictation_turns(pack, limit=count or None)
+            texts = [turn["text"] for turn in turns]
+            roles = {turn["text"]: turn["role"] for turn in turns}
             if not texts:
                 raise ApiError(400, f"{pack.pack_id} has no listening transcripts.")
             items = [{
                 "show": "Listen and type what you hear.",
                 "accept": [text], "answer": text, "speech": text, "dictation": True,
+                "speech_role": roles.get(text),
             } for text in texts]
             label = "Dictation"
         elif mode == "misses":
@@ -1081,12 +1092,13 @@ class WebApp:
     def _audio_on(self) -> bool:
         return self.audio_enabled and not self._audio_failed
 
-    def _question_speech_texts(self, question: dict[str, Any]) -> list[str]:
+    def _question_speech_texts(self, question: dict[str, Any]) -> list[dict[str, Any]]:
+        """Speaker turns (text + role); one audio part per turn."""
         if not is_listening_question(question):
             return []
-        return collect_question_speech_texts(question, include_prompt=False)
+        return collect_speech_segments(question, include_prompt=False)
 
-    def _synthesize(self, text: str, slow: bool = False) -> Path:
+    def _synthesize(self, text: str, slow: bool = False, voice: str | None = None) -> Path:
         if not text.strip():
             raise ApiError(400, "Nothing to speak.")
         if not self._audio_on():
@@ -1094,6 +1106,8 @@ class WebApp:
         from dataclasses import replace
 
         config = self.tts_config
+        if voice:  # a speaker turn: the voice that role uses
+            config = replace(config, speaker_id=voice)
         if slow:  # 'say that again, slowly' — 3/4 speed, cached separately
             config = replace(config, speed=max(0.4, config.speed * 0.75))
         try:
@@ -1108,8 +1122,8 @@ class WebApp:
             self._audio_failed = True
             raise ApiError(503, f"TTS failed: {exc}") from exc
 
-    def _audio_response(self, text: str, slow: bool = False) -> tuple[int, Any]:
-        path = self._synthesize(text, slow=slow)
+    def _audio_response(self, text: str, slow: bool = False, voice: str | None = None) -> tuple[int, Any]:
+        path = self._synthesize(text, slow=slow, voice=voice)
         return 200, (path.read_bytes(), "audio/wav")
 
     def activity_audio(self, activity_id: str, part: int, slow: bool = False) -> tuple[int, Any]:
@@ -1121,12 +1135,16 @@ class WebApp:
             media = question_audio_file(question)
             if media is not None:  # official recording beats TTS; no slow variant
                 return 200, (media.read_bytes(), media_mime_type(media))
-            texts = self._question_speech_texts(question)
-            if not texts or part >= len(texts):
+            segments = self._question_speech_texts(question)
+            if not segments or part >= len(segments):
                 raise ApiError(404, "No audio for this question.")
-            return self._audio_response(texts[part], slow=slow)
+            segment = segments[part]
+            return self._audio_response(segment["text"], slow=slow,
+                                        voice=voice_for_role(segment.get("role"), self.tts_config))
         item = self._current_item(activity)
-        return self._audio_response(str(item.get("speech", "")), slow=slow)
+        role = item.get("speech_role")
+        return self._audio_response(str(item.get("speech", "")), slow=slow,
+                                    voice=voice_for_role(role, self.tts_config) if role else None)
 
     def activity_image(self, activity_id: str) -> tuple[int, Any]:
         activity = self._activities[activity_id]

@@ -4,22 +4,31 @@ from difflib import SequenceMatcher
 from typing import Any
 
 from .content import ExamPack
-from .tts import dedupe, is_listening_question, transcript_text
+from .tts import dedupe, is_listening_question, split_speaker_turns, transcript_text
 
 
-def collect_dictation_texts(pack: ExamPack, limit: int | None = None) -> list[str]:
-    """Listening transcripts in pack order; the raw material for dictation."""
-    texts: list[str] = []
+def collect_dictation_turns(pack: ExamPack, limit: int | None = None) -> list[dict]:
+    """Listening transcripts as speaker turns — one sentence per turn, speaker
+    tags removed (a learner types what is *said*, never "남자:"), each carrying
+    the role that should voice it."""
+    turns: list[dict] = []
+    seen: set[str] = set()
     for question in pack.questions():
         if not is_listening_question(question):
             continue
-        text = transcript_text(question)
-        if text:
-            texts.append(text)
-    texts = dedupe(texts)
+        for turn in split_speaker_turns(transcript_text(question)):
+            if turn["text"] in seen:
+                continue
+            seen.add(turn["text"])
+            turns.append(turn)
     if limit is not None:
-        texts = texts[:limit]
-    return texts
+        turns = turns[:limit]
+    return turns
+
+
+def collect_dictation_texts(pack: ExamPack, limit: int | None = None) -> list[str]:
+    """The dictation sentences only (see collect_dictation_turns)."""
+    return [turn["text"] for turn in collect_dictation_turns(pack, limit=limit)]
 
 
 def normalize(text: str) -> str:

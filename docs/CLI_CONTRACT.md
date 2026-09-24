@@ -102,6 +102,14 @@ Slash commands:
   rendered by ffmpeg `atempo` (normal speed if ffmpeg is absent). Runtime resolution order for qwen3:
   `--tts-python`, `TOPIK_QWEN3_PYTHON`, `.venv-qwen3/bin/python`; the model id can be overridden with
   `TOPIK_QWEN3_MODEL`. `doctor` lists "Qwen3-TTS (optional)": not installed is a PASS.
+- **Dialogue voices.** Listening transcripts tag speaker turns (`남자: … 여자: …`). Audio is now produced one
+  turn at a time — the tag itself is never read aloud — with each turn spoken by that role's voice: 남자 by
+  the engine's male preset (`ryan` on qwen3, `M1` on supertonic), 여자 by the female preset (`sohee` / `F1`),
+  and untagged text (narration, prompts, options) by the narration voice (`--tts-speaker-id` / `/tts voice`).
+  Override per role with `--tts-male-voice` / `--tts-female-voice` (config `tts.voice_male` / `tts.voice_female`,
+  `/tts male <v>` / `/tts female <v>`, or the two Settings fields). The web serves one audio part per turn;
+  `audio warm` pre-generates each turn in its own voice; dictation sentences are the individual turns, tag-free,
+  each spoken in its role's voice. Engines without presets (melo, xtts-v2) fall back to the narration voice.
 - **Reading style (prosody).** Engines that take a style instruction (qwen3) read every sentence in a fixed
   tone; without one the model samples a fresh pitch register and pace per sentence, which learners hear as
   the narrator's mood changing mid-exam. `--tts-style <text>` / `tts.style` / `/tts style <text>` sets the

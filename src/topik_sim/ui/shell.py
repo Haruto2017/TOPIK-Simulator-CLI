@@ -17,6 +17,8 @@ from ..session import ExamSession
 from ..tts import (
     TTSConfig,
     collect_question_speech_texts,
+    collect_speech_segments,
+    voice_for_role,
     is_listening_question,
     play_audio,
     synthesize_many,
@@ -118,6 +120,7 @@ class Shell:
         self._flash_missed: list[str] = []
         self._flash_label = "Flashcards"
         self._dictation_texts: list[str] = []
+        self._dictation_roles: list[str | None] = []
         self._dictation_index = 0
         self._dictation_total_accuracy = 0.0
         self._dictation_perfect = 0
@@ -1716,7 +1719,7 @@ class Shell:
         self._present_card()
 
     def cmd_dictation(self, argument: str) -> None:
-        from ..dictation import collect_dictation_texts
+        from ..dictation import collect_dictation_turns
 
         if self.session is not None:
             self.emit("Finish or /pause the current test first.")
@@ -1737,11 +1740,13 @@ class Shell:
             if suggestions:
                 self.emit(f"Did you mean: {', '.join(suggestions)}?")
             return
-        texts = collect_dictation_texts(pack, limit=limit)
+        turns = collect_dictation_turns(pack, limit=limit)
+        texts = [turn["text"] for turn in turns]
         if not texts:
             self.emit("This pack has no listening transcripts for dictation.")
             return
         self._dictation_texts = texts
+        self._dictation_roles = [turn["role"] for turn in turns]
         self._dictation_index = 0
         self._dictation_total_accuracy = 0.0
         self._dictation_perfect = 0
@@ -1753,7 +1758,7 @@ class Shell:
         text = self._dictation_texts[self._dictation_index]
         self.emit("")
         self.emit(render.rule(f"Dictation {self._dictation_index + 1}/{len(self._dictation_texts)}"))
-        self.current_audio = self._speak([text], playback=True)
+        self.current_audio = self._speak_segments([{"text": text, "role": self._dictation_roles[self._dictation_index] if self._dictation_index < len(self._dictation_roles) else None}], playback=True)
         if not self.current_audio:
             self.emit(ansi.style("(audio unavailable — the sentence stays hidden; type your best guess)", ansi.DIM))
         self.state = DICTATION
@@ -1869,17 +1874,19 @@ class Shell:
     def _replay_slow(self) -> None:
         """Re-synthesize the current audio at 3/4 speed — the student's
         'could you say that more slowly?'."""
-        texts: list[str] = []
+        segments: list[dict[str, Any]] = []
         if self._active_question is not None and is_listening_question(self._active_question):
-            texts = collect_question_speech_texts(self._active_question, include_prompt=False)
+            segments = collect_speech_segments(self._active_question, include_prompt=False)
         elif self.state == DICTATION and self._dictation_texts:
-            texts = [self._dictation_texts[self._dictation_index]]
-        if not texts or not self.audio_enabled:
+            segments = [{"text": self._dictation_texts[self._dictation_index],
+                         "role": self._dictation_roles[self._dictation_index]
+                         if self._dictation_index < len(self._dictation_roles) else None}]
+        if not segments or not self.audio_enabled:
             self.emit("No question audio is available to replay.")
             return
-        config = replace(self.tts_config, speed=max(0.4, self.tts_config.speed * 0.75), playback=True)
+        config = replace(self.tts_config, speed=max(0.4, self.tts_config.speed * 0.75))
         try:
-            synthesize_many(texts, config)
+            self._synthesize_turns(segments, config, playback=True)
         except RuntimeError as exc:
             self.emit(f"TTS unavailable: {exc}")
 
@@ -2309,6 +2316,12 @@ class Shell:
                 self.tts_config = replace(self.tts_config, provider=value)
                 self._tts_warned = False
                 self.emit(f"Provider set to {value}.")
+            elif key in {"male", "female"} and value is not None:
+                field = "male_speaker_id" if key == "male" else "female_speaker_id"
+                chosen = None if value.strip().lower() in {"default", "reset"} else value.strip()
+                self.tts_config = replace(self.tts_config, **{field: chosen})
+                self.emit(f"{'남자' if key == 'male' else '여자'} voice: {chosen or 'engine default'} "
+                          f"(now {voice_for_role(key, self.tts_config)}).")
             elif key == "style" and value is not None:
                 # "default" restores the engine's built-in reading style
                 style = "" if value.strip().lower() in {"default", "reset", "none"} else value.strip()
@@ -2325,7 +2338,7 @@ class Shell:
                 self.tts_config = replace(self.tts_config, speaker_id=value)
                 self.emit(f"Voice set to {value}.")
             else:
-                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|style <text>|temperature <x>]")
+                self.emit("Usage: /tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|male <v>|female <v>|style <text>|temperature <x>]")
         except ValueError as exc:
             self.emit(str(exc))
 
@@ -2358,8 +2371,8 @@ class Shell:
             play_audio(media, volume=self.tts_config.volume)
             self.current_audio = [media]
         elif self.audio_enabled and is_listening_question(question):
-            texts = collect_question_speech_texts(question, include_prompt=False)
-            self.current_audio = self._speak(texts, playback=True)
+            segments = collect_speech_segments(question, include_prompt=False)
+            self.current_audio = self._speak_segments(segments, playback=True)
         if is_listening_question(question) and not self._transcript_pre_shown and not self.current_audio:
             # TTS off, unavailable, or failed: the question must stay answerable.
             self.emit(ansi.style("(audio unavailable — transcript shown)", ansi.DIM))
@@ -2686,16 +2699,35 @@ class Shell:
         return items
 
     def _speak(self, texts: list[str], playback: bool) -> list[Path]:
+        return self._speak_segments([{"text": text, "role": None} for text in texts], playback)
+
+    def _speak_segments(self, segments: list[dict[str, Any]], playback: bool) -> list[Path]:
+        """Speak turns in order, each in its role's voice (남자/여자/narration).
+
+        Goes through this module's ``synthesize_many`` per turn (not
+        ``tts.synthesize_segments``) so the shell's synthesis seam stays one
+        function — tests and frontends stub exactly that.
+        """
         if not self.audio_enabled:
             return []
-        config = replace(self.tts_config, playback=playback)
         try:
-            return synthesize_many(texts, config)
+            return self._synthesize_turns(segments, self.tts_config, playback=playback)
         except RuntimeError as exc:
             if not self._tts_warned:
                 self.emit(f"TTS unavailable: {exc}")
                 self._tts_warned = True
             return []
+
+    @staticmethod
+    def _synthesize_turns(segments: list[dict[str, Any]], config: TTSConfig, playback: bool) -> list[Path]:
+        """One synthesize_many call per turn, playback passed through — so a
+        turn plays as soon as it exists while the next one synthesizes, and a
+        single narration text behaves exactly as it always has."""
+        paths: list[Path] = []
+        for segment in segments:
+            voice = voice_for_role(segment.get("role"), config)
+            paths.extend(synthesize_many([segment["text"]], replace(config, speaker_id=voice, playback=playback)))
+        return paths
 
     def _prefetch_next(self) -> None:
         if self.session is None or not self.audio_enabled:
@@ -2703,8 +2735,13 @@ class Shell:
         upcoming = self.session.next_question()
         if upcoming is None or not is_listening_question(upcoming):
             return
-        texts = collect_question_speech_texts(upcoming, include_prompt=False)
-        self.prefetcher.schedule(texts, self.tts_config)
+        # Prefetch each speaker turn with the voice it will be played in.
+        by_voice: dict[str | None, list[str]] = {}
+        for segment in collect_speech_segments(upcoming, include_prompt=False):
+            voice = voice_for_role(segment.get("role"), self.tts_config)
+            by_voice.setdefault(voice, []).append(segment["text"])
+        for voice, texts in by_voice.items():
+            self.prefetcher.schedule(texts, replace(self.tts_config, speaker_id=voice))
 
 
 # ----------------------------------------------------------------- frontends

@@ -16,7 +16,10 @@ from .tts import (
     ffmpeg_path,
     is_listening_question,
     stable_audio_name,
+    collect_speech_segments,
+    effective_style,
     synthesize_many,
+    voice_for_role,
 )
 
 
@@ -207,28 +210,39 @@ def bundle_pack(
     return zip_path
 
 
+def pack_speech_segments(
+    pack: ExamPack,
+    include_all_questions: bool = False,
+    include_teaching: bool = False,
+) -> list[dict]:
+    """Every turn a pack can speak (text + speaker role), listening questions first."""
+    segments: list[dict] = []
+    seen: set[tuple[str, object]] = set()
+    for question in pack.questions():
+        batch: list[dict] = []
+        if include_all_questions or is_listening_question(question):
+            batch.extend(collect_speech_segments(question, include_prompt=False))
+        if include_teaching:
+            batch.extend(collect_speech_segments(
+                question, include_passage=False, include_prompt=False, include_explanation=True,
+            ))
+        for segment in batch:
+            key = (segment["text"], segment["role"])
+            if key not in seen:
+                seen.add(key)
+                segments.append(segment)
+    return segments
+
+
 def pack_speech_texts(
     pack: ExamPack,
     include_all_questions: bool = False,
     include_teaching: bool = False,
 ) -> list[str]:
     """Collect every text a pack can speak, listening questions first."""
-    texts: list[str] = []
-    for question in pack.questions():
-        if include_all_questions or is_listening_question(question):
-            texts.extend(
-                collect_question_speech_texts(question, include_prompt=False)
-            )
-        if include_teaching:
-            texts.extend(
-                collect_question_speech_texts(
-                    question,
-                    include_passage=False,
-                    include_prompt=False,
-                    include_explanation=True,
-                )
-            )
-    return dedupe(texts)
+    return dedupe([segment["text"] for segment in pack_speech_segments(
+        pack, include_all_questions=include_all_questions, include_teaching=include_teaching,
+    )])
 
 
 def warm_pack(
@@ -242,7 +256,7 @@ def warm_pack(
 
     Returns (generated, cached) counts.
     """
-    texts = pack_speech_texts(
+    segments = pack_speech_segments(
         pack,
         include_all_questions=include_all_questions,
         include_teaching=include_teaching,
@@ -250,20 +264,24 @@ def warm_pack(
     config = replace(config, playback=False)
     generated = 0
     cached = 0
-    for index, text in enumerate(texts, start=1):
-        target = config.output_dir / stable_audio_name(
+    for index, segment in enumerate(segments, start=1):
+        text = segment["text"]
+        # Each speaker turn warms with its own voice, exactly as it will be played.
+        turn_config = replace(config, speaker_id=voice_for_role(segment["role"], config))
+        target = turn_config.output_dir / stable_audio_name(
             text,
-            provider=config.provider,
-            language=config.language,
-            speed=config.speed,
-            speaker_id=config.speaker_id,
-            speaker_wav=config.speaker_wav,
-            steps=config.steps,
+            provider=turn_config.provider,
+            language=turn_config.language,
+            speed=turn_config.speed,
+            speaker_id=turn_config.speaker_id,
+            speaker_wav=turn_config.speaker_wav,
+            steps=turn_config.steps,
+            style=effective_style(turn_config),
         )
         already_cached = target.exists() and not config.force
         if progress:
-            progress(index, len(texts), text)
-        synthesize_many([text], config)
+            progress(index, len(segments), text)
+        synthesize_many([text], turn_config)
         if already_cached:
             cached += 1
         else:

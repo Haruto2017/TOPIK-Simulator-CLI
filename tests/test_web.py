@@ -520,3 +520,47 @@ class TtsStyleSettingsTests(WebAppTestCase):
         app = self.make_app(audio_enabled=False)
         self.assertEqual(app.handle("POST", "/api/tts", body={"temperature": 5})[0], 400)
         self.assertEqual(app.handle("POST", "/api/tts", body={"temperature": 0})[0], 400)
+
+
+class SpeakerVoiceAudioTests(WebAppTestCase):
+    """A two-speaker transcript is served as one part per turn, each in its role's voice."""
+
+    def setUp(self):
+        super().setUp()
+        data = listening_pack_data()
+        data["pack_id"] = "dialogue-pack"
+        data["sections"][0]["questions"][0]["passage"] = "Transcript: 남자: 학생이에요? 여자: 네, 학생이에요."
+        path = self.temp_dir / "dialogue_pack.json"
+        path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        import_pack(path, self.temp_dir / "library")
+
+    def test_parts_follow_turns_and_voices_follow_roles(self):
+        voices = []
+
+        def synth(text, config):
+            voices.append((text, config.speaker_id))
+            p = self.temp_dir / f"v-{len(voices)}.wav"; p.write_bytes(b"RIFF" + text.encode()); return p
+
+        app = self.make_app(audio_enabled=True, synthesizer=synth,
+                            tts_config=TTSConfig(provider="qwen3", output_dir=self.temp_dir / "audio"))
+        status, view = app.handle("POST", "/api/exam/start", body={"pack": "dialogue-pack"})
+        self.assertEqual(view["question"]["audio_parts"], 2)
+        for part in (0, 1):
+            self.assertEqual(app.handle("GET", f"/api/activity/{view['id']}/audio", query={"part": str(part)})[0], 200)
+        self.assertEqual(voices, [("학생이에요?", "ryan"), ("네, 학생이에요.", "sohee")])
+
+    def test_dictation_sentences_are_tag_free_turns_with_roles(self):
+        app = self.make_app(audio_enabled=False)
+        status, view = app.handle("POST", "/api/drill/start", body={"mode": "dictation", "pack": "dialogue-pack"})
+        self.assertEqual(status, 200)
+        items = app._activities[view["id"]]["items"]
+        self.assertEqual([i["answer"] for i in items][:2], ["학생이에요?", "네, 학생이에요."])
+        self.assertEqual([i["speech_role"] for i in items][:2], ["male", "female"])
+
+    def test_role_voices_are_settable_from_the_web(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("POST", "/api/tts", body={"voice_male": "dylan", "voice_female": ""})
+        self.assertEqual(status, 200)
+        self.assertEqual(app.tts_config.male_speaker_id, "dylan")
+        self.assertIsNone(app.tts_config.female_speaker_id)
+        self.assertEqual(app.handle("GET", "/api/tts")[1]["voice_male"], "dylan")

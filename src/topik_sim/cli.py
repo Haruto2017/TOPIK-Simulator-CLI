@@ -1111,31 +1111,21 @@ def speak_question(question: dict[str, Any], config: TTSConfig, include_explanat
             play_audio(media, volume=config.volume)
         print(f"Audio: {media}")
         return [media]
-    config = TTSConfig(
-        provider=config.provider,
-        language=config.language,
-        device=config.device,
-        output_dir=config.output_dir,
-        speed=config.speed,
-        volume=config.volume,
-        playback=playback,
-        force=config.force,
-        speaker_id=config.speaker_id,
-        speaker_wav=config.speaker_wav,
-        onnx_provider=config.onnx_provider,
-        steps=config.steps,
-        tts_python=config.tts_python,
-    )
-    texts = collect_question_speech_texts(
+    from dataclasses import replace
+
+    config = replace(config, playback=playback)
+    from .tts import collect_speech_segments, synthesize_segments
+
+    segments = collect_speech_segments(
         question,
         include_passage=not include_explanation,
         include_prompt=False,
         include_explanation=include_explanation,
     )
-    if not texts:
+    if not segments:
         return []
     try:
-        paths = synthesize_many(texts, config)
+        paths = synthesize_segments(segments, config)
     except RuntimeError as exc:
         print(f"TTS unavailable: {exc}", file=sys.stderr)
         return []

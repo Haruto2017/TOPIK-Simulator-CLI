@@ -279,12 +279,13 @@ COMMANDS: list[Command] = [
         "Examples: /packs · /packs i · /packs authentic · /packs all",
     ),
     Command(
-        "tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|style <text>|temperature <x>]", "Show or change speech settings.",
+        "tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>|male <v>|female <v>|style <text>|temperature <x>]", "Show or change speech settings.",
         category="Library & settings",
         details="Bare /tts shows current settings. on/off toggles speech · volume and speed take a\n"
         "number (1.0 = unchanged) · provider: supertonic (default), qwen3 (Apple Silicon, run\n"
         "setup-tts-qwen3.sh first), melo, xtts-v2 · voice: a preset — F1/F2/M1 for supertonic,\n"
         "sohee/serena/vivian/ryan/aiden/eric/dylan/ono_anna/uncle_fu for qwen3.\n"
+        "male <v> / female <v>: the voices for 남자/여자 turns in transcripts ('default' = engine preset).\n"
         "style <text> (qwen3): the reading-style instruction every sentence follows; 'default' restores\n"
         "the natural conversational style · temperature <x> (qwen3): sampling temperature, lower = steadier (default 0.6).\n"
         "Examples: /tts volume 0.8 · /tts voice M1 · /tts provider qwen3 · /tts style bright and friendly · /tts off",

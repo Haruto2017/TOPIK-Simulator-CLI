@@ -422,3 +422,76 @@ class ProsodyStyleTests(unittest.TestCase):
         cfg = build_tts_config(parser.parse_args([]))
         self.assertEqual(cfg.style, "")
         self.assertIsNone(cfg.temperature)
+
+
+class SpeakerTurnTests(unittest.TestCase):
+    """Transcripts tag turns 남자:/여자:; each turn gets its own voice and the tag is never spoken."""
+
+    def test_dialogue_splits_into_role_tagged_turns_without_tags(self):
+        from topik_sim.tts import split_speaker_turns
+
+        turns = split_speaker_turns("남자: 학생이에요? 여자: 네, 학생이에요.")
+        self.assertEqual(turns, [{"text": "학생이에요?", "role": "male"},
+                                 {"text": "네, 학생이에요.", "role": "female"}])
+        for turn in turns:
+            self.assertNotIn("남자", turn["text"]); self.assertNotIn("여자", turn["text"])
+
+    def test_untagged_text_is_one_narration_turn_and_lead_in_is_narration(self):
+        from topik_sim.tts import split_speaker_turns
+
+        self.assertEqual(split_speaker_turns("오늘은 날씨가 좋습니다."), [{"text": "오늘은 날씨가 좋습니다.", "role": None}])
+        turns = split_speaker_turns("안내 방송입니다. 여자： 문이 닫힙니다.")
+        self.assertEqual([t["role"] for t in turns], [None, "female"])
+        self.assertEqual(split_speaker_turns("   "), [])
+
+    def test_question_segments_keep_prompt_as_narration_and_dedupe(self):
+        from topik_sim.tts import collect_speech_segments
+
+        question = {"skill": "listening", "passage": "Transcript: 남자: 안녕하세요. 여자: 안녕하세요.",
+                    "prompt": "무엇을 하고 있습니까?", "audio_ref": "transcript-only:x"}
+        segments = collect_speech_segments(question)
+        self.assertEqual([s["role"] for s in segments], ["male", "female", None])
+        self.assertEqual(segments[-1]["text"], "무엇을 하고 있습니까?")
+        # the string view is tag-free and per turn
+        self.assertEqual(collect_question_speech_texts(question, include_prompt=False), ["안녕하세요."])
+
+    def test_role_voices_default_per_engine_and_can_be_overridden(self):
+        from topik_sim.tts import TTSConfig, voice_for_role
+
+        qwen = TTSConfig(provider="qwen3")
+        self.assertEqual((voice_for_role("male", qwen), voice_for_role("female", qwen)), ("ryan", "sohee"))
+        super_ = TTSConfig(provider="supertonic", speaker_id="F2")
+        self.assertEqual((voice_for_role("male", super_), voice_for_role("female", super_), voice_for_role(None, super_)),
+                         ("M1", "F1", "F2"))
+        custom = TTSConfig(provider="qwen3", male_speaker_id="dylan", female_speaker_id="serena")
+        self.assertEqual((voice_for_role("male", custom), voice_for_role("female", custom)), ("dylan", "serena"))
+        unknown = TTSConfig(provider="melo", speaker_id="KR")
+        self.assertEqual(voice_for_role("male", unknown), "KR")  # no presets: narration voice
+
+    def test_synthesize_segments_uses_a_voice_per_turn(self):
+        import tempfile
+        from topik_sim.tts import TTSConfig, synthesize_segments
+
+        spoken = []
+
+        class FakeProvider:
+            def synthesize_to_file(self, text, output_path, config):
+                spoken.append((text, config.speaker_id)); output_path.write_bytes(b"RIFF")
+            def list_speakers(self, config): return {}
+
+        with tempfile.TemporaryDirectory() as temp, patch("topik_sim.tts.build_provider", return_value=FakeProvider()):
+            paths = synthesize_segments(
+                [{"text": "학생이에요?", "role": "male"}, {"text": "네.", "role": "female"}, {"text": "질문", "role": None}],
+                TTSConfig(provider="qwen3", output_dir=Path(temp)))
+        self.assertEqual(len(paths), 3)
+        self.assertEqual(spoken, [("학생이에요?", "ryan"), ("네.", "sohee"), ("질문", None)])
+        self.assertEqual(len({p.name for p in paths}), 3)  # distinct cache entries per voice
+
+    def test_cli_role_voice_flags_reach_the_config(self):
+        import argparse
+        from topik_sim.tts_cli import add_tts_arguments, build_tts_config
+
+        parser = argparse.ArgumentParser(); add_tts_arguments(parser, config={})
+        cfg = build_tts_config(parser.parse_args(["--tts-male-voice", "eric", "--tts-female-voice", "vivian"]))
+        self.assertEqual((cfg.male_speaker_id, cfg.female_speaker_id), ("eric", "vivian"))
+        self.assertIsNone(build_tts_config(parser.parse_args([])).male_speaker_id)

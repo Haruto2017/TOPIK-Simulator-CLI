@@ -1770,6 +1770,9 @@ async function settingsView() {
   const volume = el("input", { type: "range", min: "0.1", max: "1.5", step: "0.05", value: String(tts.volume) });
   const speed = el("input", { type: "range", min: "0.5", max: "1.5", step: "0.05", value: String(tts.speed) });
   const voice = el("input", { type: "text", value: tts.voice || "", placeholder: "F1, M1 (supertonic) · sohee, ryan (qwen3)" });
+  // Dialogue voices: transcripts tag turns 남자:/여자:, each spoken by its own voice.
+  const voiceMale = el("input", { type: "text", value: tts.voice_male || "", placeholder: "남자 voice — empty = ryan (qwen3) / M1 (supertonic)" });
+  const voiceFemale = el("input", { type: "text", value: tts.voice_female || "", placeholder: "여자 voice — empty = sohee (qwen3) / F1 (supertonic)" });
   // Reading style: engines that take an instruction (qwen3) read every sentence in
   // this tone. Empty = the engine's built-in narrator style. Changing it regenerates audio.
   const style = el("textarea", { rows: "2", placeholder: "Reading style (qwen3) — empty = natural conversational speaker. e.g. 'calm, even narrator with no emotional emphasis'" });
@@ -1784,6 +1787,8 @@ async function settingsView() {
         volume: Number(volume.value),
         speed: Number(speed.value),
         voice: voice.value.trim() || undefined,
+        voice_male: voiceMale.value.trim(),
+        voice_female: voiceFemale.value.trim(),
         style: style.value.trim(),
         temperature: temperature.value === "" ? null : Number(temperature.value),
       });
@@ -1799,7 +1804,9 @@ async function settingsView() {
       el("label", { class: "row" }, enabled, " Speech enabled"),
       el("label", { class: "field" }, `Volume`, volume),
       el("label", { class: "field" }, `Speed`, speed),
-      el("label", { class: "field" }, "Voice preset", voice),
+      el("label", { class: "field" }, "Narration voice", voice),
+      el("label", { class: "field" }, "남자 voice (dialogue turns)", voiceMale),
+      el("label", { class: "field" }, "여자 voice (dialogue turns)", voiceFemale),
       el("label", { class: "field" }, "Reading style (qwen3)", style),
       el("label", { class: "field" }, "Temperature (qwen3) — lower is steadier, empty = 0.6", temperature),
       el("div", { class: "row" }, el("button", { class: "primary", onclick: apply, text: "Apply" })),

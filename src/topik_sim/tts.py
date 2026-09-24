@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -82,6 +83,11 @@ class TTSConfig:
     # cache identity once effective, so a changed style never replays old audio.
     style: str = ""
     temperature: float | None = None
+    # Dialogue voices: transcripts tag turns 남자:/여자:, and each turn is spoken
+    # by a matching voice. None = the engine's built-in male/female default;
+    # ``speaker_id`` stays the narration voice for untagged text.
+    male_speaker_id: str | None = None
+    female_speaker_id: str | None = None
 
 
 def synthesize_many(texts: list[str], config: TTSConfig) -> list[Path]:
@@ -183,6 +189,84 @@ def configure_utf8_output() -> None:
             stream.reconfigure(encoding="utf-8", errors="replace")
 
 
+# Speaker tags as printed in listening transcripts (남자: … 여자: …). Only the
+# two the packs actually use; anything else stays narration.
+SPEAKER_ROLES = {"남자": "male", "여자": "female"}
+_SPEAKER_TAG = re.compile(r"(?:(?<=^)|(?<=\s))(남자|여자)\s*[:：]\s*")
+
+
+def split_speaker_turns(text: str) -> list[dict[str, Any]]:
+    """Break a transcript into spoken turns: ``[{"text", "role"}]``.
+
+    ``남자: 학생이에요? 여자: 네.`` → two turns, male then female, tags removed
+    so they are never read aloud. Untagged text is one narration turn
+    (``role`` None); text before the first tag is narration too.
+    """
+    text = text.strip()
+    if not text:
+        return []
+    turns: list[dict[str, Any]] = []
+    matches = list(_SPEAKER_TAG.finditer(text))
+    if not matches:
+        return [{"text": text, "role": None}]
+    lead = text[: matches[0].start()].strip()
+    if lead:
+        turns.append({"text": lead, "role": None})
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        spoken = text[match.end():end].strip()
+        if spoken:
+            turns.append({"text": spoken, "role": SPEAKER_ROLES[match.group(1)]})
+    return turns
+
+
+def collect_speech_segments(
+    question: dict[str, Any],
+    include_passage: bool = True,
+    include_prompt: bool = True,
+    include_options: bool = False,
+    include_explanation: bool = False,
+) -> list[dict[str, Any]]:
+    """Everything a question speaks, in order, as ``{"text", "role"}`` turns.
+
+    A transcript becomes one segment per speaker turn so a dialogue can be
+    voiced by two speakers; prompts, options, and teaching notes are narration.
+    Deduplicated by (text, role).
+    """
+    segments: list[dict[str, Any]] = []
+    if include_passage:
+        value = transcript_text(question) or str(question.get("passage", "")).strip()
+        if value:
+            segments.extend(split_speaker_turns(value))
+
+    if include_prompt and looks_korean(str(question.get("prompt", ""))):
+        segments.append({"text": str(question["prompt"]), "role": None})
+
+    if include_options:
+        for option in question.get("options", []):
+            text = str(option.get("text", "")).strip()
+            if looks_korean(text):
+                segments.append({"text": text, "role": None})
+
+    if include_explanation:
+        explanation = question.get("explanation", {})
+        for item in explanation.get("vocabulary", []):
+            if item.get("ko"):
+                segments.append({"text": str(item["ko"]), "role": None})
+        for item in explanation.get("grammar", []):
+            if item.get("example"):
+                segments.append({"text": str(item["example"]), "role": None})
+
+    seen: set[tuple[str, Any]] = set()
+    result: list[dict[str, Any]] = []
+    for segment in segments:
+        key = (segment["text"], segment["role"])
+        if key not in seen:
+            seen.add(key)
+            result.append(segment)
+    return result
+
+
 def collect_question_speech_texts(
     question: dict[str, Any],
     include_passage: bool = True,
@@ -190,31 +274,48 @@ def collect_question_speech_texts(
     include_options: bool = False,
     include_explanation: bool = False,
 ) -> list[str]:
-    texts: list[str] = []
-    if include_passage:
-        value = transcript_text(question) or str(question.get("passage", "")).strip()
-        if value:
-            texts.append(value)
+    """The spoken texts only (one per turn, speaker tags removed)."""
+    return dedupe([segment["text"] for segment in collect_speech_segments(
+        question, include_passage=include_passage, include_prompt=include_prompt,
+        include_options=include_options, include_explanation=include_explanation,
+    )])
 
-    if include_prompt and looks_korean(str(question.get("prompt", ""))):
-        texts.append(str(question["prompt"]))
 
-    if include_options:
-        for option in question.get("options", []):
-            text = str(option.get("text", "")).strip()
-            if looks_korean(text):
-                texts.append(text)
+# Built-in voices per role for engines that ship presets.
+PROVIDER_ROLE_VOICES: dict[str, dict[str, str]] = {
+    "supertonic": {"female": "F1", "male": "M1"},
+    "qwen3": {"female": "sohee", "male": "ryan"},
+}
 
-    if include_explanation:
-        explanation = question.get("explanation", {})
-        for item in explanation.get("vocabulary", []):
-            if item.get("ko"):
-                texts.append(str(item["ko"]))
-        for item in explanation.get("grammar", []):
-            if item.get("example"):
-                texts.append(str(item["example"]))
 
-    return dedupe(texts)
+def voice_for_role(role: str | None, config: "TTSConfig") -> str | None:
+    """Which preset speaks a turn: an explicit per-role voice, else the
+    engine's built-in for that role, else the narration voice."""
+    provider = config.provider.lower()
+    if provider in {"qwen3-tts", "qwen"}:
+        provider = "qwen3"
+    presets = PROVIDER_ROLE_VOICES.get(provider, {})
+    if role == "male":
+        return config.male_speaker_id or presets.get("male") or config.speaker_id
+    if role == "female":
+        return config.female_speaker_id or presets.get("female") or config.speaker_id
+    return config.speaker_id
+
+
+def synthesize_segments(segments: list[dict[str, Any]], config: "TTSConfig") -> list[Path]:
+    """Synthesize speaker turns in order, each with its role's voice, then play
+    them in sequence when ``config.playback`` is set."""
+    from dataclasses import replace
+
+    paths: list[Path] = []
+    for segment in segments:
+        voice = voice_for_role(segment.get("role"), config)
+        turn_config = replace(config, speaker_id=voice, playback=False)
+        paths.extend(synthesize_many([segment["text"]], turn_config))
+    if config.playback:
+        for path in paths:
+            play_audio(path, volume=config.volume)
+    return paths
 
 
 def stable_audio_name(

@@ -112,6 +112,10 @@ def add_tts_arguments(parser: argparse.ArgumentParser, config: dict | None = Non
     parser.add_argument("--tts-style", default=tts("style", None),
                         help="Reading-style instruction for engines that take one (qwen3): tone, pace, mood. "
                              "Part of the audio cache identity, so a changed style regenerates audio.")
+    parser.add_argument("--tts-male-voice", default=tts("voice_male", None),
+                        help="Voice for 남자 turns in transcripts (default: the engine's male preset).")
+    parser.add_argument("--tts-female-voice", default=tts("voice_female", None),
+                        help="Voice for 여자 turns in transcripts (default: the engine's female preset).")
     parser.add_argument("--tts-temperature", type=float, default=tts("temperature", None),
                         help="Sampling temperature for engines that take one (qwen3); lower = steadier prosody.")
 
@@ -137,6 +141,8 @@ def build_tts_config(args: argparse.Namespace) -> TTSConfig:
         tts_python=Path(args.tts_python) if args.tts_python else None,
         style=args.tts_style or "",
         temperature=args.tts_temperature,
+        male_speaker_id=args.tts_male_voice or None,
+        female_speaker_id=args.tts_female_voice or None,
     )
 
 

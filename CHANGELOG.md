@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Two voices for dialogues.** Listening transcripts tag turns `남자:`/`여자:`; audio is now synthesized
+  one turn at a time, each in that role's voice (male preset `ryan`/`M1`, female `sohee`/`F1`, narration
+  voice for untagged text), and the tag is no longer read aloud. Per-role voices are configurable
+  (`--tts-male-voice`/`--tts-female-voice`, `tts.voice_male`/`voice_female`, `/tts male|female`, Settings
+  fields). Applies to exam playback, slow replay, prefetch, `audio warm`, and dictation (sentences are now
+  the tag-free turns). `speak_question` in the CLI also stops rebuilding `TTSConfig` field by field, which
+  silently dropped newer settings.
+
 - **Stable reading style for Qwen3-TTS** (`--tts-style`, `--tts-temperature`, `/tts style|temperature`,
   a Settings field): the engine used to sample prosody afresh per sentence (temperature 0.9, no
   instruction, no seed), so pitch register and pace drifted between sentences. A default natural-
