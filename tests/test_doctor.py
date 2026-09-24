@@ -166,7 +166,7 @@ class RunChecksTests(DoctorTestCase):
         checks = doctor.run_checks(library_dir=self.temp_dir / "library", data_dir=self.temp_dir / "data")
         self.assertEqual(
             [label for _, label, _ in checks],
-            ["Python", "prompt_toolkit", "TTS runtime", "ffmpeg", "Config", "Library", "Data directory"],
+            ["Python", "prompt_toolkit", "TTS runtime", "Qwen3-TTS (optional)", "ffmpeg", "Config", "Library", "Data directory"],
         )
         for status, _, _ in checks:
             self.assertIn(status, {doctor.PASS, doctor.WARN, doctor.FAIL})
@@ -217,3 +217,34 @@ class DoctorCommandTests(DoctorTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Qwen3DoctorCheckTests(unittest.TestCase):
+    """The second engine is optional: absent must not degrade the health report."""
+
+    def test_absent_runtime_is_a_pass_with_setup_hint(self):
+        from topik_sim.doctor import PASS, check_qwen3_runtime
+
+        with patch("topik_sim.doctor.resolve_qwen3_python", side_effect=RuntimeError("none")):
+            status, label, detail = check_qwen3_runtime()
+        self.assertEqual(status, PASS)
+        self.assertEqual(label, "Qwen3-TTS (optional)")
+        self.assertIn("setup-tts-qwen3.sh", detail)
+
+    def test_runtime_without_engine_is_a_warning(self):
+        from topik_sim.doctor import WARN, check_qwen3_runtime
+
+        with patch("topik_sim.doctor.resolve_qwen3_python", return_value=Path(sys.executable)), \
+             patch("topik_sim.doctor._qwen3_engine_importable", return_value=False):
+            status, _, detail = check_qwen3_runtime()
+        self.assertEqual(status, WARN)
+        self.assertIn("mlx-audio", detail)
+
+    def test_ready_runtime_passes(self):
+        from topik_sim.doctor import PASS, check_qwen3_runtime
+
+        with patch("topik_sim.doctor.resolve_qwen3_python", return_value=Path(sys.executable)), \
+             patch("topik_sim.doctor._qwen3_engine_importable", return_value=True):
+            status, _, detail = check_qwen3_runtime()
+        self.assertEqual(status, PASS)
+        self.assertIn("qwen3_synth.py", detail)

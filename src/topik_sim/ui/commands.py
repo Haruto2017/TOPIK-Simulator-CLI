@@ -282,8 +282,10 @@ COMMANDS: list[Command] = [
         "tts", "cmd_tts", "/tts [on|off|volume <x>|speed <x>|provider <p>|voice <v>]", "Show or change speech settings.",
         category="Library & settings",
         details="Bare /tts shows current settings. on/off toggles speech · volume and speed take a\n"
-        "number (1.0 = unchanged) · provider: supertonic, melo, xtts-v2 · voice: a preset like F1 or M1.\n"
-        "Examples: /tts volume 0.8 · /tts voice M1 · /tts off",
+        "number (1.0 = unchanged) · provider: supertonic (default), qwen3 (Apple Silicon, run\n"
+        "setup-tts-qwen3.sh first), melo, xtts-v2 · voice: a preset — F1/F2/M1 for supertonic,\n"
+        "sohee/serena/vivian/ryan/aiden/eric/dylan/ono_anna/uncle_fu for qwen3.\n"
+        "Examples: /tts volume 0.8 · /tts voice M1 · /tts provider qwen3 · /tts off",
     ),
     Command(
         "keyboard", "cmd_keyboard", "/keyboard [on|off|pin|unpin]", "Show the 두벌식 layout; on pins it to the toolbar and adds typing hints.", ("kb",),

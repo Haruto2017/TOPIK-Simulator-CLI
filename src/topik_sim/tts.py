@@ -33,6 +33,15 @@ DEFAULT_ANKI_TTS_PYTHON = Path("H:/software/anki/.tts-venv/Scripts/python.exe")
 DEFAULT_ANKI_HF_CACHE = Path("H:/software/anki/.hf-cache")
 DEFAULT_ANKI_SUPERTONIC_CACHE = Path("H:/software/anki/.supertonic-cache")
 
+# Qwen3-TTS (Apple Silicon via mlx-audio): an optional second engine, set up by
+# setup-tts-qwen3.sh into .venv-qwen3. Korean is declared by the model itself.
+DEFAULT_QWEN3_VOICE = "sohee"
+DEFAULT_QWEN3_MODEL = "mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit"
+DEFAULT_WORKSPACE_QWEN3_PYTHONS = (
+    Path(".venv-qwen3") / "bin" / "python",
+    Path("data") / "model_cache" / "qwen3tts" / ".venv" / "bin" / "python",  # benchmark env
+)
+
 
 class TTSProvider(Protocol):
     def synthesize_to_file(self, text: str, output_path: Path, config: "TTSConfig") -> None:
@@ -144,7 +153,11 @@ def build_provider(provider_name: str) -> TTSProvider:
         return XTTSV2Provider()
     if normalized == "supertonic":
         return SupertonicProvider()
-    raise ValueError(f"Unknown TTS provider {provider_name!r}. Supported providers: melo, xtts-v2, supertonic.")
+    if normalized in {"qwen3", "qwen3-tts", "qwen"}:
+        return Qwen3TTSProvider()
+    raise ValueError(
+        f"Unknown TTS provider {provider_name!r}. Supported providers: melo, xtts-v2, supertonic, qwen3."
+    )
 
 
 def configure_utf8_output() -> None:
@@ -510,3 +523,86 @@ def hparams_to_dict(value: Any) -> dict[str, Any]:
     if hasattr(value, "__dict__"):
         return dict(value.__dict__)
     return {}
+
+
+# --------------------------------------------------------------- Qwen3-TTS
+
+QWEN3_VOICES: dict[str, str] = {
+    "sohee": "female (Korean name) — the default for Korean",
+    "serena": "female",
+    "vivian": "female",
+    "ono_anna": "female (Japanese name)",
+    "ryan": "male",
+    "aiden": "male",
+    "eric": "male",
+    "dylan": "male",
+    "uncle_fu": "male, older",
+}
+
+
+def qwen3_helper_path() -> Path:
+    """The subprocess helper that runs Qwen3-TTS synthesis (see tools/)."""
+    return Path(__file__).resolve().parents[2] / "tools" / "qwen3_synth.py"
+
+
+def resolve_qwen3_python(config: "TTSConfig") -> Path:
+    candidates = [
+        config.tts_python,
+        Path(os.environ["TOPIK_QWEN3_PYTHON"]) if os.environ.get("TOPIK_QWEN3_PYTHON") else None,
+        *DEFAULT_WORKSPACE_QWEN3_PYTHONS,
+    ]
+    for candidate in candidates:
+        if candidate and candidate.exists():
+            return candidate
+    raise RuntimeError(
+        "Qwen3-TTS Python runtime was not found. Run setup-tts-qwen3.sh, or set TOPIK_QWEN3_PYTHON / --tts-python."
+    )
+
+
+def qwen3_language(language: str) -> str:
+    """Map the simulator's language setting to the name Qwen3-TTS declares."""
+    normalized = language.strip().lower()
+    table = {
+        "kr": "korean", "ko": "korean", "kor": "korean", "korean": "korean",
+        "en": "english", "eng": "english", "english": "english",
+        "ja": "japanese", "jp": "japanese", "japanese": "japanese",
+        "zh": "chinese", "cn": "chinese", "chinese": "chinese",
+        "de": "german", "fr": "french", "es": "spanish", "it": "italian",
+        "pt": "portuguese", "ru": "russian",
+    }
+    return table.get(normalized, normalized or "auto")
+
+
+class Qwen3TTSProvider:
+    """Qwen3-TTS through mlx-audio in its own venv; Korean verified end to end."""
+
+    def synthesize_to_file(self, text: str, output_path: Path, config: TTSConfig) -> None:
+        python_path = resolve_qwen3_python(config)
+        helper_path = qwen3_helper_path()
+        if not helper_path.exists():
+            raise RuntimeError(f"Qwen3-TTS helper is missing: {helper_path}")
+        command = [
+            str(python_path),
+            str(helper_path),
+            "--output", str(output_path),
+            "--voice", config.speaker_id or DEFAULT_QWEN3_VOICE,
+            "--lang", qwen3_language(config.language),
+            "--speed", str(config.speed),
+            "--model", os.environ.get("TOPIK_QWEN3_MODEL", DEFAULT_QWEN3_MODEL),
+            "--hf-home", str(resolve_supertonic_hf_home()),
+        ]
+        result = subprocess.run(
+            command,
+            input=text,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode != 0:
+            details = (result.stderr or result.stdout).strip()
+            raise RuntimeError(f"Qwen3-TTS synthesis failed: {details}")
+
+    def list_speakers(self, config: TTSConfig) -> dict[str, Any]:
+        return dict(QWEN3_VOICES)

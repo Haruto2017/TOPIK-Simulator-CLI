@@ -17,7 +17,13 @@ from pathlib import Path
 
 from .config import config_path, load_config
 from .library import DEFAULT_LIBRARY_DIR, list_packs, validate_library
-from .tts import TTSConfig, resolve_supertonic_python, supertonic_helper_path
+from .tts import (
+    TTSConfig,
+    qwen3_helper_path,
+    resolve_qwen3_python,
+    resolve_supertonic_python,
+    supertonic_helper_path,
+)
 
 
 PASS = "PASS"
@@ -60,6 +66,33 @@ def check_tts_runtime() -> Check:
     if not _tts_engine_importable(python_path):
         return (WARN, "TTS runtime", f"{python_path} lacks the speech engine — {remedy}; {soundless}")
     return (PASS, "TTS runtime", f"{python_path} + {helper.name}")
+
+
+def check_qwen3_runtime() -> Check:
+    """Qwen3-TTS is optional: absent is fine, half-installed is worth a warning."""
+    try:
+        python_path = resolve_qwen3_python(TTSConfig())
+    except RuntimeError:
+        return (PASS, "Qwen3-TTS (optional)", "not installed — run setup-tts-qwen3.sh to enable --tts-provider qwen3")
+    helper = qwen3_helper_path()
+    if not helper.exists():
+        return (WARN, "Qwen3-TTS (optional)", f"helper missing: {helper}")
+    if not _qwen3_engine_importable(python_path):
+        return (WARN, "Qwen3-TTS (optional)", f"{python_path} lacks mlx-audio — rerun setup-tts-qwen3.sh")
+    return (PASS, "Qwen3-TTS (optional)", f"{python_path} + {helper.name}")
+
+
+def _qwen3_engine_importable(python_path: Path) -> bool:
+    import subprocess
+
+    try:
+        probe = subprocess.run(
+            [str(python_path), str(qwen3_helper_path()), "--check"],
+            capture_output=True, text=True, timeout=60, check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return probe.returncode == 0
 
 
 def _tts_engine_importable(python_path: Path) -> bool:
@@ -131,6 +164,7 @@ def run_checks(
         check_python(),
         check_prompt_toolkit(),
         check_tts_runtime(),
+        check_qwen3_runtime(),
         check_ffmpeg(),
         check_config(),
         check_library(library_dir),

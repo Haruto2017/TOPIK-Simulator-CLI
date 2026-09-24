@@ -12,6 +12,7 @@ python -m topik_sim validate-content <pack.json> # content contract check
 python -m topik_sim import-pack <pack.json> --replace
 python -m topik_sim validate-library
 python -m topik_sim audio warm <pack_ref>        # pre-generate listening audio
+./setup-tts-qwen3.sh                             # optional: Qwen3-TTS engine on Apple Silicon (.venv-qwen3)
 ```
 
 Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never require a GPU or model download.
@@ -35,7 +36,7 @@ Tests are stdlib `unittest`, run offline, and mock all TTS synthesis — never r
 - `src/topik_sim/stats.py` / `report.py` — cross-attempt accuracy stats and Markdown study reports
 - `src/topik_sim/library.py` — versioned content library with checksums
 - `src/topik_sim/config.py` — `topik.config.json` workspace defaults (flags always win)
-- `src/topik_sim/tts.py`, `audio_cache.py`, `prefetch.py` — providers, content-addressed WAV cache with Opus cold storage, background prefetch (`docs/AUDIO_DESIGN.md`)
+- `src/topik_sim/tts.py`, `audio_cache.py`, `prefetch.py` — providers (supertonic default; `qwen3` = Qwen3-TTS via mlx-audio on Apple Silicon, each a subprocess helper in its own venv under `tools/`), content-addressed WAV cache with Opus cold storage, background prefetch (`docs/AUDIO_DESIGN.md`)
 - `src/topik_sim/ui/` — interactive shell (commands registry, renderer, prompt_toolkit frontend with plain fallback)
 - `src/topik_sim/web/` — local web UI: `app.py` is a transport-free JSON API over the same core (unit-tested by calling `handle()` directly, TTS stubbed), `server.py` the stdlib HTTP bridge, `static/` the vanilla-JS single-page app; `python -m topik_sim web`
 - `src/topik_sim/cli.py` — argparse surface; documented in `docs/CLI_CONTRACT.md`

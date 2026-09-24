@@ -1769,7 +1769,7 @@ async function settingsView() {
   enabled.checked = tts.enabled;
   const volume = el("input", { type: "range", min: "0.1", max: "1.5", step: "0.05", value: String(tts.volume) });
   const speed = el("input", { type: "range", min: "0.5", max: "1.5", step: "0.05", value: String(tts.speed) });
-  const voice = el("input", { type: "text", value: tts.voice || "", placeholder: "e.g. F1, M1" });
+  const voice = el("input", { type: "text", value: tts.voice || "", placeholder: "F1, M1 (supertonic) · sohee, ryan (qwen3)" });
   const sayBox = el("input", { type: "text", lang: "ko", placeholder: "안녕하세요 — type anything, hear it spoken" });
 
   const apply = async () => {

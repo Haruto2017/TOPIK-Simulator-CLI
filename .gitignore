@@ -1,5 +1,6 @@
 .venv/
 .venv-tts/
+.venv-qwen3/
 __pycache__/
 *.py[cod]
 .pytest_cache/

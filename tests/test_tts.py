@@ -1,3 +1,4 @@
+import subprocess
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -243,3 +244,96 @@ class TTSTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Qwen3ProviderTests(unittest.TestCase):
+    """Qwen3-TTS: a second engine behind the same provider protocol."""
+
+    def test_build_provider_returns_qwen3(self):
+        from topik_sim.tts import Qwen3TTSProvider
+
+        for name in ("qwen3", "Qwen3-TTS", "qwen"):
+            self.assertIsInstance(build_provider(name), Qwen3TTSProvider)
+
+    def test_unknown_provider_message_lists_qwen3(self):
+        with self.assertRaises(ValueError) as caught:
+            build_provider("nope")
+        self.assertIn("qwen3", str(caught.exception))
+
+    def test_language_map_uses_the_models_own_names(self):
+        from topik_sim.tts import qwen3_language
+
+        self.assertEqual(qwen3_language("KR"), "korean")
+        self.assertEqual(qwen3_language("ko"), "korean")
+        self.assertEqual(qwen3_language("en"), "english")
+        self.assertEqual(qwen3_language("japanese"), "japanese")
+        self.assertEqual(qwen3_language(""), "auto")
+
+    def test_resolver_prefers_explicit_config_then_env(self):
+        import os
+        import tempfile
+        from topik_sim.tts import TTSConfig, resolve_qwen3_python
+
+        with tempfile.TemporaryDirectory() as temp:
+            explicit = Path(temp) / "explicit"; explicit.write_text("")
+            from_env = Path(temp) / "from_env"; from_env.write_text("")
+            with patch.dict(os.environ, {"TOPIK_QWEN3_PYTHON": str(from_env)}):
+                self.assertEqual(resolve_qwen3_python(TTSConfig(tts_python=explicit)), explicit)
+                self.assertEqual(resolve_qwen3_python(TTSConfig()), from_env)
+
+    def test_resolver_reports_setup_script_when_missing(self):
+        import os
+        from topik_sim.tts import TTSConfig, resolve_qwen3_python
+
+        with patch.dict(os.environ, {"TOPIK_QWEN3_PYTHON": ""}, clear=False), \
+             patch("topik_sim.tts.DEFAULT_WORKSPACE_QWEN3_PYTHONS", ()):
+            with self.assertRaises(RuntimeError) as caught:
+                resolve_qwen3_python(TTSConfig())
+        self.assertIn("setup-tts-qwen3.sh", str(caught.exception))
+
+    def test_provider_runs_helper_with_korean_voice_and_language(self):
+        import tempfile
+        from topik_sim.tts import Qwen3TTSProvider, TTSConfig
+
+        calls = []
+
+        def fake_run(command, **kwargs):
+            calls.append((command, kwargs))
+            Path(command[command.index("--output") + 1]).write_bytes(b"RIFFfake")
+            return subprocess.CompletedProcess(command, 0, stdout="", stderr="")
+
+        with tempfile.TemporaryDirectory() as temp:
+            python = Path(temp) / "python"; python.write_text("")
+            out = Path(temp) / "out.wav"
+            with patch("topik_sim.tts.subprocess.run", side_effect=fake_run):
+                Qwen3TTSProvider().synthesize_to_file(
+                    "안녕하세요", out, TTSConfig(tts_python=python, language="KR", speed=0.75))
+            command, kwargs = calls[0]
+            self.assertEqual(command[0], str(python))
+            self.assertTrue(command[1].endswith("qwen3_synth.py"))
+            self.assertEqual(command[command.index("--voice") + 1], "sohee")
+            self.assertEqual(command[command.index("--lang") + 1], "korean")
+            self.assertEqual(command[command.index("--speed") + 1], "0.75")
+            self.assertEqual(kwargs["input"], "안녕하세요")
+            self.assertTrue(out.exists())
+
+    def test_provider_surfaces_helper_failure(self):
+        import tempfile
+        from topik_sim.tts import Qwen3TTSProvider, TTSConfig
+
+        def failing_run(command, **kwargs):
+            return subprocess.CompletedProcess(command, 1, stdout="", stderr="mlx-audio exploded")
+
+        with tempfile.TemporaryDirectory() as temp:
+            python = Path(temp) / "python"; python.write_text("")
+            with patch("topik_sim.tts.subprocess.run", side_effect=failing_run):
+                with self.assertRaises(RuntimeError) as caught:
+                    Qwen3TTSProvider().synthesize_to_file("x", Path(temp) / "o.wav", TTSConfig(tts_python=python))
+        self.assertIn("mlx-audio exploded", str(caught.exception))
+
+    def test_speakers_include_the_korean_default(self):
+        from topik_sim.tts import DEFAULT_QWEN3_VOICE, Qwen3TTSProvider, TTSConfig
+
+        speakers = Qwen3TTSProvider().list_speakers(TTSConfig())
+        self.assertIn(DEFAULT_QWEN3_VOICE, speakers)
+        self.assertEqual(len(speakers), 9)

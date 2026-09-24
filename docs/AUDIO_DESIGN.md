@@ -49,6 +49,15 @@ When `ffmpeg` is on PATH, `topik-sim audio compress [--older-than-days <n>] [--b
 
 `topik-sim audio bundle <pack_ref> [--output <zip>] [--all-questions] [--teaching]` warms the pack and exports its audio as one zip with a `manifest.json` mapping each spoken text to its file — for offline devices or sharing a pre-rendered exam. `audio warm --voices F1,M1` warms several voice presets so they can be A/B compared.
 
+## Providers
+
+Every engine implements `TTSProvider` (`synthesize_to_file`, `list_speakers`) and runs as a subprocess helper in
+its own virtual environment, so the simulator core never imports a speech library. `supertonic` (default) is
+cross-platform; `qwen3` runs Qwen3-TTS through mlx-audio on Apple Silicon and was adopted after a measured
+comparison (Whisper character-error-rate on fixed Korean sentences — see CHANGELOG). The provider name is part
+of the cache identity, so engines never share waveforms. Engines without a native speed control (qwen3)
+render slow replay through ffmpeg `atempo`; when ffmpeg is missing they write normal speed rather than fail.
+
 ## Future Options
 
 - **Sample-rate normalization:** downmix to 16-bit mono at a fixed rate to cut size further when providers emit higher fidelity than speech needs.

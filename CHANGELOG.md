@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Qwen3-TTS speech engine** (`--tts-provider qwen3`, `/tts provider qwen3`; `tools/qwen3_synth.py`,
+  `setup-tts-qwen3.sh`): a second, optional engine running Alibaba's Qwen3-TTS-0.6B on Apple
+  Silicon through mlx-audio in its own `.venv-qwen3`. Chosen by measurement: on this repo's
+  three-sentence benchmark, its Korean transcribes back through Whisper at 0% / 5% character
+  error — identical to Supertonic — with English at 0%, warm generation at RTF ≈ 0.36 and a
+  5 GB peak footprint. Korean and the nine voices (`sohee` default) are declared by the model
+  itself, not guessed. The helper trims the model's ~1 s of leading/trailing silence and
+  implements slow replay with ffmpeg's pitch-preserving `atempo` (the model has no speed
+  control yet), falling back to normal speed rather than failing. `doctor` reports the engine
+  as optional: absent is a PASS, half-installed a WARN. Supertonic remains the default.
+  (Tencent's AuK was evaluated first and rejected: its English is clean but it produces
+  non-Korean audio for Korean input — 100–217% CER across three prompt strategies.)
+
 - **Rounds for vocabulary drills** — `loop` on `/recall`, `/numbers`, `/colors` and a
   "Rounds" checkbox on the web (on by default for recall): whatever you miss comes
   straight back as the next round, shuffled, until every item is cleared (capped at 8).

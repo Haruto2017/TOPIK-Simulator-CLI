@@ -429,7 +429,7 @@ class ContentEndpointTests(WebAppTestCase):
         status, stats = app.handle("GET", "/api/stats")
         self.assertIn("attempt_count", stats)
         status, doctor = app.handle("GET", "/api/doctor")
-        self.assertEqual(len(doctor["checks"]), 7)
+        self.assertEqual(len(doctor["checks"]), 8)  # incl. the optional Qwen3-TTS check
         status, lessons = app.handle("GET", "/api/compose/lessons")
         self.assertEqual(status, 200)
         status, facts = app.handle("GET", "/api/facts")

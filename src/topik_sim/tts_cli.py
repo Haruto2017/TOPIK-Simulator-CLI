@@ -96,7 +96,7 @@ def handle_play(args: argparse.Namespace) -> int:
 def add_tts_arguments(parser: argparse.ArgumentParser, config: dict | None = None) -> None:
     config = config if config is not None else load_config()
     tts = lambda key, default: config_value(config, "tts", key, default)  # noqa: E731
-    parser.add_argument("--tts-provider", default=tts("provider", "supertonic"), choices=["supertonic", "melo", "xtts-v2"], help="Local TTS provider.")
+    parser.add_argument("--tts-provider", default=tts("provider", "supertonic"), choices=["supertonic", "qwen3", "melo", "xtts-v2"], help="Local TTS provider (qwen3 needs setup-tts-qwen3.sh).")
     parser.add_argument("--tts-language", default=tts("language", "KR"), help="TTS language code. Use KR for Korean.")
     parser.add_argument("--tts-device", default=tts("device", "cuda:0"), help="TTS device, such as cuda:0 or cpu.")
     parser.add_argument("--tts-output-dir", default=tts("output_dir", "data/audio_cache"), help="Directory for generated WAV files.")

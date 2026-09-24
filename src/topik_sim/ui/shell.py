@@ -46,7 +46,7 @@ PICK_PACK = "pick_pack"
 MENU = "menu"
 MENU_CATEGORY = "menu_category"
 
-TTS_PROVIDERS = ("supertonic", "melo", "xtts-v2")
+TTS_PROVIDERS = ("supertonic", "qwen3", "melo", "xtts-v2")
 DEFAULT_ATTEMPT_DIR = "data/attempts"
 RECENT_LIMIT = 10
 
