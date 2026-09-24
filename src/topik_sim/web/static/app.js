@@ -68,17 +68,33 @@ function playerVolume() { return Math.max(0, Math.min(1, state.tts.volume || 1))
 
 async function playUrls(urls) {
   player.pause();
-  for (const url of urls) {
-    const ok = await new Promise((resolve) => {
-      player.src = url;
-      player.volume = playerVolume();
-      player.onended = () => resolve(true);
-      player.onerror = () => resolve(false);
-      player.play().catch(() => resolve(false));
-    });
-    if (!ok) return false;
+  // Render everything before playing anything: a dialogue must not pause
+  // between speakers while the next voice synthesizes. Parts are fetched one
+  // at a time so the server never runs two syntheses at once.
+  const sources = [];
+  try {
+    for (const url of urls) {
+      const response = await fetch(url);
+      if (!response.ok) return false;
+      sources.push(URL.createObjectURL(await response.blob()));
+    }
+    for (const src of sources) {
+      const ok = await new Promise((resolve) => {
+        player.src = src;
+        player.volume = playerVolume();
+        player.onended = () => resolve(true);
+        player.onerror = () => resolve(false);
+        player.play().catch(() => resolve(false));
+      });
+      if (!ok) return false;
+    }
+    return true;
+  } catch {
+    return false;
+  } finally {
+    // Free the blobs once playback is over (or failed); the cache lives server-side.
+    setTimeout(() => sources.forEach((src) => URL.revokeObjectURL(src)), 0);
   }
-  return true;
 }
 
 function say(text) {

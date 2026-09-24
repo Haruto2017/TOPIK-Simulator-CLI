@@ -584,3 +584,39 @@ class ShellTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DialoguePlaybackTests(unittest.TestCase):
+    """A two-speaker question is fully rendered before the first turn plays."""
+
+    def test_all_turns_synthesized_before_any_playback(self):
+        from pathlib import Path
+        from topik_sim.tts import TTSConfig
+        from topik_sim.ui.shell import Shell
+
+        events = []
+
+        def fake_synthesize(texts, config):
+            events.append(("synth", texts[0], config.speaker_id, config.playback))
+            return [Path(f"/tmp/{config.speaker_id}-{len(events)}.wav")]
+
+        def fake_play(path, volume=1.0):
+            events.append(("play", path.name))
+
+        segments = [{"text": "학생이에요?", "role": "male"}, {"text": "네, 학생이에요.", "role": "female"}]
+        with patch("topik_sim.ui.shell.synthesize_many", side_effect=fake_synthesize), \
+             patch("topik_sim.ui.shell.play_audio", side_effect=fake_play):
+            Shell._synthesize_turns(segments, TTSConfig(provider="qwen3"), playback=True)
+        kinds = [e[0] for e in events]
+        self.assertEqual(kinds, ["synth", "synth", "play", "play"])       # render both, then play both
+        self.assertEqual([e[2] for e in events if e[0] == "synth"], ["ryan", "sohee"])
+        self.assertTrue(all(e[3] is False for e in events if e[0] == "synth"))
+
+    def test_single_utterance_keeps_the_direct_path(self):
+        from topik_sim.tts import TTSConfig
+        from topik_sim.ui.shell import Shell
+
+        calls = []
+        with patch("topik_sim.ui.shell.synthesize_many", side_effect=lambda t, c: calls.append(c.playback) or []):
+            Shell._synthesize_turns([{"text": "안녕하세요", "role": None}], TTSConfig(), playback=True)
+        self.assertEqual(calls, [True])

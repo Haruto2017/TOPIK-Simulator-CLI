@@ -102,6 +102,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `play_audio` now applies volume shaping only to WAVs so MP3s play unmodified.
 
 ### Fixed
+
+- **Transcript/replay/hint after answering pointed at the next question** (web). The session
+  cursor advances on submit, but the answered card stays on screen until the next view is
+  fetched; its controls now refer to the displayed question (`presented_qid`), not the cursor.
+- **Dialogue turns played with a gap** while the next speaker's audio synthesized. Every turn of
+  a question is now rendered before the first one plays (shell), and the web player fetches all
+  parts before starting, so speakers follow each other back to back.
 - **Mined vocabulary was unreachable from the practice modes.** Wordlist words
   fed meaning reveals and `/lookup`, but the recall deck and flashcards read
   imported packs only — so choosing a pack that teaches no vocabulary in its

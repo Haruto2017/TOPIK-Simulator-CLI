@@ -2720,13 +2720,23 @@ class Shell:
 
     @staticmethod
     def _synthesize_turns(segments: list[dict[str, Any]], config: TTSConfig, playback: bool) -> list[Path]:
-        """One synthesize_many call per turn, playback passed through — so a
-        turn plays as soon as it exists while the next one synthesizes, and a
-        single narration text behaves exactly as it always has."""
+        """Render every turn first, then play them back to back.
+
+        A dialogue must not pause between speakers while the next voice
+        synthesizes, so all turns are generated before the first one plays. A
+        single utterance keeps the direct path (synthesize_many plays it
+        itself) — same latency, and the shell's one synthesis seam.
+        """
+        if len(segments) == 1:
+            voice = voice_for_role(segments[0].get("role"), config)
+            return synthesize_many([segments[0]["text"]], replace(config, speaker_id=voice, playback=playback))
         paths: list[Path] = []
         for segment in segments:
             voice = voice_for_role(segment.get("role"), config)
-            paths.extend(synthesize_many([segment["text"]], replace(config, speaker_id=voice, playback=playback)))
+            paths.extend(synthesize_many([segment["text"]], replace(config, speaker_id=voice, playback=False)))
+        if playback:
+            for path in paths:
+                play_audio(path, volume=config.volume)
         return paths
 
     def _prefetch_next(self) -> None:
