@@ -564,3 +564,24 @@ class SpeakerVoiceAudioTests(WebAppTestCase):
         self.assertEqual(app.tts_config.male_speaker_id, "dylan")
         self.assertIsNone(app.tts_config.female_speaker_id)
         self.assertEqual(app.handle("GET", "/api/tts")[1]["voice_male"], "dylan")
+
+
+class DisplayedQuestionTests(WebAppTestCase):
+    """After answering, the card on screen is still the answered question; its
+    transcript, replay, and hint controls must not jump ahead to the next one."""
+
+    def test_transcript_after_answer_is_for_the_answered_question(self):
+        app = self.make_app(audio_enabled=True, synthesizer=fake_synthesizer(self.temp_dir))
+        status, view = app.handle("POST", "/api/exam/start", body={"pack": "listen-pack"})
+        activity = view["id"]
+        first_transcript = app.handle("POST", f"/api/activity/{activity}/transcript")[1]["transcript"]
+        self.assertIn("안녕하세요", first_transcript)
+        # answer question 1 — the session cursor moves to question 2 …
+        app.handle("POST", f"/api/activity/{activity}/answer", body={"value": "A"})
+        # … but the client has not fetched the next view yet: still question 1 on screen
+        self.assertEqual(app.handle("POST", f"/api/activity/{activity}/transcript")[1]["transcript"], first_transcript)
+        self.assertEqual(app.handle("GET", f"/api/activity/{activity}/audio", query={"part": "0"})[0], 200)
+        # fetching the next view advances what is displayed
+        status, view = app.handle("GET", f"/api/activity/{activity}")
+        self.assertEqual(view["question"]["question_id"], "l-002")
+        self.assertIn("감사합니다", app.handle("POST", f"/api/activity/{activity}/transcript")[1]["transcript"])

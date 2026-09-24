@@ -649,7 +649,7 @@ class WebApp:
         activity = self._activities[activity_id]
         if activity["kind"] != "exam":
             raise ApiError(400, "Hints only apply to exam questions.")
-        question = activity["session"].current_question()
+        question = self._displayed_question(activity)
         if question is None:
             raise ApiError(400, "No question is awaiting an answer.")
         vocabulary = (question.get("explanation") or {}).get("vocabulary", [])
@@ -670,7 +670,7 @@ class WebApp:
     def reveal_transcript(self, activity_id: str) -> dict[str, Any]:
         activity = self._activities[activity_id]
         if activity["kind"] == "exam":
-            question = activity["session"].current_question()
+            question = self._displayed_question(activity)
             if question is None:
                 raise ApiError(400, "No open question.")
             return {"transcript": transcript_text(question) or str(question.get("passage", ""))}
@@ -863,6 +863,23 @@ class WebApp:
             activity["deck"] = vocab_srs.load_deck(self.attempt_dir)
             activity["srs_misses_only"] = True
         return self._drill_view(self._register(activity))
+
+    def _displayed_question(self, activity: dict[str, Any]) -> dict[str, Any] | None:
+        """The question the client is looking at — not the session cursor.
+
+        After an answer the session already points at the next question, but
+        the answered card (with its transcript, replay, and hint controls) is
+        still on screen until the client fetches the next view. Those controls
+        must keep referring to the card they sit on.
+        """
+        session: ExamSession = activity["session"]
+        presented = activity.get("presented_qid")
+        if presented:
+            try:
+                return session.pack.question(presented)
+            except (KeyError, ValueError):
+                pass
+        return session.current_question()
 
     def _current_item(self, activity: dict[str, Any]) -> dict[str, Any]:
         items = activity["items"]
@@ -1129,7 +1146,7 @@ class WebApp:
     def activity_audio(self, activity_id: str, part: int, slow: bool = False) -> tuple[int, Any]:
         activity = self._activities[activity_id]
         if activity["kind"] == "exam":
-            question = activity["session"].current_question()
+            question = self._displayed_question(activity)
             if question is None:
                 raise ApiError(400, "No open question.")
             media = question_audio_file(question)
@@ -1150,7 +1167,7 @@ class WebApp:
         activity = self._activities[activity_id]
         if activity["kind"] != "exam":
             raise ApiError(404, "No image for this activity.")
-        question = activity["session"].current_question()
+        question = self._displayed_question(activity)
         if question is None:
             raise ApiError(400, "No open question.")
         media = question_image_file(question)
