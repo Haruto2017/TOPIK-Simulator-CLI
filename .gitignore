@@ -21,3 +21,6 @@ tools/runtime/
 
 # Officially released past papers + local-only packs (personal study use; NIIED copyright — never commit)
 content/private/
+
+# Per-machine workspace defaults (TTS engine/voice, paths); see examples/topik.config.example.json
+topik.config.json

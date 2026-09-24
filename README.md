@@ -47,7 +47,7 @@ This opens a persistent prompt styled after modern agent CLIs: history, slash-co
 - `/tts volume 0.8`, `/tts off` — change speech settings live
 - `/help`, `/quit`
 
-Workspace defaults (TTS voice/volume, directories, shell behavior) can live in `topik.config.json`; see `examples/topik.config.example.json`.
+Workspace defaults (TTS engine and voice, volume, directories, shell behavior) can live in `topik.config.json`; see `examples/topik.config.example.json`. Speech engines: `supertonic` (default, all platforms) or `qwen3` (Apple Silicon — run `./setup-tts-qwen3.sh`, then set `"tts": {"provider": "qwen3", "voice": "sohee"}`).
 
 ## Web UI
 

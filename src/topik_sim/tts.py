@@ -39,7 +39,6 @@ DEFAULT_QWEN3_VOICE = "sohee"
 DEFAULT_QWEN3_MODEL = "mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-8bit"
 DEFAULT_WORKSPACE_QWEN3_PYTHONS = (
     Path(".venv-qwen3") / "bin" / "python",
-    Path("data") / "model_cache" / "qwen3tts" / ".venv" / "bin" / "python",  # benchmark env
 )
 
 

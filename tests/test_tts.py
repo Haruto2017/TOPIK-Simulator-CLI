@@ -1,4 +1,5 @@
 import subprocess
+import os
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -34,6 +35,20 @@ HELLO_KO = "\uc548\ub155\ud558\uc138\uc694"
 
 
 class TTSTests(unittest.TestCase):
+    def setUp(self):
+        # Isolate CLI-driven tests from any real topik.config.json in the
+        # workspace (a developer's machine may default to another engine).
+        self._temp = tempfile.TemporaryDirectory()
+        self._old_config_env = os.environ.get("TOPIK_CONFIG")
+        os.environ["TOPIK_CONFIG"] = str(Path(self._temp.name) / "missing.config.json")
+
+    def tearDown(self):
+        if self._old_config_env is None:
+            os.environ.pop("TOPIK_CONFIG", None)
+        else:
+            os.environ["TOPIK_CONFIG"] = self._old_config_env
+        self._temp.cleanup()
+
     def test_collect_question_speech_texts_includes_korean_passage_and_teaching(self):
         pack = load_pack(SAMPLE_PACK)
         question = pack.questions()[0]
