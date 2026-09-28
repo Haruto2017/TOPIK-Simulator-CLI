@@ -65,6 +65,19 @@ class WordClassTests(unittest.TestCase):
         self.assertEqual(tuple(CLASS_LABELS), WORD_CLASSES)
 
 
+class BundledAdverbListTests(unittest.TestCase):
+    """content/vocabulary/adverbs.json is the adverb set's backbone."""
+
+    def test_every_bundled_adverb_classifies_as_one(self):
+        root = Path(__file__).resolve().parents[1]
+        data = json.loads((root / "content" / "vocabulary" / "adverbs.json").read_text(encoding="utf-8"))
+        words = data["words"]
+        self.assertGreaterEqual(len(words), 90)
+        self.assertIn("가끔", {w["ko"] for w in words})
+        wrong = [w["ko"] for w in words if word_class(w["ko"], w["en"]) != "adverb"]
+        self.assertEqual(wrong, [])
+
+
 class WordClassScopeTests(unittest.TestCase):
     """Decks, recall, flashcards and review can all be scoped to one class."""
 
