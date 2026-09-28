@@ -238,9 +238,20 @@ class WebApp:
         if parts == ["drill", "start"] and method == "POST":
             return 200, self.start_practice(body)
 
+        if parts == ["vocab", "classes"] and method == "GET":
+            return 200, {"classes": self.vocab_classes()}
+
         if parts == ["deck", "flashcards"] and method == "GET":
             from ..flashcards import build_deck, wordlist_deck
 
+            word_class = self._word_class_param(query.get("pos"))
+            if word_class:  # one part of speech across every list
+                from ..pos import CLASS_LABELS
+
+                cards = wordlist_deck(self.library_dir, word_class=word_class)
+                if not cards:
+                    raise ApiError(400, f"No {CLASS_LABELS[word_class]} in the word lists.")
+                return 200, {"cards": cards, "title": CLASS_LABELS[word_class]}
             unit = str(query.get("unit", "") or "").strip()
             if unit:  # a study-path stage's own vocabulary
                 cards = wordlist_deck(self.library_dir, unit=unit)
@@ -425,6 +436,27 @@ class WebApp:
                 "updated_at": data.get("updated_at"),
             })
         return results
+
+    @staticmethod
+    def _word_class_param(value: Any) -> str | None:
+        """Canonical part-of-speech id from a ``pos`` parameter (400 if unknown)."""
+        from ..pos import normalize_class
+
+        raw = str(value or "").strip()
+        if not raw:
+            return None
+        word_class = normalize_class(raw)
+        if word_class is None:
+            raise ApiError(400, "pos must be one of noun, verb, adjective, adverb")
+        return word_class
+
+    def vocab_classes(self) -> list[dict[str, Any]]:
+        """The four part-of-speech sets with how many words each holds."""
+        from ..flashcards import wordlist_deck
+        from ..pos import CLASS_LABELS, WORD_CLASSES, class_counts
+
+        counts = class_counts(wordlist_deck(self.library_dir))
+        return [{"id": name, "label": CLASS_LABELS[name], "count": counts[name]} for name in WORD_CLASSES]
 
     def tts_state(self) -> dict[str, Any]:
         return {
@@ -763,14 +795,15 @@ class WebApp:
             from ..flashcards import build_recall_items
 
             unit = str(body.get("unit", "") or "").strip()
-            if unit:
-                from ..flashcards import wordlist_deck
+            word_class = self._word_class_param(body.get("pos"))
+            if unit or word_class:
+                from ..flashcards import recall_items_from_cards, wordlist_deck
+                from ..pos import CLASS_LABELS
 
-                from ..flashcards import recall_items_from_cards
-
-                cards = wordlist_deck(self.library_dir, unit=unit)
+                cards = wordlist_deck(self.library_dir, unit=unit or None, word_class=word_class)
                 if not cards:
-                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+                    raise ApiError(400, f"No vocabulary for unit {unit!r}." if unit
+                                   else f"No {CLASS_LABELS[word_class]} in the word lists.")
                 items = recall_items_from_cards(cards, seed=self.seed, count=count or 10)
             else:
                 items = build_recall_items(pack=pack, library_dir=self.library_dir,
@@ -781,12 +814,16 @@ class WebApp:
             from ..flashcards import gloss_map
 
             unit = str(body.get("unit", "") or "").strip()
-            if unit:  # scope the review to one study-path stage
+            word_class = self._word_class_param(body.get("pos"))
+            if unit or word_class:  # scope the review to one stage, or one part of speech
                 from ..flashcards import wordlist_deck
+                from ..pos import CLASS_LABELS
 
-                glosses = {c["ko"]: c["en"] for c in wordlist_deck(self.library_dir, unit=unit)}
+                glosses = {c["ko"]: c["en"] for c in
+                           wordlist_deck(self.library_dir, unit=unit or None, word_class=word_class)}
                 if not glosses:
-                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+                    raise ApiError(400, f"No vocabulary for unit {unit!r}." if unit
+                                   else f"No {CLASS_LABELS[word_class]} in the word lists.")
             elif pack is not None:  # scope the review to one exam's vocabulary
                 from ..flashcards import wordlist_deck
 

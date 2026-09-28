@@ -28,18 +28,23 @@ def wordlist_deck(
     library_dir: str | Path,
     pack_id: str | None = None,
     unit: str | None = None,
+    word_class: str | None = None,
 ) -> list[dict[str, str]]:
     """Vocabulary cards from the curriculum and private wordlists.
 
     With ``pack_id`` the deck narrows to words that pack actually uses — which
     is how a mined list (e.g. a past paper's vocabulary) becomes practisable
     even though the pack itself teaches no words in its explanations. With
-    ``unit`` it narrows to one study-path stage's words instead.
+    ``unit`` it narrows to one study-path stage's words instead, and with
+    ``word_class`` to one part of speech (noun, verb, adjective, adverb)
+    across every list.
     """
-    from .wordlists import load_wordlists, words_for_pack, words_for_unit, wordlist_dirs_for
+    from .wordlists import load_wordlists, words_for_class, words_for_pack, words_for_unit, wordlist_dirs_for
 
     directories = wordlist_dirs_for(library_dir)
-    if unit:
+    if word_class:
+        entries = words_for_class(word_class, directories)
+    elif unit:
         entries = words_for_unit(unit, directories)
     elif pack_id:
         entries = words_for_pack(pack_id, directories)

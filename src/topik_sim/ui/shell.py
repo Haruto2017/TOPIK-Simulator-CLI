@@ -1032,6 +1032,21 @@ class Shell:
             glosses.setdefault(card["ko"], card["en"])
         return glosses
 
+    def _word_class_scope(self, value: str) -> str | None:
+        """Canonical part-of-speech id for ``pos:<value>``; prints the menu
+        (with counts) and returns None when the value is not one."""
+        from ..flashcards import wordlist_deck
+        from ..pos import CLASS_LABELS, WORD_CLASSES, class_counts, normalize_class
+
+        word_class = normalize_class(value)
+        if word_class is not None:
+            return word_class
+        counts = class_counts(wordlist_deck(self.library_dir))
+        self.emit(f"Unknown part of speech {value!r}. Choose one of:")
+        for name in WORD_CLASSES:
+            self.emit(f"  pos:{name:<10} {CLASS_LABELS[name]} — {counts[name]} words")
+        return None
+
     def cmd_vocab(self, argument: str) -> None:
         """Spaced vocabulary review — due words plus a few new ones each session."""
         from .. import vocab_srs
@@ -1047,7 +1062,18 @@ class Shell:
                 count = int(part)
             else:
                 scope = part
-        if scope:  # /vocab <pack> — review just that exam's words
+        if scope.lower().startswith("pos:"):  # /vocab pos:verb — one part of speech
+            from ..flashcards import wordlist_deck
+            from ..pos import CLASS_LABELS
+
+            word_class = self._word_class_scope(scope.split(":", 1)[1])
+            if word_class is None:
+                return
+            glosses = {c["ko"]: c["en"] for c in wordlist_deck(self.library_dir, word_class=word_class)}
+            if not glosses:
+                self.emit(f"No {CLASS_LABELS[word_class]} in the word lists yet.")
+                return
+        elif scope:  # /vocab <pack> — review just that exam's words
             try:
                 pack = self._resolve_pack(scope)
             except (ValueError, ContentValidationError, OSError) as exc:
@@ -1113,6 +1139,7 @@ class Shell:
         self._end_minigames()
         pack = None
         unit = ""
+        word_class = ""
         count = 10
         loop = False
         for part in argument.split():
@@ -1122,6 +1149,10 @@ class Shell:
                 loop = True
             elif part.lower().startswith("unit:"):
                 unit = part.split(":", 1)[1]
+            elif part.lower().startswith("pos:"):
+                word_class = self._word_class_scope(part.split(":", 1)[1])
+                if word_class is None:
+                    return
             else:
                 try:
                     pack = self._resolve_pack(part)
@@ -1131,17 +1162,19 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
-        if unit:  # a study-path stage's own words
+        if unit or word_class:  # a study-path stage's own words, or one part of speech
             from ..flashcards import recall_items_from_cards, wordlist_deck
+            from ..pos import CLASS_LABELS
 
-            cards = wordlist_deck(self.library_dir, unit=unit)
+            cards = wordlist_deck(self.library_dir, unit=unit or None, word_class=word_class or None)
             if not cards:
-                self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages.")
+                self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages." if unit
+                          else f"No {CLASS_LABELS[word_class]} in the word lists yet.")
                 return
             items = recall_items_from_cards(cards, seed=self._flashcard_seed, count=count)
             self._arm_recall_srs()
             self._start_typing(items, label="Vocab recall", verb="Recalled",
-                               title=f"Vocab recall: {unit}",
+                               title=f"Vocab recall: {unit or CLASS_LABELS[word_class]}",
                                hint="type the Korean for each English word · /pause stops", loop=loop)
             return
         items = build_recall_items(
@@ -1627,19 +1660,31 @@ class Shell:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
-        if argument.strip().lower().startswith("unit:"):
+        if argument.strip().lower().startswith(("unit:", "pos:")):
             from ..flashcards import wordlist_deck
+            from ..pos import CLASS_LABELS
 
-            unit = argument.strip().split(":", 1)[1]
-            cards = wordlist_deck(self.library_dir, unit=unit)
-            if not cards:
-                self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages.")
-                return
+            kind, _, value = argument.strip().partition(":")
+            if kind.lower() == "pos":
+                word_class = self._word_class_scope(value)
+                if word_class is None:
+                    return
+                cards = wordlist_deck(self.library_dir, word_class=word_class)
+                title = CLASS_LABELS[word_class]
+                if not cards:
+                    self.emit(f"No {title} in the word lists yet.")
+                    return
+            else:
+                cards = wordlist_deck(self.library_dir, unit=value)
+                title = value
+                if not cards:
+                    self.emit(f"No vocabulary for unit {value!r}. /path lists the stages.")
+                    return
             self._start_cards([{
                 "front": card["ko"],
                 "back": f"{card['en']} ({card['note']})" if card.get("note") else card["en"],
                 "example": "", "speech": card["ko"], "keys": card["ko"],
-            } for card in cards], "Flashcards", f"Flashcards: {unit}")
+            } for card in cards], "Flashcards", f"Flashcards: {title}")
             return
         if not argument:
             if not self._open_pack_picker("flashcards"):

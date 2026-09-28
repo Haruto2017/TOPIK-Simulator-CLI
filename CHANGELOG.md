@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Vocabulary sets by part of speech.** Recall, flashcards and spaced review can be scoped to nouns,
+  verbs, adjectives or adverbs across every word list (`/recall pos:verb`, `/flashcards pos:adj`,
+  `/vocab pos:adverb`; web "By part of speech" in the practice picker, `GET /api/vocab/classes`, `pos` on
+  the deck and drill endpoints). The class is inferred from each entry's shape and gloss (`pos.py`), so
+  mined past-paper lists join in without hand tagging.
+
 - **One-narrator option for dialogues** (`--tts-dialogue single`, `tts.dialogue`, `/tts dialogue single`,
   Settings "Dialogue voices"): the narration voice reads the whole transcript in one take with the
   `남자:`/`여자:` labels spoken aloud, for learners who prefer a single voice (e.g. `sohee` throughout)

@@ -105,6 +105,17 @@ def words_for_unit(unit_id: str, path: str | Path | Iterable[str | Path] = DEFAU
     return [word for word in load_wordlists(path) if word.get("unit") == wanted]
 
 
+def words_for_class(word_class_id: str, path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DIR) -> list[dict[str, str]]:
+    """Every wordlist entry of one part of speech (noun/verb/adjective/adverb).
+
+    The class is inferred from the entry itself — see ``pos.word_class`` — so
+    no list needs a hand-tagged field.
+    """
+    from .pos import words_in_class
+
+    return words_in_class(load_wordlists(path), word_class_id)
+
+
 def wordlist_glosses(path: str | Path = DEFAULT_WORDLIST_DIR) -> dict[str, str]:
     """Korean word → gloss for every wordlist entry (note after an em dash)."""
     glosses: dict[str, str] = {}

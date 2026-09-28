@@ -440,6 +440,44 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class PartOfSpeechApiTests(WebAppTestCase):
+    """Vocabulary modes can be scoped to nouns, verbs, adjectives or adverbs."""
+
+    def setUp(self):
+        super().setUp()
+        vocab = self.temp_dir / "vocabulary"
+        vocab.mkdir()
+        (vocab / "words.json").write_text(json.dumps({
+            "schema_version": "topik-sim.vocabulary.v1",
+            "words": [
+                {"ko": "학교", "en": "school", "unit": "u1"},
+                {"ko": "가다", "en": "to go", "unit": "u1"},
+                {"ko": "크다", "en": "to be big", "unit": "u1"},
+                {"ko": "아주", "en": "very", "unit": "u1"},
+            ],
+        }, ensure_ascii=False), encoding="utf-8")
+
+    def test_classes_endpoint_counts_each_bucket(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("GET", "/api/vocab/classes")
+        self.assertEqual(status, 200)
+        self.assertEqual([(c["id"], c["count"]) for c in payload["classes"]],
+                         [("noun", 1), ("verb", 1), ("adjective", 1), ("adverb", 1)])
+
+    def test_flashcards_recall_and_review_take_pos(self):
+        app = self.make_app(audio_enabled=False)
+        status, payload = app.handle("GET", "/api/deck/flashcards", query={"pos": "adj"})
+        self.assertEqual(status, 200)
+        self.assertEqual([c["ko"] for c in payload["cards"]], ["크다"])
+        self.assertEqual(payload["title"], "Adjectives · 형용사")
+        status, view = app.handle("POST", "/api/drill/start", body={"mode": "recall", "pos": "verb", "count": 5})
+        self.assertEqual(status, 200)
+        self.assertEqual([i["answer"] for i in app._activities[view["id"]]["items"]], ["가다"])
+        status, view = app.handle("POST", "/api/drill/start", body={"mode": "vocab", "pos": "adverb"})
+        self.assertEqual(status, 200)
+        self.assertEqual(app.handle("GET", "/api/deck/flashcards", query={"pos": "colour"})[0], 400)
+
+
 class UnitVocabularyApiTests(WebAppTestCase):
     """Study-path stages expose their words, and the words are drillable."""
 

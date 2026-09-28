@@ -1044,9 +1044,21 @@ async function practiceConfigView(mode) {
         }));
     } catch { unitOptions = []; }
   }
+  // …and on one part of speech across every list (nouns, verbs, adjectives, adverbs).
+  let classOptions = [];
+  if (unitScoped) {
+    try {
+      classOptions = (await api("GET", "/api/vocab/classes")).classes
+        .filter((c) => c.count > 0)
+        .map((c) => el("option", { value: `pos:${c.id}`, text: `${c.label} — ${c.count} words` }));
+    } catch { classOptions = []; }
+  }
   const packSelect = el("select", {},
     spec.pack !== "required" ? el("option", { value: "", text: "every imported pack" }) : null,
     ...packs.map((p) => el("option", { value: p.pack_id, text: p.title || p.pack_id })),
+    ...(classOptions.length
+      ? [el("optgroup", { label: "By part of speech" }, ...classOptions)]
+      : []),
     ...(unitOptions.length
       ? [el("optgroup", { label: "Study-path stages" }, ...unitOptions)]
       : []));
@@ -1068,10 +1080,12 @@ async function practiceConfigView(mode) {
   const start = async () => {
     const chosen = packSelect.value || "";
     const unitValue = chosen.startsWith("unit:") ? chosen.slice(5) : undefined;
-    const packValue = unitValue ? undefined : (chosen || undefined);
+    const posValue = chosen.startsWith("pos:") ? chosen.slice(4) : undefined;
+    const packValue = unitValue || posValue ? undefined : (chosen || undefined);
     try {
       if (mode === "flashcards") {
-        const query = unitValue ? `unit=${encodeURIComponent(unitValue)}`
+        const query = posValue ? `pos=${encodeURIComponent(posValue)}`
+          : unitValue ? `unit=${encodeURIComponent(unitValue)}`
           : `pack=${encodeURIComponent(packValue)}`;
         const deck = await api("GET", `/api/deck/flashcards?${query}`);
         state.deck = {
@@ -1089,7 +1103,7 @@ async function practiceConfigView(mode) {
         go("#/cards");
       } else {
         const view = await api("POST", "/api/drill/start", {
-          mode, pack: packValue, unit: unitValue,
+          mode, pack: packValue, unit: unitValue, pos: posValue,
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
           advanced: advancedCheck && advancedCheck.checked ? true : undefined,

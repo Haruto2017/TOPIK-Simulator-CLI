@@ -91,6 +91,14 @@ Slash commands:
 - **Rounds** (`loop`, also `rounds`/`until`/`clear`) on `/recall`, `/numbers`, and `/colors`, and the "Rounds" checkbox on the web setup for recall, typing, numbers, colors, and conjugation: whatever you miss comes straight back as the next round, shuffled, until every item is cleared (capped at 8 rounds; `/pause` ends it early). The session reports and logs the **first pass** — what you actually knew — and then "All clear in N rounds". Not offered for `/vocab`, whose spaced schedule already reschedules a miss.
 - **Recall misses are scheduled.** A word you cannot produce on the first pass of a recall drill is recorded in the vocabulary SRS deck as a lapse (box 1, due tomorrow), so it surfaces in your next `/vocab` session; correct answers are not added, and later rounds of the same session do not record again.
 - Study-path stages carry their own vocabulary. `/path <n>` prints the stage's words as a footer strip (Korean + gloss pairs, the way a textbook prints them under the page), and `/recall unit:<id>` and `/flashcards unit:<id>` drill exactly that stage's set. The same sets are served to the web UI on each study-path card as a vocabulary band with 단어 Cards / 단어 Recall buttons (`GET /api/deck/flashcards?unit=<id>`, and `unit` on `POST /api/drill/start` for the `recall` and `vocab` modes).
+- Vocabulary can also be practised by part of speech: `/recall pos:<noun|verb|adjective|adverb>`,
+  `/flashcards pos:<class>`, `/vocab pos:<class>` (aliases `n`/`v`/`adj`/`adv`, Korean names accepted;
+  an unknown value prints the four sets with counts). The class is inferred mechanically from each list
+  entry — a `to …` gloss is a verb, `to be …` an adjective, a curated list plus `-히`/`-게`/`-이`/`-로`
+  shapes with adverb-like glosses are adverbs, polite set phrases belong to none, everything else is the
+  noun (체언) bucket — so no list needs a tag. Web: `GET /api/vocab/classes` (id, label, count),
+  `pos` on `GET /api/deck/flashcards` and on `POST /api/drill/start` for `recall`/`vocab`; the practice
+  picker lists the four sets under "By part of speech".
 - **Speech engines.** `--tts-provider` (and `/tts provider <p>`) selects `supertonic` (default; Windows/macOS/Linux,
   set up by `setup-tts.ps1`) or `qwen3` (Apple Silicon only, set up by `setup-tts-qwen3.sh`, which builds
   `.venv-qwen3` with mlx-audio on Python ≥ 3.11). Both run as subprocess helpers in their own venv
