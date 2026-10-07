@@ -1179,9 +1179,11 @@ def print_question(index: int, question: dict[str, Any], show_transcript: bool =
     image = question_image_file(question)
     if image is not None:
         print(f"Picture: {image} (open to view)")
-    print(question["prompt"])
+    from .markup import plain_underline
+
+    print(plain_underline(question["prompt"]))
     for option in question.get("options", []):
-        print(f"  {option['id']}. {option['text']}")
+        print(f"  {option['id']}. {plain_underline(option['text'])}")
     hint = response_format_hint(question)
     if hint:
         print(f"({hint})")
@@ -1199,7 +1201,9 @@ def print_post_answer_transcript(question: dict[str, Any], was_shown_before_answ
 
 
 def question_display_passage(question: dict[str, Any], show_transcript: bool) -> str | None:
-    passage = str(question.get("passage", "")).strip()
+    from .markup import plain_underline
+
+    passage = plain_underline(str(question.get("passage", "")).strip())
     if not passage:
         return None
     if is_listening_question(question) and not show_transcript:

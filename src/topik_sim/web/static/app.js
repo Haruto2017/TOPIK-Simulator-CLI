@@ -24,6 +24,23 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
+// Question text may mark 밑줄 친 부분 with <u>…</u>: render those spans as real
+// underlines, everything else as plain text nodes (never innerHTML).
+function rich(text) {
+  const parts = [];
+  const pattern = /<u>([\s\S]*?)<\/u>/g;
+  let last = 0;
+  let match;
+  const source = String(text ?? "");
+  while ((match = pattern.exec(source))) {
+    if (match.index > last) parts.push(source.slice(last, match.index));
+    parts.push(el("u", { text: match[1] }));
+    last = pattern.lastIndex;
+  }
+  if (last < source.length) parts.push(source.slice(last));
+  return parts;
+}
+
 let toastTimer = null;
 function toast(message) {
   const node = document.getElementById("toast");
@@ -596,7 +613,7 @@ async function examView(id) {
 
   body.append(
     el("div", { class: "qnum", text: `Question ${question.number} of ${question.total} · ${question.skill || ""} · ${question.points} pt` }),
-    el("p", { class: "prompt ko", text: question.prompt }),
+    el("p", { class: "prompt ko" }, rich(question.prompt)),
   );
 
   if (question.has_image) {
@@ -610,7 +627,7 @@ async function examView(id) {
   const transcriptSlot = el("div");
   body.append(transcriptSlot);
   if (question.passage) {
-    transcriptSlot.append(el("div", { class: "passage ko", text: question.passage }));
+    transcriptSlot.append(el("div", { class: "passage ko" }, rich(question.passage)));
   }
 
   if (question.listening && question.audio_parts > 0) {
@@ -687,7 +704,7 @@ async function examView(id) {
         const showKeyHint = String(option.id) !== String(index + 1);
         const button = el("button", { onclick: () => submit(option.id) },
           el("span", { class: "opt-id", text: option.id }),
-          el("span", { class: "ko opt-text", text: option.text }),
+          el("span", { class: "ko opt-text" }, rich(option.text)),
           showKeyHint ? el("span", { class: "opt-key small muted", text: String(index + 1) }) : null);
         optionButtons.set(option.id, button);
         return button;

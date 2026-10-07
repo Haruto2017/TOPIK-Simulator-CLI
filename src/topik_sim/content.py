@@ -163,6 +163,15 @@ def _validate_question(question: Any, path: str, seen_question_ids: set[str], er
 
     errors.extend(get_question_type(answer_type).validate(answer, question, path))
 
+    from .markup import markup_errors
+
+    fields = [("prompt", question.get("prompt")), ("passage", question.get("passage"))]
+    fields += [(f"options[{i}].text", option.get("text"))
+               for i, option in enumerate(question.get("options") or []) if isinstance(option, dict)]
+    for field, value in fields:
+        for problem in markup_errors(str(value or "")):
+            errors.append(f"{path}.{field}: {problem}.")
+
     explanation = question.get("explanation")
     if not isinstance(explanation, dict):
         errors.append(f"{path}.explanation must be an object.")

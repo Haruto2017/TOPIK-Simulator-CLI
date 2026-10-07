@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Underlined spans in question text.** Packs can mark 밑줄 친 부분 with `<u>…</u>` in a prompt,
+  passage, or option; the web draws an underline, the shell an ANSI underline (`_x_` without colour),
+  speech and vocabulary mining strip the tags, and `validate-content` rejects unbalanced or nested tags.
+  Needed by TOPIK II reading items that ask about an underlined phrase.
+  The content contract also documents how packs built from released papers handle a withheld passage
+  or listening script (`transcript-withheld` tag, omitted reading items, optional `source_notes`).
+
 - **Vocabulary sets by part of speech.** Recall, flashcards and spaced review can be scoped to nouns,
   verbs, adjectives or adverbs across every word list (`/recall pos:verb`, `/flashcards pos:adj`,
   `/vocab pos:adverb`; web "By part of speech" in the practice picker, `GET /api/vocab/classes`, `pos` on

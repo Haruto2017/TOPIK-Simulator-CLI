@@ -4,6 +4,7 @@ import re
 import shutil
 from typing import Any
 
+from ..markup import plain_underline, underline_spans
 from ..question_types import response_format_hint
 from ..tts import is_listening_question
 from . import ansi
@@ -51,6 +52,14 @@ def rule(label: str = "") -> str:
     return ansi.style(body + "─" * max(0, width - len(body)), ansi.GREY)
 
 
+def marked(text: str) -> str:
+    """Question text with ``<u>…</u>`` spans underlined (``_x_`` without colour)."""
+    if not ansi.supports_color():
+        return plain_underline(text)
+    return "".join(f"\x1b[4m{chunk}\x1b[24m" if underlined else chunk
+                   for chunk, underlined in underline_spans(text))
+
+
 def question_card(
     number: int,
     total: int,
@@ -68,7 +77,7 @@ def question_card(
         # With TTS off the transcript fallback follows immediately; saying
         # "audio plays automatically" here would contradict it.
     elif passage:
-        lines.append(passage)
+        lines.append(marked(passage))
 
     audio_ref = str(question.get("audio_ref", ""))
     if audio_ref and not audio_ref.startswith(("transcript-only:", "file:")):
@@ -80,9 +89,9 @@ def question_card(
     if image is not None:  # terminals can't show it; point at the file
         lines.append(ansi.style(f"Picture: {image} (open to view)", ansi.DIM))
 
-    lines.append(ansi.style(str(question.get("prompt", "")), ansi.BOLD))
+    lines.append(ansi.style(marked(str(question.get("prompt", ""))), ansi.BOLD))
     for option in question.get("options", []):
-        lines.append(f"  {ansi.style(str(option.get('id', '?')), ansi.CYAN)}. {option.get('text', '')}")
+        lines.append(f"  {ansi.style(str(option.get('id', '?')), ansi.CYAN)}. {marked(str(option.get('text', '')))}")
     hint = response_format_hint(question)
     if hint:
         lines.append(ansi.style(f"({hint})", ansi.DIM))

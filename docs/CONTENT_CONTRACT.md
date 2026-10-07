@@ -212,6 +212,30 @@ Requirements:
 - Learners separate multiple blanks with `/` (also `;` or `|`), e.g. `에 / 에서`.
 - Grading is all-or-nothing per question; use one blank per question for partial-credit granularity.
 
+### Withheld material in released papers
+
+Officially released past papers sometimes print a copyright notice instead of a passage or listening
+script ("저작권 관련 법령에 따라 … 공개하지 않습니다"). Conventions for packs built from them:
+
+- A listening item whose script is withheld keeps its official `audio_ref`, uses the printed notice as its
+  transcript, and carries the tag `transcript-withheld`. It stays fully answerable from the audio.
+- A reading item whose passage is withheld cannot be answered, so it is left out of the pack. The optional
+  top-level string `source_notes` records which items were omitted and the resulting point total.
+
+### Underlined spans (밑줄 친 부분)
+
+Questions that ask about "the underlined part" mark it inline with `<u>…</u>` in the `prompt`,
+`passage`, or an option's `text`:
+
+```json
+{ "passage": "시험이 시작되자 교실은 <u>숨소리가 들릴 만큼</u> 조용해졌다." }
+```
+
+- `<u>` is the only markup; everything else is plain text. Tags must be balanced and not nested
+  (`validate-content` reports the field otherwise).
+- The web UI draws a real underline, colour terminals use an ANSI underline, plain output shows `_x_`.
+- Speech (TTS) and vocabulary mining strip the tags, so they never read or tokenize them.
+
 ### Essay (manual review)
 
 ```json

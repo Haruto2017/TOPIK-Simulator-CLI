@@ -21,6 +21,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
+from .markup import strip_markup
+
 HANGUL = re.compile(r"[가-힣]+")
 
 # Case particles and suffixes, longest first so 에서부터 beats 에.
@@ -188,10 +190,10 @@ def pack_text_fragments(pack: dict[str, Any]) -> Iterable[str]:
     """Every learner-facing Korean string in a pack, as opaque text."""
     for section in pack.get("sections", []) or []:
         for question in section.get("questions", []) or []:
-            yield str(question.get("prompt", "") or "")
-            yield str(question.get("passage", "") or "")
+            yield strip_markup(str(question.get("prompt", "") or ""))
+            yield strip_markup(str(question.get("passage", "") or ""))
             for option in question.get("options", []) or []:
-                yield str(option.get("text", "") or "")
+                yield strip_markup(str(option.get("text", "") or ""))
 
 
 def resolve_token(token: str, glosses: dict[str, str], inflected: dict[str, str]) -> tuple[str, bool]:

@@ -251,18 +251,20 @@ def collect_speech_segments(
     """
     segments: list[dict[str, Any]] = []
     if include_passage:
-        value = transcript_text(question) or str(question.get("passage", "")).strip()
+        value = transcript_text(question)
         if value and split_speakers:
             segments.extend(split_speaker_turns(value))
         elif value:
             segments.append({"text": value, "role": None})
 
+    from .markup import strip_markup
+
     if include_prompt and looks_korean(str(question.get("prompt", ""))):
-        segments.append({"text": str(question["prompt"]), "role": None})
+        segments.append({"text": strip_markup(str(question["prompt"])), "role": None})
 
     if include_options:
         for option in question.get("options", []):
-            text = str(option.get("text", "")).strip()
+            text = strip_markup(str(option.get("text", ""))).strip()
             if looks_korean(text):
                 segments.append({"text": text, "role": None})
 
@@ -392,7 +394,9 @@ def looks_korean(text: str) -> bool:
 
 
 def transcript_text(question: dict[str, Any]) -> str:
-    passage = str(question.get("passage", "")).strip()
+    from .markup import strip_markup
+
+    passage = strip_markup(str(question.get("passage", ""))).strip()
     if passage.lower().startswith("transcript:"):
         return passage.split(":", 1)[1].strip()
     return passage
