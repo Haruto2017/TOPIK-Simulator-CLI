@@ -381,6 +381,10 @@ ul.tight li::marker { color: var(--accent); }
 .flashcard .front { font-size: 40px; font-weight: 700; font-family: var(--font-display-ko); letter-spacing: -.01em; }
 .flip-back .front { font-size: 22px; opacity: .65; }
 .flashcard .back-main { font-size: 22px; font-weight: 650; margin-top: 8px; }
+/* 中文 / 日本語 meanings under a vocabulary card's back and recall prompts */
+.meanings { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; margin: 6px 0 10px; font-size: 16px; color: var(--muted, #666); }
+.drill-show + .meanings { justify-content: flex-start; margin-top: -8px; }
+.meaning-label { font-size: 12px; font-weight: 650; letter-spacing: .02em; opacity: .75; }
 .flashcard .example { margin-top: 12px; color: var(--ink-2); font-size: 16px; }
 .flip-hint { margin-top: 14px; color: var(--ink-3); font-size: 12.5px; }
 

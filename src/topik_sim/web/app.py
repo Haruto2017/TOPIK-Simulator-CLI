@@ -242,27 +242,12 @@ class WebApp:
             return 200, {"classes": self.vocab_classes()}
 
         if parts == ["deck", "flashcards"] and method == "GET":
-            from ..flashcards import build_deck, wordlist_deck
+            status, payload = self._flashcard_deck(query)
+            from ..lexicon import Lexicon
 
-            word_class = self._word_class_param(query.get("pos"))
-            if word_class:  # one part of speech across every list
-                from ..pos import CLASS_LABELS
+            Lexicon(self.library_dir).attach(payload["cards"])  # adds zh / ja per card
+            return status, payload
 
-                cards = wordlist_deck(self.library_dir, word_class=word_class)
-                if not cards:
-                    raise ApiError(400, f"No {CLASS_LABELS[word_class]} in the word lists.")
-                return 200, {"cards": cards, "title": CLASS_LABELS[word_class]}
-            unit = str(query.get("unit", "") or "").strip()
-            if unit:  # a study-path stage's own vocabulary
-                cards = wordlist_deck(self.library_dir, unit=unit)
-                if not cards:
-                    raise ApiError(400, f"No vocabulary for unit {unit!r}.")
-                return 200, {"cards": cards, "title": unit}
-            pack = self._resolve_pack(query.get("pack", ""))
-            cards = build_deck(pack, seed=self.seed)
-            if not cards:  # a pack with no taught notes still has mined words
-                cards = wordlist_deck(self.library_dir, pack.pack_id)
-            return 200, {"cards": cards, "title": pack.title}
         if parts == ["deck", "grammar"] and method == "GET":
             from ..grammar import build_grammar_cards
 
@@ -436,6 +421,30 @@ class WebApp:
                 "updated_at": data.get("updated_at"),
             })
         return results
+
+    def _flashcard_deck(self, query: dict[str, str]) -> tuple[int, dict[str, Any]]:
+        """Vocabulary cards for one part of speech, study-path unit, or pack."""
+        from ..flashcards import build_deck, wordlist_deck
+
+        word_class = self._word_class_param(query.get("pos"))
+        if word_class:  # one part of speech across every list
+            from ..pos import CLASS_LABELS
+
+            cards = wordlist_deck(self.library_dir, word_class=word_class)
+            if not cards:
+                raise ApiError(400, f"No {CLASS_LABELS[word_class]} in the word lists.")
+            return 200, {"cards": cards, "title": CLASS_LABELS[word_class]}
+        unit = str(query.get("unit", "") or "").strip()
+        if unit:  # a study-path stage's own vocabulary
+            cards = wordlist_deck(self.library_dir, unit=unit)
+            if not cards:
+                raise ApiError(400, f"No vocabulary for unit {unit!r}.")
+            return 200, {"cards": cards, "title": unit}
+        pack = self._resolve_pack(query.get("pack", ""))
+        cards = build_deck(pack, seed=self.seed)
+        if not cards:  # a pack with no taught notes still has mined words
+            cards = wordlist_deck(self.library_dir, pack.pack_id)
+        return 200, {"cards": cards, "title": pack.title}
 
     @staticmethod
     def _word_class_param(value: Any) -> str | None:
@@ -891,6 +900,9 @@ class WebApp:
 
         if not items:
             raise ApiError(400, "No practice items found. Import a pack first.")
+        from ..lexicon import Lexicon
+
+        Lexicon(self.library_dir).decorate_items(items)  # 中文 / 日本語 under every recall prompt
         activity: dict[str, Any] = {
             "kind": "drill", "mode": mode, "label": label, "items": items,
             "index": 0, "hits": 0, "missed": [], "meta": meta,
@@ -972,6 +984,7 @@ class WebApp:
                 "no_digits": bool(item.get("no_digits")),
                 "no_latin": bool(item.get("no_latin")),
                 "audio": audio_ok and not spoils,
+                "meanings": item.get("meanings"),
             }
             if item.get("swatch"):  # color drills: the browser paints the swatch
                 view["item"]["swatch"] = item["swatch"]

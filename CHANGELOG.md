@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Mandarin and Japanese meanings for vocabulary.** English glosses are often too loose (쓰다: write,
+  use, or wear?), so every flashcard back and every recall-style prompt — recall, spaced review, homework
+  recall, the misses drill, on the shell and the web — now also shows the word's 中文 and 日本語
+  equivalents. They live in a new lexicon (`content/lexicon/`, plus `content/private/lexicon/` for words
+  mined from private papers; `lexicon.py`) covering every word the bundled and private content can put on
+  a card. New vocabulary must ship with both (`tests/test_lexicon.py`, content contract "Vocabulary
+  Meanings").
+
 - **Underlined spans in question text.** Packs can mark 밑줄 친 부분 with `<u>…</u>` in a prompt,
   passage, or option; the web draws an underline, the shell an ANSI underline (`_x_` without colour),
   speech and vocabulary mining strip the tags, and `validate-content` rejects unbalanced or nested tags.

@@ -266,6 +266,35 @@ Requirements:
 - Teaching notes should be useful even when the learner answered correctly.
 - Use stable IDs because answer files and learner history depend on them.
 
+## Vocabulary Meanings (`topik-sim.lexicon.v1`)
+
+English glosses alone are often too loose to pin a Korean word down, so every vocabulary card and recall
+prompt also shows the word's Mandarin (Simplified) and Japanese equivalents. They come from lexicon files
+beside the library — `content/lexicon/*.json` (tracked) and `content/private/lexicon/*.json` (personal,
+for words that only come from private material):
+
+```json
+{
+  "schema_version": "topik-sim.lexicon.v1",
+  "entries": {
+    "학교": { "zh": "学校", "ja": "学校" },
+    "쓰다": { "zh": "写 / 用 / 戴", "ja": "書く / 使う / かぶる" }
+  }
+}
+```
+
+- Keys are the Korean headword exactly as it appears in the wordlist or the explanation's `vocabulary`.
+- `zh` and `ja` hold dictionary equivalents, not explanations: 1–3 equivalents (`；` in zh, `、` in ja),
+  distinct senses separated by ` / `, matching the senses of the English gloss. Verbs and adjectives in
+  dictionary form; honorific Korean gets the matching register; set phrases get the phrase used in the
+  same situation. Never Hangul, romanization, or pinyin.
+- A wordlist entry or an explanation `vocabulary` item may carry `zh`/`ja` inline; inline values win.
+- **Required for new vocabulary.** Every word in `content/vocabulary/` and every explanation vocabulary
+  word in `content/source/` packs must have both (`tests/test_lexicon.py` fails otherwise). When adding
+  words, add their lexicon entries in the same change.
+- Shown on: flashcards (card back), recall, spaced vocabulary review, homework recall, and the misses
+  drill — shell and web alike.
+
 ## Korea Facts (`topik-sim.facts.v1`)
 
 The `/facts` command is backed by the `content/facts/` directory — **one file per genre**, named `<category>.json` (e.g. `music.json`, `film.json`, `history.json`). The loader reads every `*.json` in the directory (sorted) and concatenates them, so adding a genre is just dropping in a new file. It is plain reference content: add or edit freely, no import step (files are read directly). A single `.json` file is also accepted (handy for `--facts-path` and tests).

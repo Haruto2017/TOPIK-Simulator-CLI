@@ -41,6 +41,15 @@ function rich(text) {
   return parts;
 }
 
+// 中文 / 日本語 meanings for a vocabulary word (see lexicon.py); null when none are known.
+function meaningsLine(meanings) {
+  if (!meanings) return null;
+  const parts = [["zh", "中文"], ["ja", "日本語"]]
+    .filter(([key]) => meanings[key])
+    .map(([key, label]) => el("span", { class: "meaning" }, el("span", { class: "meaning-label", text: label }), ` ${meanings[key]}`));
+  return parts.length ? el("div", { class: "meanings" }, ...parts) : null;
+}
+
 let toastTimer = null;
 function toast(message) {
   const node = document.getElementById("toast");
@@ -455,7 +464,7 @@ async function studyPathView() {
         const deck = await api("GET", `/api/deck/flashcards?unit=${encodeURIComponent(unit.id)}`);
         state.deck = {
           title: `Vocabulary — ${unit.title}`, kind: "vocab",
-          cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko })),
+          cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko, meanings: { zh: c.zh, ja: c.ja } })),
         };
         go("#/cards");
       } }));
@@ -1107,7 +1116,7 @@ async function practiceConfigView(mode) {
         const deck = await api("GET", `/api/deck/flashcards?${query}`);
         state.deck = {
           title: `Flashcards — ${deck.title}`, kind: "vocab",
-          cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko })),
+          cards: deck.cards.map((c) => ({ front: c.ko, back: c.en, example: c.note || "", speech: c.ko, meanings: { zh: c.zh, ja: c.ja } })),
         };
         go("#/cards");
       } else if (mode === "grammar") {
@@ -1241,6 +1250,8 @@ async function drillView(id) {
     container.append(el("ul", { class: "tight small muted" }, ...view.meta.objectives.map((o) => el("li", { text: o }))));
   }
   container.append(el("div", { class: "drill-show ko", text: item.show }));
+  const meanings = meaningsLine(item.meanings);
+  if (meanings) container.append(meanings);
   if (item.swatch) {
     container.append(el("div", {
       class: `color-swatch${item.swatch_dark ? " on-dark" : ""}`,
@@ -1371,6 +1382,7 @@ function cardsView() {
           el("div", {},
             el("div", { class: "front ko", text: card.front }),
             el("div", { class: "back-main", text: card.back }),
+            meaningsLine(card.meanings),
             card.example ? el("div", { class: "example ko", text: card.example }) : null))));
     const controls = el("div", { class: "row" },
       el("span", { class: "pill", text: `${index + 1}/${deck.cards.length}` }),

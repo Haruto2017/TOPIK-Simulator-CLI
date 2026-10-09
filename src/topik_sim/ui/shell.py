@@ -1203,6 +1203,9 @@ class Shell:
 
     def _start_typing(self, items: list[dict[str, Any]], label: str, verb: str, title: str, hint: str,
                       loop: bool = False) -> None:
+        from ..lexicon import Lexicon
+
+        Lexicon(self.library_dir).decorate_items(items)  # 中文 / 日本語 under every recall prompt
         self._typing_items = items
         self._typing_index = 0
         self._typing_hits = 0
@@ -1223,6 +1226,10 @@ class Shell:
         self.emit("")
         self.emit(render.rule(f"{self._typing_label} {self._typing_index + 1}/{len(self._typing_items)}"))
         self.emit(ansi.style(item["show"], ansi.BOLD, ansi.CYAN))
+        if item.get("meanings"):
+            from ..lexicon import meaning_line
+
+            self.emit("  " + ansi.style(meaning_line(item["meanings"]), ansi.DIM))
         if item.get("swatch"):
             block = ansi.swatch(item["swatch"])
             if block:
@@ -1754,6 +1761,13 @@ class Shell:
         self._start_cards(deck, "Grammar practice", title)
 
     def _start_cards(self, deck: list[dict[str, str]], label: str, title: str) -> None:
+        from ..lexicon import Lexicon, meaning_line
+
+        lexicon = Lexicon(self.library_dir)
+        for card in deck:  # vocabulary cards also show 中文 / 日本語 on the back
+            line = meaning_line(lexicon.get(str(card.get("front", ""))))
+            if line and line not in str(card.get("back", "")):
+                card["back"] = f"{card.get('back', '')}\n{line}"
         self._flash_deck = deck
         self._flash_index = 0
         self._flash_known = 0

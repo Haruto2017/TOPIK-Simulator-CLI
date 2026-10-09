@@ -53,6 +53,7 @@ python -m topik_sim take <pack_id>@<pack_version> --limit 2
 - Every question must have a correct answer and explanation summary.
 - Teaching notes must help both incorrect and correct learners.
 - Vocabulary entries should be concise and learner-facing.
+- Every new vocabulary word (wordlist entry or explanation `vocabulary` item) needs its Mandarin and Japanese meanings: add `{"zh": …, "ja": …}` for it to `content/lexicon/` (or inline on the entry). See docs/CONTENT_CONTRACT.md, "Vocabulary Meanings"; `tests/test_lexicon.py` enforces it.
 - Grammar notes should name the pattern, explain its role, and include an example when useful.
 - Common mistakes should identify likely confusion, not merely repeat the correct answer.
 - Bump `pack_version` whenever imported content changes.
