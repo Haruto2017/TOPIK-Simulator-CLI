@@ -58,6 +58,10 @@ class WordSetTests(unittest.TestCase):
         self.assertEqual(word_class("비가 그치다", "to stop raining"), "verb")
         self.assertEqual(word_class("인기가 많다", "to be popular"), "adjective")
         self.assertEqual(word_class("야무지게", "smartly, firmly"), "adverb")
+        self.assertEqual(word_class("금지되다", "to be prohibited, to be banned"), "verb")
+        self.assertEqual(word_class("집중이 안 되다", "can't concentrate"), "verb")
+        self.assertEqual(word_class("주최 측", "the organizers"), "noun")
+        self.assertEqual(word_class("자마자", "as soon as (ending)"), "other")
 
     def test_shell_lists_and_drills_a_set(self):
         from topik_sim.ui import ansi

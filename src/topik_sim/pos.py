@@ -41,9 +41,12 @@ ADVERBS: frozenset[str] = frozenset("""
 그리고 그래서 그런데 하지만 그러면 그렇지만 그러나 그러니까 왜냐하면 다 같이 곧바로 열심히
 매일 매주 매달 매년 이제 마침내 우선 언제 잠깐만 참 꽤 조금도 대충 혼자 똑같이 반드시 또는 직접
 게다가 덕분에 끝까지 굳이 직전에 왠지 낮에 밤에 더욱 비로소 어쨌든 아무튼 암튼 하나도 생각만큼 한참 결국 오히려
+어케 엄청 푹 속에서 되게 앞으로
 """.split())
 # Determiners (관형사) sit before a noun; like particles they are none of the four classes.
-DETERMINERS: frozenset[str] = frozenset("모든 여러 각종 온갖 웬".split())
+DETERMINERS: frozenset[str] = frozenset("모든 여러 각종 온갖 웬 이런저런".split())
+# Dependent nouns that end a spaced noun phrase (주최 측, 오른 쪽): the phrase is a noun.
+_DEPENDENT_NOUNS = ("측", "쪽", "분", "것", "때", "등", "중", "간")
 
 # A first gloss sense that is one of these reads as an adverb.
 _ADVERB_GLOSSES: frozenset[str] = frozenset({
@@ -62,14 +65,16 @@ _ADVERB_SHAPES = ("게", "이", "로")   # adverb when the gloss agrees
 # Polite sentence endings mark a set phrase, not a word (잠깐만요, 글쎄요, 가세요).
 _EXPRESSION_SUFFIXES = ("세요", "습니까", "만요", "럼요", "쎄요", "합니다", "입니다")
 _INTERJECTIONS: frozenset[str] = frozenset({"네", "예", "아니", "응", "아니요", "여보세요", "저기요", "때문이다",
-                                            "어쩌지", "어떡해", "어떡하지"})
+                                            "어쩌지", "어떡해", "어떡하지",
+                                            # casual sentence-final expressions collected from media
+                                            "어떤데", "큰일이다", "말해야지", "그래야겠네요", "미쳤네", "웃겨", "이러고"})
 # Particles and endings learners collect as vocabulary: grammar, not one of the four classes.
 PARTICLES: frozenset[str] = frozenset("""
 조차 마저 까지 부터 로부터 으로부터 에게서 한테서 밖에 처럼 같이 만큼 보다 든지 이든지 거나 이나 나 라도 이라도
-뿐 대로 마다 께 께서 한테 에게 에서 으로 로 도 만 요
+뿐 대로 마다 께 께서 한테 에게 에서 으로 로 도 만 요 자마자
 """.split()) - {"같이"}
 # Gloss-driven kinds the "to be …" rule gets wrong.
-_DESCRIPTIVE_WORDS: frozenset[str] = frozenset({"아니다"})          # negative copula
+_DESCRIPTIVE_WORDS: frozenset[str] = frozenset({"아니다", "핫한"})  # negative copula; slang modifier
 _ACTION_WORDS: frozenset[str] = frozenset({"위하다", "대하다", "못하다"})  # "to be for/about/unable"
 _ADJECTIVE_GLOSS = re.compile(r"^(?:\(?(?:to )?be\)? |is |being )")
 
@@ -116,8 +121,8 @@ def word_class(ko: str, en: str = "") -> str:
         return "adverb"
     if ko in _DESCRIPTIVE_WORDS:
         return "adjective"
-    if ko in _ACTION_WORDS:
-        return "verb"
+    if ko in _ACTION_WORDS or (ko.endswith("되다") and len(ko) > 2):
+        return "verb"          # -되다 words are (passive) verbs: 금지되다, 취소되다
     if ko.endswith("다") and (en.lower().startswith("to ") or ko in ACTION_OVERRIDES | DESCRIPTIVE_OVERRIDES):
         kind = _verb_kind(ko, en)
         if kind == "descriptive":
@@ -127,7 +132,12 @@ def word_class(ko: str, en: str = "") -> str:
         return "other"
     if ko.endswith("다") and _ADJECTIVE_GLOSS.match(en.lower()):
         return "adjective"     # "(be) big" style glosses
-    if " " in ko and not ko.endswith("다") and ko not in ADVERBS:
+    if " " in ko and ko.endswith("다"):
+        # A verb phrase glossed without "to" (집중이 안 되다 — "can't concentrate").
+        return "adjective" if _ADJECTIVE_GLOSS.match(en.lower()) else "verb"
+    if " " in ko and ko.split()[-1] in _DEPENDENT_NOUNS:
+        return "noun"
+    if " " in ko and ko not in ADVERBS:
         # A multi-word phrase that is not a verb phrase (아무 말도 없이, 어느 정도): an expression.
         return "other"
     if len(ko) > 1 and ko.endswith("히"):
