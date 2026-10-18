@@ -1047,6 +1047,36 @@ class Shell:
             self.emit(f"  pos:{name:<10} {CLASS_LABELS[name]} — {counts[name]} words")
         return None
 
+    def _word_set_scope(self, value: str) -> dict[str, Any] | None:
+        """The named word set for ``set:<value>``; lists the sets and returns
+        None when the value names none."""
+        from ..wordlists import list_word_sets, wordlist_dirs_for
+
+        sets = list_word_sets(wordlist_dirs_for(self.library_dir))
+        wanted = value.strip().lower()
+        for word_set in sets:
+            if word_set["id"].lower() == wanted:
+                return word_set
+        if wanted:
+            self.emit(f"No word set {value!r}.")
+        self._list_word_sets(sets)
+        return None
+
+    def _list_word_sets(self, sets: list[dict[str, Any]]) -> None:
+        if not sets:
+            self.emit("No word sets yet. A wordlist file with a \"set\": {\"id\", \"title\"} header becomes one.")
+            return
+        self.emit(ansi.style("Word sets", ansi.BOLD))
+        for word_set in sets:
+            self.emit(f"  set:{word_set['id']:<14} {word_set['title']} — {word_set['count']} words")
+        self.emit(ansi.style("Use with /recall set:<id> · /flashcards set:<id> · /vocab set:<id>", ansi.DIM))
+
+    def cmd_sets(self, argument: str) -> None:
+        """List the named word sets (personal collections and the like)."""
+        from ..wordlists import list_word_sets, wordlist_dirs_for
+
+        self._list_word_sets(list_word_sets(wordlist_dirs_for(self.library_dir)))
+
     def cmd_vocab(self, argument: str) -> None:
         """Spaced vocabulary review — due words plus a few new ones each session."""
         from .. import vocab_srs
@@ -1062,7 +1092,14 @@ class Shell:
                 count = int(part)
             else:
                 scope = part
-        if scope.lower().startswith("pos:"):  # /vocab pos:verb — one part of speech
+        if scope.lower().startswith("set:"):  # /vocab set:media — one word set
+            from ..flashcards import wordlist_deck
+
+            word_set = self._word_set_scope(scope.split(":", 1)[1])
+            if word_set is None:
+                return
+            glosses = {c["ko"]: c["en"] for c in wordlist_deck(self.library_dir, word_set=word_set["id"])}
+        elif scope.lower().startswith("pos:"):  # /vocab pos:verb — one part of speech
             from ..flashcards import wordlist_deck
             from ..pos import CLASS_LABELS
 
@@ -1140,6 +1177,7 @@ class Shell:
         pack = None
         unit = ""
         word_class = ""
+        word_set: dict[str, Any] | None = None
         count = 10
         loop = False
         for part in argument.split():
@@ -1153,6 +1191,10 @@ class Shell:
                 word_class = self._word_class_scope(part.split(":", 1)[1])
                 if word_class is None:
                     return
+            elif part.lower().startswith("set:"):
+                word_set = self._word_set_scope(part.split(":", 1)[1])
+                if word_set is None:
+                    return
             else:
                 try:
                     pack = self._resolve_pack(part)
@@ -1162,19 +1204,22 @@ class Shell:
                     if suggestions:
                         self.emit(f"Did you mean: {', '.join(suggestions)}?")
                     return
-        if unit or word_class:  # a study-path stage's own words, or one part of speech
+        if unit or word_class or word_set:  # a stage's words, one part of speech, or one word set
             from ..flashcards import recall_items_from_cards, wordlist_deck
             from ..pos import CLASS_LABELS
 
-            cards = wordlist_deck(self.library_dir, unit=unit or None, word_class=word_class or None)
+            cards = wordlist_deck(self.library_dir, unit=unit or None, word_class=word_class or None,
+                                  word_set=word_set["id"] if word_set else None)
             if not cards:
                 self.emit(f"No vocabulary for unit {unit!r}. /path lists the stages." if unit
-                          else f"No {CLASS_LABELS[word_class]} in the word lists yet.")
+                          else f"No {CLASS_LABELS[word_class]} in the word lists yet." if word_class
+                          else f"Word set {word_set['id']!r} is empty.")
                 return
             items = recall_items_from_cards(cards, seed=self._flashcard_seed, count=count)
             self._arm_recall_srs()
+            title = word_set["title"] if word_set else unit or CLASS_LABELS[word_class]
             self._start_typing(items, label="Vocab recall", verb="Recalled",
-                               title=f"Vocab recall: {unit or CLASS_LABELS[word_class]}",
+                               title=f"Vocab recall: {title}",
                                hint="type the Korean for each English word · /pause stops", loop=loop)
             return
         items = build_recall_items(
@@ -1667,12 +1712,21 @@ class Shell:
             self.emit("Finish or /pause the current test first.")
             return
         self._end_minigames()
-        if argument.strip().lower().startswith(("unit:", "pos:")):
+        if argument.strip().lower().startswith(("unit:", "pos:", "set:")):
             from ..flashcards import wordlist_deck
             from ..pos import CLASS_LABELS
 
             kind, _, value = argument.strip().partition(":")
-            if kind.lower() == "pos":
+            if kind.lower() == "set":
+                word_set = self._word_set_scope(value)
+                if word_set is None:
+                    return
+                cards = wordlist_deck(self.library_dir, word_set=word_set["id"])
+                title = word_set["title"]
+                if not cards:
+                    self.emit(f"Word set {word_set['id']!r} is empty.")
+                    return
+            elif kind.lower() == "pos":
                 word_class = self._word_class_scope(value)
                 if word_class is None:
                     return

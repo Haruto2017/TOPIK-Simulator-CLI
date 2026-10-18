@@ -101,7 +101,7 @@ COMMANDS: list[Command] = [
         "Examples: /review · /review topik-i-authentic-mock-01",
     ),
     Command(
-        "flashcards", "cmd_flashcards", "/flashcards [pack]", "Drill vocabulary cards built from a pack's teaching notes.", ("cards",),
+        "flashcards", "cmd_flashcards", "/flashcards [pack|unit:<id>|pos:<class>|set:<id>]", "Drill vocabulary cards built from a pack's teaching notes.", ("cards",),
         category="Practice",
         details="pack: the deck is that pack's explanation vocabulary, shuffled. Without a pack,\n"
         "a numbered picker opens. Enter flips the card · y/n grades yourself · /say speaks it ·\n"
@@ -124,7 +124,7 @@ COMMANDS: list[Command] = [
         "count: deck size. /say speaks the example. Examples: /grammar · /grammar topik-i-authentic-mock-01 · /grammar 40",
     ),
     Command(
-        "recall", "cmd_recall", "/recall [pack|unit:<id>] [count] [loop]", "See an English word, type its Korean translation.", ("translate",),
+        "recall", "cmd_recall", "/recall [pack|unit:<id>|pos:<class>|set:<id>] [count] [loop]", "See an English word, type its Korean translation.", ("translate",),
         category="Practice",
         details="Active production practice: the English gloss is shown and you type the Korean.\n"
         "Synonyms are fair — any Korean word taught with that gloss counts. A miss shows the\n"
@@ -213,7 +213,16 @@ COMMANDS: list[Command] = [
         "Examples: /colors learn · /colors · /colors swatch · /colors modifier 15",
     ),
     Command(
-        "vocab", "cmd_vocab", "/vocab [pack] [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
+        "sets", "cmd_sets", "/sets", "List your word sets (e.g. words collected from Korean media).", ("wordsets",),
+        category="Practice",
+        details="Word sets are wordlist files that declare a set id — your own collections, such as\n"
+        "words picked up from dramas, shows and signs. Each set is practisable on its own with\n"
+        "/recall set:<id>, /flashcards set:<id> and /vocab set:<id>, and its new words also join\n"
+        "the noun/verb/adjective/adverb sets (pos:<class>).\n"
+        "Examples: /sets · /recall set:media 20 loop · /flashcards set:media",
+    ),
+    Command(
+        "vocab", "cmd_vocab", "/vocab [pack|pos:<class>|set:<id>] [count]", "Spaced vocabulary review: see the meaning, type the Korean.", ("v",),
         category="Practice",
         details="A true spaced-repetition schedule over every word your packs teach and every wordlist\n"
         "entry: due words come back first, then a few new ones are introduced each session. A correct\n"

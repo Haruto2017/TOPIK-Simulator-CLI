@@ -1070,6 +1070,15 @@ async function practiceConfigView(mode) {
         }));
     } catch { unitOptions = []; }
   }
+  // …and on the learner's own word sets (e.g. words collected from Korean media).
+  let setOptions = [];
+  if (unitScoped) {
+    try {
+      setOptions = (await api("GET", "/api/vocab/sets")).sets
+        .filter((s) => s.count > 0)
+        .map((s) => el("option", { value: `set:${s.id}`, text: `${s.title} — ${s.count} words` }));
+    } catch { setOptions = []; }
+  }
   // …and on one part of speech across every list (nouns, verbs, adjectives, adverbs).
   let classOptions = [];
   if (unitScoped) {
@@ -1082,6 +1091,9 @@ async function practiceConfigView(mode) {
   const packSelect = el("select", {},
     spec.pack !== "required" ? el("option", { value: "", text: "every imported pack" }) : null,
     ...packs.map((p) => el("option", { value: p.pack_id, text: p.title || p.pack_id })),
+    ...(setOptions.length
+      ? [el("optgroup", { label: "My word sets" }, ...setOptions)]
+      : []),
     ...(classOptions.length
       ? [el("optgroup", { label: "By part of speech" }, ...classOptions)]
       : []),
@@ -1107,10 +1119,12 @@ async function practiceConfigView(mode) {
     const chosen = packSelect.value || "";
     const unitValue = chosen.startsWith("unit:") ? chosen.slice(5) : undefined;
     const posValue = chosen.startsWith("pos:") ? chosen.slice(4) : undefined;
-    const packValue = unitValue || posValue ? undefined : (chosen || undefined);
+    const setValue = chosen.startsWith("set:") ? chosen.slice(4) : undefined;
+    const packValue = unitValue || posValue || setValue ? undefined : (chosen || undefined);
     try {
       if (mode === "flashcards") {
-        const query = posValue ? `pos=${encodeURIComponent(posValue)}`
+        const query = setValue ? `set=${encodeURIComponent(setValue)}`
+          : posValue ? `pos=${encodeURIComponent(posValue)}`
           : unitValue ? `unit=${encodeURIComponent(unitValue)}`
           : `pack=${encodeURIComponent(packValue)}`;
         const deck = await api("GET", `/api/deck/flashcards?${query}`);
@@ -1129,7 +1143,7 @@ async function practiceConfigView(mode) {
         go("#/cards");
       } else {
         const view = await api("POST", "/api/drill/start", {
-          mode, pack: packValue, unit: unitValue, pos: posValue,
+          mode, pack: packValue, unit: unitValue, pos: posValue, set: setValue,
           count: countInput.value ? Number(countInput.value) : undefined,
           category: categorySelect && categorySelect.value !== "mix" ? categorySelect.value : undefined,
           advanced: advancedCheck && advancedCheck.checked ? true : undefined,

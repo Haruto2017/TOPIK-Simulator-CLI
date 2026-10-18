@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Word sets for personal vocabulary collections.** A wordlist file can declare a named set
+  (`"set": {"id", "title"}`); `/sets` lists them and `set:<id>` scopes `/recall`, `/flashcards` and `/vocab`
+  (web: "My word sets" in the practice picker, `GET /api/vocab/sets`, `set` on the deck and drill endpoints).
+  A set keeps all of its words with its own glosses, while its new words join the shared pool and the
+  part-of-speech sets. The classifier now files particles (조차, 든지, 로부터 …) and non-verb multi-word
+  expressions (아무 말도 없이) under no part of speech.
+
 - **Mandarin and Japanese meanings for vocabulary.** English glosses are often too loose (쓰다: write,
   use, or wear?), so every flashcard back and every recall-style prompt — recall, spaced review, homework
   recall, the misses drill, on the shell and the web — now also shows the word's 中文 and 日本語

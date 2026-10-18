@@ -29,6 +29,7 @@ def wordlist_deck(
     pack_id: str | None = None,
     unit: str | None = None,
     word_class: str | None = None,
+    word_set: str | None = None,
 ) -> list[dict[str, str]]:
     """Vocabulary cards from the curriculum and private wordlists.
 
@@ -37,12 +38,16 @@ def wordlist_deck(
     even though the pack itself teaches no words in its explanations. With
     ``unit`` it narrows to one study-path stage's words instead, and with
     ``word_class`` to one part of speech (noun, verb, adjective, adverb)
-    across every list.
+    across every list. ``word_set`` takes one named set (``list_word_sets``)
+    whole, in its own order.
     """
-    from .wordlists import load_wordlists, words_for_class, words_for_pack, words_for_unit, wordlist_dirs_for
+    from .wordlists import (load_wordlists, words_for_class, words_for_pack, words_for_set,
+                            words_for_unit, wordlist_dirs_for)
 
     directories = wordlist_dirs_for(library_dir)
-    if word_class:
+    if word_set:
+        entries = words_for_set(word_set, directories)
+    elif word_class:
         entries = words_for_class(word_class, directories)
     elif unit:
         entries = words_for_unit(unit, directories)
@@ -51,7 +56,8 @@ def wordlist_deck(
     else:
         entries = load_wordlists(directories)
     return [
-        {"ko": entry["ko"], "en": entry["en"], "note": entry.get("note", "")}
+        {"ko": entry["ko"], "en": entry["en"], "note": entry.get("note", ""),
+         **{lang: entry[lang] for lang in ("zh", "ja") if entry.get(lang)}}
         for entry in entries
     ]
 

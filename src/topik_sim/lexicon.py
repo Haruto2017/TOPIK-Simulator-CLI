@@ -67,7 +67,18 @@ class Lexicon:
     """Meaning lookup for one library (lexicons beside it)."""
 
     def __init__(self, library_dir: str | Path | None = None) -> None:
-        self.entries = load_lexicon(lexicon_dirs_for(library_dir))
+        entries = dict(load_lexicon(lexicon_dirs_for(library_dir)))
+        # Wordlist entries may carry zh/ja inline (personal word sets do);
+        # inline values win, so every surface sees them, not just card decks.
+        from .wordlists import _entries, _wordlist_files, wordlist_dirs_for
+
+        root = Path(library_dir) if library_dir is not None else Path("content") / "library"
+        for _, data in _wordlist_files(wordlist_dirs_for(root)):
+            for word in _entries(data):
+                inline = {lang: word[lang] for lang, _ in LANGUAGES if word.get(lang)}
+                if inline:
+                    entries[word["ko"]] = {**entries.get(word["ko"], {}), **inline}
+        self.entries = entries
 
     def get(self, ko: str, inline: dict[str, Any] | None = None) -> dict[str, str]:
         """{"zh", "ja"} for a word — inline values first, then the lexicon."""

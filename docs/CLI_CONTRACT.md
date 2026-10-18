@@ -91,6 +91,14 @@ Slash commands:
 - **Rounds** (`loop`, also `rounds`/`until`/`clear`) on `/recall`, `/numbers`, and `/colors`, and the "Rounds" checkbox on the web setup for recall, typing, numbers, colors, and conjugation: whatever you miss comes straight back as the next round, shuffled, until every item is cleared (capped at 8 rounds; `/pause` ends it early). The session reports and logs the **first pass** — what you actually knew — and then "All clear in N rounds". Not offered for `/vocab`, whose spaced schedule already reschedules a miss.
 - **Recall misses are scheduled.** A word you cannot produce on the first pass of a recall drill is recorded in the vocabulary SRS deck as a lapse (box 1, due tomorrow), so it surfaces in your next `/vocab` session; correct answers are not added, and later rounds of the same session do not record again.
 - Study-path stages carry their own vocabulary. `/path <n>` prints the stage's words as a footer strip (Korean + gloss pairs, the way a textbook prints them under the page), and `/recall unit:<id>` and `/flashcards unit:<id>` drill exactly that stage's set. The same sets are served to the web UI on each study-path card as a vocabulary band with 단어 Cards / 단어 Recall buttons (`GET /api/deck/flashcards?unit=<id>`, and `unit` on `POST /api/drill/start` for the `recall` and `vocab` modes).
+- **Word sets.** A wordlist file (in `content/vocabulary/` or `content/private/vocabulary/`) that declares
+  `"set": {"id": "media", "title": "Words from Korean media"}` is a named set: `/sets` lists them, and
+  `/recall set:<id>`, `/flashcards set:<id>`, `/vocab set:<id>` drill the whole set in its own order with
+  its own glosses — including words another list already defines. Its new words also join the shared pool,
+  so the part-of-speech sets find them. Entries may carry `zh`/`ja` inline (see "Vocabulary Meanings" in
+  docs/CONTENT_CONTRACT.md). Web: `GET /api/vocab/sets` (id, title, description, count), `set` on
+  `GET /api/deck/flashcards` and on `POST /api/drill/start` for `recall`/`vocab`; the practice picker lists
+  them under "My word sets".
 - Vocabulary can also be practised by part of speech: `/recall pos:<noun|verb|adjective|adverb>`,
   `/flashcards pos:<class>`, `/vocab pos:<class>` (aliases `n`/`v`/`adj`/`adv`, Korean names accepted;
   an unknown value prints the four sets with counts). The class is inferred mechanically from each list
