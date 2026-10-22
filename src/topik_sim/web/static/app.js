@@ -176,6 +176,7 @@ const routes = [
   [/^#\/practice$/, () => practiceView()],
   [/^#\/practice\/([\w-]+)$/, (m) => practiceConfigView(m[1])],
   [/^#\/cards$/, () => cardsView()],
+  [/^#\/wordlist\?(.+)$/, (m) => wordListView(m[1])],
   [/^#\/courses$/, () => coursesView()],
   [/^#\/lesson\/([\w.@-]+)\/([\w-]+)$/, (m) => lessonView(m[1], m[2])],
   [/^#\/progress$/, () => progressView()],
@@ -195,7 +196,7 @@ async function route() {
         const active = (key === "home" && (hash === "#/" || hash === "")) ||
           (key !== "home" && hash.startsWith(`#/${key}`)) ||
           (key === "take" && hash.startsWith("#/exam")) ||
-          (key === "practice" && (hash.startsWith("#/drill") || hash.startsWith("#/cards"))) ||
+          (key === "practice" && (hash.startsWith("#/drill") || hash.startsWith("#/cards") || hash.startsWith("#/wordlist"))) ||
           (key === "courses" && hash.startsWith("#/lesson")) ||
           (key === "progress" && hash.startsWith("#/report"));
         a.classList.toggle("active", Boolean(active));
@@ -469,6 +470,7 @@ async function studyPathView() {
         go("#/cards");
       } }));
       buttons.push(el("button", { class: "ghost", text: "단어 Recall", onclick: () => startDrill({ mode: "recall", unit: unit.id }) }));
+      buttons.push(el("button", { class: "ghost", text: "🖨 Word list", onclick: () => go(`#/wordlist?unit=${encodeURIComponent(unit.id)}`) }));
     }
     for (const drill of (unit.drills || []).slice(0, 3)) {
       if (drill.mode === "hangul") buttons.push(el("button", { class: "ghost", text: "Read Hangul", onclick: () => go("#/practice/hangul") }));
@@ -1222,8 +1224,66 @@ async function practiceConfigView(mode) {
         " Rounds — bring back what I miss until every item is cleared") : null,
       advancedCheck ? el("label", { class: "row" }, advancedCheck,
         " Advanced — real words and sentences only, meanings revealed after typing") : null,
-      el("div", { class: "row" }, el("button", { class: "primary", onclick: start, text: "Start" }))),
+      el("div", { class: "row" },
+        el("button", { class: "primary", onclick: start, text: "Start" }),
+        unitScoped ? el("button", { class: "ghost", text: "🖨 Word list", title: "See or print every word in this selection",
+          onclick: () => {
+            const chosen = packSelect.value || "";
+            if (!chosen) { toast("Pick a pack, word set, part of speech, or stage first."); return; }
+            const [kind, value] = chosen.includes(":") ? [chosen.slice(0, chosen.indexOf(":")), chosen.slice(chosen.indexOf(":") + 1)] : ["pack", chosen];
+            go(`#/wordlist?${kind}=${encodeURIComponent(value)}`);
+          } }) : null)),
     ...extras,
+  );
+}
+
+/* --- printable word list (any vocabulary scope) */
+
+async function wordListView(query) {
+  const listing = await api("GET", `/api/vocab/list?${query}`);
+  const prefs = (() => { try { return JSON.parse(localStorage.getItem("wordlist-cols") || "{}"); } catch { return {}; } })();
+  const cols = { en: prefs.en !== false, zh: prefs.zh !== false, ja: prefs.ja !== false, note: prefs.note !== false };
+  let order = "list";
+  const tableSlot = el("div");
+  const draw = () => {
+    const words = listing.words.slice();
+    if (order === "abc") words.sort((a, b) => a.ko.localeCompare(b.ko, "ko"));
+    tableSlot.replaceChildren(el("table", { class: "wordlist" },
+      el("thead", {}, el("tr", {},
+        el("th", { text: "" }), el("th", { text: "한국어" }),
+        cols.en ? el("th", { text: "English" }) : null,
+        cols.zh ? el("th", { text: "中文" }) : null,
+        cols.ja ? el("th", { text: "日本語" }) : null)),
+      el("tbody", {}, ...words.map((w, i) => el("tr", {},
+        el("td", { class: "n", text: String(i + 1) }),
+        el("td", { class: "ko" }, w.ko),
+        cols.en ? el("td", {}, w.en, cols.note && w.note ? el("div", { class: "wl-note", text: w.note }) : null) : null,
+        cols.zh ? el("td", { lang: "zh-Hans", text: w.zh || "" }) : null,
+        cols.ja ? el("td", { lang: "ja", text: w.ja || "" }) : null)))));
+  };
+  const toggle = (key, label) => {
+    const box = el("input", { type: "checkbox" });
+    box.checked = cols[key];
+    box.addEventListener("change", () => {
+      cols[key] = box.checked;
+      try { localStorage.setItem("wordlist-cols", JSON.stringify(cols)); } catch {}
+      draw();
+    });
+    return el("label", { class: "row" }, box, ` ${label}`);
+  };
+  const sort = el("select", {},
+    el("option", { value: "list", text: "As listed" }),
+    el("option", { value: "abc", text: "가나다 order" }));
+  sort.addEventListener("change", () => { order = sort.value; draw(); });
+  draw();
+  render(
+    el("h1", { text: listing.title }),
+    el("p", { class: "sub", text: `${listing.words.length} words · ${listing.scope}` }),
+    el("div", { class: "row no-print wordlist-controls" },
+      el("button", { class: "primary", text: "🖨 Print", onclick: () => window.print() }),
+      sort, toggle("en", "English"), toggle("zh", "中文"), toggle("ja", "日本語"), toggle("note", "Notes"),
+      el("button", { class: "ghost", text: "← Back", onclick: () => history.back() })),
+    tableSlot,
   );
 }
 

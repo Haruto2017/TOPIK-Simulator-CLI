@@ -1071,6 +1071,52 @@ class Shell:
             self.emit(f"  set:{word_set['id']:<14} {word_set['title']} — {word_set['count']} words")
         self.emit(ansi.style("Use with /recall set:<id> · /flashcards set:<id> · /vocab set:<id>", ansi.DIM))
 
+    def cmd_wordlist(self, argument: str) -> None:
+        """Print one scope's vocabulary (and optionally save a printable page)."""
+        from ..vocab_list import render_html, render_text, vocab_listing
+
+        parts = argument.split()
+        save = any(part.lower() in {"save", "export", "html"} for part in parts)
+        scopes = [part for part in parts if part.lower() not in {"save", "export", "html"}]
+        if not scopes:
+            self.emit("Usage: /wordlist <set:<id>|unit:<id>|pos:<class>|pack> [save]")
+            self.cmd_sets("")
+            return
+        scope = scopes[0]
+        kind, _, value = scope.partition(":")
+        try:
+            if kind.lower() == "set" and value:
+                word_set = self._word_set_scope(value)
+                if word_set is None:
+                    return
+                listing = vocab_listing(self.library_dir, word_set=word_set)
+            elif kind.lower() == "pos" and value:
+                word_class = self._word_class_scope(value)
+                if word_class is None:
+                    return
+                listing = vocab_listing(self.library_dir, word_class=word_class)
+            elif kind.lower() == "unit" and value:
+                listing = vocab_listing(self.library_dir, unit=value)
+            else:
+                listing = vocab_listing(self.library_dir, pack=self._resolve_pack(scope))
+        except (ValueError, ContentValidationError, OSError) as exc:
+            self.emit(str(exc))
+            return
+        if not listing["words"]:
+            self.emit(f"No vocabulary for {scope}.")
+            return
+        for line in render_text(listing, style=ansi.style):
+            self.emit(line)
+        if save:
+            import re
+
+            exports = Path(self.attempt_dir).parent / "exports"
+            exports.mkdir(parents=True, exist_ok=True)
+            slug = re.sub(r"[^\w-]+", "-", listing["scope"]).strip("-") or "words"
+            target = exports / f"wordlist-{slug}.html"
+            target.write_text(render_html(listing), encoding="utf-8")
+            self.emit(ansi.style(f"Saved a printable page: {target}  (open it in a browser and print)", ansi.GREEN))
+
     def cmd_sets(self, argument: str) -> None:
         """List the named word sets (personal collections and the like)."""
         from ..wordlists import list_word_sets, wordlist_dirs_for

@@ -213,6 +213,16 @@ COMMANDS: list[Command] = [
         "Examples: /colors learn · /colors · /colors swatch · /colors modifier 15",
     ),
     Command(
+        "wordlist", "cmd_wordlist", "/wordlist <set:<id>|unit:<id>|pos:<class>|pack> [save]",
+        "Print a vocabulary list with English, 中文 and 日本語 meanings.", ("words", "list", "printlist"),
+        category="Practice",
+        details="Lists every word in one scope — a word set, a study-path stage, a part of speech, or\n"
+        "a pack's taught and mined words — numbered, with English, Mandarin and Japanese meanings\n"
+        "and notes. Add save to also write a print-ready HTML page (A4) under data/exports/ and\n"
+        "open it in a browser to print. The web UI has the same list behind \"Word list\" buttons.\n"
+        "Examples: /wordlist set:media · /wordlist pos:adverb save · /wordlist unit:food · /wordlist topik2-past-91",
+    ),
+    Command(
         "sets", "cmd_sets", "/sets", "List your word sets (e.g. words collected from Korean media).", ("wordsets",),
         category="Practice",
         details="Word sets are wordlist files that declare a set id — your own collections, such as\n"

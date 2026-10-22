@@ -91,6 +91,13 @@ Slash commands:
 - **Rounds** (`loop`, also `rounds`/`until`/`clear`) on `/recall`, `/numbers`, and `/colors`, and the "Rounds" checkbox on the web setup for recall, typing, numbers, colors, and conjugation: whatever you miss comes straight back as the next round, shuffled, until every item is cleared (capped at 8 rounds; `/pause` ends it early). The session reports and logs the **first pass** — what you actually knew — and then "All clear in N rounds". Not offered for `/vocab`, whose spaced schedule already reschedules a miss.
 - **Recall misses are scheduled.** A word you cannot produce on the first pass of a recall drill is recorded in the vocabulary SRS deck as a lapse (box 1, due tomorrow), so it surfaces in your next `/vocab` session; correct answers are not added, and later rounds of the same session do not record again.
 - Study-path stages carry their own vocabulary. `/path <n>` prints the stage's words as a footer strip (Korean + gloss pairs, the way a textbook prints them under the page), and `/recall unit:<id>` and `/flashcards unit:<id>` drill exactly that stage's set. The same sets are served to the web UI on each study-path card as a vocabulary band with 단어 Cards / 단어 Recall buttons (`GET /api/deck/flashcards?unit=<id>`, and `unit` on `POST /api/drill/start` for the `recall` and `vocab` modes).
+- **Printable word lists.** `/wordlist <set:<id>|unit:<id>|pos:<class>|pack> [save]` prints every word in one
+  scope, numbered, with English, 中文, 日本語 and notes (a pack lists the words it teaches, in teaching order,
+  then any mined words for it). `save` also writes a print-ready A4 HTML page to `data/exports/wordlist-<scope>.html`.
+  Web: `GET /api/vocab/list?set=|unit=|pos=|pack=` returns `{title, scope, words:[{ko, en, zh, ja, note, pos}]}`
+  (400 when no scope is given or it has no words); the `#/wordlist?…` page — reached from "🖨 Word list" in the
+  flashcards/recall/vocabulary pickers and on each study-path stage — has Print (sidebar and controls hidden on
+  paper), 가나다 sorting, and English/中文/日本語/notes column toggles.
 - **Word sets.** A wordlist file (in `content/vocabulary/` or `content/private/vocabulary/`) that declares
   `"set": {"id": "media", "title": "Words from Korean media"}` is a named set: `/sets` lists them, and
   `/recall set:<id>`, `/flashcards set:<id>`, `/vocab set:<id>` drill the whole set in its own order with

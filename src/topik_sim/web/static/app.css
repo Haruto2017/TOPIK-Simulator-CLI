@@ -531,3 +531,23 @@ table.list td { padding: 9px 12px 9px 0; border-top: 1px solid var(--border); }
   background: var(--accent-soft); color: var(--ink);
   border-left: 3px solid var(--accent);
 }
+
+/* Printable word list (#/wordlist) */
+.wordlist-controls { flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 14px; }
+table.wordlist { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.wordlist th { text-align: left; font-size: 12px; color: var(--muted, #666); border-bottom: 1.5px solid var(--line, #ccc); padding: 6px 8px; }
+table.wordlist td { border-bottom: 1px solid var(--line, #e5e5e5); padding: 7px 8px; vertical-align: top; }
+table.wordlist td.n { color: var(--muted, #999); width: 2.5em; text-align: right; font-size: 12px; }
+table.wordlist td.ko { font-size: 18px; font-weight: 650; white-space: nowrap; }
+table.wordlist .wl-note { color: var(--muted, #777); font-size: 12px; margin-top: 2px; }
+@media print {
+  #side, .no-print, #toast { display: none !important; }
+  #shell { display: block; }
+  #view { max-width: none; padding: 0; animation: none; }
+  body { background: #fff !important; color: #000 !important; }
+  table.wordlist { font-size: 11pt; }
+  table.wordlist td.ko { font-size: 13pt; }
+  table.wordlist tr { break-inside: avoid; }
+  table.wordlist thead { display: table-header-group; }
+  @page { size: A4; margin: 14mm 12mm; }
+}

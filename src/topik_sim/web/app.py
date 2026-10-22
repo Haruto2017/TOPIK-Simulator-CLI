@@ -241,6 +241,9 @@ class WebApp:
         if parts == ["vocab", "classes"] and method == "GET":
             return 200, {"classes": self.vocab_classes()}
 
+        if parts == ["vocab", "list"] and method == "GET":
+            return 200, self.vocab_list(query)
+
         if parts == ["vocab", "sets"] and method == "GET":
             return 200, {"sets": [{k: v for k, v in s.items() if k != "file"} for s in self._word_sets()]}
 
@@ -480,6 +483,22 @@ class WebApp:
             if word_set["id"].lower() == wanted:
                 return word_set
         raise ApiError(400, f"No word set {value!r}.")
+
+    def vocab_list(self, query: dict[str, str]) -> dict[str, Any]:
+        """A printable word list for one scope (set, unit, pos, or pack)."""
+        from ..vocab_list import vocab_listing
+
+        word_set = self._word_set_param(query.get("set"))
+        word_class = self._word_class_param(query.get("pos"))
+        unit = str(query.get("unit", "") or "").strip()
+        pack = self._resolve_pack(query["pack"]) if query.get("pack") else None
+        if not (word_set or word_class or unit or pack):
+            raise ApiError(400, "Choose a word set, study-path stage, part of speech, or pack.")
+        listing = vocab_listing(self.library_dir, pack=pack, unit=unit or None,
+                                word_class=word_class, word_set=word_set)
+        if not listing["words"]:
+            raise ApiError(400, f"No vocabulary for {listing['scope']}.")
+        return listing
 
     def vocab_classes(self) -> list[dict[str, Any]]:
         """The four part-of-speech sets with how many words each holds."""

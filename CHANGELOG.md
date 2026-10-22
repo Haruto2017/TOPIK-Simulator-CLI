@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Printable vocabulary lists.** Any vocabulary scope — a word set, a study-path stage, a part of speech,
+  or a pack — can be listed whole with English, 中文 and 日本語 meanings and notes: `/wordlist <scope> [save]`
+  in the shell (save writes a print-ready HTML page under `data/exports/`), and a "🖨 Word list" page on the
+  web with Print, 가나다 sorting and column toggles (`GET /api/vocab/list`, `vocab_list.py`).
+
 - **Word sets for personal vocabulary collections.** A wordlist file can declare a named set
   (`"set": {"id", "title"}`); `/sets` lists them and `set:<id>` scopes `/recall`, `/flashcards` and `/vocab`
   (web: "My word sets" in the practice picker, `GET /api/vocab/sets`, `set` on the deck and drill endpoints).

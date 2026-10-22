@@ -7,8 +7,9 @@ from typing import Any
 from .content import ExamPack
 
 
-def build_deck(pack: ExamPack, seed: int | None = None) -> list[dict[str, str]]:
-    """Vocabulary flashcards from every explanation in the pack, deduplicated."""
+def build_deck(pack: ExamPack, seed: int | None = None, shuffle: bool = True) -> list[dict[str, str]]:
+    """Vocabulary flashcards from every explanation in the pack, deduplicated
+    (in teaching order when ``shuffle`` is False, e.g. for a printed list)."""
     seen: set[tuple[str, str]] = set()
     deck: list[dict[str, str]] = []
     for question in pack.questions():
@@ -20,7 +21,8 @@ def build_deck(pack: ExamPack, seed: int | None = None) -> list[dict[str, str]]:
                 continue
             seen.add((ko, en))
             deck.append({"ko": ko, "en": en, "note": str(entry.get("note", "") or "")})
-    random.Random(seed).shuffle(deck)
+    if shuffle:
+        random.Random(seed).shuffle(deck)
     return deck
 
 
