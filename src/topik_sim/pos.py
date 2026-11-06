@@ -41,10 +41,16 @@ ADVERBS: frozenset[str] = frozenset("""
 그리고 그래서 그런데 하지만 그러면 그렇지만 그러나 그러니까 왜냐하면 다 같이 곧바로 열심히
 매일 매주 매달 매년 이제 마침내 우선 언제 잠깐만 참 꽤 조금도 대충 혼자 똑같이 반드시 또는 직접
 게다가 덕분에 끝까지 굳이 직전에 왠지 낮에 밤에 더욱 비로소 어쨌든 아무튼 암튼 하나도 생각만큼 한참 결국 오히려
-어케 엄청 푹 속에서 되게 앞으로
+어케 엄청 푹 속에서 되게 앞으로 그후로 예를들어
 """.split())
+# Multi-word adverbial phrases (a space-split list cannot hold them).
+ADVERBS = ADVERBS | frozenset({"다 같이", "그 후로", "예를 들어", "어느 정도"})
 # Determiners (관형사) sit before a noun; like particles they are none of the four classes.
 DETERMINERS: frozenset[str] = frozenset("모든 여러 각종 온갖 웬 이런저런".split())
+# Grammar patterns learners collect as vocabulary (written without a leading hyphen).
+GRAMMAR_PATTERNS: frozenset[str] = frozenset({
+    "기 쉽다", "기는 하다", "모양이다", "가지고", "빼고는", "앞두고", "고 말다", "는 걸 보니", "게 생겼어요",
+})
 # Dependent nouns that end a spaced noun phrase (주최 측, 오른 쪽): the phrase is a noun.
 _DEPENDENT_NOUNS = ("측", "쪽", "분", "것", "때", "등", "중", "간")
 
@@ -67,7 +73,8 @@ _EXPRESSION_SUFFIXES = ("세요", "습니까", "만요", "럼요", "쎄요", "�
 _INTERJECTIONS: frozenset[str] = frozenset({"네", "예", "아니", "응", "아니요", "여보세요", "저기요", "때문이다",
                                             "어쩌지", "어떡해", "어떡하지",
                                             # casual sentence-final expressions collected from media
-                                            "어떤데", "큰일이다", "말해야지", "그래야겠네요", "미쳤네", "웃겨", "이러고"})
+                                            "어떤데", "큰일이다", "말해야지", "그래야겠네요", "미쳤네", "웃겨", "이러고",
+                                            "벌써요", "화이팅", "파이팅", "그래", "어라", "나에게", "고생 많았어"})
 # Particles and endings learners collect as vocabulary: grammar, not one of the four classes.
 PARTICLES: frozenset[str] = frozenset("""
 조차 마저 까지 부터 로부터 으로부터 에게서 한테서 밖에 처럼 같이 만큼 보다 든지 이든지 거나 이나 나 라도 이라도
@@ -115,8 +122,10 @@ def word_class(ko: str, en: str = "") -> str:
     en = str(en or "").strip()
     if not ko:
         return "other"
-    if ko in _INTERJECTIONS or ko in PARTICLES or ko in DETERMINERS:
+    if ko in _INTERJECTIONS or ko in PARTICLES or ko in DETERMINERS or ko in GRAMMAR_PATTERNS:
         return "other"
+    if ko.startswith(("-", "(", "~")) or "/" in ko or "-(" in ko or " -" in ko:
+        return "other"         # grammar pattern: -고 말다, (으)므로, 았/었더니, 얼마나 -(으)ㄴ지
     if ko in ADVERBS or "(adverb" in _first_sense_raw(en):
         return "adverb"
     if ko in _DESCRIPTIVE_WORDS:

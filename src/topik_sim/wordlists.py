@@ -125,7 +125,7 @@ def list_word_sets(path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DI
         sets.append({"id": set_id, "title": str(meta.get("title", "") or set_id).strip(),
                      "description": str(meta.get("description", "") or "").strip(),
                      "count": len(_entries(data)), "file": str(file)})
-    return sets
+    return sorted(sets, key=lambda entry: (entry["title"].lower(), entry["id"]))
 
 
 def words_for_set(set_id: str, path: str | Path | Iterable[str | Path] = DEFAULT_WORDLIST_DIR) -> list[dict[str, Any]]:

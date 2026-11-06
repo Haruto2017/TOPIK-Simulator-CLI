@@ -62,6 +62,13 @@ class WordSetTests(unittest.TestCase):
         self.assertEqual(word_class("집중이 안 되다", "can't concentrate"), "verb")
         self.assertEqual(word_class("주최 측", "the organizers"), "noun")
         self.assertEqual(word_class("자마자", "as soon as (ending)"), "other")
+        for phrase in ("그 후로", "예를 들어", "다 같이"):
+            self.assertEqual(word_class(phrase, "since then"), "adverb", phrase)
+        self.assertEqual(word_class("그", "that"), "noun")    # no stray fragment of a phrase
+        for expression in ("화이팅", "벌써요", "그래"):
+            self.assertEqual(word_class(expression, "fighting!"), "other", expression)
+        for pattern in ("(으)므로", "았/었더니", "-고 말다", "얼마나 -(으)ㄴ지", "기 쉽다", "모양이다", "(을/를) 앞두고"):
+            self.assertEqual(word_class(pattern, "to be easy to (grammar)"), "other", pattern)
 
     def test_shell_lists_and_drills_a_set(self):
         from topik_sim.ui import ansi
